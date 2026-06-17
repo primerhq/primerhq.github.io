@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/" />
+<title>Expose an internal tool via MCP &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/features/agents/">Agents</a>
+<a class="nav-link" href="/features/chats/">Chats</a>
+<a class="nav-link" href="/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/web/overview/">Web</a>
+<a class="nav-link" href="/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/channels/overview/">Channels</a>
+<a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/features/triggers/">Triggers</a>
+<a class="nav-link" href="/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/features/workers/">Workers</a>
+<a class="nav-link" href="/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
+<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
+<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
+<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
+<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
+<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
+<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
+<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
+<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
+<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
+<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Cookbook</span> / <span>Expose an internal tool via MCP</span></nav><h1>Expose an internal tool via MCP</h1>
+<h2 id="goal">Goal</h2>
+<p>Expose primer's tool catalogue to an external MCP client (Claude Desktop,
+Claude Code, or claude.ai) so remote agents can call your internal tools
+without leaving their native interface. This recipe walks through enabling
+the MCP endpoint, selecting which tools to publish, and minting a scoped
+token for the client.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Primer is running and you can reach the console.</li>
+<li>At least one toolset is registered and its tools appear in the tool
+catalogue under Approvals / Policies.</li>
+</ul>
+<h2 id="steps">Steps</h2>
+<h3 id="1-enable-the-mcp-endpoint">1. Enable the MCP endpoint</h3>
+<ol>
+<li>Open the console and navigate to <strong>MCP Server</strong> in the left nav.</li>
+<li>In the <strong>MCP server endpoint</strong> panel, click <strong>Enable</strong>.
+The status pill changes to <code>enabled</code>.</li>
+<li>Click <strong>Copy URL</strong> to copy the endpoint URL, or click
+<strong>Copy Claude Desktop config</strong> to get a ready-to-paste JSON snippet.</li>
+</ol>
+<h3 id="2-choose-which-tools-to-publish">2. Choose which tools to publish</h3>
+<ol>
+<li>Scroll down to the <strong>Exposed tools</strong> table.</li>
+<li>Use the toolset filter chips to narrow the list if you have many toolsets.</li>
+<li>Check <strong>Exposable only</strong> to hide tools that cannot be published.</li>
+<li>Tick the checkbox next to each tool you want to expose.
+Use <strong>Recommend safe defaults</strong> to pre-select a conservative read-only
+set (<code>get_*</code>, <code>list_*</code>, <code>find_*</code>, and a handful of pure-function tools).</li>
+<li>Click <strong>Save</strong>. The endpoint panel caption updates with the new tool count.</li>
+</ol>
+<div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p>Saving a new allowlist replaces the previous one atomically. Any tool you
+deselect is removed from the client's tool palette on the next request.
+Clients mid-call on a removed tool receive an error.</p>
+</div></div>
+<h3 id="3-mint-a-scoped-api-token">3. Mint a scoped API token</h3>
+<p>The MCP client authenticates with a bearer token that has the <code>mcp</code> scope.</p>
+<ol>
+<li>Navigate to <strong>API tokens</strong> in the left nav.</li>
+<li>Click <strong>Create token</strong>.</li>
+<li>Name the token (for example, <code>claude-desktop-prod</code>).</li>
+<li>Under <strong>Scopes</strong>, check <strong>mcp</strong>. Add any other scopes the client needs
+(for example, <code>sessions:read</code> if it will list sessions).</li>
+<li>Optionally set an expiry date.</li>
+<li>Click <strong>Create token</strong>.</li>
+</ol>
+<figure class="embed"><picture><source srcset="/_embeds/api-token-create-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/api-token-create-light.png" alt="api-token-create (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<ol start="7">
+<li>Click <strong>Copy token</strong> and store the value securely.
+The token is shown only once.</li>
+</ol>
+<div class="callout callout-tip"><div class="callout-title">tip</div><div class="callout-body"><p>Mint a separate token for each MCP client and scope it to the minimum the
+client needs. A read-only assistant does not need <code>sessions:write</code>; a token
+with that scope added by mistake is the most common source of unexpected
+agent behaviour.</p>
+</div></div>
+<h3 id="4-connect-the-client">4. Connect the client</h3>
+<p><strong>Claude Desktop</strong></p>
+<ol>
+<li>Open <code>~/Library/Application Support/Claude/claude_desktop_config.json</code>
+(create the file if it does not exist).</li>
+<li>Paste the copied config snippet under the top-level <code>mcpServers</code> key.</li>
+<li>Replace the <code>&lt;YOUR_TOKEN&gt;</code> placeholder with the token you just created.</li>
+<li>Restart Claude Desktop. The published tools appear in the tool palette.</li>
+</ol>
+<p><strong>Claude Code</strong></p>
+<p>Run:</p>
+<pre><code>claude mcp add --transport streamable-http &lt;your-primer-origin&gt;/v1/mcp
+</code></pre>
+<p>Supply the bearer token when prompted, or add it manually to
+<code>~/.claude/claude_mcp_config.json</code>.</p>
+<h2 id="result">Result</h2>
+<p>The remote client lists the tools you exposed and can call them in any
+conversation. The MCP Server page shows the last-edited timestamp and the
+published tool count. Use <strong>Recommend safe defaults</strong> and the per-tool
+checkboxes to adjust the allowlist at any time, then click <strong>Save</strong> to push
+the change live.</p>
+<h2 id="automate-it">Automate it</h2>
+<p><a href="/reference/api-toolsets/">REST endpoints for registering toolsets and managing the MCP exposure
+allowlist programmatically.</a></p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

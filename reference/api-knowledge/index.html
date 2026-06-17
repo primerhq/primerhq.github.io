@@ -1,0 +1,782 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/" />
+<title>REST API - knowledge &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/features/agents/">Agents</a>
+<a class="nav-link" href="/features/chats/">Chats</a>
+<a class="nav-link" href="/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/web/overview/">Web</a>
+<a class="nav-link" href="/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/channels/overview/">Channels</a>
+<a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/features/triggers/">Triggers</a>
+<a class="nav-link" href="/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/features/workers/">Workers</a>
+<a class="nav-link" href="/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
+<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
+<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
+<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
+<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
+<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
+<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
+<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
+<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
+<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
+<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Reference</span> / <span>REST API - knowledge</span></nav><h1>REST API - knowledge</h1>
+<p>Collections and documents form the knowledge surface under <code>/v1</code>. Semantic search providers (SSP) back the vector store. The internal-collections subsystem enables semantic search over agents, graphs, and collections via a CDC-driven index.</p>
+<p><a href="/toolsets/toolsets-system/">Toolsets and tools: how agents access knowledge collections via the search toolset.</a></p>
+<p><a href="/embedding/collections-and-documents/">Collections and documents: creating collections, ingesting documents, and searching from the console.</a></p>
+<h2 id="endpoints">Endpoints</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/v1/ssp</code></td>
+<td>Create a semantic-search provider</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/ssp</code></td>
+<td>List providers</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/ssp/{id}</code></td>
+<td>Fetch one provider</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/v1/ssp/{id}</code></td>
+<td>Replace a provider</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/v1/ssp/{id}</code></td>
+<td>Delete (blocked if collections reference it)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/ssp/find</code></td>
+<td>Predicate-based search</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/ssp/{id}/invalidate</code></td>
+<td>Invalidate cached connections</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/embedding_providers</code></td>
+<td>Register an embedding provider</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/embedding_providers</code></td>
+<td>List providers</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/embedding_providers/{id}</code></td>
+<td>Fetch one provider</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/v1/embedding_providers/{id}</code></td>
+<td>Replace a provider</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/v1/embedding_providers/{id}</code></td>
+<td>Delete</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/collections</code></td>
+<td>Create a collection</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/collections</code></td>
+<td>List collections</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/collections/{id}</code></td>
+<td>Fetch one collection</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/v1/collections/{id}</code></td>
+<td>Replace a collection</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/v1/collections/{id}</code></td>
+<td>Delete</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/collections/find</code></td>
+<td>Predicate-based search</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/collections/{id}/search</code></td>
+<td>Semantic search within a collection</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/collections/{id}/documents</code></td>
+<td>List documents in a collection</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/collections/{id}/indexed_documents</code></td>
+<td>List indexed chunks</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/documents</code></td>
+<td>Create (ingest) a document</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/documents/{id}</code></td>
+<td>Fetch one document</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/v1/documents/{id}</code></td>
+<td>Replace and re-index</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/v1/documents/{id}</code></td>
+<td>Delete and remove chunks</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/documents/_convert_file</code></td>
+<td>Convert a file to indexable text</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/v1/internal_collections/config</code></td>
+<td>Activate the internal-collections subsystem</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/internal_collections/config</code></td>
+<td>Get current config</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/v1/internal_collections/config</code></td>
+<td>Deactivate the subsystem</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/internal_collections/bootstrap</code></td>
+<td>Trigger async bootstrap (returns 202)</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/internal_collections/bootstrap/status</code></td>
+<td>Poll bootstrap status</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/agents/search</code></td>
+<td>Semantic search over agents</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/collections/search</code></td>
+<td>Semantic search over collections</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/graphs/search</code></td>
+<td>Semantic search over graphs</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/tools/search</code></td>
+<td>Semantic search over tools</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="post-v1ssp">POST /v1/ssp</h2>
+<p>Create a semantic-search provider. Supported backends: <code>pgvector</code>, <code>pgvector_scale</code>, <code>lance</code>. The <code>id</code> is optional: supply one to use it verbatim, or omit it and the server assigns a type-prefixed id (e.g. <code>semantic-search-provider-3f9a1c8d</code>). The id is immutable after creation.</p>
+<h3 id="pgvector">pgvector</h3>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-915763-curl">curl</button><button class="tab" data-tab="tab-915763-python">python</button><button class="tab" data-tab="tab-915763-javascript">javascript</button></div><div class="tab-panel active" id="tab-915763-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/ssp \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;id&quot;: &quot;pg-main&quot;,
+    &quot;provider&quot;: &quot;pgvector&quot;,
+    &quot;config&quot;: {
+      &quot;hostname&quot;: &quot;localhost&quot;,
+      &quot;port&quot;: 5432,
+      &quot;database&quot;: &quot;primer_prod&quot;,
+      &quot;username&quot;: &quot;primer&quot;,
+      &quot;password&quot;: &quot;secret&quot;,
+      &quot;db_schema&quot;: &quot;public&quot;,
+      &quot;distance_metric&quot;: &quot;cosine&quot;
+    }
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-915763-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://primer.example/v1/ssp&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;id&quot;: &quot;pg-main&quot;,
+        &quot;provider&quot;: &quot;pgvector&quot;,
+        &quot;config&quot;: {
+            &quot;hostname&quot;: &quot;localhost&quot;,
+            &quot;port&quot;: 5432,
+            &quot;database&quot;: &quot;primer_prod&quot;,
+            &quot;username&quot;: &quot;primer&quot;,
+            &quot;password&quot;: &quot;secret&quot;,
+            &quot;db_schema&quot;: &quot;public&quot;,
+            &quot;distance_metric&quot;: &quot;cosine&quot;,
+        },
+    },
+)
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-915763-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/ssp&quot;, {
+  method: &quot;POST&quot;,
+  headers: {
+    &quot;Authorization&quot;: `Bearer ${token}`,
+    &quot;Content-Type&quot;: &quot;application/json&quot;,
+  },
+  body: JSON.stringify({
+    id: &quot;pg-main&quot;,
+    provider: &quot;pgvector&quot;,
+    config: {
+      hostname: &quot;localhost&quot;,
+      port: 5432,
+      database: &quot;primer_prod&quot;,
+      username: &quot;primer&quot;,
+      password: &quot;secret&quot;,
+      db_schema: &quot;public&quot;,
+      distance_metric: &quot;cosine&quot;,
+    },
+  }),
+});</code></pre></div></div>
+<p>Response <code>201</code>:</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;pg-main&quot;,
+  &quot;provider&quot;: &quot;pgvector&quot;,
+  &quot;config&quot;: { &quot;hostname&quot;: &quot;localhost&quot;, &quot;port&quot;: 5432, &quot;database&quot;: &quot;primer_prod&quot;, &quot;username&quot;: &quot;primer&quot;, &quot;db_schema&quot;: &quot;public&quot;, &quot;distance_metric&quot;: &quot;cosine&quot; }
+}
+</code></pre>
+<p>Deleting an SSP that is still referenced by one or more collections returns <code>409</code> with <code>/errors/conflict</code>.</p>
+<hr />
+<h2 id="post-v1embedding_providers">POST /v1/embedding_providers</h2>
+<p>Register an embedding provider. Supported backends: <code>openai</code> (compatible with LM Studio, Azure, OpenRouter, etc.) and <code>huggingface</code>. The <code>id</code> is optional: supply one to use it verbatim, or omit it and the server assigns a type-prefixed id (e.g. <code>embedding-provider-3f9a1c8d</code>). The id is immutable after creation.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-569c5b-curl">curl</button><button class="tab" data-tab="tab-569c5b-python">python</button><button class="tab" data-tab="tab-569c5b-javascript">javascript</button></div><div class="tab-panel active" id="tab-569c5b-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/embedding_providers \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;id&quot;: &quot;lmstudio-embed&quot;,
+    &quot;provider&quot;: &quot;openai&quot;,
+    &quot;models&quot;: [{ &quot;name&quot;: &quot;nomic-embed-text-v1.5&quot; }],
+    &quot;config&quot;: {
+      &quot;url&quot;: &quot;http://localhost:1234/v1&quot;,
+      &quot;api_key&quot;: &quot;lm-studio&quot;,
+      &quot;flavor&quot;: &quot;lmstudio&quot;
+    },
+    &quot;limits&quot;: { &quot;max_concurrency&quot;: 2 }
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-569c5b-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://primer.example/v1/embedding_providers&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;id&quot;: &quot;lmstudio-embed&quot;,
+        &quot;provider&quot;: &quot;openai&quot;,
+        &quot;models&quot;: [{&quot;name&quot;: &quot;nomic-embed-text-v1.5&quot;}],
+        &quot;config&quot;: {
+            &quot;url&quot;: &quot;http://localhost:1234/v1&quot;,
+            &quot;api_key&quot;: &quot;lm-studio&quot;,
+            &quot;flavor&quot;: &quot;lmstudio&quot;,
+        },
+        &quot;limits&quot;: {&quot;max_concurrency&quot;: 2},
+    },
+)
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-569c5b-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/embedding_providers&quot;, {
+  method: &quot;POST&quot;,
+  headers: {
+    &quot;Authorization&quot;: `Bearer ${token}`,
+    &quot;Content-Type&quot;: &quot;application/json&quot;,
+  },
+  body: JSON.stringify({
+    id: &quot;lmstudio-embed&quot;,
+    provider: &quot;openai&quot;,
+    models: [{ name: &quot;nomic-embed-text-v1.5&quot; }],
+    config: { url: &quot;http://localhost:1234/v1&quot;, api_key: &quot;lm-studio&quot;, flavor: &quot;lmstudio&quot; },
+    limits: { max_concurrency: 2 },
+  }),
+});</code></pre></div></div>
+<hr />
+<h2 id="post-v1collections">POST /v1/collections</h2>
+<p>Create a collection. Both <code>embedder.provider_id</code> and <code>search_provider_id</code> must reference existing rows. Passing an unknown <code>search_provider_id</code> returns <code>404</code>. The <code>id</code> is optional: supply one to use it verbatim, or omit it and the server assigns a type-prefixed id (e.g. <code>collection-3f9a1c8d</code>). The id is immutable after creation.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a3c660-curl">curl</button><button class="tab" data-tab="tab-a3c660-python">python</button><button class="tab" data-tab="tab-a3c660-javascript">javascript</button></div><div class="tab-panel active" id="tab-a3c660-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/collections \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;id&quot;: &quot;company-docs&quot;,
+    &quot;description&quot;: &quot;Internal company documentation&quot;,
+    &quot;embedder&quot;: {
+      &quot;provider_id&quot;: &quot;lmstudio-embed&quot;,
+      &quot;model&quot;: &quot;nomic-embed-text-v1.5&quot;
+    },
+    &quot;search_provider_id&quot;: &quot;pg-main&quot;,
+    &quot;system&quot;: false
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-a3c660-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://primer.example/v1/collections&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;id&quot;: &quot;company-docs&quot;,
+        &quot;description&quot;: &quot;Internal company documentation&quot;,
+        &quot;embedder&quot;: {
+            &quot;provider_id&quot;: &quot;lmstudio-embed&quot;,
+            &quot;model&quot;: &quot;nomic-embed-text-v1.5&quot;,
+        },
+        &quot;search_provider_id&quot;: &quot;pg-main&quot;,
+        &quot;system&quot;: False,
+    },
+)
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-a3c660-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/collections&quot;, {
+  method: &quot;POST&quot;,
+  headers: {
+    &quot;Authorization&quot;: `Bearer ${token}`,
+    &quot;Content-Type&quot;: &quot;application/json&quot;,
+  },
+  body: JSON.stringify({
+    id: &quot;company-docs&quot;,
+    description: &quot;Internal company documentation&quot;,
+    embedder: { provider_id: &quot;lmstudio-embed&quot;, model: &quot;nomic-embed-text-v1.5&quot; },
+    search_provider_id: &quot;pg-main&quot;,
+    system: false,
+  }),
+});</code></pre></div></div>
+<p>Response <code>201</code>:</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;company-docs&quot;,
+  &quot;description&quot;: &quot;Internal company documentation&quot;,
+  &quot;embedder&quot;: { &quot;provider_id&quot;: &quot;lmstudio-embed&quot;, &quot;model&quot;: &quot;nomic-embed-text-v1.5&quot; },
+  &quot;search_provider_id&quot;: &quot;pg-main&quot;,
+  &quot;system&quot;: false,
+  &quot;harness_id&quot;: null,
+  &quot;search&quot;: null
+}
+</code></pre>
+<hr />
+<h2 id="post-v1documents">POST /v1/documents</h2>
+<p>Ingest a document. The <code>meta.text</code> field carries the content to embed. Embedding happens synchronously on create; the document's chunks appear immediately in <code>GET /v1/collections/{id}/indexed_documents</code> once the embedder is reachable. On embedder failure the row is persisted without chunks and the startup backfill will retry. The <code>id</code> is optional: supply one to use it verbatim, or omit it and the server assigns a type-prefixed id (e.g. <code>document-3f9a1c8d</code>). The id is immutable after creation.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-473022-curl">curl</button><button class="tab" data-tab="tab-473022-python">python</button><button class="tab" data-tab="tab-473022-javascript">javascript</button></div><div class="tab-panel active" id="tab-473022-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/documents \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;id&quot;: &quot;doc-postmortem-001&quot;,
+    &quot;collection_id&quot;: &quot;company-docs&quot;,
+    &quot;name&quot;: &quot;Q1 post-mortem&quot;,
+    &quot;meta&quot;: { &quot;text&quot;: &quot;We experienced a 30-minute outage on March 3...&quot; }
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-473022-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://primer.example/v1/documents&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;id&quot;: &quot;doc-postmortem-001&quot;,
+        &quot;collection_id&quot;: &quot;company-docs&quot;,
+        &quot;name&quot;: &quot;Q1 post-mortem&quot;,
+        &quot;meta&quot;: {&quot;text&quot;: &quot;We experienced a 30-minute outage on March 3...&quot;},
+    },
+)
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-473022-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/documents&quot;, {
+  method: &quot;POST&quot;,
+  headers: {
+    &quot;Authorization&quot;: `Bearer ${token}`,
+    &quot;Content-Type&quot;: &quot;application/json&quot;,
+  },
+  body: JSON.stringify({
+    id: &quot;doc-postmortem-001&quot;,
+    collection_id: &quot;company-docs&quot;,
+    name: &quot;Q1 post-mortem&quot;,
+    meta: { text: &quot;We experienced a 30-minute outage on March 3...&quot; },
+  }),
+});</code></pre></div></div>
+<hr />
+<h2 id="put-v1documentsid">PUT /v1/documents/{id}</h2>
+<p>Replace a document and re-index it. Old chunks are removed before new chunks are written; no stale vectors linger.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-25cad8-curl">curl</button><button class="tab" data-tab="tab-25cad8-python">python</button><button class="tab" data-tab="tab-25cad8-javascript">javascript</button></div><div class="tab-panel active" id="tab-25cad8-curl"><pre class="md-pre lang-curl"><code>curl -s -X PUT https://primer.example/v1/documents/doc-postmortem-001 \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;id&quot;: &quot;doc-postmortem-001&quot;,
+    &quot;collection_id&quot;: &quot;company-docs&quot;,
+    &quot;name&quot;: &quot;Q1 post-mortem (revised)&quot;,
+    &quot;meta&quot;: { &quot;text&quot;: &quot;Updated analysis: root cause was a misconfigured timeout...&quot; }
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-25cad8-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.put(
+    &quot;https://primer.example/v1/documents/doc-postmortem-001&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;id&quot;: &quot;doc-postmortem-001&quot;,
+        &quot;collection_id&quot;: &quot;company-docs&quot;,
+        &quot;name&quot;: &quot;Q1 post-mortem (revised)&quot;,
+        &quot;meta&quot;: {&quot;text&quot;: &quot;Updated analysis: root cause was a misconfigured timeout...&quot;},
+    },
+)
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-25cad8-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/documents/doc-postmortem-001&quot;, {
+  method: &quot;PUT&quot;,
+  headers: {
+    &quot;Authorization&quot;: `Bearer ${token}`,
+    &quot;Content-Type&quot;: &quot;application/json&quot;,
+  },
+  body: JSON.stringify({
+    id: &quot;doc-postmortem-001&quot;,
+    collection_id: &quot;company-docs&quot;,
+    name: &quot;Q1 post-mortem (revised)&quot;,
+    meta: { text: &quot;Updated analysis: root cause was a misconfigured timeout...&quot; },
+  }),
+});</code></pre></div></div>
+<hr />
+<h2 id="post-v1collectionsidsearch">POST /v1/collections/{id}/search</h2>
+<p>Semantic search within a single collection. Returns a ranked list of matching chunks.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-8926d3-curl">curl</button><button class="tab" data-tab="tab-8926d3-python">python</button><button class="tab" data-tab="tab-8926d3-javascript">javascript</button></div><div class="tab-panel active" id="tab-8926d3-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/collections/company-docs/search \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;query&quot;: &quot;what caused the outage&quot;, &quot;top_k&quot;: 5}&#x27;</code></pre></div><div class="tab-panel" id="tab-8926d3-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://primer.example/v1/collections/company-docs/search&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={&quot;query&quot;: &quot;what caused the outage&quot;, &quot;top_k&quot;: 5},
+)
+hits = r.json()[&quot;hits&quot;]</code></pre></div><div class="tab-panel" id="tab-8926d3-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/collections/company-docs/search&quot;, {
+  method: &quot;POST&quot;,
+  headers: {
+    &quot;Authorization&quot;: `Bearer ${token}`,
+    &quot;Content-Type&quot;: &quot;application/json&quot;,
+  },
+  body: JSON.stringify({ query: &quot;what caused the outage&quot;, top_k: 5 }),
+});
+const { hits } = await r.json();</code></pre></div></div>
+<p>Response <code>200</code>:</p>
+<pre><code class="language-json">{
+  &quot;hits&quot;: [
+    {
+      &quot;document_id&quot;: &quot;doc-postmortem-001&quot;,
+      &quot;chunk_id&quot;: &quot;doc-postmortem-001:0&quot;,
+      &quot;score&quot;: 0.91,
+      &quot;text&quot;: &quot;We experienced a 30-minute outage on March 3...&quot;,
+      &quot;meta&quot;: {}
+    }
+  ]
+}
+</code></pre>
+<p><code>top_k</code> is capped at 100. An empty collection returns <code>{&quot;hits&quot;: []}</code> rather than an error.</p>
+<hr />
+<h2 id="get-v1collectionsidindexed_documents">GET /v1/collections/{id}/indexed_documents</h2>
+<p>List chunks that have been embedded into the vector store. Filter by <code>?document_id=&lt;id&gt;</code> to inspect one document's chunks.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-49418a-curl">curl</button><button class="tab" data-tab="tab-49418a-python">python</button><button class="tab" data-tab="tab-49418a-javascript">javascript</button></div><div class="tab-panel active" id="tab-49418a-curl"><pre class="md-pre lang-curl"><code>curl -s &quot;https://primer.example/v1/collections/company-docs/indexed_documents?document_id=doc-postmortem-001&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-49418a-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.get(
+    &quot;https://primer.example/v1/collections/company-docs/indexed_documents&quot;,
+    params={&quot;document_id&quot;: &quot;doc-postmortem-001&quot;},
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+)
+result = r.json()</code></pre></div><div class="tab-panel" id="tab-49418a-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(
+  &quot;/v1/collections/company-docs/indexed_documents?document_id=doc-postmortem-001&quot;,
+  { headers: { &quot;Authorization&quot;: `Bearer ${token}` } },
+);
+const result = await r.json();</code></pre></div></div>
+<p>Response <code>200</code>:</p>
+<pre><code class="language-json">{
+  &quot;total&quot;: 1,
+  &quot;items&quot;: [
+    {
+      &quot;document_id&quot;: &quot;doc-postmortem-001&quot;,
+      &quot;chunk_id&quot;: &quot;doc-postmortem-001:0&quot;,
+      &quot;text&quot;: &quot;We experienced a 30-minute outage on March 3...&quot;
+    }
+  ]
+}
+</code></pre>
+<hr />
+<h2 id="post-v1documents_convert_file">POST /v1/documents/_convert_file</h2>
+<p>Convert an uploaded file (markdown, PDF, etc.) to plain text suitable for ingestion. Uses multipart form data.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-8fe0ae-curl">curl</button><button class="tab" data-tab="tab-8fe0ae-python">python</button><button class="tab" data-tab="tab-8fe0ae-javascript">javascript</button></div><div class="tab-panel active" id="tab-8fe0ae-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/documents/_convert_file \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -F &quot;file=@note.md;type=text/markdown&quot;</code></pre></div><div class="tab-panel" id="tab-8fe0ae-python"><pre class="md-pre lang-python"><code>import httpx
+with open(&quot;note.md&quot;, &quot;rb&quot;) as f:
+    r = httpx.post(
+        &quot;https://primer.example/v1/documents/_convert_file&quot;,
+        headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+        files={&quot;file&quot;: (&quot;note.md&quot;, f, &quot;text/markdown&quot;)},
+    )
+text = r.text</code></pre></div><div class="tab-panel" id="tab-8fe0ae-javascript"><pre class="md-pre lang-javascript"><code>const fd = new FormData();
+fd.append(&quot;file&quot;, fileBlob, &quot;note.md&quot;);
+const r = await fetch(&quot;/v1/documents/_convert_file&quot;, {
+  method: &quot;POST&quot;,
+  headers: { &quot;Authorization&quot;: `Bearer ${token}` },
+  body: fd,
+});
+const text = await r.text();</code></pre></div></div>
+<p>Returns <code>200</code> with the extracted plain text as the response body.</p>
+<hr />
+<h2 id="internal-collections-ssp-backed-semantic-search-for-agentsgraphscollectionstools">Internal collections (SSP-backed semantic search for agents/graphs/collections/tools)</h2>
+<p>The internal-collections subsystem indexes agents, graphs, collections, and tools into a shared vector store so they can be found by semantic search. Activation requires a configured embedding provider and SSP. The config stores <code>embedding_provider_id</code>, <code>embedding_model</code>, and <code>search_provider_id</code>. Once activated, vector-space-defining fields are frozen; changing <code>embedding_provider_id</code> after the first bootstrap returns <code>409</code> with <code>frozen_fields</code>.</p>
+<h3 id="put-v1internal_collectionsconfig">PUT /v1/internal_collections/config</h3>
+<p>Activate or update the subsystem config. Acts as an upsert before the first bootstrap. After bootstrap, changes to frozen fields return <code>409</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5a6c18-curl">curl</button><button class="tab" data-tab="tab-5a6c18-python">python</button><button class="tab" data-tab="tab-5a6c18-javascript">javascript</button></div><div class="tab-panel active" id="tab-5a6c18-curl"><pre class="md-pre lang-curl"><code>curl -s -X PUT https://primer.example/v1/internal_collections/config \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;embedding_provider_id&quot;: &quot;lmstudio-embed&quot;,
+    &quot;embedding_model&quot;: &quot;nomic-embed-text-v1.5&quot;,
+    &quot;search_provider_id&quot;: &quot;pg-main&quot;
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-5a6c18-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.put(
+    &quot;https://primer.example/v1/internal_collections/config&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;embedding_provider_id&quot;: &quot;lmstudio-embed&quot;,
+        &quot;embedding_model&quot;: &quot;nomic-embed-text-v1.5&quot;,
+        &quot;search_provider_id&quot;: &quot;pg-main&quot;,
+    },
+)
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-5a6c18-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/internal_collections/config&quot;, {
+  method: &quot;PUT&quot;,
+  headers: {
+    &quot;Authorization&quot;: `Bearer ${token}`,
+    &quot;Content-Type&quot;: &quot;application/json&quot;,
+  },
+  body: JSON.stringify({
+    embedding_provider_id: &quot;lmstudio-embed&quot;,
+    embedding_model: &quot;nomic-embed-text-v1.5&quot;,
+    search_provider_id: &quot;pg-main&quot;,
+  }),
+});</code></pre></div></div>
+<h3 id="post-v1internal_collectionsbootstrap">POST /v1/internal_collections/bootstrap</h3>
+<p>Trigger an async bootstrap that creates vector tables and indexes existing entities. Returns <code>202</code> immediately; poll <code>GET /v1/internal_collections/bootstrap/status</code> until <code>status == &quot;succeeded&quot;</code>. A second call while the first is running returns <code>409</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ccd33c-curl">curl</button><button class="tab" data-tab="tab-ccd33c-python">python</button><button class="tab" data-tab="tab-ccd33c-javascript">javascript</button></div><div class="tab-panel active" id="tab-ccd33c-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/internal_collections/bootstrap \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-ccd33c-python"><pre class="md-pre lang-python"><code>import httpx, time
+r = httpx.post(
+    &quot;https://primer.example/v1/internal_collections/bootstrap&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+)
+assert r.status_code == 202
+
+# Poll until done
+while True:
+    s = httpx.get(
+        &quot;https://primer.example/v1/internal_collections/bootstrap/status&quot;,
+        headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    )
+    if s.json()[&quot;status&quot;] == &quot;succeeded&quot;:
+        break
+    time.sleep(1)</code></pre></div><div class="tab-panel" id="tab-ccd33c-javascript"><pre class="md-pre lang-javascript"><code>const boot = await fetch(&quot;/v1/internal_collections/bootstrap&quot;, {
+  method: &quot;POST&quot;,
+  headers: { &quot;Authorization&quot;: `Bearer ${token}` },
+});
+// boot.status === 202; poll status</code></pre></div></div>
+<p>Bootstrap <code>202</code> response body:</p>
+<pre><code class="language-json">{ &quot;status&quot;: &quot;pending&quot; }
+</code></pre>
+<p>Status poll response <code>200</code>:</p>
+<pre><code class="language-json">{ &quot;status&quot;: &quot;succeeded&quot;, &quot;indexed&quot;: 12 }
+</code></pre>
+<h3 id="delete-v1internal_collectionsconfig">DELETE /v1/internal_collections/config</h3>
+<p>Deactivate the subsystem. After deletion, search routes (<code>/v1/agents/search</code>, etc.) return <code>503</code> with <code>/errors/subsystem-inactive</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-aab380-curl">curl</button><button class="tab" data-tab="tab-aab380-python">python</button><button class="tab" data-tab="tab-aab380-javascript">javascript</button></div><div class="tab-panel active" id="tab-aab380-curl"><pre class="md-pre lang-curl"><code>curl -s -X DELETE https://primer.example/v1/internal_collections/config \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-aab380-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.delete(
+    &quot;https://primer.example/v1/internal_collections/config&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+)
+r.raise_for_status()  # 204</code></pre></div><div class="tab-panel" id="tab-aab380-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/internal_collections/config&quot;, {
+  method: &quot;DELETE&quot;,
+  headers: { &quot;Authorization&quot;: `Bearer ${token}` },
+});</code></pre></div></div>
+<hr />
+<h2 id="post-v1agentssearch-and-collectionssearch-graphssearch-toolssearch">POST /v1/agents/search (and /collections/search, /graphs/search, /tools/search)</h2>
+<p>Semantic search over the internal collections. Requires a successful bootstrap. Returns the same <code>SearchResponse</code> shape for all four routes.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5bc04b-curl">curl</button><button class="tab" data-tab="tab-5bc04b-python">python</button><button class="tab" data-tab="tab-5bc04b-javascript">javascript</button></div><div class="tab-panel active" id="tab-5bc04b-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/agents/search \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;query&quot;: &quot;data science automation&quot;, &quot;top_k&quot;: 5}&#x27;</code></pre></div><div class="tab-panel" id="tab-5bc04b-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://primer.example/v1/agents/search&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={&quot;query&quot;: &quot;data science automation&quot;, &quot;top_k&quot;: 5},
+)
+hits = r.json()[&quot;hits&quot;]</code></pre></div><div class="tab-panel" id="tab-5bc04b-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/agents/search&quot;, {
+  method: &quot;POST&quot;,
+  headers: {
+    &quot;Authorization&quot;: `Bearer ${token}`,
+    &quot;Content-Type&quot;: &quot;application/json&quot;,
+  },
+  body: JSON.stringify({ query: &quot;data science automation&quot;, top_k: 5 }),
+});
+const { hits } = await r.json();</code></pre></div></div>
+<p>Response <code>200</code>:</p>
+<pre><code class="language-json">{
+  &quot;hits&quot;: [
+    {
+      &quot;document_id&quot;: &quot;agent-data-pipeline&quot;,
+      &quot;chunk_id&quot;: &quot;agent-data-pipeline:0&quot;,
+      &quot;score&quot;: 0.88,
+      &quot;text&quot;: &quot;Automates data pipelines and runs ML experiments&quot;,
+      &quot;meta&quot;: null
+    }
+  ]
+}
+</code></pre>
+<p><code>query</code> must be non-empty (min length 1). <code>top_k</code> defaults to 10, max 100. If the subsystem is not bootstrapped, the route returns <code>503</code>:</p>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;/errors/subsystem-inactive&quot;,
+  &quot;title&quot;: &quot;Subsystem Inactive&quot;,
+  &quot;status&quot;: 503,
+  &quot;detail&quot;: &quot;internal collections subsystem is not active&quot;
+}
+</code></pre>
+<hr />
+<h2 id="error-responses">Error responses</h2>
+<p>All error responses follow RFC 7807:</p>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;/errors/not-found&quot;,
+  &quot;title&quot;: &quot;Not Found&quot;,
+  &quot;status&quot;: 404,
+  &quot;detail&quot;: &quot;collection company-docs not found&quot;,
+  &quot;instance&quot;: &quot;/v1/collections/company-docs&quot;
+}
+</code></pre>
+<p>Common status codes: <code>404</code> resource not found, <code>409</code> conflict (SSP in use, frozen field, or duplicate), <code>422</code> validation error, <code>503</code> subsystem inactive.</p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

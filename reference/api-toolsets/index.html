@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/" />
+<title>Toolsets API &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/features/agents/">Agents</a>
+<a class="nav-link" href="/features/chats/">Chats</a>
+<a class="nav-link" href="/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/web/overview/">Web</a>
+<a class="nav-link" href="/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/channels/overview/">Channels</a>
+<a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/features/triggers/">Triggers</a>
+<a class="nav-link" href="/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/features/workers/">Workers</a>
+<a class="nav-link" href="/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
+<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
+<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
+<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
+<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
+<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
+<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
+<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
+<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
+<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
+<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Reference</span> / <span>Toolsets API</span></nav><h1>Toolsets API</h1>
+<p>A toolset is a named collection of tools sourced from either the internal registry or a connected MCP server. Agents reference toolsets by scoped tool ids of the form <code>&lt;toolset_id&gt;__&lt;tool_name&gt;</code>.</p>
+<p><a href="/toolsets/toolsets-system/">What toolsets are and how tools are scoped.</a></p>
+<p><a href="/features/mcp-server/">Connecting an MCP server as a toolset source.</a></p>
+<h2 id="endpoints">Endpoints</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/v1/toolsets</code></td>
+<td>List toolsets (offset or cursor pagination)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/toolsets</code></td>
+<td>Create a toolset</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/toolsets/{id}</code></td>
+<td>Get toolset by id</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/v1/toolsets/{id}</code></td>
+<td>Replace (full update) a toolset</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/v1/toolsets/{id}</code></td>
+<td>Delete a toolset</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/toolsets/find</code></td>
+<td>Filter toolsets by predicate</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/toolsets/builtin</code></td>
+<td>List built-in (internal) toolsets</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/toolsets/{id}/tools</code></td>
+<td>Enumerate live tools exposed by a toolset</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/toolsets/{id}/invalidate</code></td>
+<td>Invalidate the cached toolset provider</td>
+</tr>
+</tbody>
+</table>
+<h2 id="toolset-object">Toolset object</h2>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;my-mcp-toolset&quot;,
+  &quot;provider&quot;: &quot;mcp&quot;,
+  &quot;config&quot;: {
+    &quot;transport&quot;: &quot;stdio&quot;,
+    &quot;config&quot;: {
+      &quot;command&quot;: [&quot;npx&quot;, &quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/tmp&quot;],
+      &quot;env&quot;: {}
+    }
+  },
+  &quot;harness_id&quot;: null
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>no</td>
+<td>string</td>
+<td>Identifier (case-sensitive). If omitted, the server assigns a type-prefixed id (e.g. <code>toolset-3f9a1c8d</code>). Immutable after creation</td>
+</tr>
+<tr>
+<td><code>provider</code></td>
+<td>yes</td>
+<td>string</td>
+<td><code>&quot;internal&quot;</code> or <code>&quot;mcp&quot;</code></td>
+</tr>
+<tr>
+<td><code>config</code></td>
+<td>conditional</td>
+<td>McpConfig or null</td>
+<td>Required when <code>provider</code> is <code>&quot;mcp&quot;</code>. Must be omitted for <code>&quot;internal&quot;</code></td>
+</tr>
+<tr>
+<td><code>harness_id</code></td>
+<td>no</td>
+<td>string or null</td>
+<td>Set by harness management; mutation via CRUD returns 409 when set</td>
+</tr>
+</tbody>
+</table>
+<p><strong>McpConfig fields:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>transport</code></td>
+<td>yes</td>
+<td><code>&quot;stdio&quot;</code> or <code>&quot;http&quot;</code></td>
+</tr>
+<tr>
+<td><code>config</code></td>
+<td>yes</td>
+<td>Transport-specific details; must match <code>transport</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>StdioConfig fields</strong> (when <code>transport</code> is <code>&quot;stdio&quot;</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>command</code></td>
+<td>yes</td>
+<td>Argv list to launch the MCP server subprocess (min 1 element)</td>
+</tr>
+<tr>
+<td><code>env</code></td>
+<td>no</td>
+<td>Environment variables to set when launching the subprocess</td>
+</tr>
+</tbody>
+</table>
+<p><strong>HttpConfig fields</strong> (when <code>transport</code> is <code>&quot;http&quot;</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>url</code></td>
+<td>yes</td>
+<td>Base URL of the remote MCP server endpoint (min length 1)</td>
+</tr>
+<tr>
+<td><code>headers</code></td>
+<td>no</td>
+<td>HTTP headers included on every request (e.g. <code>Authorization</code>)</td>
+</tr>
+<tr>
+<td><code>oauth</code></td>
+<td>no</td>
+<td>OAuthConfig for OAuth 2.1 (PKCE) flows; overrides any <code>Authorization</code> header</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stdio-allowlist">Stdio allowlist</h2>
+<p>For <code>transport: stdio</code>, the MCP provider checks <code>command[0]</code> against a server-configured allowlist at the point of first use (not at row create). A command not in the allowlist causes <code>GET /v1/toolsets/{id}/tools</code> to return <code>503 /errors/service-unavailable</code> with a detail message naming the rejected command. The default allowlist contains <code>npx</code>, <code>python</code>, and <code>uv</code>.</p>
+<p>The POST succeeds regardless; the rejection is enforced lazily when the MCP session is first opened.</p>
+<h2 id="create-a-toolset">Create a toolset</h2>
+<p><code>POST /v1/toolsets</code> - returns <code>201 Created</code>.</p>
+<p><strong>Stdio MCP toolset:</strong></p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-339e6d-curl">curl</button><button class="tab" data-tab="tab-339e6d-python">python</button><button class="tab" data-tab="tab-339e6d-javascript">javascript</button></div><div class="tab-panel active" id="tab-339e6d-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/toolsets \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;id&quot;: &quot;fs-tools&quot;,
+    &quot;provider&quot;: &quot;mcp&quot;,
+    &quot;config&quot;: {
+      &quot;transport&quot;: &quot;stdio&quot;,
+      &quot;config&quot;: {
+        &quot;command&quot;: [&quot;npx&quot;, &quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/tmp&quot;]
+      }
+    }
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-339e6d-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://your-host/v1/toolsets&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;id&quot;: &quot;fs-tools&quot;,
+        &quot;provider&quot;: &quot;mcp&quot;,
+        &quot;config&quot;: {
+            &quot;transport&quot;: &quot;stdio&quot;,
+            &quot;config&quot;: {
+                &quot;command&quot;: [&quot;npx&quot;, &quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/tmp&quot;],
+            },
+        },
+    },
+)
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-339e6d-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets&quot;, {
+  method: &quot;POST&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
+  body: JSON.stringify({
+    id: &quot;fs-tools&quot;,
+    provider: &quot;mcp&quot;,
+    config: {
+      transport: &quot;stdio&quot;,
+      config: {
+        command: [&quot;npx&quot;, &quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/tmp&quot;]
+      }
+    }
+  })
+})</code></pre></div></div>
+<p><strong>HTTP MCP toolset:</strong></p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9d19e8-curl">curl</button><button class="tab" data-tab="tab-9d19e8-python">python</button><button class="tab" data-tab="tab-9d19e8-javascript">javascript</button></div><div class="tab-panel active" id="tab-9d19e8-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/toolsets \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;id&quot;: &quot;remote-mcp&quot;,
+    &quot;provider&quot;: &quot;mcp&quot;,
+    &quot;config&quot;: {
+      &quot;transport&quot;: &quot;http&quot;,
+      &quot;config&quot;: {
+        &quot;url&quot;: &quot;https://mcp.example.com/v1&quot;,
+        &quot;headers&quot;: {&quot;Authorization&quot;: &quot;Bearer mcp-token&quot;}
+      }
+    }
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-9d19e8-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://your-host/v1/toolsets&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;id&quot;: &quot;remote-mcp&quot;,
+        &quot;provider&quot;: &quot;mcp&quot;,
+        &quot;config&quot;: {
+            &quot;transport&quot;: &quot;http&quot;,
+            &quot;config&quot;: {
+                &quot;url&quot;: &quot;https://mcp.example.com/v1&quot;,
+                &quot;headers&quot;: {&quot;Authorization&quot;: &quot;Bearer mcp-token&quot;},
+            },
+        },
+    },
+)
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-9d19e8-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets&quot;, {
+  method: &quot;POST&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
+  body: JSON.stringify({
+    id: &quot;remote-mcp&quot;,
+    provider: &quot;mcp&quot;,
+    config: {
+      transport: &quot;http&quot;,
+      config: {
+        url: &quot;https://mcp.example.com/v1&quot;,
+        headers: {Authorization: &quot;Bearer mcp-token&quot;}
+      }
+    }
+  })
+})</code></pre></div></div>
+<p>Response <code>201 Created</code> - the full toolset object.</p>
+<p><strong>Errors:</strong></p>
+<ul>
+<li><code>409</code> - a toolset with this <code>id</code> already exists</li>
+<li><code>422</code> - validation failed (e.g. <code>transport</code> and inner config shape mismatch, empty <code>id</code>, integer <code>id</code>)</li>
+</ul>
+<h2 id="get-a-toolset">Get a toolset</h2>
+<p><code>GET /v1/toolsets/{id}</code> - returns <code>200 OK</code> with the toolset object.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-cc3b8e-curl">curl</button><button class="tab" data-tab="tab-cc3b8e-python">python</button><button class="tab" data-tab="tab-cc3b8e-javascript">javascript</button></div><div class="tab-panel active" id="tab-cc3b8e-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/toolsets/fs-tools \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-cc3b8e-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.get(&quot;https://your-host/v1/toolsets/fs-tools&quot;,
+              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})</code></pre></div><div class="tab-panel" id="tab-cc3b8e-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets/fs-tools&quot;, {
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`}
+})</code></pre></div></div>
+<p><strong>Errors:</strong> <code>404</code> if the id does not exist.</p>
+<h2 id="list-toolsets">List toolsets</h2>
+<p><code>GET /v1/toolsets</code> - returns an offset or cursor page of toolset objects.</p>
+<p>Query parameters: <code>limit</code> (1-200, default 20), <code>offset</code> (default 0), <code>cursor</code>, <code>order_by</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d50bb9-curl">curl</button><button class="tab" data-tab="tab-d50bb9-python">python</button><button class="tab" data-tab="tab-d50bb9-javascript">javascript</button></div><div class="tab-panel active" id="tab-d50bb9-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/toolsets?limit=50&amp;offset=0&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-d50bb9-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.get(&quot;https://your-host/v1/toolsets&quot;,
+              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+              params={&quot;limit&quot;: 50, &quot;offset&quot;: 0})
+page = r.json()
+toolsets = page[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-d50bb9-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets?limit=50&amp;offset=0&quot;, {
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`}
+})
+const {items, total, length, offset} = await r.json()</code></pre></div></div>
+<h2 id="replace-a-toolset">Replace a toolset</h2>
+<p><code>PUT /v1/toolsets/{id}</code> - full replacement; returns <code>200 OK</code> with the updated toolset.</p>
+<p>The body uses the same schema as <code>POST</code>. All fields are replaced; omitted optional fields reset to their defaults.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ff81b0-curl">curl</button><button class="tab" data-tab="tab-ff81b0-python">python</button><button class="tab" data-tab="tab-ff81b0-javascript">javascript</button></div><div class="tab-panel active" id="tab-ff81b0-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/toolsets/fs-tools \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;id&quot;: &quot;fs-tools&quot;,
+    &quot;provider&quot;: &quot;mcp&quot;,
+    &quot;config&quot;: {
+      &quot;transport&quot;: &quot;stdio&quot;,
+      &quot;config&quot;: {
+        &quot;command&quot;: [&quot;npx&quot;, &quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/data&quot;]
+      }
+    }
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-ff81b0-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.put(
+    &quot;https://your-host/v1/toolsets/fs-tools&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;id&quot;: &quot;fs-tools&quot;,
+        &quot;provider&quot;: &quot;mcp&quot;,
+        &quot;config&quot;: {
+            &quot;transport&quot;: &quot;stdio&quot;,
+            &quot;config&quot;: {&quot;command&quot;: [&quot;npx&quot;, &quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/data&quot;]},
+        },
+    },
+)</code></pre></div><div class="tab-panel" id="tab-ff81b0-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/toolsets/fs-tools&quot;, {
+  method: &quot;PUT&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
+  body: JSON.stringify({
+    id: &quot;fs-tools&quot;,
+    provider: &quot;mcp&quot;,
+    config: {
+      transport: &quot;stdio&quot;,
+      config: {command: [&quot;npx&quot;, &quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/data&quot;]}
+    }
+  })
+})</code></pre></div></div>
+<p><strong>Errors:</strong> <code>404</code> if not found, <code>409</code> if the toolset is managed by a harness.</p>
+<h2 id="delete-a-toolset">Delete a toolset</h2>
+<p><code>DELETE /v1/toolsets/{id}</code> - returns <code>204 No Content</code>. Agents that reference this toolset by scoped tool id are not blocked from existing; their <code>/status</code> endpoint flips to <code>ok=false</code> until the toolset is recreated.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9be6b1-curl">curl</button><button class="tab" data-tab="tab-9be6b1-python">python</button><button class="tab" data-tab="tab-9be6b1-javascript">javascript</button></div><div class="tab-panel active" id="tab-9be6b1-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/toolsets/fs-tools \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-9be6b1-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.delete(&quot;https://your-host/v1/toolsets/fs-tools&quot;,
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
+assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-9be6b1-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/toolsets/fs-tools&quot;, {
+  method: &quot;DELETE&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`}
+})</code></pre></div></div>
+<h2 id="list-tools-exposed-by-a-toolset">List tools exposed by a toolset</h2>
+<p><code>GET /v1/toolsets/{id}/tools</code> - connects to the live MCP provider and returns the current tool list. Returns <code>200 OK</code> with the tool enumeration.</p>
+<p>For OAuth-protected HTTP toolsets, a <code>401</code> response includes an <code>extensions.auth_url</code> field for the user consent flow.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-0605e4-curl">curl</button><button class="tab" data-tab="tab-0605e4-python">python</button><button class="tab" data-tab="tab-0605e4-javascript">javascript</button></div><div class="tab-panel active" id="tab-0605e4-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/toolsets/fs-tools/tools \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-0605e4-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.get(&quot;https://your-host/v1/toolsets/fs-tools/tools&quot;,
+              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
+tools = r.json()</code></pre></div><div class="tab-panel" id="tab-0605e4-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets/fs-tools/tools&quot;, {
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`}
+})
+const tools = await r.json()</code></pre></div></div>
+<p><strong>Errors:</strong></p>
+<ul>
+<li><code>401</code> - OAuth consent required; <code>extensions.auth_url</code> contains the redirect URL</li>
+<li><code>404</code> - toolset id not found</li>
+<li><code>503</code> - stdio command not in the server allowlist (<code>/errors/service-unavailable</code>)</li>
+<li><code>502</code> - the MCP server returned an error</li>
+<li><code>504</code> - network timeout reaching the MCP server</li>
+</ul>
+<h2 id="errors-note">Errors note</h2>
+<p>All error responses use the RFC 7807 <code>ProblemDetails</code> envelope with <code>type</code>, <code>title</code>, <code>status</code>, <code>detail</code>, <code>instance</code>, and <code>extensions</code> (which includes <code>request_id</code> and, for 422 errors, an <code>errors</code> array with field paths). See the REST API overview for details.</p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

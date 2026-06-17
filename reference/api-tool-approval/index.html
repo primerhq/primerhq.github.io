@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/" />
+<title>Tool Approval API &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/features/agents/">Agents</a>
+<a class="nav-link" href="/features/chats/">Chats</a>
+<a class="nav-link" href="/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/web/overview/">Web</a>
+<a class="nav-link" href="/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/channels/overview/">Channels</a>
+<a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/features/triggers/">Triggers</a>
+<a class="nav-link" href="/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/features/workers/">Workers</a>
+<a class="nav-link" href="/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
+<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
+<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
+<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
+<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
+<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
+<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
+<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
+<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
+<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
+<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Reference</span> / <span>Tool Approval API</span></nav><h1>Tool Approval API</h1>
+<p>Tool approval policies define gates that intercept tool calls before execution. Three strategy types are supported: <code>required</code> (always blocks for a human decision), <code>policy</code> (evaluates a Rego policy against the call context), and <code>llm</code> (delegates to an LLM judge). When a gate trips, the session parks on <code>_approval</code> and a decision must be submitted via the respond endpoint before execution continues.</p>
+<p><a href="/toolsets/toolsets-approvals/">The approval gate lifecycle, park/resume model, and console walkthrough.</a></p>
+<h2 id="endpoints">Endpoints</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/v1/tool_approval_policies</code></td>
+<td>List policies</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/tool_approval_policies</code></td>
+<td>Create a policy</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/tool_approval_policies/find</code></td>
+<td>Find policies by predicate</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/tool_approval_policies/invalidate</code></td>
+<td>Flush the in-process policy cache</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/tool_approval_policies/{entity_id}</code></td>
+<td>Get a policy</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/v1/tool_approval_policies/{entity_id}</code></td>
+<td>Replace a policy</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/v1/tool_approval_policies/{entity_id}</code></td>
+<td>Delete a policy</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/sessions/{session_id}/tool_approval/pending</code></td>
+<td>Get pending approval for a session</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/sessions/{session_id}/tool_approval/respond</code></td>
+<td>Submit an approval decision for a session</td>
+</tr>
+</tbody>
+</table>
+<p>Chats do not expose <code>tool_approval/pending</code> or <code>tool_approval/respond</code>. On a chat, approval is conversational: when a policy gates a tool call the agent ends its turn with a normal assistant message asking you to approve, and you reply with a normal chat message (for example &quot;yes&quot; or &quot;no&quot;).</p>
+<h2 id="toolapprovalpolicy-object">ToolApprovalPolicy object</h2>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;gate-delete-files&quot;,
+  &quot;toolset_id&quot;: &quot;_workspaces&quot;,
+  &quot;tool_name&quot;: &quot;fs_delete&quot;,
+  &quot;approval&quot;: {&quot;type&quot;: &quot;required&quot;},
+  &quot;enabled&quot;: true,
+  &quot;timeout_seconds&quot;: 300
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>no</td>
+<td>string</td>
+<td>Identifier. If omitted, the server assigns a type-prefixed id (e.g. <code>tool-approval-policy-3f9a1c8d</code>). Immutable after creation</td>
+</tr>
+<tr>
+<td><code>toolset_id</code></td>
+<td>yes</td>
+<td>string</td>
+<td>Toolset the policy applies to; may be a reserved internal toolset (<code>_system</code>, <code>_workspaces</code>, <code>_misc</code>, <code>_search</code>, <code>web</code>) or a user-created Toolset id</td>
+</tr>
+<tr>
+<td><code>tool_name</code></td>
+<td>yes</td>
+<td>string</td>
+<td>Bare tool name as registered in the provider catalogue (min length 1)</td>
+</tr>
+<tr>
+<td><code>approval</code></td>
+<td>yes</td>
+<td>ApprovalConfig</td>
+<td>Discriminated approval strategy (see below)</td>
+</tr>
+<tr>
+<td><code>enabled</code></td>
+<td>no</td>
+<td>boolean</td>
+<td>Default <code>true</code>; disabled policies are stored but skipped at evaluation time</td>
+</tr>
+<tr>
+<td><code>timeout_seconds</code></td>
+<td>no</td>
+<td>number or null</td>
+<td>Per-policy timeout in seconds (must be &gt; 0). <code>null</code> falls back to the global yield cap</td>
+</tr>
+</tbody>
+</table>
+<p>The pair <code>(toolset_id, tool_name)</code> must be unique. A duplicate returns <code>409 /errors/conflict</code> naming both fields. This constraint also applies on PUT: the check skips the row being updated so a policy can be replaced in place without a false duplicate.</p>
+<p><strong>Approval strategies:</strong></p>
+<p><code>required</code>: gate trips unconditionally; every call waits for an operator decision:</p>
+<pre><code class="language-json">{&quot;type&quot;: &quot;required&quot;}
+</code></pre>
+<p><code>policy</code>: evaluate a Rego policy source. The policy must declare <code>package primer.tool_approval</code> and expose a boolean <code>required</code> key (and an optional <code>reason</code> string). The source is compile-tested server-side at create/update time; malformed Rego returns <code>422</code> and never persists:</p>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;policy&quot;,
+  &quot;policy&quot;: &quot;package primer.tool_approval\n\ndefault required := false\n\nrequired {\n    input.arguments.amount &gt; 10000\n}\n&quot;
+}
+</code></pre>
+<p><code>llm</code>: delegate to an LLM judge. The <code>provider_id</code> must reference an existing LLMProvider row and <code>model</code> must be in that provider's <code>models</code> list; both are validated server-side at create/update time:</p>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;llm&quot;,
+  &quot;provider_id&quot;: &quot;anthropic-prod&quot;,
+  &quot;model&quot;: &quot;claude-sonnet-4-6&quot;,
+  &quot;prompt&quot;: &quot;Decide whether this tool call should be approved. Approve only if the operation is safe and expected.&quot;
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>provider_id</code></td>
+<td>yes</td>
+<td>Id of an existing LLMProvider</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>yes</td>
+<td>Model name from that provider's <code>models</code> list</td>
+</tr>
+<tr>
+<td><code>prompt</code></td>
+<td>yes</td>
+<td>System prompt sent to the judge (1-16000 chars); call context is appended as the user message</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create-a-policy">Create a policy</h2>
+<p><code>POST /v1/tool_approval_policies</code> - returns <code>201 Created</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9c6d5e-curl">curl</button><button class="tab" data-tab="tab-9c6d5e-python">python</button><button class="tab" data-tab="tab-9c6d5e-javascript">javascript</button></div><div class="tab-panel active" id="tab-9c6d5e-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/tool_approval_policies \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;id&quot;: &quot;gate-delete-files&quot;,
+    &quot;toolset_id&quot;: &quot;_workspaces&quot;,
+    &quot;tool_name&quot;: &quot;fs_delete&quot;,
+    &quot;approval&quot;: {&quot;type&quot;: &quot;required&quot;},
+    &quot;enabled&quot;: true,
+    &quot;timeout_seconds&quot;: 300
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-9c6d5e-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://your-host/v1/tool_approval_policies&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;id&quot;: &quot;gate-delete-files&quot;,
+        &quot;toolset_id&quot;: &quot;_workspaces&quot;,
+        &quot;tool_name&quot;: &quot;fs_delete&quot;,
+        &quot;approval&quot;: {&quot;type&quot;: &quot;required&quot;},
+        &quot;enabled&quot;: True,
+        &quot;timeout_seconds&quot;: 300,
+    },
+)
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-9c6d5e-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/tool_approval_policies&quot;, {
+  method: &quot;POST&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
+  body: JSON.stringify({
+    id: &quot;gate-delete-files&quot;,
+    toolset_id: &quot;_workspaces&quot;,
+    tool_name: &quot;fs_delete&quot;,
+    approval: {type: &quot;required&quot;},
+    enabled: true,
+    timeout_seconds: 300
+  })
+})</code></pre></div></div>
+<p><strong>Errors:</strong></p>
+<ul>
+<li><code>409</code> - <code>(toolset_id, tool_name)</code> pair already has a policy</li>
+<li><code>422</code> - required field missing, Rego compile failed, or LLM provider/model not found</li>
+</ul>
+<h2 id="get-a-policy">Get a policy</h2>
+<p><code>GET /v1/tool_approval_policies/{entity_id}</code> - returns <code>200 OK</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-aa54ba-curl">curl</button><button class="tab" data-tab="tab-aa54ba-python">python</button><button class="tab" data-tab="tab-aa54ba-javascript">javascript</button></div><div class="tab-panel active" id="tab-aa54ba-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/tool_approval_policies/gate-delete-files \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-aa54ba-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.get(&quot;https://your-host/v1/tool_approval_policies/gate-delete-files&quot;,
+              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
+pol = r.json()</code></pre></div><div class="tab-panel" id="tab-aa54ba-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/tool_approval_policies/gate-delete-files&quot;, {
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`}
+})</code></pre></div></div>
+<p><strong>Errors:</strong> <code>404</code> if the id does not exist.</p>
+<h2 id="list-policies">List policies</h2>
+<p><code>GET /v1/tool_approval_policies</code> - returns an offset or cursor page of policy objects.</p>
+<p>Query parameters: <code>limit</code> (1-200, default 20), <code>offset</code> (default 0), <code>cursor</code>, <code>order_by</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-016ee6-curl">curl</button><button class="tab" data-tab="tab-016ee6-python">python</button><button class="tab" data-tab="tab-016ee6-javascript">javascript</button></div><div class="tab-panel active" id="tab-016ee6-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/tool_approval_policies?limit=20&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-016ee6-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.get(&quot;https://your-host/v1/tool_approval_policies&quot;,
+              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
+policies = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-016ee6-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/tool_approval_policies?limit=20&quot;, {
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`}
+})
+const {items} = await r.json()</code></pre></div></div>
+<h2 id="replace-a-policy">Replace a policy</h2>
+<p><code>PUT /v1/tool_approval_policies/{entity_id}</code> - full replacement; returns <code>200 OK</code>. The same validation rules apply as on POST (Rego compile-test, LLM provider lookup, uniqueness skips own id).</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-fc1e25-curl">curl</button><button class="tab" data-tab="tab-fc1e25-python">python</button><button class="tab" data-tab="tab-fc1e25-javascript">javascript</button></div><div class="tab-panel active" id="tab-fc1e25-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/tool_approval_policies/gate-delete-files \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;id&quot;: &quot;gate-delete-files&quot;,
+    &quot;toolset_id&quot;: &quot;_workspaces&quot;,
+    &quot;tool_name&quot;: &quot;fs_delete&quot;,
+    &quot;approval&quot;: {&quot;type&quot;: &quot;required&quot;},
+    &quot;enabled&quot;: false,
+    &quot;timeout_seconds&quot;: 120
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-fc1e25-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.put(
+    &quot;https://your-host/v1/tool_approval_policies/gate-delete-files&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;id&quot;: &quot;gate-delete-files&quot;,
+        &quot;toolset_id&quot;: &quot;_workspaces&quot;,
+        &quot;tool_name&quot;: &quot;fs_delete&quot;,
+        &quot;approval&quot;: {&quot;type&quot;: &quot;required&quot;},
+        &quot;enabled&quot;: False,
+        &quot;timeout_seconds&quot;: 120,
+    },
+)</code></pre></div><div class="tab-panel" id="tab-fc1e25-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/tool_approval_policies/gate-delete-files&quot;, {
+  method: &quot;PUT&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
+  body: JSON.stringify({
+    id: &quot;gate-delete-files&quot;,
+    toolset_id: &quot;_workspaces&quot;,
+    tool_name: &quot;fs_delete&quot;,
+    approval: {type: &quot;required&quot;},
+    enabled: false,
+    timeout_seconds: 120
+  })
+})</code></pre></div></div>
+<h2 id="delete-a-policy">Delete a policy</h2>
+<p><code>DELETE /v1/tool_approval_policies/{entity_id}</code> - returns <code>200 OK</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-27bb3d-curl">curl</button><button class="tab" data-tab="tab-27bb3d-python">python</button><button class="tab" data-tab="tab-27bb3d-javascript">javascript</button></div><div class="tab-panel active" id="tab-27bb3d-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/tool_approval_policies/gate-delete-files \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-27bb3d-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.delete(
+    &quot;https://your-host/v1/tool_approval_policies/gate-delete-files&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+)</code></pre></div><div class="tab-panel" id="tab-27bb3d-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/tool_approval_policies/gate-delete-files&quot;, {
+  method: &quot;DELETE&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`}
+})</code></pre></div></div>
+<h2 id="invalidate-the-policy-cache">Invalidate the policy cache</h2>
+<p><code>POST /v1/tool_approval_policies/invalidate</code> - flushes the in-process approval policy cache so the running engine picks up newly created or deleted policies without waiting for the next cache refresh. Returns <code>202 Accepted</code>.</p>
+<p>Call this after creating or deleting a policy if the change needs to take effect immediately for in-flight sessions.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-878f7c-curl">curl</button><button class="tab" data-tab="tab-878f7c-python">python</button><button class="tab" data-tab="tab-878f7c-javascript">javascript</button></div><div class="tab-panel active" id="tab-878f7c-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/tool_approval_policies/invalidate \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-878f7c-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://your-host/v1/tool_approval_policies/invalidate&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+)
+assert r.status_code == 202</code></pre></div><div class="tab-panel" id="tab-878f7c-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/tool_approval_policies/invalidate&quot;, {
+  method: &quot;POST&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`}
+})</code></pre></div></div>
+<h2 id="get-pending-approval">Get pending approval</h2>
+<p>When an enabled policy gates a tool call, the session parks on <code>_approval</code>. The pending endpoint returns the queued call details.</p>
+<p><code>GET /v1/sessions/{session_id}/tool_approval/pending</code> - returns <code>200 OK</code> with the pending call, or <code>204 No Content</code> if there is no pending approval. Sessions only; on a chat the agent asks for approval as a normal assistant message instead.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-7a943a-curl">curl</button><button class="tab" data-tab="tab-7a943a-python">python</button><button class="tab" data-tab="tab-7a943a-javascript">javascript</button></div><div class="tab-panel active" id="tab-7a943a-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/sessions/sess-abc123/tool_approval/pending \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-7a943a-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.get(
+    &quot;https://your-host/v1/sessions/sess-abc123/tool_approval/pending&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+)
+pending = r.json()
+tool_call_id = pending[&quot;tool_call_id&quot;]</code></pre></div><div class="tab-panel" id="tab-7a943a-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/sessions/sess-abc123/tool_approval/pending&quot;, {
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`}
+})
+const pending = await r.json()</code></pre></div></div>
+<h2 id="submit-an-approval-decision">Submit an approval decision</h2>
+<p><code>POST /v1/sessions/{session_id}/tool_approval/respond</code> - submit an <code>approved</code> or <code>rejected</code> decision. The session resumes with the result. Sessions only; on a chat you approve or reject by sending a normal chat message in reply to the agent's request.</p>
+<p>Request body:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tool_call_id</code></td>
+<td>yes</td>
+<td>string</td>
+<td>The tool call id from the pending response</td>
+</tr>
+<tr>
+<td><code>decision</code></td>
+<td>yes</td>
+<td>string</td>
+<td><code>&quot;approved&quot;</code> or <code>&quot;rejected&quot;</code></td>
+</tr>
+<tr>
+<td><code>reason</code></td>
+<td>no</td>
+<td>string or null</td>
+<td>Optional human-readable reason (max 1024 chars); surfaced to the agent in the tool result on rejection</td>
+</tr>
+</tbody>
+</table>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-6748e7-curl">curl</button><button class="tab" data-tab="tab-6748e7-python">python</button><button class="tab" data-tab="tab-6748e7-javascript">javascript</button></div><div class="tab-panel active" id="tab-6748e7-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/sessions/sess-abc123/tool_approval/respond \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;tool_call_id&quot;: &quot;tc-xyz789&quot;,
+    &quot;decision&quot;: &quot;approved&quot;
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-6748e7-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://your-host/v1/sessions/sess-abc123/tool_approval/respond&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;tool_call_id&quot;: &quot;tc-xyz789&quot;,
+        &quot;decision&quot;: &quot;approved&quot;,
+    },
+)</code></pre></div><div class="tab-panel" id="tab-6748e7-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/sessions/sess-abc123/tool_approval/respond&quot;, {
+  method: &quot;POST&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
+  body: JSON.stringify({
+    tool_call_id: &quot;tc-xyz789&quot;,
+    decision: &quot;approved&quot;
+  })
+})</code></pre></div></div>
+<p>To reject with a reason:</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-30b193-curl">curl</button><button class="tab" data-tab="tab-30b193-python">python</button><button class="tab" data-tab="tab-30b193-javascript">javascript</button></div><div class="tab-panel active" id="tab-30b193-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/sessions/sess-abc123/tool_approval/respond \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;tool_call_id&quot;: &quot;tc-xyz789&quot;,
+    &quot;decision&quot;: &quot;rejected&quot;,
+    &quot;reason&quot;: &quot;File deletion not permitted during business hours.&quot;
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-30b193-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://your-host/v1/sessions/sess-abc123/tool_approval/respond&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;tool_call_id&quot;: &quot;tc-xyz789&quot;,
+        &quot;decision&quot;: &quot;rejected&quot;,
+        &quot;reason&quot;: &quot;File deletion not permitted during business hours.&quot;,
+    },
+)</code></pre></div><div class="tab-panel" id="tab-30b193-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/sessions/sess-abc123/tool_approval/respond&quot;, {
+  method: &quot;POST&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
+  body: JSON.stringify({
+    tool_call_id: &quot;tc-xyz789&quot;,
+    decision: &quot;rejected&quot;,
+    reason: &quot;File deletion not permitted during business hours.&quot;
+  })
+})</code></pre></div></div>
+<p><strong>Errors:</strong> <code>404</code> if the session or chat does not exist; <code>422</code> if <code>tool_call_id</code> is missing or <code>decision</code> is not a valid value.</p>
+<p><strong>Timeout behavior:</strong> if no decision arrives before <code>timeout_seconds</code> elapses, the TimeoutSweeper synthesises a rejected result (reason <code>&quot;timed-out&quot;</code>) and the session resumes with that rejection. The session does not terminate; the agent receives the rejection and continues.</p>
+<h2 id="errors-note">Errors note</h2>
+<p>All error responses use the RFC 7807 <code>ProblemDetails</code> envelope with <code>type</code>, <code>title</code>, <code>status</code>, <code>detail</code>, <code>instance</code>, and <code>extensions</code> (which includes <code>request_id</code> and, for 422 errors, an <code>errors</code> array with field paths). See the REST API overview for details.</p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

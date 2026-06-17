@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/" />
+<title>Node Types &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/features/agents/">Agents</a>
+<a class="nav-link" href="/features/chats/">Chats</a>
+<a class="nav-link" href="/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/web/overview/">Web</a>
+<a class="nav-link" href="/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/channels/overview/">Channels</a>
+<a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/features/triggers/">Triggers</a>
+<a class="nav-link" href="/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/features/workers/">Workers</a>
+<a class="nav-link" href="/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
+<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
+<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
+<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
+<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
+<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
+<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
+<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
+<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
+<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
+<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>graphs</span> / <span>Node Types</span></nav><h1>Node Types</h1>
+<h2 id="what-node-types-are">What node types are</h2>
+<p>A graph is a set of nodes connected by edges. Each node has a <code>kind</code> that tells the executor what to do when the node enters the ready set. Seven kinds exist. Three are pure data-shaping (Begin, End, Fan-in): no LLM call, no tool dispatch. Three run real work (Agent, Subgraph, Tool-call). One is a pure dispatcher (Fan-out).</p>
+<pre class="mermaid">flowchart LR
+    B([Begin\nkind=begin]) --&gt; A[Agent\nkind=agent]
+    B --&gt; TC[Tool call\nkind=tool_call]
+    B --&gt; FO[Fan-out\nkind=fan_out]
+    FO -.-&gt;|broadcast/tee/map| W1[Agent instance]
+    FO -.-&gt;|broadcast/tee/map| W2[Agent instance]
+    W1 --&gt; FI[Fan-in\nkind=fan_in]
+    W2 --&gt; FI
+    A --&gt; E([End\nkind=end])
+    TC --&gt; E
+    FI --&gt; E</pre>
+<p>The discriminated union field is <code>kind</code>. The console uses it to show the right side panel. The API uses it to validate the node definition.</p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="begin-kindbegin">Begin (<code>kind=begin</code>)</h3>
+<p>The Begin node is the graph's entry point. Every graph has exactly one Begin node. It carries no LLM call; it materialises a <code>NodeOutput</code> from the graph's initial input and makes it available to downstream templates as <code>nodes.&lt;begin_id&gt;</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>yes</td>
+<td>Unique node id within the graph.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>no</td>
+<td>Human-readable label shown in the canvas.</td>
+</tr>
+<tr>
+<td><code>input_schema</code></td>
+<td>no</td>
+<td>JSON Schema 2020-12. When set, the session-create handler validates <code>graph_input</code> against this schema before the worker dispatches the graph. A mismatch returns 422 immediately, before the session reaches RUNNING.</td>
+</tr>
+</tbody>
+</table>
+<p>When <code>input_schema</code> is omitted the graph accepts any JSON-serialisable input shape (string, dict, list).</p>
+<h3 id="end-kindend">End (<code>kind=end</code>)</h3>
+<p>The End node is a sink. At least one End reachable from Begin is required. A graph may have multiple independent End nodes; all fire independently when reached, the ready set drains naturally, and there is no first-End-wins race.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>yes</td>
+<td>Unique node id.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>no</td>
+<td>Canvas label.</td>
+</tr>
+<tr>
+<td><code>output_template</code></td>
+<td>no</td>
+<td>Jinja2 template rendered over <code>GraphContext</code> when the node fires. The rendered string becomes the graph's final output. An empty string terminates the graph without an output payload.</td>
+</tr>
+<tr>
+<td><code>output_schema</code></td>
+<td>no</td>
+<td>JSON Schema 2020-12. When set, the rendered <code>output_template</code> must parse as JSON conforming to this schema. Failure ends the graph with <code>ended_detail='end_output_invalid'</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>End nodes have no outgoing edges. Adding one is a hard topology violation.</p>
+<h3 id="agent-kindagent">Agent (<code>kind=agent</code>)</h3>
+<p>The Agent node runs a full agent turn (a multi-round LLM loop with tool dispatch), exactly as a standalone agent session would, using the same <code>run_agent_turn</code> code path. The node keeps its own per-turn message history; the history carries forward across loop iterations.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>yes</td>
+<td>Unique node id.</td>
+</tr>
+<tr>
+<td><code>agent_id</code></td>
+<td>yes</td>
+<td>Id of the stored agent to execute.</td>
+</tr>
+<tr>
+<td><code>input_template</code></td>
+<td>no</td>
+<td>Jinja2 template rendered over <code>GraphContext</code> to produce the user-role message prepended to this node's history before the turn starts. Default: concatenates the graph's initial input verbatim.</td>
+</tr>
+<tr>
+<td><code>response_format</code></td>
+<td>no</td>
+<td>JSON Schema forwarded to the agent's invoke call. When set, the agent is asked for structured output and <code>NodeOutput.parsed</code> is populated (a dict). When <code>None</code>, the node produces only raw text. Required for conditional edges that branch on this node's output.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>no</td>
+<td>Canvas label.</td>
+</tr>
+<tr>
+<td><code>input_schema</code></td>
+<td>no</td>
+<td>Designer metadata only: a soft-validation hint the executor logs as a WARNING if the rendered <code>input_template</code> does not match. Never fails the node.</td>
+</tr>
+</tbody>
+</table>
+<p>An agent node inside a loop reruns each time the loop brings it back into the ready set, accumulating history across iterations.</p>
+<h3 id="subgraph-kindgraph">Subgraph (<code>kind=graph</code>)</h3>
+<p>The Subgraph node delegates an entire child graph execution. The child graph runs to completion before the parent's superstep considers the node done. Sub-events are re-wrapped with the parent node's id so event taps can see &quot;subgraph X is running&quot;.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>yes</td>
+<td>Unique node id.</td>
+</tr>
+<tr>
+<td><code>graph_id</code></td>
+<td>yes</td>
+<td>Id of the stored graph to delegate to.</td>
+</tr>
+<tr>
+<td><code>input_template</code></td>
+<td>no</td>
+<td>Jinja2 template rendered to produce the child graph's <code>initial_input</code>. Default: concatenates the parent graph's initial input.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>no</td>
+<td>Canvas label.</td>
+</tr>
+</tbody>
+</table>
+<p>The child graph runs in the same workspace as the parent. Turn logs from the child appear under <code>&lt;parent_gsid&gt;__&lt;parent_node_id&gt;</code> so the full nested timeline is queryable.</p>
+<h3 id="fan-out-kindfan_out">Fan-out (<code>kind=fan_out</code>)</h3>
+<p>The Fan-out node is a pure dispatcher. It spawns parallel downstream node instances and stashes an instance plan on the executor. The outer superstep loop drains this plan into the next ready set so all instances run concurrently.</p>
+<p>Fan-out nodes must have no real outgoing edges; their downstream targets live entirely on the node's <code>specs</code> list.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>yes</td>
+<td>Unique node id.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>no</td>
+<td>Canvas label.</td>
+</tr>
+<tr>
+<td><code>specs</code></td>
+<td>yes (min 1)</td>
+<td>List of <code>FanOutSpec</code> entries. Multiple specs can be mixed on one Fan-out (broadcast + tee + map).</td>
+</tr>
+</tbody>
+</table>
+<h4>FanOutSpec</h4>
+<p>Each spec in the <code>specs</code> list selects a dispatch strategy and an <code>on_failure</code> policy.</p>
+<p><strong><code>kind=&quot;broadcast&quot;</code></strong>: runs one fixed target node N times in parallel.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>target_node_id</code></td>
+<td>yes</td>
+<td>The node to run N copies of.</td>
+</tr>
+<tr>
+<td><code>count</code></td>
+<td>yes (&gt;= 1)</td>
+<td>How many parallel instances to spawn.</td>
+</tr>
+<tr>
+<td><code>on_failure</code></td>
+<td>no</td>
+<td><code>fail_fast</code> (default), <code>drain_then_fail</code>, or <code>collect</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>kind=&quot;tee&quot;</code></strong>: runs each named target node once in parallel.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>target_node_ids</code></td>
+<td>yes</td>
+<td>List of node ids to run in parallel. Each runs exactly once.</td>
+</tr>
+<tr>
+<td><code>on_failure</code></td>
+<td>no</td>
+<td><code>fail_fast</code> (default), <code>drain_then_fail</code>, or <code>collect</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>kind=&quot;map&quot;</code></strong>: reads a list from an upstream node and spawns one instance per list item.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>target_node_id</code></td>
+<td>yes</td>
+<td>The node to run once per item.</td>
+</tr>
+<tr>
+<td><code>source_node_id</code></td>
+<td>yes</td>
+<td>The upstream node whose output holds the list to iterate.</td>
+</tr>
+<tr>
+<td><code>source_path</code></td>
+<td>yes</td>
+<td>Dotted path (e.g. <code>items</code> or <code>results[0].urls</code>) into <code>NodeOutput.parsed</code> of the source node. Must resolve to a list at runtime; failure ends the graph with <code>ended_detail='fanout_source_invalid'</code>.</td>
+</tr>
+<tr>
+<td><code>on_failure</code></td>
+<td>no</td>
+<td><code>fail_fast</code> (default), <code>drain_then_fail</code>, or <code>collect</code>.</td>
+</tr>
+</tbody>
+</table>
+<h4><code>on_failure</code> policy</h4>
+<p>This trichotomy controls what happens when one parallel instance fails:</p>
+<ul>
+<li><code>fail_fast</code> (default): the first failure immediately terminates the graph.</li>
+<li><code>drain_then_fail</code>: suppresses the immediate failure, waits for every sibling instance to finish (success or fail), then terminates the graph with <code>ended_detail='fanin_upstream_failed'</code>.</li>
+<li><code>collect</code>: stamps the failed instance's <code>NodeOutput.error</code>, appends it to the aggregator list so a downstream Fan-in can see and branch on it, and lets the graph continue.</li>
+</ul>
+<h4>Synthesized instance ids</h4>
+<p>Instances are assigned synthesized ids of the form <code>target[0]</code>, <code>target[1]</code>, etc. These appear in <code>GraphContext.nodes</code> alongside the bare aggregator list at <code>nodes.&lt;target_id&gt;</code>. Templates can reference both (see <code>ref:graphs/graph-templating</code>).</p>
+<h3 id="fan-in-kindfan_in">Fan-in (<code>kind=fan_in</code>)</h3>
+<p>The Fan-in node waits for all incoming parallel branches to finish before firing. It is a pure data-shaping aggregator with no LLM call.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>yes</td>
+<td>Unique node id.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>no</td>
+<td>Canvas label.</td>
+</tr>
+<tr>
+<td><code>aggregate_template</code></td>
+<td>no</td>
+<td>Jinja2 template rendered over <code>GraphContext</code> when the node fires. Has access to <code>nodes.&lt;target&gt;</code> (the aggregator list) and <code>nodes['target[i]']</code> (individual instances).</td>
+</tr>
+<tr>
+<td><code>output_schema</code></td>
+<td>no</td>
+<td>JSON Schema 2020-12. When set, the rendered <code>aggregate_template</code> must parse as JSON conforming to it. Failure ends the graph with <code>ended_detail='end_output_invalid'</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Fan-in's ready-set logic is wait-for-all: it fires only when every incoming edge's source has produced a <code>NodeOutput</code>. For fan-out targets, &quot;all sources produced output&quot; expands to &quot;all synthesized instances produced output&quot;.</p>
+<h3 id="tool-call-kindtool_call">Tool call (<code>kind=tool_call</code>)</h3>
+<p>The Tool-call node invokes a platform tool directly, without spinning up an agent turn. It honours approval gates: if the tool requires operator approval, the graph parks the session WAITING, checkpoints its full mid-flight state, and resumes from the checkpoint when the operator approves or rejects.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>yes</td>
+<td>Unique node id.</td>
+</tr>
+<tr>
+<td><code>tool_id</code></td>
+<td>yes</td>
+<td>Scoped tool id in <code>toolset_id__bare_name</code> form. Syntax is checked at save time; existence is checked when the tool manager dispatches at runtime.</td>
+</tr>
+<tr>
+<td><code>arguments</code></td>
+<td>no</td>
+<td>Argument dict. String leaf values are rendered as Jinja2 templates against <code>GraphContext</code> at runtime. Non-string leaves pass through unchanged.</td>
+</tr>
+<tr>
+<td><code>arguments_template</code></td>
+<td>no</td>
+<td>Full-JSON Jinja2 template that shadows <code>arguments</code> entirely. Use this when you need to produce a dynamic argument structure (a variable-length list, for example) that cannot be expressed as fixed keys with templated string values.</td>
+</tr>
+<tr>
+<td><code>output_schema</code></td>
+<td>no</td>
+<td>JSON Schema 2020-12. When set, the tool's result output must parse as JSON conforming to this schema. Failure ends the graph with <code>ended_detail='tool_output_invalid'</code>.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>no</td>
+<td>Canvas label.</td>
+</tr>
+</tbody>
+</table>
+<p>When the operator rejects a tool-call approval, the graph ends with <code>ended_detail='tool_execution_failed'</code>.</p>
+<h2 id="walkthrough-fan-out-map-to-fan-in">Walkthrough: fan-out map to fan-in</h2>
+<p>This pattern takes a list of URLs produced by a research agent, fetches each in parallel, and aggregates.</p>
+<ol>
+<li>Create a Begin node and a <code>researcher</code> agent node wired Begin -&gt; researcher. Give the researcher agent a <code>response_format</code> with <code>{ &quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: { &quot;urls&quot;: { &quot;type&quot;: &quot;array&quot; } } }</code>.</li>
+<li>Add a Fan-out node (<code>kind=fan_out</code>) named <code>fanout</code>. Wire researcher -&gt; fanout with a Static edge.</li>
+<li>Add an agent node named <code>fetcher</code>. Do NOT add a real edge from <code>fanout</code> to <code>fetcher</code>; configure it on the Fan-out node's spec instead.</li>
+<li>In the Fan-out side panel, add one spec:
+<ul>
+<li>kind: <code>map</code></li>
+<li>target_node_id: <code>fetcher</code></li>
+<li>source_node_id: <code>researcher</code></li>
+<li>source_path: <code>urls</code></li>
+<li>on_failure: <code>collect</code></li>
+</ul>
+</li>
+<li>Add a Fan-in node (<code>fanin</code>). Wire <code>fetcher</code> -&gt; <code>fanin</code> with a Static edge. In the Fan-in's side panel set the <code>aggregate_template</code> (see <code>ref:graphs/graph-templating</code> for syntax).</li>
+<li>Add an End node and wire <code>fanin</code> -&gt; <code>end</code>.</li>
+<li>Save. This graph needs no <code>max_iterations</code> because it has no cycle.</li>
+</ol>
+<pre class="mermaid">flowchart LR
+    B([Begin]) --&gt; R[researcher]
+    R --&gt; FO[fan-out]
+    FO -.-&gt;|map urls| F1[fetcher instance 0]
+    FO -.-&gt;|map urls| F2[fetcher instance 1]
+    FO -.-&gt;|map urls| F3[fetcher instance N]
+    F1 --&gt; FI[fan-in]
+    F2 --&gt; FI
+    F3 --&gt; FI
+    FI --&gt; E([End])</pre>
+<p><a href="/graphs/graphs/">How to create and run a graph from the console.</a></p>
+<p><a href="/graphs/graph-templating/">How to write Jinja2 templates that access upstream node outputs.</a></p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>
