@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/" />
+<title>Channels API &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/features/agents/">Agents</a>
+<a class="nav-link" href="/features/chats/">Chats</a>
+<a class="nav-link" href="/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/web/overview/">Web</a>
+<a class="nav-link" href="/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/channels/overview/">Channels</a>
+<a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/features/triggers/">Triggers</a>
+<a class="nav-link" href="/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/features/workers/">Workers</a>
+<a class="nav-link" href="/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
+<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
+<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
+<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
+<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
+<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
+<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
+<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
+<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
+<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
+<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Reference</span> / <span>Channels API</span></nav><h1>Channels API</h1>
+<p>Channel providers hold the credentials for a messaging platform (Slack, Telegram, or Discord). Channels are the individual conversational rooms within a provider (a Slack channel, a Telegram chat id, a Discord channel). A Workspace can carry a <code>channel_association</code> that names the Channel all session gates (<code>ask_user</code>, tool approval, <code>inform</code>) from its sessions forward to. Chat config lives on the Channel itself (<code>config.chats</code>).</p>
+<p><a href="/features/chats/">How chats, ask_user, and the channel bridge fit together.</a></p>
+<p><a href="/channels/channels/">Configure channel providers in the console.</a></p>
+<h2 id="endpoints">Endpoints</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/v1/channel_providers</code></td>
+<td>List channel providers</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/channel_providers</code></td>
+<td>Create a channel provider</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/channel_providers/find</code></td>
+<td>Find channel providers by predicate</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/channel_providers/{entity_id}</code></td>
+<td>Get a channel provider</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/v1/channel_providers/{entity_id}</code></td>
+<td>Replace a channel provider</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/v1/channel_providers/{entity_id}</code></td>
+<td>Delete a channel provider</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/channels</code></td>
+<td>List channels</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/channels</code></td>
+<td>Create a channel</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/channels/find</code></td>
+<td>Find channels by predicate</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/channels/{entity_id}</code></td>
+<td>Get a channel</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/v1/channels/{entity_id}</code></td>
+<td>Replace a channel</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/v1/channels/{entity_id}</code></td>
+<td>Delete a channel</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/v1/workspaces/{workspace_id}/channel_association</code></td>
+<td>Set workspace channel association</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/v1/workspaces/{workspace_id}/channel_association</code></td>
+<td>Clear workspace channel association</td>
+</tr>
+</tbody>
+</table>
+<h2 id="channelprovider-object">ChannelProvider object</h2>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;slack-main&quot;,
+  &quot;provider&quot;: &quot;slack&quot;,
+  &quot;config&quot;: {
+    &quot;app_token&quot;: &quot;**redacted**&quot;,
+    &quot;bot_token&quot;: &quot;**redacted**&quot;,
+    &quot;signing_secret&quot;: &quot;**redacted**&quot;
+  }
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>no</td>
+<td>string</td>
+<td>Identifier. If omitted, the server assigns a type-prefixed id (e.g. <code>channel-provider-3f9a1c8d</code>). Immutable after creation</td>
+</tr>
+<tr>
+<td><code>provider</code></td>
+<td>yes</td>
+<td>string</td>
+<td>One of <code>&quot;slack&quot;</code>, <code>&quot;telegram&quot;</code>, <code>&quot;discord&quot;</code></td>
+</tr>
+<tr>
+<td><code>config</code></td>
+<td>yes</td>
+<td>ProviderConfig</td>
+<td>Platform-specific credentials (see below)</td>
+</tr>
+</tbody>
+</table>
+<p>Token fields are write-only: the API accepts them on POST/PUT but returns redacted placeholders on GET. Raw token values never appear in responses.</p>
+<p><strong>Slack config</strong>: requires Socket Mode enabled on the Slack app:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app_token</code></td>
+<td>yes</td>
+<td>App-level token starting with <code>xapp-</code> (generated in Basic Information)</td>
+</tr>
+<tr>
+<td><code>bot_token</code></td>
+<td>yes</td>
+<td>Bot OAuth token starting with <code>xoxb-</code></td>
+</tr>
+<tr>
+<td><code>signing_secret</code></td>
+<td>no</td>
+<td>Webhook signing secret (optional)</td>
+</tr>
+</tbody>
+</table>
+<p>Token format is validated server-side: an <code>app_token</code> not starting <code>xapp-</code> or a <code>bot_token</code> not starting <code>xoxb-</code> returns <code>422 /errors/validation-error</code>.</p>
+<p><strong>Telegram config:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bot_token</code></td>
+<td>yes</td>
+<td>Bot token in the <code>&lt;id&gt;:&lt;hash&gt;</code> shape generated by @BotFather; must be at least 20 chars and contain a colon</td>
+</tr>
+<tr>
+<td><code>poll_timeout_seconds</code></td>
+<td>no</td>
+<td>Long-poll timeout per getUpdates call (1-60, default 25)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Discord config:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bot_token</code></td>
+<td>yes</td>
+<td>Discord bot token from the Developer Portal; do NOT include the <code>Bot </code> prefix (the adapter adds it)</td>
+</tr>
+<tr>
+<td><code>enable_dms</code></td>
+<td>no</td>
+<td>Request <code>dm_messages</code> intent for DM channels; default <code>true</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="create-a-channel-provider">Create a channel provider</h2>
+<p><code>POST /v1/channel_providers</code> - returns <code>201 Created</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d38a82-curl">curl</button><button class="tab" data-tab="tab-d38a82-python">python</button><button class="tab" data-tab="tab-d38a82-javascript">javascript</button></div><div class="tab-panel active" id="tab-d38a82-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/channel_providers \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;id&quot;: &quot;slack-main&quot;,
+    &quot;provider&quot;: &quot;slack&quot;,
+    &quot;config&quot;: {
+      &quot;app_token&quot;: &quot;xapp-1-ABC123&quot;,
+      &quot;bot_token&quot;: &quot;xoxb-1-DEF456&quot;,
+      &quot;signing_secret&quot;: &quot;s3cr3t&quot;
+    }
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-d38a82-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://your-host/v1/channel_providers&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;id&quot;: &quot;slack-main&quot;,
+        &quot;provider&quot;: &quot;slack&quot;,
+        &quot;config&quot;: {
+            &quot;app_token&quot;: &quot;xapp-1-ABC123&quot;,
+            &quot;bot_token&quot;: &quot;xoxb-1-DEF456&quot;,
+            &quot;signing_secret&quot;: &quot;s3cr3t&quot;,
+        },
+    },
+)
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-d38a82-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channel_providers&quot;, {
+  method: &quot;POST&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
+  body: JSON.stringify({
+    id: &quot;slack-main&quot;,
+    provider: &quot;slack&quot;,
+    config: {
+      app_token: &quot;xapp-1-ABC123&quot;,
+      bot_token: &quot;xoxb-1-DEF456&quot;,
+      signing_secret: &quot;s3cr3t&quot;
+    }
+  })
+})</code></pre></div></div>
+<p><strong>Errors:</strong></p>
+<ul>
+<li><code>422</code> - token format validation failed (bad prefix, wrong shape, or missing required field)</li>
+<li><code>409</code> - a provider with this <code>id</code> already exists</li>
+</ul>
+<p>To create a Telegram provider:</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e2656f-curl">curl</button><button class="tab" data-tab="tab-e2656f-python">python</button><button class="tab" data-tab="tab-e2656f-javascript">javascript</button></div><div class="tab-panel active" id="tab-e2656f-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/channel_providers \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;id&quot;: &quot;telegram-bot&quot;,
+    &quot;provider&quot;: &quot;telegram&quot;,
+    &quot;config&quot;: {&quot;bot_token&quot;: &quot;1234567890:ABCDEFGHIJ1234567890&quot;}
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-e2656f-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://your-host/v1/channel_providers&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;id&quot;: &quot;telegram-bot&quot;,
+        &quot;provider&quot;: &quot;telegram&quot;,
+        &quot;config&quot;: {&quot;bot_token&quot;: &quot;1234567890:ABCDEFGHIJ1234567890&quot;},
+    },
+)
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-e2656f-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channel_providers&quot;, {
+  method: &quot;POST&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
+  body: JSON.stringify({
+    id: &quot;telegram-bot&quot;,
+    provider: &quot;telegram&quot;,
+    config: {bot_token: &quot;1234567890:ABCDEFGHIJ1234567890&quot;}
+  })
+})</code></pre></div></div>
+<h2 id="get-a-channel-provider">Get a channel provider</h2>
+<p><code>GET /v1/channel_providers/{entity_id}</code> - returns <code>200 OK</code>. Token fields are redacted.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-87ce2f-curl">curl</button><button class="tab" data-tab="tab-87ce2f-python">python</button><button class="tab" data-tab="tab-87ce2f-javascript">javascript</button></div><div class="tab-panel active" id="tab-87ce2f-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/channel_providers/slack-main \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-87ce2f-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.get(&quot;https://your-host/v1/channel_providers/slack-main&quot;,
+              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
+got = r.json()
+# got[&quot;config&quot;][&quot;bot_token&quot;] is redacted; never the raw value</code></pre></div><div class="tab-panel" id="tab-87ce2f-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channel_providers/slack-main&quot;, {
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`}
+})
+const cp = await r.json()</code></pre></div></div>
+<p><strong>Errors:</strong> <code>404</code> if the id does not exist.</p>
+<h2 id="list-channel-providers">List channel providers</h2>
+<p><code>GET /v1/channel_providers</code> - returns an offset or cursor page.</p>
+<p>Query parameters: <code>limit</code> (1-200, default 20), <code>offset</code> (default 0), <code>cursor</code>, <code>order_by</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-dbf9a9-curl">curl</button><button class="tab" data-tab="tab-dbf9a9-python">python</button><button class="tab" data-tab="tab-dbf9a9-javascript">javascript</button></div><div class="tab-panel active" id="tab-dbf9a9-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/channel_providers?limit=20&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-dbf9a9-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.get(&quot;https://your-host/v1/channel_providers&quot;,
+              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
+providers = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-dbf9a9-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channel_providers?limit=20&quot;, {
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`}
+})
+const {items} = await r.json()</code></pre></div></div>
+<h2 id="channel-object">Channel object</h2>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;ch-general&quot;,
+  &quot;provider_id&quot;: &quot;slack-main&quot;,
+  &quot;provider&quot;: &quot;slack&quot;,
+  &quot;external_id&quot;: &quot;C0123ABCDEF&quot;,
+  &quot;label&quot;: &quot;#general&quot;,
+  &quot;config&quot;: {
+    &quot;chats&quot;: {
+      &quot;enabled&quot;: false,
+      &quot;default_agent&quot;: null,
+      &quot;allowed_agents&quot;: [],
+      &quot;relay_mode&quot;: &quot;final&quot;
+    }
+  }
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>no</td>
+<td>string</td>
+<td>Identifier. If omitted, the server assigns a type-prefixed id (e.g. <code>channel-3f9a1c8d</code>). Immutable after creation</td>
+</tr>
+<tr>
+<td><code>provider_id</code></td>
+<td>yes</td>
+<td>string</td>
+<td>Id of the parent ChannelProvider; must exist (FK validated at create time)</td>
+</tr>
+<tr>
+<td><code>provider</code></td>
+<td>yes</td>
+<td>string</td>
+<td>Platform enum: <code>&quot;slack&quot;</code>, <code>&quot;telegram&quot;</code>, or <code>&quot;discord&quot;</code>. Must match the referenced provider's platform</td>
+</tr>
+<tr>
+<td><code>external_id</code></td>
+<td>yes</td>
+<td>string</td>
+<td>Platform-side channel id (Slack channel id, Telegram chat id, Discord channel snowflake)</td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td>no</td>
+<td>string</td>
+<td>Human-readable label (max 200 chars, default null)</td>
+</tr>
+<tr>
+<td><code>config</code></td>
+<td>no</td>
+<td>ChannelConfig</td>
+<td>Per-room config; provider-discriminated (see below). Defaults to an empty config for the platform</td>
+</tr>
+</tbody>
+</table>
+<p>The pair <code>(provider_id, external_id)</code> must be unique. A duplicate returns <code>409 /errors/conflict</code>. A non-existent <code>provider_id</code> returns <code>422</code>, not <code>409</code>.</p>
+<p><strong>Channel config</strong> is provider-discriminated. Each variant has a <code>chats</code> block:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>config.chats.enabled</code></td>
+<td>no</td>
+<td>boolean</td>
+<td>Default <code>false</code>. When <code>true</code>, incoming messages on this room start primer chats</td>
+</tr>
+<tr>
+<td><code>config.chats.default_agent</code></td>
+<td>yes when enabled</td>
+<td>string</td>
+<td>Agent id each new chat begins with; required when <code>chats.enabled=true</code></td>
+</tr>
+<tr>
+<td><code>config.chats.allowed_agents</code></td>
+<td>no</td>
+<td>list of strings</td>
+<td>Agent ids the <code>/agent</code> command may switch to; <code>[]</code> means any agent is allowed</td>
+</tr>
+<tr>
+<td><code>config.chats.relay_mode</code></td>
+<td>no</td>
+<td>string</td>
+<td><code>&quot;final&quot;</code> (default) or <code>&quot;all&quot;</code>. Controls which assistant turns are relayed back to the platform</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create-a-channel">Create a channel</h2>
+<p><code>POST /v1/channels</code> - returns <code>201 Created</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b77ff3-curl">curl</button><button class="tab" data-tab="tab-b77ff3-python">python</button><button class="tab" data-tab="tab-b77ff3-javascript">javascript</button></div><div class="tab-panel active" id="tab-b77ff3-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/channels \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;id&quot;: &quot;ch-general&quot;,
+    &quot;provider_id&quot;: &quot;slack-main&quot;,
+    &quot;provider&quot;: &quot;slack&quot;,
+    &quot;external_id&quot;: &quot;C0123ABCDEF&quot;,
+    &quot;label&quot;: &quot;#general&quot;
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-b77ff3-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://your-host/v1/channels&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;id&quot;: &quot;ch-general&quot;,
+        &quot;provider_id&quot;: &quot;slack-main&quot;,
+        &quot;provider&quot;: &quot;slack&quot;,
+        &quot;external_id&quot;: &quot;C0123ABCDEF&quot;,
+        &quot;label&quot;: &quot;#general&quot;,
+    },
+)
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-b77ff3-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channels&quot;, {
+  method: &quot;POST&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
+  body: JSON.stringify({
+    id: &quot;ch-general&quot;,
+    provider_id: &quot;slack-main&quot;,
+    provider: &quot;slack&quot;,
+    external_id: &quot;C0123ABCDEF&quot;,
+    label: &quot;#general&quot;
+  })
+})</code></pre></div></div>
+<p>To enable chats on the channel:</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-81fa81-curl">curl</button><button class="tab" data-tab="tab-81fa81-python">python</button><button class="tab" data-tab="tab-81fa81-javascript">javascript</button></div><div class="tab-panel active" id="tab-81fa81-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/channels \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;id&quot;: &quot;ch-helpdesk&quot;,
+    &quot;provider_id&quot;: &quot;slack-main&quot;,
+    &quot;provider&quot;: &quot;slack&quot;,
+    &quot;external_id&quot;: &quot;C0456DEFGHI&quot;,
+    &quot;label&quot;: &quot;#helpdesk&quot;,
+    &quot;config&quot;: {
+      &quot;chats&quot;: {
+        &quot;enabled&quot;: true,
+        &quot;default_agent&quot;: &quot;helpdesk-agent&quot;,
+        &quot;relay_mode&quot;: &quot;final&quot;
+      }
+    }
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-81fa81-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://your-host/v1/channels&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={
+        &quot;id&quot;: &quot;ch-helpdesk&quot;,
+        &quot;provider_id&quot;: &quot;slack-main&quot;,
+        &quot;provider&quot;: &quot;slack&quot;,
+        &quot;external_id&quot;: &quot;C0456DEFGHI&quot;,
+        &quot;label&quot;: &quot;#helpdesk&quot;,
+        &quot;config&quot;: {
+            &quot;chats&quot;: {
+                &quot;enabled&quot;: True,
+                &quot;default_agent&quot;: &quot;helpdesk-agent&quot;,
+                &quot;relay_mode&quot;: &quot;final&quot;,
+            }
+        },
+    },
+)
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-81fa81-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channels&quot;, {
+  method: &quot;POST&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
+  body: JSON.stringify({
+    id: &quot;ch-helpdesk&quot;,
+    provider_id: &quot;slack-main&quot;,
+    provider: &quot;slack&quot;,
+    external_id: &quot;C0456DEFGHI&quot;,
+    label: &quot;#helpdesk&quot;,
+    config: {
+      chats: {enabled: true, default_agent: &quot;helpdesk-agent&quot;, relay_mode: &quot;final&quot;}
+    }
+  })
+})</code></pre></div></div>
+<p><strong>Errors:</strong></p>
+<ul>
+<li><code>422</code> - <code>provider_id</code> does not exist, <code>provider</code> mismatches the provider's platform, <code>chats.enabled=true</code> without <code>chats.default_agent</code>, or required field missing</li>
+<li><code>409</code> - <code>(provider_id, external_id)</code> already registered</li>
+</ul>
+<h2 id="workspace-channel-association">Workspace channel association</h2>
+<p>A workspace can be linked to a channel so that all session gates
+(<code>ask_user</code>, tool approval, <code>inform</code>) from its sessions forward to
+that channel. The association is a single nullable field on the
+workspace row, not a separate resource.</p>
+<h3 id="set-workspace-channel-association">Set workspace channel association</h3>
+<p><code>PUT /v1/workspaces/{workspace_id}/channel_association</code> - returns <code>200 OK</code>.</p>
+<p>Body:</p>
+<pre><code class="language-json">{&quot;channel_id&quot;: &quot;ch-general&quot;}
+</code></pre>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-91446e-curl">curl</button><button class="tab" data-tab="tab-91446e-python">python</button><button class="tab" data-tab="tab-91446e-javascript">javascript</button></div><div class="tab-panel active" id="tab-91446e-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/workspaces/ws-prod/channel_association \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;channel_id&quot;: &quot;ch-general&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-91446e-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.put(
+    &quot;https://your-host/v1/workspaces/ws-prod/channel_association&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={&quot;channel_id&quot;: &quot;ch-general&quot;},
+)
+assert r.status_code == 200</code></pre></div><div class="tab-panel" id="tab-91446e-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspaces/ws-prod/channel_association&quot;, {
+  method: &quot;PUT&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
+  body: JSON.stringify({channel_id: &quot;ch-general&quot;})
+})</code></pre></div></div>
+<p><strong>Errors:</strong></p>
+<ul>
+<li><code>404</code> - workspace or channel does not exist</li>
+</ul>
+<h3 id="clear-workspace-channel-association">Clear workspace channel association</h3>
+<p><code>DELETE /v1/workspaces/{workspace_id}/channel_association</code> - returns <code>200 OK</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-4c250a-curl">curl</button><button class="tab" data-tab="tab-4c250a-python">python</button><button class="tab" data-tab="tab-4c250a-javascript">javascript</button></div><div class="tab-panel active" id="tab-4c250a-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/workspaces/ws-prod/channel_association \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-4c250a-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.delete(
+    &quot;https://your-host/v1/workspaces/ws-prod/channel_association&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+)
+assert r.status_code == 200</code></pre></div><div class="tab-panel" id="tab-4c250a-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspaces/ws-prod/channel_association&quot;, {
+  method: &quot;DELETE&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`}
+})</code></pre></div></div>
+<p><strong>Errors:</strong></p>
+<ul>
+<li><code>404</code> - workspace does not exist</li>
+</ul>
+<h2 id="errors-note">Errors note</h2>
+<p>All error responses use the RFC 7807 <code>ProblemDetails</code> envelope with <code>type</code>, <code>title</code>, <code>status</code>, <code>detail</code>, <code>instance</code>, and <code>extensions</code> (which includes <code>request_id</code> and, for 422 errors, an <code>errors</code> array with field paths). See the REST API overview for details.</p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

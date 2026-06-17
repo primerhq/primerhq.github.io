@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/" />
+<title>Semantic Search Providers &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/features/agents/">Agents</a>
+<a class="nav-link" href="/features/chats/">Chats</a>
+<a class="nav-link" href="/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/web/overview/">Web</a>
+<a class="nav-link" href="/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/channels/overview/">Channels</a>
+<a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/features/triggers/">Triggers</a>
+<a class="nav-link" href="/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/features/workers/">Workers</a>
+<a class="nav-link" href="/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
+<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
+<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
+<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
+<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
+<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
+<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
+<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
+<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
+<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
+<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>embedding</span> / <span>Semantic Search Providers</span></nav><h1>Semantic Search Providers</h1>
+<h2 id="concept">Concept</h2>
+<p>Every knowledge collection stores its document chunks as dense vectors and retrieves them by similarity. A <strong>semantic search provider (SSP)</strong> is the backend that holds those vectors and answers nearest-neighbour queries. Primer separates the SSP from the collection so you can run several backends simultaneously (a lightweight local store for development and a Postgres-backed store for production) and bind each collection to whichever backend fits its workload.</p>
+<p>Three backends ship with Primer:</p>
+<ul>
+<li><strong>LanceDB</strong> (<code>lance</code>): an embedded, file-backed vector store with no external dependency. Primer auto-creates a reserved <code>lance</code> row at first boot so semantic search works without any manual configuration. Use it for development, local demos, or workloads where a flat-file backup (copy the directory) is sufficient.</li>
+<li><strong>pgvector</strong> (<code>pgvector</code>): vectors stored in Postgres tables alongside the rest of your data. A single Postgres instance serves both storage and semantic search; suitable for small to medium collections.</li>
+<li><strong>pgvectorscale</strong> (<code>pgvectorscale</code>): pgvector extended with the StreamingDiskANN index and Statistical Binary Quantization. Choose this backend for very large collections (10 million+ vectors) where HNSW memory cost becomes prohibitive.</li>
+</ul>
+<p>Once you register an SSP, you bind a collection to it at create time. That binding is immutable: every embedded chunk for that collection lives in that backend. Deleting an SSP that still has collections bound to it returns 409.</p>
+<pre class="mermaid">erDiagram
+    SemanticSearchProvider ||--o{ Collection : &quot;backs (search_provider_id)&quot;
+    SemanticSearchProvider ||--|| VectorStore : &quot;constructs&quot;
+    Collection }o--|| EmbeddingProvider : &quot;uses embedder&quot;
+    Collection ||--o{ EmbeddingRecord : &quot;indexed chunks&quot;
+    VectorStore ||--o{ EmbeddingRecord : &quot;stores + ranks&quot;</pre>
+<p>The search pipeline works as follows: an agent or the console search modal embeds the query text using the collection's configured embedder, sends the resulting vector to the SSP's vector store, and the store returns the top-k nearest chunks by similarity. That ranked list can be further refined by a cross-encoder reranker or MMR diversification; both are configured on the collection, not the SSP (see ref:embedding/collections-and-documents).</p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="lancedb-fields">LanceDB fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path</td>
+<td>required</td>
+<td>Absolute filesystem path for the LanceDB datasets. Created with mode 0700 on first use. The directory is your backup unit; copy it to snapshot the index.</td>
+</tr>
+<tr>
+<td>HNSW M</td>
+<td>16</td>
+<td>Graph degree. Higher values improve recall and increase index size.</td>
+</tr>
+<tr>
+<td>HNSW ef construction</td>
+<td>64</td>
+<td>Candidate list size during index build. Higher = better recall, slower build.</td>
+</tr>
+<tr>
+<td>HNSW ef search</td>
+<td>40</td>
+<td>Candidate list size during queries. Higher = better recall, slower queries.</td>
+</tr>
+<tr>
+<td>Index min rows</td>
+<td>1000</td>
+<td>Brute-force search is used below this threshold; the ANN index is built lazily once the collection crosses it.</td>
+</tr>
+</tbody>
+</table>
+<p>The reserved <code>lance</code> row uses <code>~/.primer/vector</code> as its path. You can add additional LanceDB SSPs at different paths to partition workloads into separate directories.</p>
+<h3 id="pgvector-fields">pgvector fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DSN</td>
+<td>required</td>
+<td>Postgres connection string (e.g. <code>postgresql://user:pass@host/db</code>). The <code>vector</code> extension is installed automatically on first use.</td>
+</tr>
+<tr>
+<td>HNSW M</td>
+<td>16</td>
+<td>See LanceDB above.</td>
+</tr>
+<tr>
+<td>HNSW ef construction</td>
+<td>64</td>
+<td>See LanceDB above.</td>
+</tr>
+<tr>
+<td>HNSW ef search</td>
+<td>40</td>
+<td>See LanceDB above.</td>
+</tr>
+<tr>
+<td>Reindex cron</td>
+<td>none</td>
+<td>Crontab expression for periodic HNSW maintenance. Leave blank to disable.</td>
+</tr>
+<tr>
+<td>Use halfvec</td>
+<td>off</td>
+<td>Store vectors as pgvector <code>halfvec</code> (half-precision, up to 4000 dimensions) instead of the standard <code>vector</code> type (up to 2000 dimensions). Enable for embedding models above 2000 dimensions; for example <code>text-embedding-3-large</code> outputs 3072-dimensional vectors. <strong>Only affects collections created while this flag is on</strong>; existing collections keep their original type.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pgvectorscale-fields">pgvectorscale fields</h3>
+<p>pgvectorscale shares all pgvector fields and adds the following DiskANN controls (active only when <strong>Enable DiskANN</strong> is on):</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enable DiskANN</td>
+<td>off</td>
+<td>When on, collections get a StreamingDiskANN index instead of HNSW. Recommended for 10 million+ vectors.</td>
+</tr>
+<tr>
+<td>Storage layout</td>
+<td><code>memory_optimized</code></td>
+<td><code>memory_optimized</code> enables Statistical Binary Quantization (SBQ) to reduce memory; <code>plain</code> keeps full-precision vectors in the index.</td>
+</tr>
+<tr>
+<td>Num neighbors</td>
+<td>50</td>
+<td>DiskANN graph degree. Higher = better recall, larger index.</td>
+</tr>
+<tr>
+<td>Search list size</td>
+<td>100</td>
+<td>Build and query-time candidate list. Higher = better recall, slower build and queries.</td>
+</tr>
+<tr>
+<td>Max alpha</td>
+<td>1.2</td>
+<td>Graph density. Values up to ~1.4 increase recall at the cost of build time.</td>
+</tr>
+<tr>
+<td>Num bits per dimension</td>
+<td>auto</td>
+<td>Bits per dimension used by SBQ. Leave blank to use the pgvectorscale default. Ignored when storage layout is <code>plain</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="walkthrough">Walkthrough</h2>
+<h3 id="add-a-pgvector-ssp">Add a pgvector SSP</h3>
+<ol>
+<li>In the console, open <strong>Providers</strong> in the left navigation and click the <strong>Semantic Search</strong> tab.</li>
+<li>Click <strong>Add provider</strong>.</li>
+<li>Choose <strong>pgvector</strong> from the provider type dropdown.</li>
+<li>Enter an ID (e.g. <code>pgvector-prod</code>). IDs are immutable after creation.</li>
+<li>Enter the Postgres DSN for your database.</li>
+<li>Adjust HNSW tuning if needed; defaults work for most workloads.</li>
+<li>Enable <strong>Use halfvec</strong> if you plan to use embedding models with more than 2000 dimensions.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<figure class="embed"><picture><source srcset="/_embeds/ssp-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/ssp-light.png" alt="ssp (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<p>The provider row is saved and the backend runs <code>CREATE EXTENSION IF NOT EXISTS vector</code> on first use. The SSP appears in the provider list and is immediately selectable when creating a collection.</p>
+<h3 id="add-a-lancedb-ssp">Add a LanceDB SSP</h3>
+<p>Follow the same steps, choose <strong>lance</strong> as the provider type, and supply an absolute path on a filesystem where Primer has write access. The directory is created on first use.</p>
+<h3 id="edit-or-invalidate-a-provider">Edit or invalidate a provider</h3>
+<p>The connection fields (hostname, port, database, username, password) are mutable. To repoint a provider or update rotated credentials, click <strong>Edit</strong> on the provider row, change the fields, and save: the cached adapter is rebuilt with the new settings on the next request, so the change takes effect without a restart.</p>
+<p><strong>Invalidate</strong> is a separate action that forces a fresh connection <em>without</em> a config change. Click <strong>Invalidate</strong> next to the provider row (or send <code>POST /v1/ssp/{id}/invalidate</code>) when the existing connection has gone stale (for example, the database was restarted or a pooled connection dropped) but the stored settings are still correct. The cached adapter is closed and rebuilt on the next request. Either way, no vector data is lost.</p>
+<p><a href="/embedding/embedding-providers/">embedding/embedding-providers</a></p>
+<p><a href="/embedding/collections-and-documents/">embedding/collections-and-documents</a></p>
+<p><a href="/embedding/cross-encoder-providers/">embedding/cross-encoder-providers</a></p>
+<p><a href="/embedding/internal-collections/">embedding/internal-collections</a></p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

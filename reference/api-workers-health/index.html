@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/" />
+<title>Workers and Health API &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/features/agents/">Agents</a>
+<a class="nav-link" href="/features/chats/">Chats</a>
+<a class="nav-link" href="/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/web/overview/">Web</a>
+<a class="nav-link" href="/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/channels/overview/">Channels</a>
+<a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/features/triggers/">Triggers</a>
+<a class="nav-link" href="/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/features/workers/">Workers</a>
+<a class="nav-link" href="/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
+<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
+<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
+<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
+<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
+<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
+<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
+<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
+<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
+<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
+<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Reference</span> / <span>Workers and Health API</span></nav><h1>Workers and Health API</h1>
+<p>The workers and health endpoints expose the runtime state of the worker pool and the scheduler. Both are public (no authentication required) and are suitable for use in load balancer health checks and operational dashboards.</p>
+<p><a href="/workspaces/yielding-tools/">How sessions yield control and park while waiting for events.</a></p>
+<p><a href="/features/workers/">Monitor the worker pool in the console.</a></p>
+<h2 id="endpoints">Endpoints</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Auth</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/v1/workers</code></td>
+<td>none</td>
+<td>List registered workers</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/workers/{worker_id}/drain</code></td>
+<td>required</td>
+<td>Mark a worker as draining</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/health</code></td>
+<td>none</td>
+<td>Liveness probe with scheduler and worker metrics</td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-v1workers">GET /v1/workers</h2>
+<p>Returns the list of workers registered in the pool with their current status, capacity, and heartbeat.</p>
+<pre><code class="language-json">{
+  &quot;items&quot;: [
+    {
+      &quot;id&quot;: &quot;wrk-d5ba94ecac66&quot;,
+      &quot;host&quot;: &quot;uae-homenode&quot;,
+      &quot;pid&quot;: 3371965,
+      &quot;capacity&quot;: 8,
+      &quot;started_at&quot;: &quot;2026-06-07T19:00:55.238423Z&quot;,
+      &quot;last_heartbeat&quot;: &quot;2026-06-07T19:00:55.238423Z&quot;,
+      &quot;status&quot;: &quot;active&quot;
+    }
+  ]
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>Worker identifier (prefix <code>wrk-</code>)</td>
+</tr>
+<tr>
+<td><code>host</code></td>
+<td>string</td>
+<td>Hostname of the process</td>
+</tr>
+<tr>
+<td><code>pid</code></td>
+<td>integer</td>
+<td>Operating system process id</td>
+</tr>
+<tr>
+<td><code>capacity</code></td>
+<td>integer</td>
+<td>Maximum concurrent sessions this worker accepts</td>
+</tr>
+<tr>
+<td><code>started_at</code></td>
+<td>datetime</td>
+<td>When the worker process registered</td>
+</tr>
+<tr>
+<td><code>last_heartbeat</code></td>
+<td>datetime</td>
+<td>Timestamp of the most recent heartbeat</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>string</td>
+<td>One of <code>active</code>, <code>draining</code>, <code>dead</code></td>
+</tr>
+</tbody>
+</table>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-299550-curl">curl</button><button class="tab" data-tab="tab-299550-python">python</button><button class="tab" data-tab="tab-299550-javascript">javascript</button></div><div class="tab-panel active" id="tab-299550-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/workers</code></pre></div><div class="tab-panel" id="tab-299550-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.get(&quot;https://your-host/v1/workers&quot;)
+workers = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-299550-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workers&quot;)
+const {items} = await r.json()</code></pre></div></div>
+<p><strong>Note:</strong> No <code>Authorization</code> header is needed. This endpoint is public.</p>
+<h2 id="post-v1workersworker_iddrain">POST /v1/workers/{worker_id}/drain</h2>
+<p>Marks the specified worker as <code>draining</code>. The worker stops accepting new session claims but continues serving any sessions already in flight. Returns <code>204 No Content</code>.</p>
+<p>The worker's <code>status</code> field on <code>GET /v1/workers</code> flips to <code>draining</code> immediately; the row remains visible throughout the drain window. The actual process shutdown happens externally (for example, via a SIGTERM to the worker process). Poll <code>GET /v1/workers</code> to observe the status transition.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a1e117-curl">curl</button><button class="tab" data-tab="tab-a1e117-python">python</button><button class="tab" data-tab="tab-a1e117-javascript">javascript</button></div><div class="tab-panel active" id="tab-a1e117-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/workers/wrk-d5ba94ecac66/drain \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-a1e117-python"><pre class="md-pre lang-python"><code>import httpx, time
+token = &quot;...&quot;
+r = httpx.post(
+    &quot;https://your-host/v1/workers/wrk-d5ba94ecac66/drain&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+)
+assert r.status_code == 204
+
+# Poll the drain status
+for _ in range(30):
+    workers = httpx.get(&quot;https://your-host/v1/workers&quot;).json()[&quot;items&quot;]
+    row = next((w for w in workers if w[&quot;id&quot;] == &quot;wrk-d5ba94ecac66&quot;), None)
+    if row and row[&quot;status&quot;] == &quot;draining&quot;:
+        break
+    time.sleep(0.5)</code></pre></div><div class="tab-panel" id="tab-a1e117-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workers/wrk-d5ba94ecac66/drain&quot;, {
+  method: &quot;POST&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`}
+})
+// r.status === 204</code></pre></div></div>
+<p><strong>Guarantee:</strong> Every <code>GET /v1/workers</code> and <code>GET /v1/health</code> call during the drain window returns a clean 2xx response with no <code>500</code> or <code>/errors/internal</code> envelopes. The drained worker row stays present and identifiable throughout.</p>
+<p><strong>Errors:</strong> <code>500</code> on internal failure.</p>
+<h2 id="get-v1health">GET /v1/health</h2>
+<p>Liveness probe that returns <code>200 OK</code> whenever the API process is responsive. Includes scheduler liveness and worker pool capacity metrics.</p>
+<pre><code class="language-json">{
+  &quot;status&quot;: &quot;ok&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;scheduler&quot;: {
+    &quot;alive&quot;: true,
+    &quot;metrics&quot;: {
+      &quot;primer_sessions_active&quot;: {},
+      &quot;primer_sessions_runnable_queue_depth&quot;: 0,
+      &quot;primer_lease_expirations_total&quot;: 0,
+      &quot;primer_scheduler_notify_received_total&quot;: 0
+    }
+  },
+  &quot;worker_pool&quot;: {
+    &quot;in_flight&quot;: 0,
+    &quot;capacity&quot;: 8,
+    &quot;metrics&quot;: {
+      &quot;primer_worker_id&quot;: &quot;wrk-d5ba94ecac66&quot;,
+      &quot;primer_worker_in_flight&quot;: 0,
+      &quot;primer_worker_capacity&quot;: 8,
+      &quot;primer_worker_claims_total&quot;: 1,
+      &quot;primer_worker_claims_empty_total&quot;: 7,
+      &quot;primer_session_turns_total&quot;: {},
+      &quot;primer_session_turn_duration_seconds&quot;: {&quot;count&quot;: 0, &quot;sum&quot;: 0.0}
+    }
+  }
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>status</code></td>
+<td>string</td>
+<td>Always <code>&quot;ok&quot;</code> when the process is responsive</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>string</td>
+<td>API surface version (semver)</td>
+</tr>
+<tr>
+<td><code>scheduler.alive</code></td>
+<td>boolean</td>
+<td>True when the in-process scheduler is running</td>
+</tr>
+<tr>
+<td><code>scheduler.metrics</code></td>
+<td>object</td>
+<td>Snapshot of scheduler counters and gauges</td>
+</tr>
+<tr>
+<td><code>worker_pool.in_flight</code></td>
+<td>integer or null</td>
+<td>Sessions currently executing; null in API-only mode</td>
+</tr>
+<tr>
+<td><code>worker_pool.capacity</code></td>
+<td>integer or null</td>
+<td>Configured per-worker concurrency; null in API-only mode</td>
+</tr>
+<tr>
+<td><code>worker_pool.metrics</code></td>
+<td>object</td>
+<td>Snapshot of worker-pool counters and histograms</td>
+</tr>
+</tbody>
+</table>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e4a0aa-curl">curl</button><button class="tab" data-tab="tab-e4a0aa-python">python</button><button class="tab" data-tab="tab-e4a0aa-javascript">javascript</button></div><div class="tab-panel active" id="tab-e4a0aa-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/health</code></pre></div><div class="tab-panel" id="tab-e4a0aa-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.get(&quot;https://your-host/v1/health&quot;)
+health = r.json()
+assert health[&quot;status&quot;] == &quot;ok&quot;
+capacity = health[&quot;worker_pool&quot;][&quot;capacity&quot;]
+in_flight = health[&quot;worker_pool&quot;][&quot;in_flight&quot;]</code></pre></div><div class="tab-panel" id="tab-e4a0aa-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/health&quot;)
+const health = await r.json()
+const {capacity, in_flight} = health.worker_pool</code></pre></div></div>
+<p><strong>Note:</strong> No <code>Authorization</code> header is needed. This endpoint is public and suitable for use as a load balancer health check target.</p>
+<h2 id="errors-note">Errors note</h2>
+<p>All error responses use the RFC 7807 <code>ProblemDetails</code> envelope with <code>type</code>, <code>title</code>, <code>status</code>, <code>detail</code>, <code>instance</code>, and <code>extensions</code> (which includes <code>request_id</code>). See the REST API overview for details.</p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>
