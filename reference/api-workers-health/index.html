@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -225,16 +212,16 @@
 </tr>
 </tbody>
 </table>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-299550-curl">curl</button><button class="tab" data-tab="tab-299550-python">python</button><button class="tab" data-tab="tab-299550-javascript">javascript</button></div><div class="tab-panel active" id="tab-299550-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/workers</code></pre></div><div class="tab-panel" id="tab-299550-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a84a18-curl">curl</button><button class="tab" data-tab="tab-a84a18-python">python</button><button class="tab" data-tab="tab-a84a18-javascript">javascript</button></div><div class="tab-panel active" id="tab-a84a18-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/workers</code></pre></div><div class="tab-panel" id="tab-a84a18-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/workers&quot;)
-workers = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-299550-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workers&quot;)
+workers = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-a84a18-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workers&quot;)
 const {items} = await r.json()</code></pre></div></div>
 <p><strong>Note:</strong> No <code>Authorization</code> header is needed. This endpoint is public.</p>
 <h2 id="post-v1workersworker_iddrain">POST /v1/workers/{worker_id}/drain</h2>
 <p>Marks the specified worker as <code>draining</code>. The worker stops accepting new session claims but continues serving any sessions already in flight. Returns <code>204 No Content</code>.</p>
 <p>The worker's <code>status</code> field on <code>GET /v1/workers</code> flips to <code>draining</code> immediately; the row remains visible throughout the drain window. The actual process shutdown happens externally (for example, via a SIGTERM to the worker process). Poll <code>GET /v1/workers</code> to observe the status transition.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a1e117-curl">curl</button><button class="tab" data-tab="tab-a1e117-python">python</button><button class="tab" data-tab="tab-a1e117-javascript">javascript</button></div><div class="tab-panel active" id="tab-a1e117-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/workers/wrk-d5ba94ecac66/drain \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-a1e117-python"><pre class="md-pre lang-python"><code>import httpx, time
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-039e6f-curl">curl</button><button class="tab" data-tab="tab-039e6f-python">python</button><button class="tab" data-tab="tab-039e6f-javascript">javascript</button></div><div class="tab-panel active" id="tab-039e6f-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/workers/wrk-d5ba94ecac66/drain \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-039e6f-python"><pre class="md-pre lang-python"><code>import httpx, time
 token = &quot;...&quot;
 r = httpx.post(
     &quot;https://your-host/v1/workers/wrk-d5ba94ecac66/drain&quot;,
@@ -248,7 +235,7 @@ for _ in range(30):
     row = next((w for w in workers if w[&quot;id&quot;] == &quot;wrk-d5ba94ecac66&quot;), None)
     if row and row[&quot;status&quot;] == &quot;draining&quot;:
         break
-    time.sleep(0.5)</code></pre></div><div class="tab-panel" id="tab-a1e117-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workers/wrk-d5ba94ecac66/drain&quot;, {
+    time.sleep(0.5)</code></pre></div><div class="tab-panel" id="tab-039e6f-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workers/wrk-d5ba94ecac66/drain&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
@@ -330,12 +317,12 @@ for _ in range(30):
 </tr>
 </tbody>
 </table>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e4a0aa-curl">curl</button><button class="tab" data-tab="tab-e4a0aa-python">python</button><button class="tab" data-tab="tab-e4a0aa-javascript">javascript</button></div><div class="tab-panel active" id="tab-e4a0aa-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/health</code></pre></div><div class="tab-panel" id="tab-e4a0aa-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-7775c0-curl">curl</button><button class="tab" data-tab="tab-7775c0-python">python</button><button class="tab" data-tab="tab-7775c0-javascript">javascript</button></div><div class="tab-panel active" id="tab-7775c0-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/health</code></pre></div><div class="tab-panel" id="tab-7775c0-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/health&quot;)
 health = r.json()
 assert health[&quot;status&quot;] == &quot;ok&quot;
 capacity = health[&quot;worker_pool&quot;][&quot;capacity&quot;]
-in_flight = health[&quot;worker_pool&quot;][&quot;in_flight&quot;]</code></pre></div><div class="tab-panel" id="tab-e4a0aa-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/health&quot;)
+in_flight = health[&quot;worker_pool&quot;][&quot;in_flight&quot;]</code></pre></div><div class="tab-panel" id="tab-7775c0-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/health&quot;)
 const health = await r.json()
 const {capacity, in_flight} = health.worker_pool</code></pre></div></div>
 <p><strong>Note:</strong> No <code>Authorization</code> header is needed. This endpoint is public and suitable for use as a load balancer health check target.</p>

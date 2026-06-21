@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -132,7 +119,7 @@
 <p>In this guide you will build a small &quot;blog content assistant&quot; from scratch using primer. Everything runs from the console against a free LLM key, and each step builds directly on the last. By the end you will have two agents, a shared chat, a semantic router, a workspace file, and a graph that watches for that file and then drafts and reviews a blog post.</p>
 <h2 id="step-0---install-and-start">Step 0 - Install and start</h2>
 <p>Clone the repo, sync dependencies, and start the API server. Then open the console at http://localhost:8000/console/.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c6926d-bash">bash</button></div><div class="tab-panel active" id="tab-c6926d-bash"><pre class="md-pre lang-bash"><code>git clone https://github.com/codemug/primer.git
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a3fc4d-bash">bash</button></div><div class="tab-panel active" id="tab-a3fc4d-bash"><pre class="md-pre lang-bash"><code>git clone https://github.com/codemug/primer.git
 cd primer
 uv sync
 uv run primer api</code></pre></div></div>
@@ -151,7 +138,7 @@ uv run primer api</code></pre></div></div>
 </ul>
 <p>For each agent, open Agents, click New agent, fill the Basic tab (name, description, and the model: select the OpenRouter provider you created in Step 1, then pick the <code>meta-llama/llama-3.1-8b-instruct:free</code> model), then open the Advanced tab to paste the system prompt below, and save.</p>
 <p><strong>topic-scout</strong> system prompt:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5f573c-text">text</button></div><div class="tab-panel active" id="tab-5f573c-text"><pre class="md-pre lang-text"><code>You are topic-scout, a blog ideation assistant. Given a broad theme from
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-4bd273-text">text</button></div><div class="tab-panel active" id="tab-4bd273-text"><pre class="md-pre lang-text"><code>You are topic-scout, a blog ideation assistant. Given a broad theme from
 the user, propose exactly five specific, distinct blog post topics aimed at
 a general technical audience.
 
@@ -164,7 +151,7 @@ Do not write the posts themselves, and do not ask clarifying questions: if
 the theme is broad, make reasonable assumptions and proceed. Keep the whole
 reply under 200 words.</code></pre></div></div>
 <p><strong>outline-editor</strong> system prompt:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-6c4ee1-text">text</button></div><div class="tab-panel active" id="tab-6c4ee1-text"><pre class="md-pre lang-text"><code>You are outline-editor. The user gives you a single blog post topic, often
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f5926e-text">text</button></div><div class="tab-panel active" id="tab-f5926e-text"><pre class="md-pre lang-text"><code>You are outline-editor. The user gives you a single blog post topic, often
 chosen from a numbered list earlier in the conversation. Produce one clear,
 structured outline for that topic.
 
@@ -190,7 +177,7 @@ Outline only; do not write full prose paragraphs. If the user refers to
 <p><strong>Part A: enable the collections.</strong> Go to Internal Collections and click Configure. Choose the bundled local embedder and the pre-configured <code>lance</code> semantic search provider; it is local and file-based, so it needs no API key. After saving, the subsystem is in the configured state; click Bootstrap now to index primer's own agents, graphs, tools, and knowledge collections. The subsystem becomes active once bootstrapping completes.</p>
 <figure class="embed"><picture><source srcset="/_embeds/internal-collections-enable-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/internal-collections-enable-light.png" alt="internal-collections-enable (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
 <p><strong>Part B: create a router agent.</strong> Create a new agent called <strong>content-router</strong> (again selecting the OpenRouter provider and the llama model). Give it the tools <code>search__search_agents</code> and <code>system__invoke_agent</code>, and the system prompt below:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-553d36-text">text</button></div><div class="tab-panel active" id="tab-553d36-text"><pre class="md-pre lang-text"><code>You are content-router. Route each user request to the most suitable
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5b392d-text">text</button></div><div class="tab-panel active" id="tab-5b392d-text"><pre class="md-pre lang-text"><code>You are content-router. Route each user request to the most suitable
 existing agent and run it, rather than answering directly.
 
 For every request:
@@ -243,7 +230,6 @@ Always delegate through the tools; never perform the task yourself.</code></pre>
 <p>You have seen all the major building blocks: an LLM provider, two agents, a shared chat with an agent switch, a semantic router backed by internal collections, a workspace session that writes a file, and a graph with a park-resume loop. The guides below go deeper on each piece.</p>
 <p><a href="/features/agents/">How an agent turn actually runs and every configuration field.</a></p>
 <p><a href="/features/harnesses/">Package your tuned agents and graphs into a shareable, git-backed bundle.</a></p>
-<p><a href="/cookbook/multi-agent-graph-research/">A larger multi-agent graph worked end to end.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

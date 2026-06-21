@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -197,14 +184,14 @@
     }</pre>
 <p><strong>CREATED</strong>: the row exists but no worker has been told to run it yet. This is the state when <code>auto_start=false</code> on create. The session stays in CREATED until you explicitly resume it.</p>
 <p><strong>RUNNING</strong>: a worker holds a lease and a turn is in flight. Within RUNNING, a session can temporarily park when a tool yields (waiting for a trigger, an external event, or an approval decision); parking releases the worker lease so no compute is consumed while the session waits.</p>
-<p><strong>WAITING</strong>: the agent reached a stopping point and needs external input, either because it asked a question (via <code>system__ask_user</code>) or because an approval gate tripped. The session stays in WAITING until you provide a response via the API.</p>
+<p><strong>WAITING</strong>: the agent reached a stopping point and needs external input, for example because the assistant ended a turn with a trailing question or hit a model stop limit. The session stays in WAITING until you provide a response via the API. (Calls to <code>system__ask_user</code> and approval gates are handled by the parking mechanism inside RUNNING, described below, rather than by moving the session to WAITING.)</p>
 <p><strong>PAUSED</strong>: an operator requested suspension. The session resumes on demand.</p>
 <p><strong>ENDED</strong>: terminal. Ended sessions carry a reason: <code>completed</code>, <code>failed</code>, <code>cancelled</code>, <code>workspace_lost</code>, or <code>force_deleted</code>.</p>
 <h3 id="the-auto_start-flag">The auto_start flag</h3>
 <p>When you create a session via the API or MCP tools, the <code>auto_start</code> field controls whether the session starts immediately:</p>
 <ul>
-<li><code>auto_start=true</code> (default for trigger-created sessions): the session transitions directly from CREATED to RUNNING and a worker picks it up at once.</li>
-<li><code>auto_start=false</code> (default for API-created sessions): the session stays in CREATED until you call the resume endpoint. This lets you inspect or adjust the session before it runs, or schedule it to start at a specific moment.</li>
+<li><code>auto_start=true</code> (the default for trigger-created sessions and for the MCP/workspace toolset create tool): the session transitions directly from CREATED to RUNNING and a worker picks it up at once.</li>
+<li><code>auto_start=false</code> (the default for the REST create endpoint): the session stays in CREATED until you call the resume endpoint. This lets you inspect or adjust the session before it runs, or schedule it to start at a specific moment.</li>
 </ul>
 <p>The console always shows the current status, so you can see whether a session is waiting to be started or already running.</p>
 <h3 id="pause-resume-and-cancel">Pause, resume, and cancel</h3>
@@ -242,8 +229,8 @@
 <p>Three operator controls appear in the session detail header: <strong>Pause</strong>, <strong>Resume</strong>, and <strong>Cancel</strong>.</p>
 <div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p>Cancel is immediate and irreversible. If the agent was mid-write (writing a file, sending a message), the write may or may not have completed before the cancellation error arrived. Check the transcript to see where the last tool call landed before assuming the operation is rolled back.</p>
 </div></div>
-<h3 id="retrying-from-a-specific-turn">Retrying from a specific turn</h3>
-<p>On the session detail, use the retry control to rewind the transcript to a specific turn and re-run from that point. This is useful when a tool failure caused the agent to go off-track and you want to re-run without starting a new session from scratch.</p>
+<h3 id="steering-a-running-session">Steering a running session</h3>
+<p>On the session detail, use the steer control to append a new instruction to a session that is already running or waiting, without starting over. This is useful when you want to nudge the agent mid-run or supply extra context after it has begun working.</p>
 <p><a href="/features/agents/">Agent creation, tool selection, and system prompt configuration.</a></p>
 <p><a href="/features/workers/">Worker pools, claim lifecycle, and how sessions are scheduled.</a></p>
 <p><a href="/workspaces/yielding-tools/">How a session parks on a tool call and resumes when the event fires.</a></p>

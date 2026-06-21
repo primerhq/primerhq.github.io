@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -222,21 +209,21 @@
 </tbody>
 </table>
 <p>Returns <code>200 OK</code> with <code>{&quot;username&quot;: &quot;&lt;username&gt;&quot;}</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-37f324-curl">curl</button><button class="tab" data-tab="tab-37f324-python">python</button><button class="tab" data-tab="tab-37f324-javascript">javascript</button></div><div class="tab-panel active" id="tab-37f324-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/auth/register \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-163e18-curl">curl</button><button class="tab" data-tab="tab-163e18-python">python</button><button class="tab" data-tab="tab-163e18-javascript">javascript</button></div><div class="tab-panel active" id="tab-163e18-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/auth/register \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;username&quot;: &quot;admin&quot;, &quot;password&quot;: &quot;change-me-now&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-37f324-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;username&quot;: &quot;admin&quot;, &quot;password&quot;: &quot;change-me-now&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-163e18-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/auth/register&quot;,
     json={&quot;username&quot;: &quot;admin&quot;, &quot;password&quot;: &quot;change-me-now&quot;},
 )
-# 200 on first call; 409 if a user already exists</code></pre></div><div class="tab-panel" id="tab-37f324-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/auth/register&quot;, {
+# 200 on first call; 409 if a user already exists</code></pre></div><div class="tab-panel" id="tab-163e18-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/auth/register&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({username: &quot;admin&quot;, password: &quot;change-me-now&quot;})
 })</code></pre></div></div>
 <p><strong>Errors:</strong> <code>409</code> if a user already exists, <code>422</code> on validation failure.</p>
 <h2 id="post-v1authlogin">POST /v1/auth/login</h2>
-<p>Authenticates a user and sets a <code>session</code> cookie on the response. Subsequent requests that include this cookie are treated as authenticated.</p>
+<p>Authenticates a user and sets a session cookie on the response (named <code>primer_session</code> by default; configurable). Subsequent requests that include this cookie are treated as authenticated.</p>
 <p>Request body:</p>
 <table>
 <thead>
@@ -265,16 +252,16 @@ r = httpx.post(
 </tbody>
 </table>
 <p>Returns <code>200 OK</code> with <code>{&quot;username&quot;: &quot;&lt;username&gt;&quot;}</code> and sets a <code>Set-Cookie</code> header.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-adf7ac-curl">curl</button><button class="tab" data-tab="tab-adf7ac-python">python</button><button class="tab" data-tab="tab-adf7ac-javascript">javascript</button></div><div class="tab-panel active" id="tab-adf7ac-curl"><pre class="md-pre lang-curl"><code>curl -c cookies.txt -X POST https://your-host/v1/auth/login \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f40431-curl">curl</button><button class="tab" data-tab="tab-f40431-python">python</button><button class="tab" data-tab="tab-f40431-javascript">javascript</button></div><div class="tab-panel active" id="tab-f40431-curl"><pre class="md-pre lang-curl"><code>curl -c cookies.txt -X POST https://your-host/v1/auth/login \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;username&quot;: &quot;admin&quot;, &quot;password&quot;: &quot;change-me-now&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-adf7ac-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;username&quot;: &quot;admin&quot;, &quot;password&quot;: &quot;change-me-now&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-f40431-python"><pre class="md-pre lang-python"><code>import httpx
 client = httpx.Client(base_url=&quot;https://your-host&quot;)
 r = client.post(
     &quot;/v1/auth/login&quot;,
     json={&quot;username&quot;: &quot;admin&quot;, &quot;password&quot;: &quot;change-me-now&quot;},
 )
 assert r.status_code == 200
-# Subsequent requests with this client carry the session cookie automatically</code></pre></div><div class="tab-panel" id="tab-adf7ac-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/auth/login&quot;, {
+# Subsequent requests with this client carry the session cookie automatically</code></pre></div><div class="tab-panel" id="tab-f40431-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/auth/login&quot;, {
   method: &quot;POST&quot;,
   credentials: &quot;include&quot;,
   headers: {&quot;Content-Type&quot;: &quot;application/json&quot;},
@@ -283,9 +270,9 @@ assert r.status_code == 200
 <p><strong>Errors:</strong> <code>401</code> if credentials are wrong, <code>422</code> on validation failure.</p>
 <h2 id="post-v1authlogout">POST /v1/auth/logout</h2>
 <p>Invalidates the current session cookie. Returns <code>204 No Content</code>. Subsequent requests with the same cookie are treated as unauthenticated.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-3c41e8-curl">curl</button><button class="tab" data-tab="tab-3c41e8-python">python</button><button class="tab" data-tab="tab-3c41e8-javascript">javascript</button></div><div class="tab-panel active" id="tab-3c41e8-curl"><pre class="md-pre lang-curl"><code>curl -b cookies.txt -X POST https://your-host/v1/auth/logout</code></pre></div><div class="tab-panel" id="tab-3c41e8-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-223f7f-curl">curl</button><button class="tab" data-tab="tab-223f7f-python">python</button><button class="tab" data-tab="tab-223f7f-javascript">javascript</button></div><div class="tab-panel active" id="tab-223f7f-curl"><pre class="md-pre lang-curl"><code>curl -b cookies.txt -X POST https://your-host/v1/auth/logout</code></pre></div><div class="tab-panel" id="tab-223f7f-python"><pre class="md-pre lang-python"><code>import httpx
 r = client.post(&quot;/v1/auth/logout&quot;)
-assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-3c41e8-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/auth/logout&quot;, {
+assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-223f7f-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/auth/logout&quot;, {
   method: &quot;POST&quot;,
   credentials: &quot;include&quot;
 })</code></pre></div></div>
@@ -323,11 +310,11 @@ assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-3c4
 </tr>
 </tbody>
 </table>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-112c25-curl">curl</button><button class="tab" data-tab="tab-112c25-python">python</button><button class="tab" data-tab="tab-112c25-javascript">javascript</button></div><div class="tab-panel active" id="tab-112c25-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/auth/status</code></pre></div><div class="tab-panel" id="tab-112c25-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-68e02f-curl">curl</button><button class="tab" data-tab="tab-68e02f-python">python</button><button class="tab" data-tab="tab-68e02f-javascript">javascript</button></div><div class="tab-panel active" id="tab-68e02f-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/auth/status</code></pre></div><div class="tab-panel" id="tab-68e02f-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/auth/status&quot;)
 status = r.json()
 if not status[&quot;has_user&quot;]:
-    print(&quot;Registration is open&quot;)</code></pre></div><div class="tab-panel" id="tab-112c25-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/auth/status&quot;)
+    print(&quot;Registration is open&quot;)</code></pre></div><div class="tab-panel" id="tab-68e02f-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/auth/status&quot;)
 const {has_user, authenticated, username} = await r.json()</code></pre></div></div>
 <h2 id="post-v1authtokens">POST /v1/auth/tokens</h2>
 <p>Mints a new API bearer token. The plaintext value is returned <strong>once</strong> in the response and is never retrievable again. Store it securely immediately.</p>
@@ -373,16 +360,16 @@ const {has_user, authenticated, username} = await r.json()</code></pre></div></d
   &quot;expires_at&quot;: null
 }
 </code></pre>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-7955dd-curl">curl</button><button class="tab" data-tab="tab-7955dd-python">python</button><button class="tab" data-tab="tab-7955dd-javascript">javascript</button></div><div class="tab-panel active" id="tab-7955dd-curl"><pre class="md-pre lang-curl"><code>curl -b cookies.txt -X POST https://your-host/v1/auth/tokens \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-86abc6-curl">curl</button><button class="tab" data-tab="tab-86abc6-python">python</button><button class="tab" data-tab="tab-86abc6-javascript">javascript</button></div><div class="tab-panel active" id="tab-86abc6-curl"><pre class="md-pre lang-curl"><code>curl -b cookies.txt -X POST https://your-host/v1/auth/tokens \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;name&quot;: &quot;ci-token&quot;, &quot;scopes&quot;: []}&#x27;</code></pre></div><div class="tab-panel" id="tab-7955dd-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;name&quot;: &quot;ci-token&quot;, &quot;scopes&quot;: []}&#x27;</code></pre></div><div class="tab-panel" id="tab-86abc6-python"><pre class="md-pre lang-python"><code>import httpx
 # Must use a cookie-authenticated client
 r = client.post(
     &quot;/v1/auth/tokens&quot;,
     json={&quot;name&quot;: &quot;ci-token&quot;, &quot;scopes&quot;: []},
 )
 assert r.status_code == 201
-token_plaintext = r.json()[&quot;plaintext&quot;]  # save this; never shown again</code></pre></div><div class="tab-panel" id="tab-7955dd-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/auth/tokens&quot;, {
+token_plaintext = r.json()[&quot;plaintext&quot;]  # save this; never shown again</code></pre></div><div class="tab-panel" id="tab-86abc6-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/auth/tokens&quot;, {
   method: &quot;POST&quot;,
   credentials: &quot;include&quot;,
   headers: {&quot;Content-Type&quot;: &quot;application/json&quot;},
@@ -459,20 +446,20 @@ const {plaintext, id} = await r.json()
 </tr>
 </tbody>
 </table>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-022987-curl">curl</button><button class="tab" data-tab="tab-022987-python">python</button><button class="tab" data-tab="tab-022987-javascript">javascript</button></div><div class="tab-panel active" id="tab-022987-curl"><pre class="md-pre lang-curl"><code>curl -b cookies.txt https://your-host/v1/auth/tokens</code></pre></div><div class="tab-panel" id="tab-022987-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-601cb7-curl">curl</button><button class="tab" data-tab="tab-601cb7-python">python</button><button class="tab" data-tab="tab-601cb7-javascript">javascript</button></div><div class="tab-panel active" id="tab-601cb7-curl"><pre class="md-pre lang-curl"><code>curl -b cookies.txt https://your-host/v1/auth/tokens</code></pre></div><div class="tab-panel" id="tab-601cb7-python"><pre class="md-pre lang-python"><code>import httpx
 r = client.get(&quot;/v1/auth/tokens&quot;)
-tokens = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-022987-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/auth/tokens&quot;, {credentials: &quot;include&quot;})
+tokens = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-601cb7-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/auth/tokens&quot;, {credentials: &quot;include&quot;})
 const {items} = await r.json()</code></pre></div></div>
 <h2 id="put-v1authtokenstoken_id">PUT /v1/auth/tokens/{token_id}</h2>
 <p>Renames an API token. Returns <code>200 OK</code> with the updated <code>ApiTokenSummary</code> (no plaintext).</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-46f274-curl">curl</button><button class="tab" data-tab="tab-46f274-python">python</button><button class="tab" data-tab="tab-46f274-javascript">javascript</button></div><div class="tab-panel active" id="tab-46f274-curl"><pre class="md-pre lang-curl"><code>curl -b cookies.txt -X PUT https://your-host/v1/auth/tokens/at-31d9c8799208 \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a5cab1-curl">curl</button><button class="tab" data-tab="tab-a5cab1-python">python</button><button class="tab" data-tab="tab-a5cab1-javascript">javascript</button></div><div class="tab-panel active" id="tab-a5cab1-curl"><pre class="md-pre lang-curl"><code>curl -b cookies.txt -X PUT https://your-host/v1/auth/tokens/at-31d9c8799208 \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;name&quot;: &quot;ci-token-renamed&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-46f274-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;name&quot;: &quot;ci-token-renamed&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-a5cab1-python"><pre class="md-pre lang-python"><code>import httpx
 r = client.put(
     &quot;/v1/auth/tokens/at-31d9c8799208&quot;,
     json={&quot;name&quot;: &quot;ci-token-renamed&quot;},
 )
-updated = r.json()</code></pre></div><div class="tab-panel" id="tab-46f274-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/auth/tokens/at-31d9c8799208&quot;, {
+updated = r.json()</code></pre></div><div class="tab-panel" id="tab-a5cab1-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/auth/tokens/at-31d9c8799208&quot;, {
   method: &quot;PUT&quot;,
   credentials: &quot;include&quot;,
   headers: {&quot;Content-Type&quot;: &quot;application/json&quot;},
@@ -481,22 +468,22 @@ updated = r.json()</code></pre></div><div class="tab-panel" id="tab-46f274-javas
 <p><strong>Errors:</strong> <code>404</code> if the token does not exist or belongs to another user, <code>409 token_name_conflict</code> if the new name is already taken.</p>
 <h2 id="delete-v1authtokenstoken_id">DELETE /v1/auth/tokens/{token_id}</h2>
 <p>Revokes an API token. Idempotent: revoking an already-revoked token still returns <code>204</code>. Returns <code>204 No Content</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-199d11-curl">curl</button><button class="tab" data-tab="tab-199d11-python">python</button><button class="tab" data-tab="tab-199d11-javascript">javascript</button></div><div class="tab-panel active" id="tab-199d11-curl"><pre class="md-pre lang-curl"><code>curl -b cookies.txt -X DELETE https://your-host/v1/auth/tokens/at-31d9c8799208</code></pre></div><div class="tab-panel" id="tab-199d11-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-426581-curl">curl</button><button class="tab" data-tab="tab-426581-python">python</button><button class="tab" data-tab="tab-426581-javascript">javascript</button></div><div class="tab-panel active" id="tab-426581-curl"><pre class="md-pre lang-curl"><code>curl -b cookies.txt -X DELETE https://your-host/v1/auth/tokens/at-31d9c8799208</code></pre></div><div class="tab-panel" id="tab-426581-python"><pre class="md-pre lang-python"><code>import httpx
 r = client.delete(&quot;/v1/auth/tokens/at-31d9c8799208&quot;)
-assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-199d11-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/auth/tokens/at-31d9c8799208&quot;, {
+assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-426581-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/auth/tokens/at-31d9c8799208&quot;, {
   method: &quot;DELETE&quot;,
   credentials: &quot;include&quot;
 })</code></pre></div></div>
 <p><strong>Errors:</strong> <code>404</code> if the token does not exist or belongs to another user.</p>
 <h2 id="using-a-bearer-token">Using a bearer token</h2>
 <p>Once minted, pass the plaintext token in the <code>Authorization</code> header for all protected API calls:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-0e0034-curl">curl</button><button class="tab" data-tab="tab-0e0034-python">python</button><button class="tab" data-tab="tab-0e0034-javascript">javascript</button></div><div class="tab-panel active" id="tab-0e0034-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/agents \
-  -H &quot;Authorization: Bearer primer_pat_rrrdAxMwXd2eY8Pce0uzUZJ6I9MUA6PaTmvHbpQYM2g&quot;</code></pre></div><div class="tab-panel" id="tab-0e0034-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5dca75-curl">curl</button><button class="tab" data-tab="tab-5dca75-python">python</button><button class="tab" data-tab="tab-5dca75-javascript">javascript</button></div><div class="tab-panel active" id="tab-5dca75-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/agents \
+  -H &quot;Authorization: Bearer primer_pat_rrrdAxMwXd2eY8Pce0uzUZJ6I9MUA6PaTmvHbpQYM2g&quot;</code></pre></div><div class="tab-panel" id="tab-5dca75-python"><pre class="md-pre lang-python"><code>import httpx
 token = &quot;primer_pat_rrrdAxMwXd2eY8Pce0uzUZJ6I9MUA6PaTmvHbpQYM2g&quot;
 r = httpx.get(
     &quot;https://your-host/v1/agents&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
-)</code></pre></div><div class="tab-panel" id="tab-0e0034-javascript"><pre class="md-pre lang-javascript"><code>const token = &quot;primer_pat_rrrdAxMwXd2eY8Pce0uzUZJ6I9MUA6PaTmvHbpQYM2g&quot;
+)</code></pre></div><div class="tab-panel" id="tab-5dca75-javascript"><pre class="md-pre lang-javascript"><code>const token = &quot;primer_pat_rrrdAxMwXd2eY8Pce0uzUZJ6I9MUA6PaTmvHbpQYM2g&quot;
 const r = await fetch(&quot;/v1/agents&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>

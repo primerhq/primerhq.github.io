@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -132,7 +119,7 @@
 <h2 id="top-level">Top-level</h2>
 <p><code>primer</code> is a Typer application. Run <code>--help</code> on any subcommand for
 the full flag list:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-2fa730-bash">bash</button></div><div class="tab-panel active" id="tab-2fa730-bash"><pre class="md-pre lang-bash"><code>uv run primer --help
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-66b34e-bash">bash</button></div><div class="tab-panel active" id="tab-66b34e-bash"><pre class="md-pre lang-bash"><code>uv run primer --help
 # Primer microagents framework: API + worker entrypoints.
 #
 # commands:
@@ -143,7 +130,7 @@ the full flag list:</p>
 <p>Starts the FastAPI HTTP server via uvicorn. By default it also starts
 an in-process worker pool (<code>runtime_mode=api+worker</code>). Pass
 <code>--no-worker</code> to split API and worker into separate processes.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c12c2d-bash">bash</button></div><div class="tab-panel active" id="tab-c12c2d-bash"><pre class="md-pre lang-bash"><code># Default: API + worker in one process, auto-loads ~/.primer/config.yaml
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-873b3e-bash">bash</button></div><div class="tab-panel active" id="tab-873b3e-bash"><pre class="md-pre lang-bash"><code># Default: API + worker in one process, auto-loads ~/.primer/config.yaml
 uv run primer api
 
 # Explicit config file.
@@ -191,7 +178,7 @@ workers becomes independent of scaling HTTP capacity.</p>
 <p>Runs only the worker pool. A minimal HTTP surface (<code>/v1/health</code> and
 <code>/v1/workers</code>) is still served for liveness/readiness probes. Pairs
 with a <code>primer api --no-worker</code> process.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c0215b-bash">bash</button></div><div class="tab-panel active" id="tab-c0215b-bash"><pre class="md-pre lang-bash"><code># Default: auto-loads ~/.primer/config.yaml
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-403cdf-bash">bash</button></div><div class="tab-panel active" id="tab-403cdf-bash"><pre class="md-pre lang-bash"><code># Default: auto-loads ~/.primer/config.yaml
 uv run primer worker
 
 # Explicit config.
@@ -220,7 +207,7 @@ uv run primer worker -c /etc/primer/config.yaml</code></pre></div></div>
 <p>Runs first-time bootstrap. Idempotent: rows that already exist are
 skipped. Pass <code>--force</code> to re-run the bootstrap even when the
 completion marker is already set (useful for partially-failed runs).</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-cd8aea-bash">bash</button></div><div class="tab-panel active" id="tab-cd8aea-bash"><pre class="md-pre lang-bash"><code># Idempotent bootstrap against default config.
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f9b56a-bash">bash</button></div><div class="tab-panel active" id="tab-f9b56a-bash"><pre class="md-pre lang-bash"><code># Idempotent bootstrap against default config.
 uv run primer init
 
 # Explicit config file.

@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -200,7 +187,7 @@
 <li><code>name</code>: the provider-side model slug (e.g. <code>claude-opus-4-5</code>, <code>gpt-4o-mini</code>, <code>meta-llama/llama-3.1-8b-instruct:free</code>). Agents that request a model not in this list receive a <code>ModelNotFoundError</code>.</li>
 <li><code>context_length</code>: the model's usable context window, in tokens. Primer uses this to drive automatic compaction: when a conversation's live history approaches this budget (around 90 percent), primer summarizes the older turns to stay within the window. Set it to the model's real context length so compaction fires at the right point; if it is too low, history is compacted too early, and if it is too high, a turn can overflow the model's actual limit.</li>
 </ul>
-<p>Use <strong>Discover models</strong> (available for every provider type) to populate this list automatically from the upstream catalogue. Discovery fills in the model names; set a valid <code>context_length</code> for each model you keep (see above).</p>
+<p>Use <strong>Discover models</strong> to populate this list automatically from the upstream catalogue. Live discovery is supported for <code>anthropic</code>, <code>openresponses</code>, <code>gemini</code>, <code>ollama</code>, and <code>openrouter</code>; <code>openchat</code> has no list-models probe, so the console falls back to a curated suggested-model list there. Discovery fills in the model names; set a valid <code>context_length</code> for each model you keep (see above).</p>
 <h3 id="limits">Limits</h3>
 <ul>
 <li><code>max_concurrency</code>: maximum number of in-flight requests primer will send to this provider at once. When the cap is reached, additional requests queue until a slot opens. Set this to match your API tier's rate limits; a value that is too high causes upstream 429s, while a value that is too low wastes throughput. There is no default; you must choose a value.</li>

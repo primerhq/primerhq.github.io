@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -203,24 +190,25 @@ selection, environment variables, init commands, and resource limits all live
 on the template, so one provider can back many differently configured templates.</p>
 <h3 id="lifecycle-and-probe">Lifecycle and probe</h3>
 <pre class="mermaid">stateDiagram-v2
-    [*] --&gt; running : workspace created
+    [*] --&gt; pending : workspace created
+    pending --&gt; running : first probe hit
     running --&gt; failed : 3 consecutive probe misses
     failed --&gt; running : 3 consecutive probe hits
     running --&gt; terminating : workspace deleted
     failed --&gt; terminating : workspace deleted
     terminating --&gt; [*]</pre>
-<p>A background probe pings every running workspace on a configurable interval
-(default 30 seconds). Three consecutive missed pings flip the workspace to
-<code>failed</code> and end every session on it with reason <code>workspace_lost</code>. Three
-consecutive successful pings restore it to <code>running</code>. The phase machine is
-driven by the probe; the probe is leader-elected so only one platform process
-runs it at a time.</p>
+<p>A newly created workspace starts in the <code>pending</code> phase and is promoted to
+<code>running</code> on its first successful probe ping. A background probe pings every
+running workspace on a configurable interval (default 30 seconds). Three
+consecutive missed pings flip the workspace to <code>failed</code> and end every session
+on it with reason <code>workspace_lost</code>. Three consecutive successful pings restore
+it to <code>running</code>. The phase machine is driven by the probe.</p>
 <h2 id="configuration">Configuration</h2>
 <h3 id="local-provider-fields">Local provider fields</h3>
 <p>The local provider requires only a <code>root_path</code> where workspace directories are
-created. The auto-bootstrapped <code>local</code> provider uses a default path and cannot
-be created, updated, or deleted through the UI or API (the reserved id is
-protected with <code>409</code>).</p>
+created. The auto-bootstrapped <code>local</code> provider uses a default path and is
+protected from mutation through the UI or API: re-creating the reserved id
+returns <code>409</code>, and updating or deleting it returns <code>403</code>.</p>
 <p>If you need a second local provider pointing at a different directory, register
 it with <code>provider = &quot;local&quot;</code> and a different <code>root_path</code>.</p>
 <h3 id="container-provider-fields">Container provider fields</h3>
@@ -238,11 +226,11 @@ it with <code>provider = &quot;local&quot;</code> and a different <code>root_pat
 </tr>
 <tr>
 <td><strong>Connection</strong></td>
-<td><code>socket</code> (path to Unix socket, default <code>/var/run/docker.sock</code>) or <code>tcp</code> (host + port)</td>
+<td><code>socket</code> (path to a Unix socket; default <code>/var/run/docker.sock</code>) or <code>remote</code> (a <code>tcp://</code> daemon URL with optional TLS)</td>
 </tr>
 <tr>
 <td><strong>Reachability</strong></td>
-<td>How the platform reaches the runtime server inside the container: <code>host_port</code> (bind a random host port, for host-side platforms), <code>bridge_network</code> (container-to-container DNS on a named Docker network), <code>in_cluster</code> (not applicable to container), or <code>ingress</code> (via an HTTP route)</td>
+<td>How the platform reaches the runtime server inside the container: <code>host_port</code> (bind a host port, for host-side platforms) or <code>bridge_network</code> (container-to-container DNS on a named Docker network)</td>
 </tr>
 </tbody>
 </table>
@@ -261,7 +249,7 @@ the container.</p>
 <tbody>
 <tr>
 <td><strong>Connection</strong></td>
-<td><code>in_cluster</code> (when primer runs inside the cluster) or <code>kubeconfig</code> with a path</td>
+<td><code>in_cluster</code> (when primer runs inside the cluster), <code>kubeconfig</code> with a path, or <code>service_account_token</code> (explicit apiserver URL + token)</td>
 </tr>
 <tr>
 <td><strong>Namespace</strong></td>
@@ -269,7 +257,7 @@ the container.</p>
 </tr>
 <tr>
 <td><strong>Reachability</strong></td>
-<td><code>in_cluster</code> (pod-to-pod DNS), <code>ingress</code> (via a Gateway API HTTPRoute), or <code>host_port</code> (NodePort for local k3s setups)</td>
+<td><code>in_cluster</code> (pod-to-pod DNS), <code>ingress</code> (via a templated ingress URL), or <code>gateway_httproute</code> (via a pre-created Gateway API HTTPRoute)</td>
 </tr>
 </tbody>
 </table>
@@ -302,7 +290,7 @@ different directories.</p>
 the image, environment variables, init commands, and initial files.</a></p>
 <p><a href="/workspaces/workspaces-and-sessions/">Sessions run on workspace instances; one agent or graph per session,
 many sessions per workspace.</a></p>
-<p><a href="/workspaces/workspace-toolset/">The 27-tool workspace toolset agents use to manage providers, templates,
+<p><a href="/workspaces/workspace-toolset/">The workspace toolset agents use to manage providers, templates,
 workspaces, and sessions programmatically.</a></p>
 <p><a href="/reference/api-workspaces/">REST API reference for workspace providers, templates, workspace instances,
 the file sub-API, and the diagnostic exec endpoint.</a></p>

@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -199,6 +186,7 @@
 </tr>
 </tbody>
 </table>
+<p>This is the snapshot the default in-process (in-memory) scheduler returns. A Postgres-backed scheduler reports a reduced synchronous snapshot under <code>/v1/health</code> (<code>primer_scheduler_notify_received_total</code> plus <code>primer_scheduler_listen_reconnects_total</code>); its session, queue-depth, and lease-expiration gauges are computed in a separate database query that the health probe does not call. Scrape <code>/metrics</code> for the full counter set under Postgres.</p>
 <p>The worker-pool snapshot reports:</p>
 <table>
 <thead>
@@ -238,11 +226,11 @@
 </tr>
 </tbody>
 </table>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-278b86-curl">curl</button><button class="tab" data-tab="tab-278b86-python">python</button><button class="tab" data-tab="tab-278b86-javascript">javascript</button></div><div class="tab-panel active" id="tab-278b86-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/health</code></pre></div><div class="tab-panel" id="tab-278b86-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b84887-curl">curl</button><button class="tab" data-tab="tab-b84887-python">python</button><button class="tab" data-tab="tab-b84887-javascript">javascript</button></div><div class="tab-panel active" id="tab-b84887-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/health</code></pre></div><div class="tab-panel" id="tab-b84887-python"><pre class="md-pre lang-python"><code>import httpx
 health = httpx.get(&quot;https://your-host/v1/health&quot;).json()
 assert health[&quot;status&quot;] == &quot;ok&quot;
 capacity = health[&quot;worker_pool&quot;][&quot;capacity&quot;]
-in_flight = health[&quot;worker_pool&quot;][&quot;in_flight&quot;]</code></pre></div><div class="tab-panel" id="tab-278b86-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/health&quot;)
+in_flight = health[&quot;worker_pool&quot;][&quot;in_flight&quot;]</code></pre></div><div class="tab-panel" id="tab-b84887-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/health&quot;)
 const health = await r.json()
 const {capacity, in_flight} = health.worker_pool</code></pre></div></div>
 <h2 id="workers-inspect-and-drain">Workers: inspect and drain</h2>
@@ -346,7 +334,7 @@ const {capacity, in_flight} = health.worker_pool</code></pre></div></div>
 <p>The <code>primer_*</code> counters surfaced under <code>/v1/health</code> (claims, turns, lease expirations, notifications) are the scheduler and pool snapshot fields described above; the table here is the registry scraped by a Prometheus pipeline.</p>
 <div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p>The metrics endpoint is mounted at the host root (<code>/metrics</code>), not under the <code>/v1</code> API prefix, so a scrape config targets <code>https://your-host/metrics</code> directly.</p>
 </div></div>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-3bfc9b-curl">curl</button><button class="tab" data-tab="tab-3bfc9b-python">python</button></div><div class="tab-panel active" id="tab-3bfc9b-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/metrics</code></pre></div><div class="tab-panel" id="tab-3bfc9b-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-90929b-curl">curl</button><button class="tab" data-tab="tab-90929b-python">python</button></div><div class="tab-panel active" id="tab-90929b-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/metrics</code></pre></div><div class="tab-panel" id="tab-90929b-python"><pre class="md-pre lang-python"><code>import httpx
 text = httpx.get(&quot;https://your-host/metrics&quot;).text
 # Prometheus text exposition format; feed to your scrape pipeline.</code></pre></div></div>
 <h2 id="tracing">Tracing</h2>

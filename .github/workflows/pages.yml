@@ -1,0 +1,51 @@
+name: Build and deploy docs
+
+# Builds the static docs site from docs_source/ and deploys it to GitHub
+# Pages. Inert until the repo is published and Settings -> Pages -> Source is
+# set to "GitHub Actions". Until then the committed build output at the repo
+# root is what gets served once Pages is enabled (classic branch mode).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install build dependencies
+        run: pip install -r build/requirements.txt
+      - name: Build the docs site
+        run: |
+          python build/build_site.py docs_source _site
+          # Component embeds are committed (regenerated cross-repo from the
+          # primer console UI); fold them into the deployed site.
+          cp -r _embeds _site/_embeds
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

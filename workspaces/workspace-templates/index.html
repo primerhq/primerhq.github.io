@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -250,15 +237,15 @@ provider. The workspace root is a subdirectory under the provider's
 </tr>
 <tr>
 <td><strong>Entrypoint</strong></td>
-<td>Optional override for the image entrypoint</td>
+<td>Optional override for the image entrypoint (<code>entrypoint</code>), plus optional <code>user</code> and <code>workdir</code> (default <code>/workspace</code>)</td>
 </tr>
 <tr>
-<td><strong>Volumes</strong></td>
-<td>Named volumes or bind mounts to attach</td>
+<td><strong>Mounts</strong></td>
+<td><code>extra_mounts</code>: host bind mounts to attach (<code>host</code>, <code>container</code>, <code>readonly</code>)</td>
 </tr>
 <tr>
 <td><strong>Resource limits</strong></td>
-<td><code>cpu_limit</code>, <code>memory_limit</code> in Docker notation</td>
+<td><code>cpu_cores</code> (float) and <code>memory_bytes</code> (int)</td>
 </tr>
 </tbody>
 </table>
@@ -273,29 +260,29 @@ provider. The workspace root is a subdirectory under the provider's
 <tbody>
 <tr>
 <td><strong>Image</strong></td>
-<td>Container image; must be accessible from the cluster</td>
+<td>Container image; must be accessible from the cluster (plus optional <code>entrypoint</code>, <code>args</code>, <code>workdir</code>)</td>
 </tr>
 <tr>
-<td><strong>Entrypoint</strong></td>
-<td>Optional override</td>
+<td><strong>Resource limits</strong></td>
+<td><code>cpu_request</code> / <code>cpu_limit</code> / <code>memory_request</code> / <code>memory_limit</code> as Kubernetes quantity strings (<code>500m</code>, <code>2</code>, <code>1Gi</code>)</td>
 </tr>
 <tr>
 <td><strong>PVC size</strong></td>
-<td>Persistent volume size (for example <code>5Gi</code>)</td>
+<td><code>pvc_size</code>, default <code>10Gi</code>; <code>pvc_access_modes</code> defaults to <code>[&quot;ReadWriteOnce&quot;]</code></td>
 </tr>
 <tr>
 <td><strong>Storage class</strong></td>
-<td>Optional; uses cluster default when omitted</td>
+<td><code>storage_class</code>, optional; uses the cluster default when omitted</td>
 </tr>
 <tr>
 <td><strong>Pod overrides</strong></td>
-<td>Node selector, tolerations, extra volumes (forbidden keys are rejected: <code>securityContext</code>, <code>hostPath</code>, <code>hostNetwork</code>, and similar escalation paths)</td>
+<td><code>pod_overrides</code> (deep-merged into the PodSpec), <code>extra_volumes</code>, <code>extra_volume_mounts</code>. Escalation keys are rejected recursively: <code>securityContext</code>, <code>hostPath</code>, <code>hostNetwork</code>, <code>privileged</code>, <code>runAsUser</code>, and similar paths</td>
 </tr>
 </tbody>
 </table>
 <h3 id="file-sources">File sources</h3>
-<p>The <code>files</code> field is a list of <code>FileMount</code> entries, each with a <code>destination</code>
-path and a <code>source</code> discriminated by kind:</p>
+<p>The <code>files</code> field is a list of <code>FileMount</code> entries, each with a <code>path</code>
+(the destination inside the workspace) and a <code>source</code> discriminated by kind:</p>
 <ul>
 <li><code>inline</code>: content supplied directly in the template</li>
 <li><code>url</code>: fetched from an HTTP URL at materialisation time</li>

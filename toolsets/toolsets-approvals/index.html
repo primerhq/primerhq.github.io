@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -176,7 +163,7 @@
 <p>That is the minimal configuration required to make a tool gated. The other two strategies (Rego and LLM judge) replace the manual hold with an automated decision, and are documented below.</p>
 <h3 id="rego-input-reference">Rego input reference</h3>
 <p>When the approval type is <strong>Policy (Rego)</strong>, the engine evaluates your policy against a single <code>input</code> document built from the call context. These are the only fields available; reference them as <code>input.&lt;field&gt;</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a91788-json">json</button></div><div class="tab-panel active" id="tab-a91788-json"><pre class="md-pre lang-json"><code>{
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-028c20-json">json</button></div><div class="tab-panel active" id="tab-028c20-json"><pre class="md-pre lang-json"><code>{
   &quot;tool_name&quot;: &quot;exec&quot;,
   &quot;toolset_id&quot;: &quot;workspaces&quot;,
   &quot;arguments&quot;: {
@@ -237,7 +224,7 @@
 <p>The same <code>input</code> document is also handed to the LLM judge as the user message, so a judge prompt can reason about any of these fields too.</p>
 <h3 id="rego-policy-example">Rego policy example</h3>
 <p>The policy must define a boolean <code>required</code>. An optional string <code>reason</code> is recorded on the pending row. The example below allows all calls through except <code>exec</code> calls that target the production workspace, which park for operator approval:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-021e4f-rego">rego</button></div><div class="tab-panel active" id="tab-021e4f-rego"><pre class="md-pre lang-rego"><code>package primer.approval
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-69008a-rego">rego</button></div><div class="tab-panel active" id="tab-69008a-rego"><pre class="md-pre lang-rego"><code>package primer.approval
 
 default required := false
 
@@ -256,7 +243,7 @@ reason := &quot;exec against prod-workspace requires operator sign-off&quot; if 
 <h3 id="llm-judge-example">LLM-judge example</h3>
 <p>When the approval type is <strong>LLM judge</strong>, you select a provider and model (from those already configured under LLM Providers) and write a judge prompt. The prompt is sent as the system message; the <code>input</code> document (the same shape shown above) is appended as the user message. The judge must return a verdict with a boolean <code>required</code> and an optional <code>reason</code>.</p>
 <p>Configuration shape:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-fdd066-json">json</button></div><div class="tab-panel active" id="tab-fdd066-json"><pre class="md-pre lang-json"><code>{
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ab1f8d-json">json</button></div><div class="tab-panel active" id="tab-ab1f8d-json"><pre class="md-pre lang-json"><code>{
   &quot;id&quot;: &quot;judge-shell-commands&quot;,
   &quot;toolset_id&quot;: &quot;workspaces&quot;,
   &quot;tool_name&quot;: &quot;exec&quot;,
@@ -293,7 +280,7 @@ reason := &quot;exec against prod-workspace requires operator sign-off&quot; if 
 <p>The amber banner in the session or chat detail view also shows the Approve and Reject controls while the call is parked.</p>
 <div class="callout callout-danger"><div class="callout-title">danger</div><div class="callout-body"><p>Rejecting a tool call is not a retry. The agent receives an error message. If the agent's system prompt does not anticipate a rejection it may stall or end unexpectedly. Test the reject path in a development session before enabling a required configuration in production.</p>
 </div></div>
-<p><a href="/toolsets/toolsets-system/">The seven built-in toolsets and the tools they contain.</a></p>
+<p><a href="/toolsets/toolsets-system/">The eight built-in toolsets and the tools they contain.</a></p>
 <p><a href="/features/mcp-server/">Primer as an MCP server: how allowlist and approval combine to control what external clients can call.</a></p>
 </article>
     <aside class="toc" id="toc">
