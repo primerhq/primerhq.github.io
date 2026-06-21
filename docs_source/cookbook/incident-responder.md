@@ -86,13 +86,22 @@ POST /v1/webhooks/{token}
 {"service": "payments-api", "error": "5xx error rate 40%, p99 latency 8s", "region": "us-east"}
 ```
 
-Expected outcome (verified):
+Expected outcome:
 
-- The webhook returns `{"status": "accepted"}` with a `delivery_id`, and **a fresh
-  agent session starts** in the bound workspace with the alert as its input (confirmed:
-  the POST fired `sess-...` running the responder agent).
+- The webhook returns `{"status": "accepted"}` with a `delivery_id` and fires the
+  subscription, creating a fresh session from the alert.
 - The agent triages the alert and calls `inform_user`, so a summary lands in your
-  channel (`delivered_to: 1`, same delivery path proven in the stock-monitor recipe).
+  channel. The alert-to-channel delivery is **verified live** (`delivered_to: 1`, the
+  same path proven in the stock-monitor recipe).
+
+> **Known issue (current build):** the webhook *dispatch* path creates the fired
+> session but does not enqueue it to run - it builds its dispatch dependencies with a
+> null claim engine, so the agent never starts on its own (the session sits unstarted).
+> Until that is fixed, drive the responder from a normal `agent_fresh_session` that
+> does run - a `scheduled` trigger, or a direct session created with the alert as its
+> instruction - where it triages and delivers reliably. The webhook trigger, the
+> payload templating, and the channel delivery are all sound; only the
+> webhook-to-execution hand-off is broken.
 
 Point a real alerting rule (Grafana, Datadog, a uptime checker) at the webhook URL and
 you have hands-off first-response triage. Give the agent the `web` toolset and it can
