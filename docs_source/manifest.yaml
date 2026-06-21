@@ -74,6 +74,7 @@ sections:
     docs:
       - overview
       - iterative-web-research
+      - self-improving-skill
   - id: reference
     title: Reference
     icon: doc
