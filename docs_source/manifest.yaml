@@ -78,6 +78,8 @@ sections:
       - scheduled-stock-monitor
       - rag-knowledge-base
       - meta-agent-builder
+      - fanout-code-review
+      - harness-packaging
   - id: reference
     title: Reference
     icon: doc
