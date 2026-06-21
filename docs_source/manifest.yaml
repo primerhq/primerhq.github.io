@@ -76,6 +76,7 @@ sections:
       - iterative-web-research
       - self-improving-skill
       - scheduled-stock-monitor
+      - rag-knowledge-base
   - id: reference
     title: Reference
     icon: doc
