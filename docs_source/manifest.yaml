@@ -77,6 +77,7 @@ sections:
       - self-improving-skill
       - scheduled-stock-monitor
       - rag-knowledge-base
+      - meta-agent-builder
   - id: reference
     title: Reference
     icon: doc
