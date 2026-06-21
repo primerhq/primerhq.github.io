@@ -80,6 +80,8 @@ sections:
       - meta-agent-builder
       - fanout-code-review
       - harness-packaging
+      - support-desk
+      - incident-responder
   - id: reference
     title: Reference
     icon: doc
