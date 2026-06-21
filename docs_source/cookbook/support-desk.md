@@ -79,17 +79,23 @@ A few things worth knowing:
 
 ## Testing
 
-The conversational loop runs over a real channel, so a person sends the messages; the
-pieces it is built from are individually verified:
+Verified live end-to-end over Discord:
 
-- **Chat lifecycle (verified):** `POST /v1/chats {agent_id}` creates a chat bound to
-  `support-agent`; `POST /v1/chats/{id}/agent {agent_id: billing-specialist}` hands it
-  off (a `GET` confirms `chat.agent_id` flipped and `status` stays `active`, history
-  intact).
-- **Answering (verified in the RAG recipe):** the bound agent's `search_collection`
-  returns the right doc and the agent answers with a citation.
-- **Delivery (verified in the stock-monitor recipe):** messages reach the channel.
+- **Message to grounded answer:** sending "how do I reset my password?" in the channel
+  created a chat bound to `support-agent`, which called `search_collection` and replied
+  *"...go to id.company.com, click 'Forgot Password' ... (Source: password.md)"* -
+  posted back to the channel.
+- **Handoff:** switching the chat to `billing-specialist`
+  (`POST /v1/chats/{id}/agent`), then asking "how do I get a refund?" in the same thread
+  had the *specialist* independently call `search_collection` and answer from the
+  billing doc - the same conversation, a new agent, history intact.
 
-End to end: message the support channel ("how do I reset my password?"), confirm the
-grounded answer arrives, ask a billing question, and confirm `/agent billing-specialist`
-(or an agent-initiated handoff) moves the conversation to the specialist.
+Two operational notes learned the hard way:
+
+- **Enabling chats on an existing channel needs a platform restart.** Adapters are
+  warmed at startup; toggling `chats.enabled` updates storage, but the running process
+  keeps serving the old (disabled) adapter - and silently ignores inbound messages with
+  `chats disabled on channel ...` - until it restarts.
+- **`/agent` and other thread commands only work inside a chat thread.** Run from the
+  main channel they reply ephemerally ("run inside a thread"), which reads as nothing
+  happening. Switch from inside the thread, or via the REST endpoint above.
