@@ -75,6 +75,7 @@ sections:
       - overview
       - iterative-web-research
       - self-improving-skill
+      - scheduled-stock-monitor
   - id: reference
     title: Reference
     icon: doc
