@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -130,25 +117,25 @@
   <div class="content-wrap">
     <article class="article" id="article"><nav class="breadcrumb"><span>channels</span> / <span>Chatting Through Channels</span></nav><h1>Chatting Through Channels</h1>
 <h2 id="what-a-channel-is">What a channel is</h2>
-<p>A channel is a specific conversational room on a messaging platform: a Slack channel ID, a Telegram chat ID, or a Discord channel snowflake. It belongs to a channel provider (the credential set for the platform) and carries two responsibilities:</p>
+<p>A channel is a specific conversational room on a messaging platform: a Slack channel ID, a Telegram chat ID, or a Discord channel snowflake. It belongs to a channel provider (the credential set for the platform) and carries two directions of traffic:</p>
 <ul>
-<li><strong>Session gate forwarding.</strong> When a workspace session parks on <code>ask_user</code>, a tool approval request, or an <code>inform_user</code> call, primer forwards the prompt to the channel the workspace is associated with. The human responds in Slack, Telegram, or Discord, and the session resumes without anyone touching the primer console.</li>
-<li><strong>Chat surface.</strong> When chat is enabled on a channel, incoming messages from that room start or continue primer chats, so an agent can hold a full conversation with a user over the messaging platform.</li>
+<li><strong>Inbound: events to actions.</strong> A message or command arriving in the room is normalized into an event and matched against rules. A match dispatches a platform action: start a chat, run an agent or graph session, or resume a parked workflow. With chat enabled and no rule at all, the default is still that a new message opens or continues a chat.</li>
+<li><strong>Outbound: reply binding.</strong> When a session asks a question, hits a tool approval gate, calls <code>inform_user</code>, or finishes, that traffic follows a reply binding back to the channel and thread. The standing reply binding lives on the workspace.</li>
 </ul>
-<p>Both responsibilities run on the same room object. You configure which one you want (or both) through the channel's settings.</p>
-<p>Three objects work together:</p>
+<p>Both directions run on the same room object. You configure the inbound rules in the rule editor and the outbound destination through the workspace reply binding.</p>
+<p>Three pieces work together:</p>
 <ul>
 <li><strong>Channel provider</strong>: credentials for one platform (one Slack app, one Telegram bot, one Discord bot). See the channel providers page for setup.</li>
 <li><strong>Channel</strong>: a room inside a provider, identified by its external ID on the platform.</li>
-<li><strong>Workspace channel association</strong>: binds a workspace to a channel so that workspace's session gates forward there.</li>
+<li><strong>Reply binding</strong>: binds a workspace to a channel so that workspace's session traffic forwards there.</li>
 </ul>
 <pre class="mermaid">flowchart LR
     prov[Channel provider\nSlack / Telegram / Discord]
     prov --&gt;|owns| ch[Channel\nexternal_id]
-    ch --&gt;|associated with| ws[Workspace]
-    ws --&gt;|session parks| gate[ask_user / tool approval / inform]
-    gate --&gt;|forwarded to| ch
-    ch --&gt;|reply arrives| gate2[session resumes]</pre>
+    ch --&gt;|event matches rule| act[start chat / run session / resume]
+    ws[Workspace] --&gt;|reply binding| ch
+    ws --&gt;|session gate| ch
+    ch --&gt;|reply arrives| res[session resumes]</pre>
 <h2 id="configuration">Configuration</h2>
 <p>Each channel has the following fields:</p>
 <table>
@@ -237,7 +224,7 @@
 <li>Set chat settings if you want the room to drive chats (toggle <strong>enabled</strong>, pick a <strong>default agent</strong>).</li>
 <li>Click <strong>Create channel</strong>.</li>
 </ol>
-<p>After creating the channel, associate it with a workspace if you want session gates to forward there. See the channel-workspace association page.</p>
+<p>After creating the channel, set a workspace reply binding if you want session gates to forward there, and author channel rules if you want inbound events to drive actions.</p>
 <h2 id="in-channel-commands">In-channel commands</h2>
 <p>When chat is enabled on a room, users can type slash commands to manage their conversations. Which commands are available depends on whether the platform supports threads:</p>
 <p><strong>Thread-based platforms (Slack, Discord):</strong> Each thread is a separate chat, so <code>/new</code>, <code>/list</code>, and <code>/switch</code> are unnecessary. Only <code>/agent</code> and <code>/help</code> are offered.</p>
@@ -285,7 +272,8 @@
 <li><strong>Outbound:</strong> media produced by tools (files written to a workspace, images returned from a tool result) are forwarded to the channel when the session gate fires.</li>
 </ul>
 <p><a href="/channels/channel-providers/">Set up the provider credentials before creating channels.</a></p>
-<p><a href="/channels/channel-workspace-association/">Bind a channel to a workspace and understand the full inbound/outbound flow.</a></p>
+<p><a href="/channels/channel-rules/">Map inbound events to actions and choose where the reply goes back.</a></p>
+<p><a href="/channels/channel-reply-binding/">Bind a workspace to a channel and understand the full inbound/outbound flow.</a></p>
 <p><a href="/features/chats/">How chat turns work and the agent switcher.</a></p>
 <p><a href="/reference/api-channels/">Full REST schema for channels and workspace association.</a></p>
 </article>

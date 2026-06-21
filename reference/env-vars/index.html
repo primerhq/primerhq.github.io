@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -130,9 +117,10 @@
   <div class="content-wrap">
     <article class="article" id="article"><nav class="breadcrumb"><span>Reference</span> / <span>Environment variables</span></nav><h1>Environment variables</h1>
 <h2 id="precedence">Precedence</h2>
-<p>Env vars override the YAML/TOML config file which overrides built-in
-defaults. Nested config fields use double underscore as the path
-separator (pydantic-settings <code>env_nested_delimiter</code>).</p>
+<p>A CLI <code>--config</code> YAML file overrides env vars, which override a
+<code>PRIMER_CONFIG_PATH</code> TOML file, which overrides built-in defaults.
+Nested config fields use double underscore as the path separator
+(pydantic-settings <code>env_nested_delimiter</code>).</p>
 <div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p><code>PRIMER_DB__PROVIDER=postgres</code> is equivalent to <code>db.provider: postgres</code>
 in the YAML config. A single underscore is part of the field name; the
 double underscore is the nesting delimiter.</p>
@@ -150,13 +138,16 @@ double underscore is the nesting delimiter.</p>
 <tr>
 <td><code>PRIMER_CONFIG_PATH</code></td>
 <td>unset</td>
-<td>Path to a TOML config file loaded during <code>AppConfig</code> instantiation, before env vars are applied.</td>
+<td>Path to a TOML config file read during <code>AppConfig</code> instantiation. Individual env vars override values from this file.</td>
 </tr>
 </tbody>
 </table>
 <p>The CLI <code>--config</code> flag loads YAML through <code>init_settings</code> (higher
-priority than env vars). <code>PRIMER_CONFIG_PATH</code> loads TOML at the env
-layer (lower priority than CLI YAML, same layer as env vars).</p>
+priority than env vars). <code>PRIMER_CONFIG_PATH</code> loads TOML below the env
+layer: source priority is init args (CLI YAML) &gt; env vars &gt; TOML &gt; <code>.env</code></p>
+<blockquote>
+<p>secrets file.</p>
+</blockquote>
 <h2 id="http-server">HTTP server</h2>
 <table>
 <thead>
@@ -492,8 +483,8 @@ SQLite database at <code>~/.primer/db/data.sqlite</code>.</p>
 </tbody>
 </table>
 <h2 id="development-flags">Development flags</h2>
-<p>These variables are read directly by the application at runtime and
-are not part of <code>AppConfig</code>.</p>
+<p>This variable is read directly by the application at runtime and is
+not part of <code>AppConfig</code>.</p>
 <table>
 <thead>
 <tr>
@@ -503,11 +494,6 @@ are not part of <code>AppConfig</code>.</p>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>PRIMER_USER_DOCS_STRICT</code></td>
-<td><code>1</code></td>
-<td>Refuse to start when user-doc lint errors are found. Logs and continues by default.</td>
-</tr>
 <tr>
 <td><code>PRIMER_ENABLE_TEST_ENDPOINTS</code></td>
 <td><code>1</code></td>

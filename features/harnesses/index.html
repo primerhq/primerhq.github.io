@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -201,7 +188,7 @@
 </tr>
 <tr>
 <td><strong>Subpath</strong></td>
-<td>Optional subdirectory within the repo that contains <code>manifest.yaml</code>. Leave blank for the repo root.</td>
+<td>Optional subdirectory within the repo that contains <code>harness.yaml</code>. Leave blank for the repo root.</td>
 </tr>
 <tr>
 <td><strong>Git token</strong></td>
@@ -223,7 +210,7 @@
 <ol>
 <li>Navigate to <strong>Harnesses</strong> in the left nav.</li>
 <li>Click <strong>Register from git</strong>.</li>
-<li>In the <strong>Register harness</strong> dialog, fill in the <strong>Source</strong> step: name, slug, Git URL, ref, subpath (optional), git token (optional for private repos).</li>
+<li>In the <strong>Register harness</strong> dialog, fill in the <strong>Source</strong> step: name, slug, Git URL, ref, subpath (optional, the subdirectory containing <code>harness.yaml</code>), git token (optional for private repos).</li>
 <li>Click <strong>Fetch</strong>. Primer creates the harness record and pulls bundle metadata from the remote. A progress indicator shows while the fetch runs.</li>
 <li>If the harness declares an overrides schema, an <strong>Overrides</strong> step appears. Fill in the required fields and click <strong>Create</strong>.</li>
 <li>Once the install operation completes, the status shows <strong>INSTALLED</strong> and the console navigates to the harness detail page.</li>
@@ -280,8 +267,8 @@
 <td>A composed JSON Schema derived from every override mapping. This becomes the consumer's overrides form at install time.</td>
 </tr>
 <tr>
-<td><code>bundle_hash</code></td>
-<td>A stable hash over the whole rendered set, used to detect drift between the live entities and the last push.</td>
+<td><code>bundle_hash</code> (build metadata, not a file)</td>
+<td>A stable hash computed over the whole rendered set, used to detect drift between the live entities and the last push.</td>
 </tr>
 </tbody>
 </table>
@@ -309,7 +296,7 @@
 </tr>
 <tr>
 <td><strong>overrides</strong></td>
-<td>A list of override mappings. Each maps a field in the exported entity (a JSON pointer, <code>field_path</code>) to an <code>override_path</code> in the consumer's overrides, optionally with a picker <code>widget</code> and a default value.</td>
+<td>A list of override mappings. Each maps a field in the exported entity (a JSON pointer, <code>field_path</code>) to an <code>override_path</code> in the consumer's overrides, optionally with a picker <code>widget</code> and a <code>schema_override</code> fragment that refines the generated schema slot.</td>
 </tr>
 </tbody>
 </table>

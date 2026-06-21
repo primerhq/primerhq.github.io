@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -129,7 +116,7 @@
   <!-- Content -->
   <div class="content-wrap">
     <article class="article" id="article"><nav class="breadcrumb"><span>Reference</span> / <span>Triggers and Subscriptions API</span></nav><h1>Triggers and Subscriptions API</h1>
-<p>Triggers are named event sources (one-shot delayed or recurring cron) that fire subscriptions, which in turn post chat messages, start fresh agent or graph sessions, or resume parked sessions. A running agent can also park itself on a trigger via <code>subscribe_to_trigger</code> and resume automatically when the trigger fires.</p>
+<p>Triggers are named event sources (one-shot delayed, recurring cron, or webhook) that fire subscriptions, which in turn post chat messages, start fresh agent or graph sessions, or resume parked sessions. A running agent can also park itself on a trigger via <code>subscribe_to_trigger</code> and resume automatically when the trigger fires.</p>
 <p><a href="/features/triggers/">The park/resume model, subscription kinds, and webhook setup.</a></p>
 <p><a href="/features/triggers/">Create and manage triggers in the console.</a></p>
 <h2 id="endpoints">Endpoints</h2>
@@ -160,7 +147,7 @@
 <tr>
 <td>PUT</td>
 <td><code>/v1/triggers/{trigger_id}</code></td>
-<td>Replace a trigger</td>
+<td>Update a trigger (partial)</td>
 </tr>
 <tr>
 <td>DELETE</td>
@@ -171,6 +158,11 @@
 <td>POST</td>
 <td><code>/v1/triggers/{trigger_id}/fire_now</code></td>
 <td>Synchronously fire a trigger</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/triggers/{trigger_id}/rotate_token</code></td>
+<td>Rotate a webhook trigger's URL token</td>
 </tr>
 <tr>
 <td>GET</td>
@@ -246,7 +238,7 @@
 <td><code>config</code></td>
 <td>yes</td>
 <td>TriggerConfig</td>
-<td>Either a <code>delayed</code> or <code>scheduled</code> config (see below)</td>
+<td>A <code>delayed</code>, <code>scheduled</code>, or <code>webhook</code> config (see below)</td>
 </tr>
 <tr>
 <td><code>enabled</code></td>
@@ -310,9 +302,36 @@
 </tr>
 </tbody>
 </table>
+<p><strong>Webhook trigger config</strong> (<code>kind: &quot;webhook&quot;</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kind</code></td>
+<td>yes</td>
+<td>Must be <code>&quot;webhook&quot;</code></td>
+</tr>
+<tr>
+<td><code>token</code></td>
+<td>no</td>
+<td>Server-minted URL token (32 hex chars) embedded in <code>POST /v1/webhooks/{token}</code>. On create it is always minted server-side (any supplied value is ignored); rotate it with <code>POST /v1/triggers/{trigger_id}/rotate_token</code></td>
+</tr>
+<tr>
+<td><code>hmac_secret</code></td>
+<td>no</td>
+<td>When set, callers must send <code>X-Primer-Signature: HMAC-SHA256(secret, raw_body)</code> as a lowercase hex digest; requests that fail verification are rejected <code>401</code>. Write-only</td>
+</tr>
+</tbody>
+</table>
 <h2 id="create-a-trigger">Create a trigger</h2>
 <p><code>POST /v1/triggers</code> - returns <code>201 Created</code> with the trigger object.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-691730-curl">curl</button><button class="tab" data-tab="tab-691730-python">python</button><button class="tab" data-tab="tab-691730-javascript">javascript</button></div><div class="tab-panel active" id="tab-691730-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/triggers \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c6f9ad-curl">curl</button><button class="tab" data-tab="tab-c6f9ad-python">python</button><button class="tab" data-tab="tab-c6f9ad-javascript">javascript</button></div><div class="tab-panel active" id="tab-c6f9ad-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/triggers \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -325,7 +344,7 @@
       &quot;catchup&quot;: &quot;one&quot;
     },
     &quot;enabled&quot;: true
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-691730-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-c6f9ad-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/triggers&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -341,7 +360,7 @@ r = httpx.post(
         &quot;enabled&quot;: True,
     },
 )
-assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-691730-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/triggers&quot;, {
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-c6f9ad-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/triggers&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -358,77 +377,74 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-691
 </ul>
 <h2 id="get-a-trigger">Get a trigger</h2>
 <p><code>GET /v1/triggers/{trigger_id}</code> - returns <code>200 OK</code> with the trigger object.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-458d80-curl">curl</button><button class="tab" data-tab="tab-458d80-python">python</button><button class="tab" data-tab="tab-458d80-javascript">javascript</button></div><div class="tab-panel active" id="tab-458d80-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/triggers/daily-report \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-458d80-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-223dea-curl">curl</button><button class="tab" data-tab="tab-223dea-python">python</button><button class="tab" data-tab="tab-223dea-javascript">javascript</button></div><div class="tab-panel active" id="tab-223dea-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/triggers/daily-report \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-223dea-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/triggers/daily-report&quot;,
-              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})</code></pre></div><div class="tab-panel" id="tab-458d80-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/triggers/daily-report&quot;, {
+              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})</code></pre></div><div class="tab-panel" id="tab-223dea-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/triggers/daily-report&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <p><strong>Errors:</strong> <code>404</code> if the trigger does not exist.</p>
 <h2 id="list-triggers">List triggers</h2>
-<p><code>GET /v1/triggers</code> - returns an offset or cursor page of trigger objects.</p>
-<p>Query parameters: <code>limit</code> (1-200, default 20), <code>offset</code> (default 0), <code>cursor</code>, <code>order_by</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a83c3d-curl">curl</button><button class="tab" data-tab="tab-a83c3d-python">python</button><button class="tab" data-tab="tab-a83c3d-javascript">javascript</button></div><div class="tab-panel active" id="tab-a83c3d-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/triggers?limit=20&amp;offset=0&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-a83c3d-python"><pre class="md-pre lang-python"><code>import httpx
+<p><code>GET /v1/triggers</code> - returns <code>{&quot;items&quot;: [...], &quot;total&quot;: &lt;count&gt;}</code>. This list is not paginated; every matching trigger is returned.</p>
+<p>Query parameters (both optional filters): <code>kind</code> (<code>delayed</code>, <code>scheduled</code>, or <code>webhook</code>) and <code>enabled</code> (boolean).</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9d49bd-curl">curl</button><button class="tab" data-tab="tab-9d49bd-python">python</button><button class="tab" data-tab="tab-9d49bd-javascript">javascript</button></div><div class="tab-panel active" id="tab-9d49bd-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/triggers?kind=scheduled&amp;enabled=true&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-9d49bd-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/triggers&quot;,
               headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
-              params={&quot;limit&quot;: 20, &quot;offset&quot;: 0})
+              params={&quot;kind&quot;: &quot;scheduled&quot;, &quot;enabled&quot;: True})
 page = r.json()
-triggers = page[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-a83c3d-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/triggers?limit=20&amp;offset=0&quot;, {
+triggers = page[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-9d49bd-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/triggers?kind=scheduled&amp;enabled=true&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const {items, total} = await r.json()</code></pre></div></div>
-<h2 id="replace-a-trigger">Replace a trigger</h2>
-<p><code>PUT /v1/triggers/{trigger_id}</code> - full replacement; returns <code>200 OK</code>. All fields are replaced; omitted optional fields reset to defaults.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-55c3f9-curl">curl</button><button class="tab" data-tab="tab-55c3f9-python">python</button><button class="tab" data-tab="tab-55c3f9-javascript">javascript</button></div><div class="tab-panel active" id="tab-55c3f9-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/triggers/daily-report \
+<h2 id="update-a-trigger">Update a trigger</h2>
+<p><code>PUT /v1/triggers/{trigger_id}</code> - partial update; returns <code>200 OK</code>. Only the fields you send change; omitted fields keep their current value. The body accepts <code>name</code>, <code>description</code>, <code>enabled</code>, and <code>config</code> (the <code>slug</code> is immutable and is not part of the update body). A <code>config</code> that changes the trigger's <code>kind</code> is rejected with <code>409</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e74174-curl">curl</button><button class="tab" data-tab="tab-e74174-python">python</button><button class="tab" data-tab="tab-e74174-javascript">javascript</button></div><div class="tab-panel active" id="tab-e74174-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/triggers/daily-report \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
-    &quot;slug&quot;: &quot;daily-report&quot;,
     &quot;name&quot;: &quot;Daily Report (updated)&quot;,
     &quot;config&quot;: {&quot;kind&quot;: &quot;scheduled&quot;, &quot;cron&quot;: &quot;0 9 * * *&quot;, &quot;timezone&quot;: &quot;UTC&quot;},
     &quot;enabled&quot;: true
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-55c3f9-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-e74174-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.put(
     &quot;https://your-host/v1/triggers/daily-report&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     json={
-        &quot;slug&quot;: &quot;daily-report&quot;,
         &quot;name&quot;: &quot;Daily Report (updated)&quot;,
         &quot;config&quot;: {&quot;kind&quot;: &quot;scheduled&quot;, &quot;cron&quot;: &quot;0 9 * * *&quot;, &quot;timezone&quot;: &quot;UTC&quot;},
         &quot;enabled&quot;: True,
     },
-)</code></pre></div><div class="tab-panel" id="tab-55c3f9-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/triggers/daily-report&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-e74174-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/triggers/daily-report&quot;, {
   method: &quot;PUT&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
-    slug: &quot;daily-report&quot;,
     name: &quot;Daily Report (updated)&quot;,
     config: {kind: &quot;scheduled&quot;, cron: &quot;0 9 * * *&quot;, timezone: &quot;UTC&quot;},
     enabled: true
   })
 })</code></pre></div></div>
-<p><strong>Errors:</strong> <code>404</code> if not found.</p>
+<p><strong>Errors:</strong> <code>404</code> if not found; <code>409</code> if the <code>config</code> changes the trigger's <code>kind</code>.</p>
 <h2 id="delete-a-trigger">Delete a trigger</h2>
-<p><code>DELETE /v1/triggers/{trigger_id}</code> - cascades to all subscriptions. Returns <code>200 OK</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-cb5594-curl">curl</button><button class="tab" data-tab="tab-cb5594-python">python</button><button class="tab" data-tab="tab-cb5594-javascript">javascript</button></div><div class="tab-panel active" id="tab-cb5594-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/triggers/daily-report \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-cb5594-python"><pre class="md-pre lang-python"><code>import httpx
+<p><code>DELETE /v1/triggers/{trigger_id}</code> - cascades to all subscriptions. Returns <code>204 No Content</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-43a0f3-curl">curl</button><button class="tab" data-tab="tab-43a0f3-python">python</button><button class="tab" data-tab="tab-43a0f3-javascript">javascript</button></div><div class="tab-panel active" id="tab-43a0f3-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/triggers/daily-report \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-43a0f3-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.delete(&quot;https://your-host/v1/triggers/daily-report&quot;,
-                 headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})</code></pre></div><div class="tab-panel" id="tab-cb5594-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/triggers/daily-report&quot;, {
+                 headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})</code></pre></div><div class="tab-panel" id="tab-43a0f3-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/triggers/daily-report&quot;, {
   method: &quot;DELETE&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <h2 id="fire-a-trigger-now">Fire a trigger now</h2>
 <p><code>POST /v1/triggers/{trigger_id}/fire_now</code> - synchronously executes all enabled subscriptions for this trigger regardless of schedule. Returns <code>200 OK</code>.</p>
-<p>Response fields: <code>skipped</code> (boolean), <code>results</code> (array of per-subscription outcomes with <code>ok</code>, <code>skipped</code>, <code>error_code</code>, and <code>artefact_id</code>).</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9b030a-curl">curl</button><button class="tab" data-tab="tab-9b030a-python">python</button><button class="tab" data-tab="tab-9b030a-javascript">javascript</button></div><div class="tab-panel active" id="tab-9b030a-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/triggers/daily-report/fire_now \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-9b030a-python"><pre class="md-pre lang-python"><code>import httpx
+<p>Response fields: <code>skipped</code> (boolean), <code>fire_id</code> (string), <code>results</code> (array of per-subscription outcomes, each with <code>subscription_id</code>, <code>ok</code>, <code>skipped</code>, and either <code>artefact_id</code> on success or <code>error_code</code> plus <code>error_message</code> on failure).</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-63a50a-curl">curl</button><button class="tab" data-tab="tab-63a50a-python">python</button><button class="tab" data-tab="tab-63a50a-javascript">javascript</button></div><div class="tab-panel active" id="tab-63a50a-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/triggers/daily-report/fire_now \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-63a50a-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/triggers/daily-report/fire_now&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
 fire = r.json()
-print(fire[&quot;results&quot;])</code></pre></div><div class="tab-panel" id="tab-9b030a-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/triggers/daily-report/fire_now&quot;, {
+print(fire[&quot;results&quot;])</code></pre></div><div class="tab-panel" id="tab-63a50a-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/triggers/daily-report/fire_now&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
@@ -479,7 +495,7 @@ const {skipped, results} = await r.json()</code></pre></div></div>
 <td><code>parallelism</code></td>
 <td>no</td>
 <td>string</td>
-<td><code>&quot;skip&quot;</code> (default): behavior when a prior fire's action is still running</td>
+<td><code>&quot;skip&quot;</code> (default) or <code>&quot;queue&quot;</code>: behavior when a prior fire's action is still running</td>
 </tr>
 <tr>
 <td><code>payload_template</code></td>
@@ -600,7 +616,7 @@ const {skipped, results} = await r.json()</code></pre></div></div>
 </table>
 <h2 id="create-a-subscription">Create a subscription</h2>
 <p><code>POST /v1/triggers/{trigger_id}/subscriptions</code> - returns <code>201 Created</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-0b786f-curl">curl</button><button class="tab" data-tab="tab-0b786f-python">python</button><button class="tab" data-tab="tab-0b786f-javascript">javascript</button></div><div class="tab-panel active" id="tab-0b786f-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/triggers/daily-report/subscriptions \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-72c968-curl">curl</button><button class="tab" data-tab="tab-72c968-python">python</button><button class="tab" data-tab="tab-72c968-javascript">javascript</button></div><div class="tab-panel active" id="tab-72c968-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/triggers/daily-report/subscriptions \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -611,7 +627,7 @@ const {skipped, results} = await r.json()</code></pre></div></div>
     },
     &quot;enabled&quot;: true,
     &quot;parallelism&quot;: &quot;skip&quot;
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-0b786f-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-72c968-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/triggers/daily-report/subscriptions&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -625,7 +641,7 @@ r = httpx.post(
         &quot;parallelism&quot;: &quot;skip&quot;,
     },
 )
-assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-0b786f-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/triggers/daily-report/subscriptions&quot;, {
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-72c968-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/triggers/daily-report/subscriptions&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -641,29 +657,29 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-0b7
 <p><strong>Errors:</strong> <code>404</code> if the trigger does not exist; <code>422</code> if the config is invalid.</p>
 <h2 id="list-subscriptions">List subscriptions</h2>
 <p><code>GET /v1/triggers/{trigger_id}/subscriptions</code> - returns a page of subscription objects. One-shot <code>parked_session</code> subscriptions are removed automatically once consumed.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-14f941-curl">curl</button><button class="tab" data-tab="tab-14f941-python">python</button><button class="tab" data-tab="tab-14f941-javascript">javascript</button></div><div class="tab-panel active" id="tab-14f941-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/triggers/daily-report/subscriptions \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-14f941-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-199e13-curl">curl</button><button class="tab" data-tab="tab-199e13-python">python</button><button class="tab" data-tab="tab-199e13-javascript">javascript</button></div><div class="tab-panel active" id="tab-199e13-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/triggers/daily-report/subscriptions \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-199e13-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://your-host/v1/triggers/daily-report/subscriptions&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-subs = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-14f941-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/triggers/daily-report/subscriptions&quot;, {
+subs = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-199e13-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/triggers/daily-report/subscriptions&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const {items} = await r.json()</code></pre></div></div>
 <h2 id="delete-a-subscription">Delete a subscription</h2>
-<p><code>DELETE /v1/triggers/{trigger_id}/subscriptions/{subscription_id}</code> - returns <code>200 OK</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d6eb7b-curl">curl</button><button class="tab" data-tab="tab-d6eb7b-python">python</button><button class="tab" data-tab="tab-d6eb7b-javascript">javascript</button></div><div class="tab-panel active" id="tab-d6eb7b-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/triggers/daily-report/subscriptions/sub-001 \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-d6eb7b-python"><pre class="md-pre lang-python"><code>import httpx
+<p><code>DELETE /v1/triggers/{trigger_id}/subscriptions/{subscription_id}</code> - returns <code>204 No Content</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d7778b-curl">curl</button><button class="tab" data-tab="tab-d7778b-python">python</button><button class="tab" data-tab="tab-d7778b-javascript">javascript</button></div><div class="tab-panel active" id="tab-d7778b-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/triggers/daily-report/subscriptions/sub-001 \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-d7778b-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.delete(
     &quot;https://your-host/v1/triggers/daily-report/subscriptions/sub-001&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
-)</code></pre></div><div class="tab-panel" id="tab-d6eb7b-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/triggers/daily-report/subscriptions/sub-001&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-d7778b-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/triggers/daily-report/subscriptions/sub-001&quot;, {
   method: &quot;DELETE&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <h2 id="errors-note">Errors note</h2>
-<p>All error responses use the RFC 7807 <code>ProblemDetails</code> envelope with <code>type</code>, <code>title</code>, <code>status</code>, <code>detail</code>, <code>instance</code>, and <code>extensions</code> (which includes <code>request_id</code> and, for 422 errors, an <code>errors</code> array with field paths). See the REST API overview for details.</p>
+<p>Trigger and subscription errors raised by this router (<code>404</code> not-found, <code>409</code> <code>trigger_slug_conflict</code> / <code>trigger_kind_immutable</code>, and the <code>422</code> codes <code>cron_invalid</code>, <code>timezone_invalid</code>, <code>parked_session_only_from_yield</code>, <code>not_a_webhook_trigger</code>) use a <code>{&quot;detail&quot;: {&quot;code&quot;: &quot;&lt;error_code&gt;&quot;, &quot;message&quot;: &quot;...&quot;}}</code> envelope; dispatch on <code>response.json()[&quot;detail&quot;][&quot;code&quot;]</code>. Request-body validation failures (malformed JSON, missing required field, wrong type) are caught earlier and returned in the RFC 7807 <code>ProblemDetails</code> envelope (<code>type</code> <code>/errors/validation-error</code>, plus <code>extensions.errors</code>). See the REST API overview for details.</p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -275,14 +262,14 @@
 </tr>
 </tbody>
 </table>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b5b04f-curl">curl</button><button class="tab" data-tab="tab-b5b04f-python">python</button><button class="tab" data-tab="tab-b5b04f-javascript">javascript</button></div><div class="tab-panel active" id="tab-b5b04f-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://primer.example/v1/workspaces/ws-prod/sessions \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ef3614-curl">curl</button><button class="tab" data-tab="tab-ef3614-python">python</button><button class="tab" data-tab="tab-ef3614-javascript">javascript</button></div><div class="tab-panel active" id="tab-ef3614-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://primer.example/v1/workspaces/ws-prod/sessions \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
     &quot;binding&quot;: {&quot;kind&quot;: &quot;agent&quot;, &quot;agent_id&quot;: &quot;agent-coder&quot;},
     &quot;auto_start&quot;: true,
     &quot;initial_instructions&quot;: &quot;Implement the described feature&quot;
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-b5b04f-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-ef3614-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/workspaces/ws-prod/sessions&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -293,7 +280,7 @@ r = httpx.post(
     },
 )
 r.raise_for_status()
-session = r.json()</code></pre></div><div class="tab-panel" id="tab-b5b04f-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workspaces/ws-prod/sessions&quot;, {
+session = r.json()</code></pre></div><div class="tab-panel" id="tab-ef3614-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workspaces/ws-prod/sessions&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -431,15 +418,15 @@ const session = await r.json();</code></pre></div></div>
 </tbody>
 </table>
 <p>All filter params combine with AND semantics. A missing graph or agent produces an empty list, not a 404.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5fb8ff-curl">curl</button><button class="tab" data-tab="tab-5fb8ff-python">python</button><button class="tab" data-tab="tab-5fb8ff-javascript">javascript</button></div><div class="tab-panel active" id="tab-5fb8ff-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://primer.example/v1/sessions?workspace_id=ws-prod&amp;status=running&amp;limit=20&amp;offset=0&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-5fb8ff-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e30727-curl">curl</button><button class="tab" data-tab="tab-e30727-python">python</button><button class="tab" data-tab="tab-e30727-javascript">javascript</button></div><div class="tab-panel active" id="tab-e30727-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://primer.example/v1/sessions?workspace_id=ws-prod&amp;status=running&amp;limit=20&amp;offset=0&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-e30727-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://primer.example/v1/sessions&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     params={&quot;workspace_id&quot;: &quot;ws-prod&quot;, &quot;status&quot;: &quot;running&quot;, &quot;limit&quot;: 20, &quot;offset&quot;: 0},
 )
 r.raise_for_status()
-page = r.json()</code></pre></div><div class="tab-panel" id="tab-5fb8ff-javascript"><pre class="md-pre lang-javascript"><code>const params = new URLSearchParams({
+page = r.json()</code></pre></div><div class="tab-panel" id="tab-e30727-javascript"><pre class="md-pre lang-javascript"><code>const params = new URLSearchParams({
   workspace_id: &quot;ws-prod&quot;, status: &quot;running&quot;, limit: 20, offset: 0,
 });
 const r = await fetch(`/v1/sessions?${params}`, {
@@ -450,14 +437,14 @@ const page = await r.json();</code></pre></div></div>
 <hr />
 <h2 id="get-v1sessionssession_id">GET /v1/sessions/{session_id}</h2>
 <p>Fetches a single session by id without requiring a workspace URL prefix. Returns <code>404</code> if not found.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5c2e5d-curl">curl</button><button class="tab" data-tab="tab-5c2e5d-python">python</button><button class="tab" data-tab="tab-5c2e5d-javascript">javascript</button></div><div class="tab-panel active" id="tab-5c2e5d-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://primer.example/v1/sessions/sess-abc123&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-5c2e5d-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ea30d8-curl">curl</button><button class="tab" data-tab="tab-ea30d8-python">python</button><button class="tab" data-tab="tab-ea30d8-javascript">javascript</button></div><div class="tab-panel active" id="tab-ea30d8-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://primer.example/v1/sessions/sess-abc123&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-ea30d8-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://primer.example/v1/sessions/sess-abc123&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
 r.raise_for_status()
-session = r.json()</code></pre></div><div class="tab-panel" id="tab-5c2e5d-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/sessions/sess-abc123&quot;, {
+session = r.json()</code></pre></div><div class="tab-panel" id="tab-ea30d8-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/sessions/sess-abc123&quot;, {
   headers: { &quot;Authorization&quot;: `Bearer ${token}` },
 });
 const session = await r.json();</code></pre></div></div>
@@ -466,7 +453,7 @@ const session = await r.json();</code></pre></div></div>
 <h2 id="post-v1sessionsfind">POST /v1/sessions/find</h2>
 <p>Predicate-based search with cursor or offset pagination and optional ordering.</p>
 <p><strong>Request body</strong></p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-bd3bd7-curl">curl</button><button class="tab" data-tab="tab-bd3bd7-python">python</button><button class="tab" data-tab="tab-bd3bd7-javascript">javascript</button></div><div class="tab-panel active" id="tab-bd3bd7-curl"><pre class="md-pre lang-curl"><code>curl -X POST &quot;https://primer.example/v1/sessions/find&quot; \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-3a36a4-curl">curl</button><button class="tab" data-tab="tab-3a36a4-python">python</button><button class="tab" data-tab="tab-3a36a4-javascript">javascript</button></div><div class="tab-panel active" id="tab-3a36a4-curl"><pre class="md-pre lang-curl"><code>curl -X POST &quot;https://primer.example/v1/sessions/find&quot; \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -478,7 +465,7 @@ const session = await r.json();</code></pre></div></div>
     },
     &quot;page&quot;: {&quot;kind&quot;: &quot;offset&quot;, &quot;offset&quot;: 0, &quot;length&quot;: 25},
     &quot;order_by&quot;: [{&quot;field&quot;: &quot;created_at&quot;, &quot;direction&quot;: &quot;desc&quot;}]
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-bd3bd7-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-3a36a4-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/sessions/find&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -494,7 +481,7 @@ r = httpx.post(
     },
 )
 r.raise_for_status()
-result = r.json()</code></pre></div><div class="tab-panel" id="tab-bd3bd7-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/sessions/find&quot;, {
+result = r.json()</code></pre></div><div class="tab-panel" id="tab-3a36a4-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/sessions/find&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -528,14 +515,14 @@ const result = await r.json();</code></pre></div></div>
 <p>Hard-cancels a session. Transitions <code>CREATED</code> sessions immediately to <code>ended/cancelled</code>. Returns <code>409</code> on a session already in a terminal state.</p>
 <p><strong>No request body required.</strong></p>
 <p><strong>Response: 200</strong> - <code>WorkspaceSession</code> with <code>status: &quot;ended&quot;</code> and <code>ended_reason: &quot;cancelled&quot;</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d37dd4-curl">curl</button><button class="tab" data-tab="tab-d37dd4-python">python</button><button class="tab" data-tab="tab-d37dd4-javascript">javascript</button></div><div class="tab-panel active" id="tab-d37dd4-curl"><pre class="md-pre lang-curl"><code>curl -X POST &quot;https://primer.example/v1/workspaces/ws-prod/sessions/sess-abc123/cancel&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-d37dd4-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-2c5cbc-curl">curl</button><button class="tab" data-tab="tab-2c5cbc-python">python</button><button class="tab" data-tab="tab-2c5cbc-javascript">javascript</button></div><div class="tab-panel active" id="tab-2c5cbc-curl"><pre class="md-pre lang-curl"><code>curl -X POST &quot;https://primer.example/v1/workspaces/ws-prod/sessions/sess-abc123/cancel&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-2c5cbc-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/workspaces/ws-prod/sessions/sess-abc123/cancel&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
 r.raise_for_status()
-session = r.json()</code></pre></div><div class="tab-panel" id="tab-d37dd4-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(
+session = r.json()</code></pre></div><div class="tab-panel" id="tab-2c5cbc-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(
   &quot;/v1/workspaces/ws-prod/sessions/sess-abc123/cancel&quot;,
   { method: &quot;POST&quot;, headers: { &quot;Authorization&quot;: `Bearer ${token}` } },
 );
@@ -548,12 +535,12 @@ const session = await r.json();</code></pre></div></div>
 <hr />
 <h2 id="get-v1sessionssession_idask_userpending">GET /v1/sessions/{session_id}/ask_user/pending</h2>
 <p>Returns the current <code>ask_user</code> prompt when the session is parked waiting for operator input. Returns <code>404</code> when the session is not parked on <code>ask_user</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d6fe84-curl">curl</button><button class="tab" data-tab="tab-d6fe84-python">python</button><button class="tab" data-tab="tab-d6fe84-javascript">javascript</button></div><div class="tab-panel active" id="tab-d6fe84-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://primer.example/v1/sessions/sess-abc123/ask_user/pending&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-d6fe84-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f99a39-curl">curl</button><button class="tab" data-tab="tab-f99a39-python">python</button><button class="tab" data-tab="tab-f99a39-javascript">javascript</button></div><div class="tab-panel active" id="tab-f99a39-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://primer.example/v1/sessions/sess-abc123/ask_user/pending&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-f99a39-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://primer.example/v1/sessions/sess-abc123/ask_user/pending&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
-)</code></pre></div><div class="tab-panel" id="tab-d6fe84-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/sessions/sess-abc123/ask_user/pending&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-f99a39-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/sessions/sess-abc123/ask_user/pending&quot;, {
   headers: { &quot;Authorization&quot;: `Bearer ${token}` },
 });</code></pre></div></div>
 <p><strong>Response: 200</strong></p>
@@ -617,16 +604,16 @@ r = httpx.get(
 </tr>
 </tbody>
 </table>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-6620cc-curl">curl</button><button class="tab" data-tab="tab-6620cc-python">python</button><button class="tab" data-tab="tab-6620cc-javascript">javascript</button></div><div class="tab-panel active" id="tab-6620cc-curl"><pre class="md-pre lang-curl"><code>curl -X POST &quot;https://primer.example/v1/sessions/sess-abc123/ask_user/respond&quot; \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a230be-curl">curl</button><button class="tab" data-tab="tab-a230be-python">python</button><button class="tab" data-tab="tab-a230be-javascript">javascript</button></div><div class="tab-panel active" id="tab-a230be-curl"><pre class="md-pre lang-curl"><code>curl -X POST &quot;https://primer.example/v1/sessions/sess-abc123/ask_user/respond&quot; \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;tool_call_id&quot;: &quot;tc-001&quot;, &quot;response&quot;: &quot;Use the OAuth2 flow&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-6620cc-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;tool_call_id&quot;: &quot;tc-001&quot;, &quot;response&quot;: &quot;Use the OAuth2 flow&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-a230be-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/sessions/sess-abc123/ask_user/respond&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     json={&quot;tool_call_id&quot;: &quot;tc-001&quot;, &quot;response&quot;: &quot;Use the OAuth2 flow&quot;},
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-6620cc-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/sessions/sess-abc123/ask_user/respond&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-a230be-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/sessions/sess-abc123/ask_user/respond&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -643,12 +630,12 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-6620cc-jav
 <hr />
 <h2 id="get-v1sessionssession_idtool_approvalpending">GET /v1/sessions/{session_id}/tool_approval/pending</h2>
 <p>Returns the pending tool approval request when the session is parked on the <code>_approval</code> tool. Returns <code>404</code> if the session is not parked on <code>_approval</code> (including when parked on a different tool such as <code>ask_user</code>).</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e2b7fb-curl">curl</button><button class="tab" data-tab="tab-e2b7fb-python">python</button><button class="tab" data-tab="tab-e2b7fb-javascript">javascript</button></div><div class="tab-panel active" id="tab-e2b7fb-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://primer.example/v1/sessions/sess-abc123/tool_approval/pending&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-e2b7fb-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c72eb3-curl">curl</button><button class="tab" data-tab="tab-c72eb3-python">python</button><button class="tab" data-tab="tab-c72eb3-javascript">javascript</button></div><div class="tab-panel active" id="tab-c72eb3-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://primer.example/v1/sessions/sess-abc123/tool_approval/pending&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-c72eb3-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://primer.example/v1/sessions/sess-abc123/tool_approval/pending&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
-)</code></pre></div><div class="tab-panel" id="tab-e2b7fb-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/sessions/sess-abc123/tool_approval/pending&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-c72eb3-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/sessions/sess-abc123/tool_approval/pending&quot;, {
   headers: { &quot;Authorization&quot;: `Bearer ${token}` },
 });</code></pre></div></div>
 <p><strong>Response: 200</strong></p>
@@ -738,10 +725,10 @@ r = httpx.get(
 </tr>
 </tbody>
 </table>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-834430-curl">curl</button><button class="tab" data-tab="tab-834430-python">python</button><button class="tab" data-tab="tab-834430-javascript">javascript</button></div><div class="tab-panel active" id="tab-834430-curl"><pre class="md-pre lang-curl"><code>curl -X POST &quot;https://primer.example/v1/sessions/sess-abc123/tool_approval/respond&quot; \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e98b3a-curl">curl</button><button class="tab" data-tab="tab-e98b3a-python">python</button><button class="tab" data-tab="tab-e98b3a-javascript">javascript</button></div><div class="tab-panel active" id="tab-e98b3a-curl"><pre class="md-pre lang-curl"><code>curl -X POST &quot;https://primer.example/v1/sessions/sess-abc123/tool_approval/respond&quot; \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;tool_call_id&quot;: &quot;tc-shell-001&quot;, &quot;decision&quot;: &quot;approved&quot;, &quot;reason&quot;: &quot;operator confirmed&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-834430-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;tool_call_id&quot;: &quot;tc-shell-001&quot;, &quot;decision&quot;: &quot;approved&quot;, &quot;reason&quot;: &quot;operator confirmed&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-e98b3a-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/sessions/sess-abc123/tool_approval/respond&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -751,7 +738,7 @@ r = httpx.post(
         &quot;reason&quot;: &quot;operator confirmed&quot;,
     },
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-834430-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/sessions/sess-abc123/tool_approval/respond&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-e98b3a-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/sessions/sess-abc123/tool_approval/respond&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -767,16 +754,16 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-834430-jav
 <hr />
 <h2 id="error-envelopes">Error envelopes</h2>
 <p>All error responses use RFC 7807 problem details:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f83fb1-curl">curl</button><button class="tab" data-tab="tab-f83fb1-python">python</button><button class="tab" data-tab="tab-f83fb1-javascript">javascript</button></div><div class="tab-panel active" id="tab-f83fb1-curl"><pre class="md-pre lang-curl"><code># Example 404 response body
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-8f91e9-curl">curl</button><button class="tab" data-tab="tab-8f91e9-python">python</button><button class="tab" data-tab="tab-8f91e9-javascript">javascript</button></div><div class="tab-panel active" id="tab-8f91e9-curl"><pre class="md-pre lang-curl"><code># Example 404 response body
 # {
 #   &quot;type&quot;: &quot;/errors/not-found&quot;,
 #   &quot;title&quot;: &quot;Not Found&quot;,
 #   &quot;status&quot;: 404,
 #   &quot;detail&quot;: &quot;session not found&quot;
-# }</code></pre></div><div class="tab-panel" id="tab-f83fb1-python"><pre class="md-pre lang-python"><code># Catch via r.raise_for_status() or inspect r.json()[&quot;type&quot;]:
+# }</code></pre></div><div class="tab-panel" id="tab-8f91e9-python"><pre class="md-pre lang-python"><code># Catch via r.raise_for_status() or inspect r.json()[&quot;type&quot;]:
 # &quot;/errors/not-found&quot;        : resource does not exist
 # &quot;/errors/conflict&quot;         : illegal state transition (e.g. resume on ended)
-# &quot;/errors/validation-error&quot; : request body failed schema validation</code></pre></div><div class="tab-panel" id="tab-f83fb1-javascript"><pre class="md-pre lang-javascript"><code>// On error, r.ok === false and r.json() returns:
+# &quot;/errors/validation-error&quot; : request body failed schema validation</code></pre></div><div class="tab-panel" id="tab-8f91e9-javascript"><pre class="md-pre lang-javascript"><code>// On error, r.ok === false and r.json() returns:
 // { type: &quot;/errors/not-found&quot;, title: &quot;...&quot;, status: 404, detail: &quot;...&quot; }
 // Common types: /errors/not-found, /errors/conflict, /errors/validation-error</code></pre></div></div>
 </article>

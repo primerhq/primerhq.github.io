@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -129,7 +116,7 @@
   <!-- Content -->
   <div class="content-wrap">
     <article class="article" id="article"><nav class="breadcrumb"><span>Reference</span> / <span>Channels API</span></nav><h1>Channels API</h1>
-<p>Channel providers hold the credentials for a messaging platform (Slack, Telegram, or Discord). Channels are the individual conversational rooms within a provider (a Slack channel, a Telegram chat id, a Discord channel). A Workspace can carry a <code>channel_association</code> that names the Channel all session gates (<code>ask_user</code>, tool approval, <code>inform</code>) from its sessions forward to. Chat config lives on the Channel itself (<code>config.chats</code>).</p>
+<p>Channel providers hold the credentials for a messaging platform (Slack, Telegram, or Discord). Channels are the individual conversational rooms within a provider (a Slack channel, a Telegram chat id, a Discord channel). A Workspace can carry a <code>reply_binding</code> that names the Channel all session gates (<code>ask_user</code>, tool approval, <code>inform</code>) from its sessions forward to. Chat config lives on the Channel itself (<code>config.chats</code>).</p>
 <p><a href="/features/chats/">How chats, ask_user, and the channel bridge fit together.</a></p>
 <p><a href="/channels/channels/">Configure channel providers in the console.</a></p>
 <h2 id="endpoints">Endpoints</h2>
@@ -204,12 +191,12 @@
 </tr>
 <tr>
 <td>PUT</td>
-<td><code>/v1/workspaces/{workspace_id}/channel_association</code></td>
+<td><code>/v1/workspaces/{workspace_id}/reply_binding</code></td>
 <td>Set workspace channel association</td>
 </tr>
 <tr>
 <td>DELETE</td>
-<td><code>/v1/workspaces/{workspace_id}/channel_association</code></td>
+<td><code>/v1/workspaces/{workspace_id}/reply_binding</code></td>
 <td>Clear workspace channel association</td>
 </tr>
 </tbody>
@@ -330,7 +317,7 @@
 </table>
 <h2 id="create-a-channel-provider">Create a channel provider</h2>
 <p><code>POST /v1/channel_providers</code> - returns <code>201 Created</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d38a82-curl">curl</button><button class="tab" data-tab="tab-d38a82-python">python</button><button class="tab" data-tab="tab-d38a82-javascript">javascript</button></div><div class="tab-panel active" id="tab-d38a82-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/channel_providers \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-564be3-curl">curl</button><button class="tab" data-tab="tab-564be3-python">python</button><button class="tab" data-tab="tab-564be3-javascript">javascript</button></div><div class="tab-panel active" id="tab-564be3-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/channel_providers \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -341,7 +328,7 @@
       &quot;bot_token&quot;: &quot;xoxb-1-DEF456&quot;,
       &quot;signing_secret&quot;: &quot;s3cr3t&quot;
     }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-d38a82-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-564be3-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/channel_providers&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -355,7 +342,7 @@ r = httpx.post(
         },
     },
 )
-assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-d38a82-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channel_providers&quot;, {
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-564be3-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channel_providers&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -374,14 +361,14 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-d38
 <li><code>409</code> - a provider with this <code>id</code> already exists</li>
 </ul>
 <p>To create a Telegram provider:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e2656f-curl">curl</button><button class="tab" data-tab="tab-e2656f-python">python</button><button class="tab" data-tab="tab-e2656f-javascript">javascript</button></div><div class="tab-panel active" id="tab-e2656f-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/channel_providers \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-3de6e8-curl">curl</button><button class="tab" data-tab="tab-3de6e8-python">python</button><button class="tab" data-tab="tab-3de6e8-javascript">javascript</button></div><div class="tab-panel active" id="tab-3de6e8-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/channel_providers \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
     &quot;id&quot;: &quot;telegram-bot&quot;,
     &quot;provider&quot;: &quot;telegram&quot;,
     &quot;config&quot;: {&quot;bot_token&quot;: &quot;1234567890:ABCDEFGHIJ1234567890&quot;}
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-e2656f-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-3de6e8-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/channel_providers&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -391,7 +378,7 @@ r = httpx.post(
         &quot;config&quot;: {&quot;bot_token&quot;: &quot;1234567890:ABCDEFGHIJ1234567890&quot;},
     },
 )
-assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-e2656f-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channel_providers&quot;, {
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-3de6e8-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channel_providers&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -402,12 +389,12 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-e26
 })</code></pre></div></div>
 <h2 id="get-a-channel-provider">Get a channel provider</h2>
 <p><code>GET /v1/channel_providers/{entity_id}</code> - returns <code>200 OK</code>. Token fields are redacted.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-87ce2f-curl">curl</button><button class="tab" data-tab="tab-87ce2f-python">python</button><button class="tab" data-tab="tab-87ce2f-javascript">javascript</button></div><div class="tab-panel active" id="tab-87ce2f-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/channel_providers/slack-main \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-87ce2f-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5396f7-curl">curl</button><button class="tab" data-tab="tab-5396f7-python">python</button><button class="tab" data-tab="tab-5396f7-javascript">javascript</button></div><div class="tab-panel active" id="tab-5396f7-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/channel_providers/slack-main \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-5396f7-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/channel_providers/slack-main&quot;,
               headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
 got = r.json()
-# got[&quot;config&quot;][&quot;bot_token&quot;] is redacted; never the raw value</code></pre></div><div class="tab-panel" id="tab-87ce2f-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channel_providers/slack-main&quot;, {
+# got[&quot;config&quot;][&quot;bot_token&quot;] is redacted; never the raw value</code></pre></div><div class="tab-panel" id="tab-5396f7-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channel_providers/slack-main&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const cp = await r.json()</code></pre></div></div>
@@ -415,11 +402,11 @@ const cp = await r.json()</code></pre></div></div>
 <h2 id="list-channel-providers">List channel providers</h2>
 <p><code>GET /v1/channel_providers</code> - returns an offset or cursor page.</p>
 <p>Query parameters: <code>limit</code> (1-200, default 20), <code>offset</code> (default 0), <code>cursor</code>, <code>order_by</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-dbf9a9-curl">curl</button><button class="tab" data-tab="tab-dbf9a9-python">python</button><button class="tab" data-tab="tab-dbf9a9-javascript">javascript</button></div><div class="tab-panel active" id="tab-dbf9a9-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/channel_providers?limit=20&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-dbf9a9-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-50a3df-curl">curl</button><button class="tab" data-tab="tab-50a3df-python">python</button><button class="tab" data-tab="tab-50a3df-javascript">javascript</button></div><div class="tab-panel active" id="tab-50a3df-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/channel_providers?limit=20&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-50a3df-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/channel_providers&quot;,
               headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
-providers = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-dbf9a9-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channel_providers?limit=20&quot;, {
+providers = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-50a3df-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channel_providers?limit=20&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const {items} = await r.json()</code></pre></div></div>
@@ -434,6 +421,7 @@ const {items} = await r.json()</code></pre></div></div>
     &quot;chats&quot;: {
       &quot;enabled&quot;: false,
       &quot;default_agent&quot;: null,
+      &quot;allow_agent_switch&quot;: false,
       &quot;allowed_agents&quot;: [],
       &quot;relay_mode&quot;: &quot;final&quot;
     }
@@ -513,10 +501,16 @@ const {items} = await r.json()</code></pre></div></div>
 <td>Agent id each new chat begins with; required when <code>chats.enabled=true</code></td>
 </tr>
 <tr>
+<td><code>config.chats.allow_agent_switch</code></td>
+<td>no</td>
+<td>boolean</td>
+<td>Default <code>false</code>. When <code>false</code>, the <code>/agent</code> command is disabled and <code>allowed_agents</code> is ignored</td>
+</tr>
+<tr>
 <td><code>config.chats.allowed_agents</code></td>
 <td>no</td>
 <td>list of strings</td>
-<td>Agent ids the <code>/agent</code> command may switch to; <code>[]</code> means any agent is allowed</td>
+<td>Only applies when <code>allow_agent_switch=true</code>: restricts <code>/agent</code> to these agent ids; <code>[]</code> means any agent is allowed</td>
 </tr>
 <tr>
 <td><code>config.chats.relay_mode</code></td>
@@ -528,7 +522,7 @@ const {items} = await r.json()</code></pre></div></div>
 </table>
 <h2 id="create-a-channel">Create a channel</h2>
 <p><code>POST /v1/channels</code> - returns <code>201 Created</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b77ff3-curl">curl</button><button class="tab" data-tab="tab-b77ff3-python">python</button><button class="tab" data-tab="tab-b77ff3-javascript">javascript</button></div><div class="tab-panel active" id="tab-b77ff3-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/channels \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-702d9f-curl">curl</button><button class="tab" data-tab="tab-702d9f-python">python</button><button class="tab" data-tab="tab-702d9f-javascript">javascript</button></div><div class="tab-panel active" id="tab-702d9f-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/channels \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -537,7 +531,7 @@ const {items} = await r.json()</code></pre></div></div>
     &quot;provider&quot;: &quot;slack&quot;,
     &quot;external_id&quot;: &quot;C0123ABCDEF&quot;,
     &quot;label&quot;: &quot;#general&quot;
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-b77ff3-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-702d9f-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/channels&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -549,7 +543,7 @@ r = httpx.post(
         &quot;label&quot;: &quot;#general&quot;,
     },
 )
-assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-b77ff3-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channels&quot;, {
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-702d9f-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channels&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -561,7 +555,7 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-b77
   })
 })</code></pre></div></div>
 <p>To enable chats on the channel:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-81fa81-curl">curl</button><button class="tab" data-tab="tab-81fa81-python">python</button><button class="tab" data-tab="tab-81fa81-javascript">javascript</button></div><div class="tab-panel active" id="tab-81fa81-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/channels \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e50954-curl">curl</button><button class="tab" data-tab="tab-e50954-python">python</button><button class="tab" data-tab="tab-e50954-javascript">javascript</button></div><div class="tab-panel active" id="tab-e50954-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/channels \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -577,7 +571,7 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-b77
         &quot;relay_mode&quot;: &quot;final&quot;
       }
     }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-81fa81-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-e50954-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/channels&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -596,7 +590,7 @@ r = httpx.post(
         },
     },
 )
-assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-81fa81-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channels&quot;, {
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-e50954-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/channels&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -621,37 +615,39 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-81f
 that channel. The association is a single nullable field on the
 workspace row, not a separate resource.</p>
 <h3 id="set-workspace-channel-association">Set workspace channel association</h3>
-<p><code>PUT /v1/workspaces/{workspace_id}/channel_association</code> - returns <code>200 OK</code>.</p>
+<p><code>PUT /v1/workspaces/{workspace_id}/reply_binding</code> - returns <code>200 OK</code>.</p>
 <p>Body:</p>
 <pre><code class="language-json">{&quot;channel_id&quot;: &quot;ch-general&quot;}
 </code></pre>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-91446e-curl">curl</button><button class="tab" data-tab="tab-91446e-python">python</button><button class="tab" data-tab="tab-91446e-javascript">javascript</button></div><div class="tab-panel active" id="tab-91446e-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/workspaces/ws-prod/channel_association \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-59bba2-curl">curl</button><button class="tab" data-tab="tab-59bba2-python">python</button><button class="tab" data-tab="tab-59bba2-javascript">javascript</button></div><div class="tab-panel active" id="tab-59bba2-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/workspaces/ws-prod/reply_binding \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;channel_id&quot;: &quot;ch-general&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-91446e-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;channel_id&quot;: &quot;ch-general&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-59bba2-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.put(
-    &quot;https://your-host/v1/workspaces/ws-prod/channel_association&quot;,
+    &quot;https://your-host/v1/workspaces/ws-prod/reply_binding&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     json={&quot;channel_id&quot;: &quot;ch-general&quot;},
 )
-assert r.status_code == 200</code></pre></div><div class="tab-panel" id="tab-91446e-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspaces/ws-prod/channel_association&quot;, {
+assert r.status_code == 200</code></pre></div><div class="tab-panel" id="tab-59bba2-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspaces/ws-prod/reply_binding&quot;, {
   method: &quot;PUT&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({channel_id: &quot;ch-general&quot;})
 })</code></pre></div></div>
 <p><strong>Errors:</strong></p>
 <ul>
-<li><code>404</code> - workspace or channel does not exist</li>
+<li><code>404</code> - workspace does not exist</li>
+<li><code>422</code> - the named channel does not exist</li>
+<li><code>409</code> - the workspace is terminating and cannot have its association changed</li>
 </ul>
 <h3 id="clear-workspace-channel-association">Clear workspace channel association</h3>
-<p><code>DELETE /v1/workspaces/{workspace_id}/channel_association</code> - returns <code>200 OK</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-4c250a-curl">curl</button><button class="tab" data-tab="tab-4c250a-python">python</button><button class="tab" data-tab="tab-4c250a-javascript">javascript</button></div><div class="tab-panel active" id="tab-4c250a-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/workspaces/ws-prod/channel_association \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-4c250a-python"><pre class="md-pre lang-python"><code>import httpx
+<p><code>DELETE /v1/workspaces/{workspace_id}/reply_binding</code> - returns <code>204 No Content</code>.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5a9976-curl">curl</button><button class="tab" data-tab="tab-5a9976-python">python</button><button class="tab" data-tab="tab-5a9976-javascript">javascript</button></div><div class="tab-panel active" id="tab-5a9976-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/workspaces/ws-prod/reply_binding \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-5a9976-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.delete(
-    &quot;https://your-host/v1/workspaces/ws-prod/channel_association&quot;,
+    &quot;https://your-host/v1/workspaces/ws-prod/reply_binding&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-assert r.status_code == 200</code></pre></div><div class="tab-panel" id="tab-4c250a-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspaces/ws-prod/channel_association&quot;, {
+assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-5a9976-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspaces/ws-prod/reply_binding&quot;, {
   method: &quot;DELETE&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
@@ -659,8 +655,21 @@ assert r.status_code == 200</code></pre></div><div class="tab-panel" id="tab-4c2
 <ul>
 <li><code>404</code> - workspace does not exist</li>
 </ul>
+<h3 id="primectl">primectl</h3>
+<p>The same reply-binding and channel-trigger operations are available from the <code>primectl channel</code> command group:</p>
+<pre><code>primectl channel binding set &lt;workspace_id&gt; &lt;channel_id&gt;   # PUT reply_binding
+primectl channel binding clear &lt;workspace_id&gt;              # DELETE reply_binding
+primectl channel binding get &lt;workspace_id&gt;                # read the workspace reply_binding
+
+primectl channel trigger create --provider &lt;provider_id&gt; [--channel &lt;channel_id&gt;] \
+  --slug &lt;slug&gt; --name &lt;name&gt;
+
+primectl channel sub create &lt;trigger_id&gt; --action &lt;kind&gt; --event-type &lt;type&gt; \
+  [--command &lt;name&gt;] [--reply-target &lt;target&gt;] --set field=value ...
+</code></pre>
+<p><code>trigger create</code> posts a <code>channel</code> <code>TriggerConfig</code> (provider-wide when <code>--channel</code> is omitted), and <code>sub create</code> assembles the action <code>config</code>, <code>event_matcher</code>, and <code>reply_target</code> so operators do not hand-write the discriminated config.</p>
 <h2 id="errors-note">Errors note</h2>
-<p>All error responses use the RFC 7807 <code>ProblemDetails</code> envelope with <code>type</code>, <code>title</code>, <code>status</code>, <code>detail</code>, <code>instance</code>, and <code>extensions</code> (which includes <code>request_id</code> and, for 422 errors, an <code>errors</code> array with field paths). See the REST API overview for details.</p>
+<p>Channel-provider and channel CRUD errors use the RFC 7807 <code>ProblemDetails</code> envelope with <code>type</code>, <code>title</code>, <code>status</code>, <code>detail</code>, <code>instance</code>, and <code>extensions</code> (which includes <code>request_id</code> and, for 422 errors, an <code>errors</code> array with field paths). The workspace channel-association routes (<code>PUT</code> / <code>DELETE .../reply_binding</code>) instead return a <code>{&quot;detail&quot;: {&quot;error&quot;: &quot;&lt;code&gt;&quot;, &quot;message&quot;: &quot;...&quot;}}</code> body for their <code>409</code> (workspace terminating) and <code>422</code> (channel not found) cases. See the REST API overview for details.</p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

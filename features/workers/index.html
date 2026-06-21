@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -134,7 +121,7 @@
 <p>The <strong>claim engine</strong> (sometimes called the scheduler) is the background loop that continuously polls for runnable sessions and assigns them to free worker slots. The claim engine and the worker pool together form the runtime that keeps work moving.</p>
 <p>No configuration is required to use the worker pool: primer starts a worker in the same process as the API by default. The Workers page in the console lets you monitor pool state, inspect in-flight capacity, and drain workers before taking them out of service.</p>
 <h2 id="how-the-claim-and-lease-model-works">How the claim and lease model works</h2>
-<p>Every runnable or resumable session holds a <strong>lease row</strong> in storage. The claim engine polls for rows where <code>turn_status = claimable</code> and <code>parked_status IS NULL</code> (parked sessions are invisible to claimers). A worker wins the claim atomically using a row-level lock (<code>FOR UPDATE SKIP LOCKED</code> on Postgres, a serialised write in single-process mode). Only the lease-holder executes the turn.</p>
+<p>Every runnable or resumable session holds a <strong>lease row</strong> in storage. A session becomes claimable when its <code>turn_status</code> flips to <code>claimable</code>, which upserts the lease. The claim engine then polls for sessions whose lease is free (unclaimed or expired) and whose <code>parked_status</code> is absent or <code>resumable</code> (a <code>parked</code> session is invisible to claimers). A worker wins the claim atomically using a row-level lock (<code>FOR UPDATE SKIP LOCKED</code> on Postgres, a serialised write in single-process mode). Only the lease-holder executes the turn.</p>
 <p>When a worker holds a lease it heartbeats on a regular interval, refreshing the lease expiry timestamp. If the worker crashes without releasing the lease, the timestamp eventually passes and the lease becomes claimable again. Another worker can then re-claim and continue the run.</p>
 <p>Two safety properties hold across the lifecycle:</p>
 <p><strong>No double-claim while running.</strong> Competing workers skip a row that is already locked. Only one worker ever holds a lease at a time.</p>
@@ -246,19 +233,29 @@
 </thead>
 <tbody>
 <tr>
-<td>Worker capacity</td>
-<td>25</td>
+<td>Worker capacity (<code>concurrency</code>)</td>
+<td>8</td>
 <td>Maximum concurrent sessions per worker. Increase for I/O-bound workloads, decrease if sessions are CPU-heavy.</td>
 </tr>
 <tr>
-<td>Lease TTL</td>
-<td>(platform default)</td>
+<td>Lease TTL (<code>lease_ttl_seconds</code>)</td>
+<td>30</td>
 <td>How long a held lease stays valid without a heartbeat. Must be at least twice the heartbeat interval.</td>
 </tr>
 <tr>
-<td>Heartbeat interval</td>
-<td>(platform default)</td>
+<td>Heartbeat interval (<code>heartbeat_interval_seconds</code>)</td>
+<td>10</td>
 <td>How often a running worker refreshes its lease expiry.</td>
+</tr>
+<tr>
+<td>Poll interval (<code>poll_interval_seconds</code>)</td>
+<td>2.0</td>
+<td>How long the claim loop waits between poll cycles when idle.</td>
+</tr>
+<tr>
+<td>Drain timeout (<code>drain_timeout_seconds</code>)</td>
+<td>120</td>
+<td>How long a drain waits for in-flight sessions before forcing the worker down.</td>
 </tr>
 </tbody>
 </table>

@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>/channels/channel-providers/</loc></url>
-  <url><loc>/channels/channel-workspace-association/</loc></url>
+  <url><loc>/channels/channel-reply-binding/</loc></url>
+  <url><loc>/channels/channel-rules/</loc></url>
   <url><loc>/channels/channels/</loc></url>
   <url><loc>/channels/overview/</loc></url>
-  <url><loc>/cookbook/approval-gated-deploy-bot/</loc></url>
-  <url><loc>/cookbook/daily-incident-digest/</loc></url>
-  <url><loc>/cookbook/discord-moderation-helper/</loc></url>
-  <url><loc>/cookbook/event-driven-data-pipeline/</loc></url>
-  <url><loc>/cookbook/internal-tool-via-mcp/</loc></url>
-  <url><loc>/cookbook/multi-agent-graph-research/</loc></url>
-  <url><loc>/cookbook/pr-reviewer-on-cron/</loc></url>
-  <url><loc>/cookbook/scheduled-summariser/</loc></url>
-  <url><loc>/cookbook/slack-question-answerer/</loc></url>
-  <url><loc>/cookbook/telegram-personal-assistant/</loc></url>
-  <url><loc>/cookbook/workspace-as-build-env/</loc></url>
   <url><loc>/embedding/collections-and-documents/</loc></url>
   <url><loc>/embedding/cross-encoder-providers/</loc></url>
   <url><loc>/embedding/embedding-providers/</loc></url>

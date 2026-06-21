@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -222,33 +209,7 @@
 <h3 id="advanced-tab">Advanced tab</h3>
 <ul>
 <li>
-<p><strong>System prompt</strong>: the fixed instruction block sent before every turn. Accepts Jinja-style placeholders resolved against the session's input metadata:</p>
-<table>
-<thead>
-<tr>
-<th>Placeholder</th>
-<th>Resolves to</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>{{ agent.name }}</code></td>
-<td>The agent's id</td>
-</tr>
-<tr>
-<td><code>{{ session.workspace_id }}</code></td>
-<td>The workspace the session runs in</td>
-</tr>
-<tr>
-<td><code>{{ session.input }}</code></td>
-<td>The initial input string</td>
-</tr>
-<tr>
-<td><code>{{ now }}</code></td>
-<td>Current ISO timestamp</td>
-</tr>
-</tbody>
-</table>
+<p><strong>System prompt</strong>: the fixed instruction block sent before every turn. It is sent verbatim, joined across its parts; the runtime does not substitute placeholders into it (a workspace session appends its own fixed fragment, but that is added by the runtime, not templated from your text).</p>
 <p>Keep the system prompt focused on role, output format, and constraints. Pass data that changes per-run through the session input instead of hardcoding it into the prompt.</p>
 </li>
 <li>
@@ -296,7 +257,7 @@
 </tr>
 </tbody>
 </table>
-<p>The subagent's tool surface excludes yielding tools (ask_user, approval gates, invoke_graph): a subagent runs inline and cannot pause for a human. Nested invocations are capped by a depth limit (default 8, configurable via <code>PRIMER_MAX_INVOCATION_DEPTH</code>) so a cycle of agents calling each other cannot recurse forever.</p>
+<p>The subagent runs with its full <code>tools</code> surface, including yielding tools (ask_user, approval gates), and the caller's approval gate is inherited. If a tool yields, the whole nested-invocation chain parks and resumes when the human replies. Nested invocations are capped by a depth limit (default 8, configurable via <code>PRIMER_MAX_INVOCATION_DEPTH</code>) so a cycle of agents calling each other cannot recurse forever.</p>
 <h3 id="switch_to_agent-hand-off-the-chat"><code>switch_to_agent</code> (hand off the chat)</h3>
 <p><code>system__switch_to_agent</code> hands the current chat off to another agent and ends the current turn. Unlike <code>invoke_agent</code>, it does not return a value: the chat's agent changes and the new agent runs the handoff prompt as the next turn, with the full prior conversation as shared context.</p>
 <table>

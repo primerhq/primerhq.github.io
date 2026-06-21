@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -162,7 +149,7 @@ HTTP to the running <code>primer api</code> process.</p>
 <h2 id="auth">Auth</h2>
 <p>Every request to <code>/v1/mcp</code> must carry a valid bearer token in the
 <code>Authorization</code> header:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-0ec2ad-bash">bash</button></div><div class="tab-panel active" id="tab-0ec2ad-bash"><pre class="md-pre lang-bash"><code>Authorization: Bearer &lt;token&gt;</code></pre></div></div>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-20f7b6-bash">bash</button></div><div class="tab-panel active" id="tab-20f7b6-bash"><pre class="md-pre lang-bash"><code>Authorization: Bearer &lt;token&gt;</code></pre></div></div>
 <p>Anonymous requests receive <code>401</code> with <code>WWW-Authenticate: Bearer realm=&quot;primer&quot;</code>. Bearer tokens that lack the <code>mcp</code> scope receive
 <code>403</code> with <code>{&quot;code&quot;: &quot;scope_required&quot;, &quot;scope&quot;: &quot;mcp&quot;}</code>.</p>
 <p>Cookie sessions (operator console) pass the scope check without
@@ -171,7 +158,7 @@ scope; grant only the scopes the remote agent actually needs.</p>
 <h2 id="enabling-exposure">Enabling exposure</h2>
 <p>Before any tools appear on <code>tools/list</code>, the operator must enable the
 allowlist:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-33e5c1-bash">bash</button></div><div class="tab-panel active" id="tab-33e5c1-bash"><pre class="md-pre lang-bash"><code>curl -X PUT http://localhost:8000/v1/mcp_exposure \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d9adb7-bash">bash</button></div><div class="tab-panel active" id="tab-d9adb7-bash"><pre class="md-pre lang-bash"><code>curl -X PUT http://localhost:8000/v1/mcp_exposure \
   -H &quot;Cookie: &lt;session&gt;&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{&quot;enabled&quot;: true, &quot;allowed_tools&quot;: [&quot;system__call_tool&quot;, &quot;misc__uuid_v4&quot;]}&#x27;</code></pre></div></div>
@@ -184,7 +171,9 @@ mutate the allowlist even with the <code>mcp</code> scope.</p>
 <p>Only tools from the reserved built-in toolsets can be exposed. Tools
 from user-defined toolset rows are always denied with reason
 <code>not_system_toolset</code>. Built-in toolset ids are: <code>system</code>, <code>workspaces</code>,
-<code>misc</code>, <code>web</code>, <code>harness</code>, <code>trigger</code>, <code>search</code>.</p>
+<code>misc</code>, <code>web</code>, <code>harness</code>, <code>trigger</code>, <code>search</code>, and <code>workspace_ext</code>
+(though every <code>workspace_ext</code> tool is also caught by the yielding or
+session floor below, so none are reachable in practice).</p>
 <p>Additional constraints applied before a tool can be allowlisted:</p>
 <ul>
 <li><strong>Yielding tools</strong> are denied (<code>yielding_unsupported</code>). MCP v1 has
@@ -199,7 +188,7 @@ make it callable over MCP, disable or delete the approval policy
 first.</p>
 <h2 id="listing-tools">Listing tools</h2>
 <p>Connect an MCP client to <code>/v1/mcp</code> and issue <code>tools/list</code>:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-7f17f4-bash">bash</button></div><div class="tab-panel active" id="tab-7f17f4-bash"><pre class="md-pre lang-bash"><code># Using the MCP Inspector (example):
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5c9beb-bash">bash</button></div><div class="tab-panel active" id="tab-5c9beb-bash"><pre class="md-pre lang-bash"><code># Using the MCP Inspector (example):
 npx @modelcontextprotocol/inspector \
   --url http://localhost:8000/v1/mcp \
   --header &quot;Authorization: Bearer &lt;token&gt;&quot;</code></pre></div></div>
@@ -207,7 +196,7 @@ npx @modelcontextprotocol/inspector \
 not blocked by the safety floor. If exposure is disabled (<code>enabled: false</code>), the list is empty.</p>
 <h2 id="calling-a-tool">Calling a tool</h2>
 <p>Issue a <code>tools/call</code> request with the scoped tool id:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-528d30-json">json</button></div><div class="tab-panel active" id="tab-528d30-json"><pre class="md-pre lang-json"><code>{
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-bcd4f4-json">json</button></div><div class="tab-panel active" id="tab-bcd4f4-json"><pre class="md-pre lang-json"><code>{
   &quot;method&quot;: &quot;tools/call&quot;,
   &quot;params&quot;: {
     &quot;name&quot;: &quot;misc__uuid_v4&quot;,
@@ -216,7 +205,7 @@ not blocked by the safety floor. If exposure is disabled (<code>enabled: false</
 }</code></pre></div></div>
 <h2 id="result-envelope">Result envelope</h2>
 <p>Every tool result has the same shape regardless of success or error:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-7217d7-json">json</button></div><div class="tab-panel active" id="tab-7217d7-json"><pre class="md-pre lang-json"><code>{
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-dc685d-json">json</button></div><div class="tab-panel active" id="tab-dc685d-json"><pre class="md-pre lang-json"><code>{
   &quot;isError&quot;: false,
   &quot;content&quot;: [
     { &quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;&lt;tool output&gt;&quot; }

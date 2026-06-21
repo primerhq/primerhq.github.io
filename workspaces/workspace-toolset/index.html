@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -132,7 +119,7 @@
 <h2 id="what-the-workspace-toolset-is">What the workspace toolset is</h2>
 <p>When an agent runs inside a workspace session, primer automatically registers a fixed set of workspace tools with it. You do not add these on the agent's Tools tab and you cannot remove them: any agent that executes in a workspace gets them, because their whole purpose is to grant that agent access to its workspace.</p>
 <p>These tools operate on the <strong>current session's workspace</strong>, its filesystem and a shell. They are the same tools whether the workspace runs on the local filesystem, a container, or a Kubernetes pod: the backend differs but the tool surface is identical.</p>
-<p>There are seven of them, and they use short, conventional names (no <code>workspace</code> prefix):</p>
+<p>There are seven of them, and they use short, conventional names. The model sees them scoped under the reserved <code>workspace</code> toolset (<code>workspace__ls</code>, <code>workspace__read</code>, and so on); this page refers to them by their short names:</p>
 <table>
 <thead>
 <tr>
@@ -193,7 +180,7 @@
 <h3 id="write"><code>write</code></h3>
 <p>Creates or replaces a file.</p>
 <ul>
-<li><code>path</code> (required), <code>content</code> (required), <code>mode</code> (optional octal, default 0644).</li>
+<li><code>path</code> (required), <code>content</code> (required), <code>mode</code> (optional octal string; when omitted the backend applies its default, typically 0644).</li>
 <li><code>force</code> (default false): bypass the read-before-write guard.</li>
 </ul>
 <p><code>write</code> enforces a <strong>read-before-write</strong> rule: it refuses to overwrite an existing file the agent has not <code>read</code> during the current session, unless <code>force=true</code> is passed. Creating a new file is always allowed. This mirrors the safety rule coding assistants use to avoid clobbering content the agent has not actually seen.</p>
@@ -207,15 +194,15 @@
 <h3 id="glob"><code>glob</code></h3>
 <p>Finds files by glob pattern.</p>
 <ul>
-<li><code>pattern</code> (required, e.g. <code>src/**/*.py</code>), <code>path</code> (default <code>.</code>), plus <code>limit</code> and <code>offset</code> for paging.</li>
+<li><code>pattern</code> (required, e.g. <code>src/**/*.py</code>), <code>path</code> (default <code>.</code>), plus <code>limit</code> (default 250) and <code>offset</code> for paging.</li>
 </ul>
 <p>Returns matching paths, newest first.</p>
 <h3 id="grep"><code>grep</code></h3>
-<p>Searches file contents by regular expression (uses ripgrep when available, with a Python fallback).</p>
+<p>Searches file contents by regular expression (a pure-Python implementation).</p>
 <ul>
 <li><code>pattern</code> (required regex), <code>path</code> (default <code>.</code>), and <code>glob</code> to filter which files are searched.</li>
 <li><code>output_mode</code>: <code>files_with_matches</code> (default), <code>content</code>, or <code>count</code>.</li>
-<li><code>case_insensitive</code>, <code>multiline</code>, <code>context</code> (lines of context around a match), and <code>head_limit</code>.</li>
+<li><code>case_insensitive</code>, <code>multiline</code>, <code>context</code> (lines of context around a match), and <code>head_limit</code> (default 250).</li>
 </ul>
 <p>In <code>content</code> mode it emits <code>&lt;path&gt;:&lt;lineno&gt;:&lt;text&gt;</code>; in <code>count</code> mode, <code>&lt;path&gt;:&lt;count&gt;</code>.</p>
 <h3 id="exec"><code>exec</code></h3>
@@ -224,10 +211,10 @@
 <li><code>command</code> (required): a command line passed to a shell.</li>
 <li><code>workdir</code> (default <code>.</code>): working directory relative to the workspace root.</li>
 <li><code>timeout_ms</code> (default 120000): a hard timeout.</li>
-<li><code>background</code> (default false): return immediately with a process handle instead of blocking.</li>
+<li><code>background</code> (default false): reserved for non-blocking execution. Not yet implemented; passing <code>background=true</code> returns an error.</li>
 <li><code>description</code> (required): a one-line description of what the command does.</li>
 </ul>
-<p>In the foreground it returns the exit code, then stdout, then stderr (truncated by the standard output policy). In the background it returns a process id and an output path; the agent reads the streaming output through the regular <code>read</code> tool, and backgrounded processes are reaped when the workspace closes.</p>
+<p>It returns the exit code, then stdout, then stderr (truncated by the standard output policy).</p>
 <div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p><code>exec</code> gives the agent a real shell inside the workspace sandbox. Scope what a workspace agent can reach through its workspace template and the backend you run it on (a throwaway local directory, a container, or a Kubernetes pod), and gate sensitive operations with an approval policy if needed.</p>
 </div></div>
 <p><a href="/workspaces/workspace-providers/">Workspace backends (local, container, kubernetes) and how a workspace is materialised.</a></p>

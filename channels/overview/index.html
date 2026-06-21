@@ -82,26 +82,13 @@
 <a class="nav-link" href="/channels/overview/">Channels</a>
 <a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
 <a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
-<a class="nav-link" href="/channels/channel-workspace-association/">Channel Workspace Associations</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
 <a class="nav-link" href="/features/triggers/">Triggers</a>
 <a class="nav-link" href="/features/harnesses/">Harnesses</a>
 <a class="nav-link" href="/features/mcp-server/">MCP Server</a>
 <a class="nav-link" href="/features/workers/">Workers</a>
 <a class="nav-link" href="/features/observability/">Observability</a>
-</div>
-<div class="nav-group">
-<div class="nav-title">Cookbook</div>
-<a class="nav-link" href="/cookbook/scheduled-summariser/">Scheduled summariser</a>
-<a class="nav-link" href="/cookbook/slack-question-answerer/">Slack question answerer</a>
-<a class="nav-link" href="/cookbook/telegram-personal-assistant/">Telegram personal assistant</a>
-<a class="nav-link" href="/cookbook/pr-reviewer-on-cron/">PR reviewer on cron</a>
-<a class="nav-link" href="/cookbook/discord-moderation-helper/">Discord moderation helper</a>
-<a class="nav-link" href="/cookbook/daily-incident-digest/">Daily incident digest</a>
-<a class="nav-link" href="/cookbook/workspace-as-build-env/">Workspace as a build environment</a>
-<a class="nav-link" href="/cookbook/multi-agent-graph-research/">Multi-agent research pipeline</a>
-<a class="nav-link" href="/cookbook/internal-tool-via-mcp/">Expose an internal tool via MCP</a>
-<a class="nav-link" href="/cookbook/event-driven-data-pipeline/">Event-driven data pipeline</a>
-<a class="nav-link" href="/cookbook/approval-gated-deploy-bot/">Approval-gated deploy bot</a>
 </div>
 <div class="nav-group">
 <div class="nav-title">Reference</div>
@@ -130,15 +117,16 @@
   <div class="content-wrap">
     <article class="article" id="article"><nav class="breadcrumb"><span>channels</span> / <span>Channels</span></nav><h1>Channels</h1>
 <h2 id="what-channels-give-you">What channels give you</h2>
-<p>A <strong>channel</strong> connects primer to a messaging platform so agents are reachable where people already are. Channels carry two directions of traffic:</p>
+<p>A <strong>channel</strong> connects primer to a messaging platform so agents are reachable where people already are. A channel is one set of credentials and one room, used by two independent surfaces:</p>
 <ul>
-<li><strong>Access</strong>: messages from a platform reach an agent, and the agent's replies go back to the same conversation.</li>
-<li><strong>Interactivity</strong>: when a session asks a question or hits an approval gate, the channel forwards that prompt to chat and relays the human's answer back, so a run can be driven entirely from Slack, Telegram, or Discord.</li>
+<li><strong>Inbound: channel event to platform action.</strong> A message or command arriving in the room is normalized into a <code>ChannelEvent</code> and matched against rules. A match dispatches an action: start a chat, run an agent or graph session, or resume a parked workflow. The default &quot;a new message opens a chat&quot; still works with no rule at all.</li>
+<li><strong>Outbound: session reply to channel.</strong> When a session asks a question, hits an approval gate, or finishes, that traffic follows a reply binding back to the channel and thread it came from. The standing reply binding lives on the workspace; an inbound rule can set a more specific one per session.</li>
 </ul>
-<p>A <strong>channel provider</strong> holds the platform connection and credentials; a <strong>workspace association</strong> decides which workspace (and which agents) a channel routes to.</p>
+<p>A <strong>channel provider</strong> holds the platform connection and credentials; <strong>channel rules</strong> map inbound events to actions; a <strong>reply binding</strong> decides where a workspace's session traffic goes back.</p>
 <p><a href="/channels/channel-providers/">Register a Slack, Telegram, or Discord channel provider and its credentials.</a></p>
-<p><a href="/channels/channels/">How channels drive chats and forward a session's questions and approvals to a conversation.</a></p>
-<p><a href="/channels/channel-workspace-association/">Bind a channel to a workspace and scope which agents it can reach.</a></p>
+<p><a href="/channels/channels/">How channels drive chats and the per-room chat settings.</a></p>
+<p><a href="/channels/channel-rules/">Map inbound events to platform actions and choose the reply target.</a></p>
+<p><a href="/channels/channel-reply-binding/">Bind a workspace to a channel as its standing outbound reply destination.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>
