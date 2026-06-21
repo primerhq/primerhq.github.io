@@ -67,6 +67,13 @@ sections:
       - features/mcp-server
       - features/workers
       - features/observability
+  - id: cookbook
+    title: Cookbook
+    icon: tools
+    order: 3
+    docs:
+      - overview
+      - iterative-web-research
   - id: reference
     title: Reference
     icon: doc
