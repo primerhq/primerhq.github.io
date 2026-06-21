@@ -59,7 +59,7 @@ Approval configurations are additive and reversible. A configuration can be disa
 The Approvals page is a single **records** view. It lists every approval record, with controls to sort **by time** and **by status**, and a status badge on each row (pending, approved, rejected, timeout, cancelled). It polls automatically every five seconds. There is no global "Policies" tab: approval gates are configured **per tool**, not in a shared list, so the page links you to the Tools page when you want to add or edit a gate.
 
 ```callout:note
-The view shows two kinds of record together. A **pending** record is a tool call currently parked on a gate (drawn live from parked sessions and chats). A **resolved** record is a decision that has been finalized; every approve, reject, timeout, and cancel is now persisted durably the moment it is made, so the full history stays visible alongside the live pending calls. Sort by status to group them; only pending rows expose the Approve / Reject controls.
+The view shows two kinds of record together. A **pending** record is a tool call currently waiting on a gate (a parked session, or a chat that has soft-yielded on the gate). A **resolved** record is a decision that has been finalized; every approve, reject, timeout, and cancel is now persisted durably the moment it is made, so the full history stays visible alongside the live pending calls. Sort by status to group them; only pending rows expose the Approve / Reject controls.
 ```
 
 ### Creating an approval configuration
@@ -185,7 +185,7 @@ Now, the next time any agent calls `system__delete_agent`:
 4. Click **Approve** to release the call; the session resumes and the delete executes.
 5. Or click **Reject**, type a reason, and click **Send rejection**. The agent receives a clean error and can decide how to proceed.
 
-The amber banner in the session or chat detail view also shows the Approve and Reject controls while the call is parked.
+The amber banner in the session or chat detail view also shows the Approve and Reject controls while the call is pending (a parked session or a soft-yielded chat).
 
 ```callout:danger
 Rejecting a tool call is not a retry. The agent receives an error message. If the agent's system prompt does not anticipate a rejection it may stall or end unexpectedly. Test the reject path in a development session before enabling a required configuration in production.
