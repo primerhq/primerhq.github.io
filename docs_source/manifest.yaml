@@ -78,6 +78,7 @@ sections:
       - scheduled-stock-monitor
       - rag-knowledge-base
       - meta-agent-builder
+      - app-builder
       - fanout-code-review
       - compliance-sweep
       - onboarding-assembly
