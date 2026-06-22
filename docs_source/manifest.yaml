@@ -80,6 +80,7 @@ sections:
       - meta-agent-builder
       - fanout-code-review
       - compliance-sweep
+      - onboarding-assembly
       - harness-packaging
       - support-desk
       - incident-responder
