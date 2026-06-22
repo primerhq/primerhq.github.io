@@ -88,6 +88,7 @@ sections:
       - release-conductor
       - tiered-help-desk
       - code-interpreter
+      - mcp-service
   - id: reference
     title: Reference
     icon: doc
