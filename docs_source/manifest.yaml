@@ -87,6 +87,7 @@ sections:
       - incident-responder
       - release-conductor
       - tiered-help-desk
+      - code-interpreter
   - id: reference
     title: Reference
     icon: doc
