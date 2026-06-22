@@ -79,6 +79,7 @@ sections:
       - rag-knowledge-base
       - meta-agent-builder
       - fanout-code-review
+      - compliance-sweep
       - harness-packaging
       - support-desk
       - incident-responder
