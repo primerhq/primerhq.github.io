@@ -82,6 +82,7 @@ sections:
       - harness-packaging
       - support-desk
       - incident-responder
+      - release-conductor
   - id: reference
     title: Reference
     icon: doc
