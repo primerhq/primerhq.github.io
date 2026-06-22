@@ -85,6 +85,7 @@ sections:
       - support-desk
       - incident-responder
       - release-conductor
+      - tiered-help-desk
   - id: reference
     title: Reference
     icon: doc
