@@ -207,7 +207,7 @@ class TestRealManifestResolves:
     def test_shipped_manifest_has_no_dangling_slugs(self):
         from pathlib import Path as _Path
 
-        root = _Path(__file__).resolve().parents[2] / "primer" / "user_docs"
+        root = _Path(__file__).resolve().parents[1] / "docs_source"
         svc = UserDocsService(root)
         svc.reload_index()
 
@@ -242,7 +242,7 @@ class TestRealManifestResolves:
     def test_features_section_is_nested(self):
         from pathlib import Path as _Path
 
-        root = _Path(__file__).resolve().parents[2] / "primer" / "user_docs"
+        root = _Path(__file__).resolve().parents[1] / "docs_source"
         svc = UserDocsService(root)
         svc.reload_index()
         sections = svc.list_sections()

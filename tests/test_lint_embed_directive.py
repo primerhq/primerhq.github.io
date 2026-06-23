@@ -47,8 +47,8 @@ def _codes(issues: list[LintIssue]) -> list[str]:
 # ---------------------------------------------------------------------------
 
 _REGISTRY_PATH = (
-    pathlib.Path(__file__).resolve().parent.parent.parent
-    / "primer" / "user_docs" / "_fixtures" / "registry.json"
+    pathlib.Path(__file__).resolve().parent.parent
+    / "docs_source" / "_fixtures" / "registry.json"
 )
 try:
     _registry_data = json.loads(_REGISTRY_PATH.read_text(encoding="utf-8"))
