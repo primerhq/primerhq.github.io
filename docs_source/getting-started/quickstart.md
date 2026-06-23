@@ -13,7 +13,7 @@ Clone the repo, sync dependencies, and start the API server. Then open the conso
 
 ```code-tabs:bash
 --- bash
-git clone https://github.com/codemug/primer.git
+git clone https://github.com/primerhq/primer.git
 cd primer
 uv sync
 uv run primer api
