@@ -91,6 +91,27 @@
 <a class="nav-link" href="/features/observability/">Observability</a>
 </div>
 <div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
 <div class="nav-title">Reference</div>
 <a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
 <a class="nav-link" href="/reference/api-agents/">Agents API</a>
@@ -147,7 +168,7 @@
 <h2 id="configuration">Configuration</h2>
 <figure class="embed"><picture><source srcset="/_embeds/approvals-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/approvals-light.png" alt="approvals (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
 <p>The Approvals page is a single <strong>records</strong> view. It lists every approval record, with controls to sort <strong>by time</strong> and <strong>by status</strong>, and a status badge on each row (pending, approved, rejected, timeout, cancelled). It polls automatically every five seconds. There is no global &quot;Policies&quot; tab: approval gates are configured <strong>per tool</strong>, not in a shared list, so the page links you to the Tools page when you want to add or edit a gate.</p>
-<div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p>The view shows two kinds of record together. A <strong>pending</strong> record is a tool call currently parked on a gate (drawn live from parked sessions and chats). A <strong>resolved</strong> record is a decision that has been finalized; every approve, reject, timeout, and cancel is now persisted durably the moment it is made, so the full history stays visible alongside the live pending calls. Sort by status to group them; only pending rows expose the Approve / Reject controls.</p>
+<div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p>The view shows two kinds of record together. A <strong>pending</strong> record is a tool call currently waiting on a gate (a parked session, or a chat that has soft-yielded on the gate). A <strong>resolved</strong> record is a decision that has been finalized; every approve, reject, timeout, and cancel is now persisted durably the moment it is made, so the full history stays visible alongside the live pending calls. Sort by status to group them; only pending rows expose the Approve / Reject controls.</p>
 </div></div>
 <h3 id="creating-an-approval-configuration">Creating an approval configuration</h3>
 <p>Approval gates live with the tool they protect, on the <strong>Tools</strong> page (left nav, under Toolsets). The simplest possible gate is the <code>required</code> strategy: find the tool, add a required gate, and save. From that point every matching call stops for a manual decision.</p>
@@ -163,7 +184,7 @@
 <p>That is the minimal configuration required to make a tool gated. The other two strategies (Rego and LLM judge) replace the manual hold with an automated decision, and are documented below.</p>
 <h3 id="rego-input-reference">Rego input reference</h3>
 <p>When the approval type is <strong>Policy (Rego)</strong>, the engine evaluates your policy against a single <code>input</code> document built from the call context. These are the only fields available; reference them as <code>input.&lt;field&gt;</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-028c20-json">json</button></div><div class="tab-panel active" id="tab-028c20-json"><pre class="md-pre lang-json"><code>{
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5a98ec-json">json</button></div><div class="tab-panel active" id="tab-5a98ec-json"><pre class="md-pre lang-json"><code>{
   &quot;tool_name&quot;: &quot;exec&quot;,
   &quot;toolset_id&quot;: &quot;workspaces&quot;,
   &quot;arguments&quot;: {
@@ -224,7 +245,7 @@
 <p>The same <code>input</code> document is also handed to the LLM judge as the user message, so a judge prompt can reason about any of these fields too.</p>
 <h3 id="rego-policy-example">Rego policy example</h3>
 <p>The policy must define a boolean <code>required</code>. An optional string <code>reason</code> is recorded on the pending row. The example below allows all calls through except <code>exec</code> calls that target the production workspace, which park for operator approval:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-69008a-rego">rego</button></div><div class="tab-panel active" id="tab-69008a-rego"><pre class="md-pre lang-rego"><code>package primer.approval
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f144fd-rego">rego</button></div><div class="tab-panel active" id="tab-f144fd-rego"><pre class="md-pre lang-rego"><code>package primer.approval
 
 default required := false
 
@@ -243,7 +264,7 @@ reason := &quot;exec against prod-workspace requires operator sign-off&quot; if 
 <h3 id="llm-judge-example">LLM-judge example</h3>
 <p>When the approval type is <strong>LLM judge</strong>, you select a provider and model (from those already configured under LLM Providers) and write a judge prompt. The prompt is sent as the system message; the <code>input</code> document (the same shape shown above) is appended as the user message. The judge must return a verdict with a boolean <code>required</code> and an optional <code>reason</code>.</p>
 <p>Configuration shape:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ab1f8d-json">json</button></div><div class="tab-panel active" id="tab-ab1f8d-json"><pre class="md-pre lang-json"><code>{
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-7635de-json">json</button></div><div class="tab-panel active" id="tab-7635de-json"><pre class="md-pre lang-json"><code>{
   &quot;id&quot;: &quot;judge-shell-commands&quot;,
   &quot;toolset_id&quot;: &quot;workspaces&quot;,
   &quot;tool_name&quot;: &quot;exec&quot;,
@@ -277,7 +298,7 @@ reason := &quot;exec against prod-workspace requires operator sign-off&quot; if 
 <li>Click <strong>Approve</strong> to release the call; the session resumes and the delete executes.</li>
 <li>Or click <strong>Reject</strong>, type a reason, and click <strong>Send rejection</strong>. The agent receives a clean error and can decide how to proceed.</li>
 </ol>
-<p>The amber banner in the session or chat detail view also shows the Approve and Reject controls while the call is parked.</p>
+<p>The amber banner in the session or chat detail view also shows the Approve and Reject controls while the call is pending (a parked session or a soft-yielded chat).</p>
 <div class="callout callout-danger"><div class="callout-title">danger</div><div class="callout-body"><p>Rejecting a tool call is not a retry. The agent receives an error message. If the agent's system prompt does not anticipate a rejection it may stall or end unexpectedly. Test the reject path in a development session before enabling a required configuration in production.</p>
 </div></div>
 <p><a href="/toolsets/toolsets-system/">The eight built-in toolsets and the tools they contain.</a></p>

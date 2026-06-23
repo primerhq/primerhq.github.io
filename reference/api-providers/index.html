@@ -91,6 +91,27 @@
 <a class="nav-link" href="/features/observability/">Observability</a>
 </div>
 <div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
 <div class="nav-title">Reference</div>
 <a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
 <a class="nav-link" href="/reference/api-agents/">Agents API</a>
@@ -270,7 +291,7 @@
 <p><code>limits.request_timeout_seconds</code> is a per-event inactivity timeout, not a total-generation cap. A long but progressing response is not killed; only a complete stall (no new event arriving) triggers it. The default 300 s covers most real-world runs. For local servers such as LM Studio on slower hardware you can lower this (e.g. 60 s) for faster failure detection; raise or disable (<code>null</code>) for very large models that have long gaps between tokens.</p>
 <h3 id="create-an-llm-provider">Create an LLM provider</h3>
 <p><code>POST /v1/llm_providers</code> - returns <code>201 Created</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f044d4-curl">curl</button><button class="tab" data-tab="tab-f044d4-python">python</button><button class="tab" data-tab="tab-f044d4-javascript">javascript</button></div><div class="tab-panel active" id="tab-f044d4-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/llm_providers \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b136fd-curl">curl</button><button class="tab" data-tab="tab-b136fd-python">python</button><button class="tab" data-tab="tab-b136fd-javascript">javascript</button></div><div class="tab-panel active" id="tab-b136fd-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/llm_providers \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -279,7 +300,7 @@
     &quot;models&quot;: [{&quot;name&quot;: &quot;claude-sonnet-4-6&quot;, &quot;context_length&quot;: 200000}],
     &quot;config&quot;: {&quot;api_key&quot;: &quot;sk-ant-...&quot;},
     &quot;limits&quot;: {&quot;max_concurrency&quot;: 4}
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-f044d4-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-b136fd-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/llm_providers&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -291,7 +312,7 @@ r = httpx.post(
         &quot;limits&quot;: {&quot;max_concurrency&quot;: 4},
     },
 )
-assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-f044d4-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/llm_providers&quot;, {
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-b136fd-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/llm_providers&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -305,11 +326,11 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-f04
 <p><strong>Errors:</strong> <code>422</code> if <code>models</code> is empty or config shape does not match <code>provider</code>. <code>409</code> on duplicate <code>id</code>.</p>
 <h3 id="get-configured-model-names">Get configured model names</h3>
 <p><code>GET /v1/llm_providers/{id}/models</code> returns the model names stored in the provider row. This endpoint is <strong>row-cached</strong> - it never calls the upstream LLM. It reflects the <code>models</code> list you configured, not a live discovery call.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-dd5fed-curl">curl</button><button class="tab" data-tab="tab-dd5fed-python">python</button><button class="tab" data-tab="tab-dd5fed-javascript">javascript</button></div><div class="tab-panel active" id="tab-dd5fed-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/llm_providers/anthropic-prod/models \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-dd5fed-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-1c0a1f-curl">curl</button><button class="tab" data-tab="tab-1c0a1f-python">python</button><button class="tab" data-tab="tab-1c0a1f-javascript">javascript</button></div><div class="tab-panel active" id="tab-1c0a1f-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/llm_providers/anthropic-prod/models \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-1c0a1f-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/llm_providers/anthropic-prod/models&quot;,
               headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
-print(r.json())  # {&quot;models&quot;: [&quot;claude-sonnet-4-6&quot;]}</code></pre></div><div class="tab-panel" id="tab-dd5fed-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/llm_providers/anthropic-prod/models&quot;, {
+print(r.json())  # {&quot;models&quot;: [&quot;claude-sonnet-4-6&quot;]}</code></pre></div><div class="tab-panel" id="tab-1c0a1f-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/llm_providers/anthropic-prod/models&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const {models} = await r.json()</code></pre></div></div>
@@ -319,11 +340,11 @@ const {models} = await r.json()</code></pre></div></div>
 <p><strong>Errors:</strong> <code>404</code> if the provider id does not exist.</p>
 <h3 id="invalidate-cached-adapter">Invalidate cached adapter</h3>
 <p><code>POST /v1/llm_providers/{id}/invalidate</code> drops the in-memory adapter for the given provider. Call this after a <code>PUT</code> to ensure the next request picks up the updated config. Returns <code>204 No Content</code> - including when the id does not exist (no-op).</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-7cdae5-curl">curl</button><button class="tab" data-tab="tab-7cdae5-python">python</button><button class="tab" data-tab="tab-7cdae5-javascript">javascript</button></div><div class="tab-panel active" id="tab-7cdae5-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/llm_providers/anthropic-prod/invalidate \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-7cdae5-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-263038-curl">curl</button><button class="tab" data-tab="tab-263038-python">python</button><button class="tab" data-tab="tab-263038-javascript">javascript</button></div><div class="tab-panel active" id="tab-263038-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/llm_providers/anthropic-prod/invalidate \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-263038-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(&quot;https://your-host/v1/llm_providers/anthropic-prod/invalidate&quot;,
                headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
-assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-7cdae5-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/llm_providers/anthropic-prod/invalidate&quot;, {
+assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-263038-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/llm_providers/anthropic-prod/invalidate&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
@@ -434,7 +455,7 @@ assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-7cd
 </tbody>
 </table>
 <h3 id="create-an-embedding-provider">Create an embedding provider</h3>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f04ee6-curl">curl</button><button class="tab" data-tab="tab-f04ee6-python">python</button><button class="tab" data-tab="tab-f04ee6-javascript">javascript</button></div><div class="tab-panel active" id="tab-f04ee6-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/embedding_providers \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e65bfa-curl">curl</button><button class="tab" data-tab="tab-e65bfa-python">python</button><button class="tab" data-tab="tab-e65bfa-javascript">javascript</button></div><div class="tab-panel active" id="tab-e65bfa-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/embedding_providers \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -443,7 +464,7 @@ assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-7cd
     &quot;models&quot;: [{&quot;name&quot;: &quot;sentence-transformers/all-MiniLM-L6-v2&quot;}],
     &quot;config&quot;: {&quot;token&quot;: &quot;hf-...&quot;},
     &quot;limits&quot;: {&quot;max_concurrency&quot;: 2}
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-f04ee6-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-e65bfa-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/embedding_providers&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -454,7 +475,7 @@ r = httpx.post(
         &quot;config&quot;: {&quot;token&quot;: &quot;hf-...&quot;},
         &quot;limits&quot;: {&quot;max_concurrency&quot;: 2},
     },
-)</code></pre></div><div class="tab-panel" id="tab-f04ee6-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/embedding_providers&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-e65bfa-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/embedding_providers&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -520,7 +541,7 @@ r = httpx.post(
 </tbody>
 </table>
 <p>Only the <code>huggingface</code> backend is supported. Object shape follows the same pattern as embedding providers (<code>id</code>, <code>provider</code>, <code>models</code>, <code>config</code>, <code>limits</code>). The <code>id</code> is optional on create: omit it and the server assigns a type-prefixed id (e.g. <code>cross-encoder-provider-3f9a1c8d</code>); it is immutable after creation.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-90ff34-curl">curl</button><button class="tab" data-tab="tab-90ff34-python">python</button><button class="tab" data-tab="tab-90ff34-javascript">javascript</button></div><div class="tab-panel active" id="tab-90ff34-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/cross_encoder_providers \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-24a090-curl">curl</button><button class="tab" data-tab="tab-24a090-python">python</button><button class="tab" data-tab="tab-24a090-javascript">javascript</button></div><div class="tab-panel active" id="tab-24a090-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/cross_encoder_providers \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -529,7 +550,7 @@ r = httpx.post(
     &quot;models&quot;: [{&quot;name&quot;: &quot;cross-encoder/ms-marco-MiniLM-L-6-v2&quot;}],
     &quot;config&quot;: {&quot;token&quot;: &quot;hf-...&quot;},
     &quot;limits&quot;: {&quot;max_concurrency&quot;: 1}
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-90ff34-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-24a090-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/cross_encoder_providers&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -540,7 +561,7 @@ r = httpx.post(
         &quot;config&quot;: {&quot;token&quot;: &quot;hf-...&quot;},
         &quot;limits&quot;: {&quot;max_concurrency&quot;: 1},
     },
-)</code></pre></div><div class="tab-panel" id="tab-90ff34-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/cross_encoder_providers&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-24a090-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/cross_encoder_providers&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -600,14 +621,14 @@ r = httpx.post(
 </tbody>
 </table>
 <p>Supported <code>provider</code> values: <code>pgvector</code>, <code>pgvectorscale</code>, <code>lance</code>. The <code>id</code> is optional on create: omit it and the server assigns a type-prefixed id (e.g. <code>semantic-search-provider-3f9a1c8d</code>); it is immutable after creation.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-4f09b5-curl">curl</button><button class="tab" data-tab="tab-4f09b5-python">python</button><button class="tab" data-tab="tab-4f09b5-javascript">javascript</button></div><div class="tab-panel active" id="tab-4f09b5-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/ssp \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-558092-curl">curl</button><button class="tab" data-tab="tab-558092-python">python</button><button class="tab" data-tab="tab-558092-javascript">javascript</button></div><div class="tab-panel active" id="tab-558092-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/ssp \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
     &quot;id&quot;: &quot;pgvec-main&quot;,
     &quot;provider&quot;: &quot;pgvector&quot;,
     &quot;config&quot;: {&quot;url&quot;: &quot;postgresql://user:pass@db:5432/primer&quot;}
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-4f09b5-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-558092-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/ssp&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -616,7 +637,7 @@ r = httpx.post(
         &quot;provider&quot;: &quot;pgvector&quot;,
         &quot;config&quot;: {&quot;url&quot;: &quot;postgresql://user:pass@db:5432/primer&quot;},
     },
-)</code></pre></div><div class="tab-panel" id="tab-4f09b5-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/ssp&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-558092-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/ssp&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({

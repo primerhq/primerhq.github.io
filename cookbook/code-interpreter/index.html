@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/" />
+<title>Sandboxed code interpreter &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/features/agents/">Agents</a>
+<a class="nav-link" href="/features/chats/">Chats</a>
+<a class="nav-link" href="/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/web/overview/">Web</a>
+<a class="nav-link" href="/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/channels/overview/">Channels</a>
+<a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/features/triggers/">Triggers</a>
+<a class="nav-link" href="/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/features/workers/">Workers</a>
+<a class="nav-link" href="/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Cookbook</span> / <span>Sandboxed code interpreter</span></nav><h1>Sandboxed code interpreter</h1>
+<h2 id="goal">Goal</h2>
+<p>A user hands you a snippet of code and wants it run. You do not trust it. Run it
+in an <strong>isolated container</strong> (or Kubernetes pod) workspace, not on the host, and
+return its output, with the blast radius confined to the sandbox.</p>
+<p>This recipe shows the <strong>container workspace backend</strong> driving an agent that
+writes the snippet to a file in the sandbox, executes it there, and reports the
+result. The isolation is the whole point.</p>
+<p>Every step below is shown two ways: first <strong>in the console</strong> (which page to
+open, what to fill), then a <strong>Via the CLI</strong> block with the exact <code>primectl</code>
+command. If you have not connected <code>primectl</code> yet, see &quot;Connecting the CLI&quot; in
+the <a href="cookbook-rag-knowledge-base">RAG knowledge base</a> recipe.</p>
+<blockquote>
+<p><strong>This recipe requires a container or Kubernetes backend, and it matters.</strong>
+On the <strong>local</strong> backend a workspace is just a directory on the host, and an
+agent's shell exec runs on the host itself, so untrusted code is <strong>not</strong>
+isolated there. The confinement claim in this recipe holds only on the
+<strong>container</strong> or <strong>kubernetes</strong> backend, where the code runs inside the
+sandbox's own filesystem, process, and network namespaces. Do not run
+untrusted code on a local workspace.</p>
+</blockquote>
+<h2 id="ingredients">Ingredients</h2>
+<ul>
+<li><strong>A Docker daemon</strong> reachable over a Unix socket or TCP (or a Kubernetes
+cluster, see <a href="api-workspaces">the workspace reference</a> for the <code>kubernetes</code>
+provider/template variant).</li>
+<li><strong>A container workspace provider + template</strong> built from a primer-runtime
+image (the sandbox the code runs in).</li>
+<li><strong>A <code>code-runner</code> agent.</strong> It needs no tool allowlist: the workspace file and
+exec tools (<code>workspace__write</code>, <code>workspace__exec</code>) are <strong>agent-implicit</strong> on a
+workspace-bound session, they are injected by the workspace binding, so you do
+<strong>not</strong> list them in the agent's <code>tools</code> (listing them mis-routes <code>workspace</code>
+as a registered toolset and fails the run).</li>
+</ul>
+<h2 id="walkthrough">Walkthrough</h2>
+<h3 id="1-register-the-container-provider">1. Register the container provider</h3>
+<p>The provider carries the runtime connection and reachability only; the image and
+resource limits live on the template.</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Workspaces &gt; Providers</strong> and click <strong>New provider</strong>.</li>
+<li>Set <strong>Provider</strong> to <code>container</code>, the <strong>Runtime</strong> to <code>docker</code>, the
+<strong>Connection</strong> to a socket at <code>/var/run/docker.sock</code>, and the
+<strong>Reachability</strong> to a host port bound on <code>127.0.0.1</code>.</li>
+<li>Click <strong>Create</strong>.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f docker-provider.yaml
+</code></pre>
+<p>where <code>docker-provider.yaml</code> is:</p>
+<pre><code class="language-yaml">kind: workspace_provider
+spec:
+  id: docker-local
+  provider: container
+  config:
+    kind: container
+    runtime: docker
+    connection:
+      kind: socket
+      socket_path: /var/run/docker.sock
+    reachability:
+      kind: host_port
+      bind_host: 127.0.0.1
+</code></pre>
+<h3 id="2-define-the-sandbox-template">2. Define the sandbox template</h3>
+<p>The template sets the image plus the sandbox's resource and network policy. Lock
+egress down for untrusted code: <code>network.egress: deny_all</code> puts the workspace on
+a docker <code>--internal</code> network (best-effort; see the field note below).</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Workspaces &gt; Templates</strong> and click <strong>New template</strong>.</li>
+<li>Pick the <code>docker-local</code> <strong>Provider</strong>, set the backend <strong>Kind</strong> to
+<code>container</code>, the <strong>Image</strong> to your primer-runtime image, and the CPU / memory
+caps. In the <strong>Network</strong> block set <strong>Egress</strong> to <code>deny_all</code>.</li>
+<li>Click <strong>Create</strong>.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f code-sandbox.yaml
+</code></pre>
+<p>where <code>code-sandbox.yaml</code> is:</p>
+<pre><code class="language-yaml">kind: workspace_template
+spec:
+  id: code-sandbox
+  description: Isolated sandbox for untrusted code.
+  provider_id: docker-local
+  backend:
+    kind: container
+    image: primer/workspace-runtime:1.0
+    cpu_cores: 1
+    memory_bytes: 536870912
+    network:
+      egress: deny_all
+</code></pre>
+<p><code>cpu_cores</code> / <code>memory_bytes</code> cap the sandbox's CPU and RAM. <code>network.egress</code> is
+best-effort: docker and podman honor it via an <code>--internal</code> network; containerd
+is CNI-dependent. The host filesystem and host network are out of reach
+regardless, that is the container boundary, not a policy toggle.</p>
+<h3 id="3-create-the-code-runner-agent">3. Create the <code>code-runner</code> agent</h3>
+<p>In the console: <strong>Compute &gt; Agents &gt; New agent</strong>. Set <strong>ID</strong> to <code>code-runner</code>,
+pick the <strong>LLM provider</strong> + <strong>Model</strong>, leave <strong>Tools</strong> empty, and paste the
+prompt on <strong>Advanced</strong>. Click <strong>Create</strong>.</p>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f code-runner.yaml
+</code></pre>
+<p>where <code>code-runner.yaml</code> is:</p>
+<pre><code class="language-yaml">kind: agent
+spec:
+  id: code-runner
+  description: Runs untrusted code in the sandbox.
+  model:
+    provider_id: &lt;llm&gt;
+    model_name: &lt;model&gt;
+  tools: []
+  system_prompt:
+    - &gt;-
+      You run untrusted user code in the sandbox. Write the snippet to
+      snippet.py, run `python snippet.py`, and report its stdout. Never run
+      anything outside the workspace.
+</code></pre>
+<p>Note the <strong>empty <code>tools</code></strong>. The agent still gets <code>workspace__write</code> and
+<code>workspace__exec</code> because the session is workspace-bound; the workspace tools
+bypass the allowlist by design.</p>
+<h3 id="4-materialise-the-sandbox-and-run-the-code">4. Materialise the sandbox and run the code</h3>
+<p>Create a workspace from the template (the server generates the <code>ws-&lt;hex&gt;</code> id and
+names the container/volume after it), wait for it to reach <code>running</code>, then start
+an agent session with the snippet as the instruction.</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Workspaces &gt; Workspaces</strong> and click <strong>New workspace</strong>, choosing the
+<code>code-sandbox</code> template. Wait for its phase to reach <code>running</code>.</li>
+<li>Click <strong>New session</strong>, bind the <code>code-runner</code> agent, pick that workspace, and
+type the code to run into <strong>Initial instructions</strong>. Click <strong>Create</strong> and
+watch the transcript: the agent writes <code>snippet.py</code> and execs it inside the
+container.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create workspace --set template_id=code-sandbox
+primectl session run &lt;workspace-id&gt; --agent code-runner -i &quot;Run this code: print(6 * 7)&quot;
+</code></pre>
+<p><code>create workspace</code> prints the new <code>workspace/&lt;id&gt;</code>; the workspace boots its
+container in the background. <code>session run</code> creates the session, then polls it to
+completion and prints <code>ended: completed</code> when the run finishes. The agent writes
+the snippet to <code>/workspace/snippet.py</code> and execs <code>python snippet.py</code> <strong>inside
+the container</strong>.</p>
+<p>Read the produced file back through the workspace file API (which targets the
+container's <code>/workspace</code> volume) to collect the result.</p>
+<p>In the console: open the workspace, use the <strong>Files</strong> tab, and read <code>out.txt</code>.</p>
+<p>Via the CLI:</p>
+<pre><code>primectl workspace files get &lt;workspace-id&gt; out.txt --content
+</code></pre>
+<h3 id="5-tear-down">5. Tear down</h3>
+<p>In the console: open the workspace and click <strong>Delete</strong>. Via the CLI:
+<code>primectl delete workspace &lt;workspace-id&gt;</code>. Either removes the container and its
+volume. The sandbox, and anything the untrusted code did to it, is gone.</p>
+<h2 id="testing">Testing</h2>
+<p>A scripted end-to-end test runs a deterministic snippet that computes a value,
+records the in-container hostname, and probes for the host docker socket,
+persisting each fact to a file in <code>/workspace</code>
+(<code>tests/e2e/test_cookbook_code_interpreter.py</code>, <code>SMK-COOKBOOK-15</code>). A companion
+test drives the identical flow over the published CLI path
+(<code>tests/e2e/test_cookbook_code_interpreter_cli.py</code>, <code>SMK-COOKBOOK-CLI-17</code>):
+<code>primectl create -f</code> the container provider, template, and agent; <code>primectl create workspace --set template_id=</code> the sandbox; <code>primectl session run</code> the
+snippet; and <code>primectl workspace files get</code> each produced file back. Both are
+capability-gated on a container backend, so they skip cleanly where docker is
+absent.</p>
+<p>The snippet:</p>
+<pre><code class="language-python">import socket, os
+print('RESULT', 6 * 7)
+open('/workspace/out.txt', 'w').write(str(6 * 7))
+open('/workspace/sandbox_host.txt', 'w').write(socket.gethostname())
+open('/workspace/host_sock.txt', 'w').write(str(os.path.exists('/var/run/docker.sock')))
+</code></pre>
+<p>Expected outcome (verified):</p>
+<ul>
+<li>The session ends <code>completed</code>.</li>
+<li><strong>Execution happened in the sandbox.</strong> <code>out.txt</code> reads back <code>42</code> through the
+file API, the snippet computed <code>6 * 7</code> and wrote it to the container's
+<code>/workspace</code> volume, so the code ran inside the sandbox, not on the host.</li>
+<li><strong>Namespace isolation.</strong> <code>sandbox_host.txt</code> holds the container's hostname
+(for example <code>da1ee38945dd</code>), which differs from the host's hostname, the
+container has its own UTS namespace.</li>
+<li><strong>Mount isolation.</strong> <code>host_sock.txt</code> reads <code>False</code>: the host docker socket
+(<code>/var/run/docker.sock</code>) is absent inside the sandbox, so the untrusted code
+cannot reach the host's container runtime.</li>
+<li><strong>Clean lifecycle.</strong> After delete, the workspace fetch returns not-found and no
+docker container or volume named after the workspace id is left behind.</li>
+</ul>
+<p>The same flow runs on the <strong>kubernetes</strong> backend, swap the provider/template for
+the <code>kubernetes</code> variant (a <code>KubernetesTemplateConfig</code> with <code>image</code>,
+<code>cpu_limit</code>, <code>memory_limit</code>, <code>pvc_size</code>) and the code runs in a pod instead of a
+container. See <a href="api-workspaces">the workspace API reference</a> for the Kubernetes
+provider and template shapes.</p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

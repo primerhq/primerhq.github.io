@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/" />
+<title>Primer-as-a-Service over MCP &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/features/agents/">Agents</a>
+<a class="nav-link" href="/features/chats/">Chats</a>
+<a class="nav-link" href="/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/web/overview/">Web</a>
+<a class="nav-link" href="/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/channels/overview/">Channels</a>
+<a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/features/triggers/">Triggers</a>
+<a class="nav-link" href="/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/features/workers/">Workers</a>
+<a class="nav-link" href="/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Cookbook</span> / <span>Primer-as-a-Service over MCP</span></nav><h1>Primer-as-a-Service over MCP</h1>
+<h2 id="goal">Goal</h2>
+<p>You have an external agent, an IDE assistant, Claude Desktop, claude.ai, or any
+MCP-speaking system, and you want it to use <strong>primer as a remote execution
+backend</strong>. Instead of running a long task in its own context, the external agent
+hands it to primer: it spins up a workspace <strong>session</strong>, lets the session run,
+polls for the result, reads it back, and can cancel a run it no longer needs.
+The external agent drives all of this over primer's built-in MCP endpoint.</p>
+<p>There are two distinct surfaces here, and it is worth keeping them apart:</p>
+<ul>
+<li><strong>The operator setup</strong> (turning the endpoint on, choosing which tools it
+publishes, minting a token) is done by <em>you</em>, in the console or with the CLI,
+exactly like every other recipe.</li>
+<li><strong>The runtime drive</strong> (create a session, poll it, read the result, cancel it)
+is done by the <em>external MCP client</em>. That client is the product surface, the
+caller you are enabling, like the sender on the other end of a webhook. You do
+not drive it with <code>primectl</code>; you point an MCP client at the endpoint and let
+it call the tools.</li>
+</ul>
+<p>For the full description of the endpoint, see the
+<a href="mcp-server">MCP Server feature</a>.</p>
+<h2 id="ingredients">Ingredients</h2>
+<ul>
+<li><strong>The built-in MCP endpoint</strong> at <code>/v1/mcp</code>. It is off by default; you opt in
+by enabling it and publishing an allowlist.</li>
+<li><strong>An allowlist</strong> naming the session-drive tools. The minimal set is:
+<ul>
+<li><code>workspaces__create_workspace_session</code>, start an agent (or graph) session.</li>
+<li><code>workspaces__get_workspace_session</code>, poll its lifecycle state.</li>
+<li><code>workspaces__read_workspace_file</code>, read its output.</li>
+<li><code>workspaces__cancel_workspace_session</code>, stop a run.</li>
+</ul>
+</li>
+<li><strong>An agent and a workspace</strong> for the external client to run. Any existing
+agent on a <code>local</code> (or container / kubernetes) workspace works.</li>
+<li><strong>An MCP client</strong> that speaks the StreamableHTTP transport, authenticated to
+the endpoint with a bearer token that has the <code>mcp</code> scope.</li>
+</ul>
+<blockquote>
+<p>All four allowlisted tools are non-yielding and do not require an active agent
+session, so they pass the MCP exposability floor. Tools that <strong>park</strong> (such as
+<code>system__ask_user</code>) or that need a live <code>session_id</code> are rejected from the
+allowlist by design, see the <a href="mcp-server">exposure model</a> for why.</p>
+</blockquote>
+<h2 id="walkthrough">Walkthrough</h2>
+<h3 id="1-enable-mcp-exposure-with-the-session-drive-allowlist">1. Enable MCP exposure with the session-drive allowlist</h3>
+<p>Turn the endpoint on and publish exactly the four session tools. Saving a new
+allowlist replaces the previous one atomically, and only the listed tools appear
+on the client's <code>tools/list</code>.</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>MCP Server</strong> in the left nav and click <strong>Enable</strong> in the <strong>MCP
+server endpoint</strong> panel. The status pill changes to <code>enabled</code>.</li>
+<li>In the <strong>Exposed tools</strong> table, use the toolset filter to find the
+<code>workspaces</code> tools, then tick exactly the four session-drive tools:
+<code>create_workspace_session</code>, <code>get_workspace_session</code>, <code>read_workspace_file</code>,
+and <code>cancel_workspace_session</code>.</li>
+<li>Click <strong>Save</strong>. Saving re-runs the exposability floor, so an attempt to
+publish a yielding or session-only tool is rejected here with a reason, not
+silently dropped later.</li>
+</ol>
+<p>The MCP exposure config is an <strong>operator-only, console-driven</strong> surface: it is
+edited from the console (cookie session) and cannot be changed by a bearer
+token, even one with the <code>mcp</code> scope. So this enable + allowlist step has no
+<code>primectl</code> equivalent; do it in the console. The CLI's role in this recipe is
+the rest of the setup (the agent, the workspace, and the token below).</p>
+<h3 id="2-mint-the-client-token-and-connect">2. Mint the client token and connect</h3>
+<p>The external client authenticates with a bearer token that carries the <code>mcp</code>
+scope. Mint it from <strong>Settings &gt; API tokens</strong> in the console: click <strong>New
+token</strong>, give it the <code>mcp</code> scope, and copy the one-time plaintext (this is the
+same token-minting flow the CLI uses for its own <code>--token</code>, see &quot;Connecting the
+CLI&quot; in the <a href="cookbook-rag-knowledge-base">RAG knowledge base</a> recipe).</p>
+<p>Point your MCP client at <code>&lt;primer-base-url&gt;/v1/mcp</code> over the StreamableHTTP
+transport with that token. On connect, the client lists tools and sees <strong>only</strong>
+the four allowlisted ids, nothing else from primer's catalogue. That is the
+exposure gate: a tool you did not allowlist (for example
+<code>workspaces__delete_workspace</code>) is absent from <code>tools/list</code> and cannot be
+called.</p>
+<h3 id="3-create-a-session-the-external-agent-offloads-the-task">3. Create a session, the external agent offloads the task</h3>
+<p>From here on the <em>external MCP client</em> drives, calling the published tools. It
+calls <code>create_workspace_session</code> with the workspace, an agent binding, and the
+task as the initial instruction. <code>auto_start: true</code> runs it immediately. The
+call returns the created session, including its <code>id</code>.</p>
+<p><code>tools/call workspaces__create_workspace_session</code></p>
+<pre><code class="language-json">{
+  &quot;workspace_id&quot;: &quot;&lt;your workspace id&gt;&quot;,
+  &quot;binding&quot;: { &quot;kind&quot;: &quot;agent&quot;, &quot;agent_id&quot;: &quot;&lt;your agent id&gt;&quot; },
+  &quot;initial_instructions&quot;: &quot;Summarise README.md and write the summary to summary.txt.&quot;,
+  &quot;auto_start&quot;: true
+}
+</code></pre>
+<p>To offload a graph instead of a single agent, bind to a graph and pass its
+input:</p>
+<pre><code class="language-json">{
+  &quot;workspace_id&quot;: &quot;&lt;your workspace id&gt;&quot;,
+  &quot;binding&quot;: { &quot;kind&quot;: &quot;graph&quot;, &quot;graph_id&quot;: &quot;&lt;your graph id&gt;&quot; },
+  &quot;graph_input&quot;: { &quot;ticket&quot;: &quot;INC-1&quot; },
+  &quot;auto_start&quot;: true
+}
+</code></pre>
+<h3 id="4-poll-for-the-result">4. Poll for the result</h3>
+<p>The client polls <code>get_workspace_session</code> until the session reaches a terminal
+state. The tool returns <code>{info, status}</code>; the session is finished when <code>status</code>
+(and <code>info.status</code>) is <code>ended</code>, with <code>info.ended_reason</code> one of <code>completed</code>,
+<code>failed</code>, or <code>cancelled</code>.</p>
+<p><code>tools/call workspaces__get_workspace_session</code></p>
+<pre><code class="language-json">{ &quot;workspace_id&quot;: &quot;&lt;your workspace id&gt;&quot;, &quot;session_id&quot;: &quot;&lt;session id&gt;&quot; }
+</code></pre>
+<p>This is the same session row the console Sessions page shows and that the
+session tools wrap, so a client driving over MCP sees the identical lifecycle an
+operator would. See the <a href="api-sessions">sessions API reference</a> for the full
+lifecycle.</p>
+<h3 id="5-read-the-output">5. Read the output</h3>
+<p>Once the session has ended, the client reads any file the run produced (or the
+transcript itself) with <code>read_workspace_file</code>. The transcript lives at
+<code>.state/sessions/&lt;session id&gt;/messages.jsonl</code>; a file the agent wrote lives
+wherever the agent put it.</p>
+<p><code>tools/call workspaces__read_workspace_file</code></p>
+<pre><code class="language-json">{ &quot;workspace_id&quot;: &quot;&lt;your workspace id&gt;&quot;, &quot;path&quot;: &quot;summary.txt&quot; }
+</code></pre>
+<h3 id="6-cancel-a-long-run">6. Cancel a long run</h3>
+<p>If the external agent decides it no longer needs a result, it cancels the
+session. A created or paused session ends immediately; a running one is
+preempted at the next safe point. Either way the session converges to terminal
+<code>ended</code>.</p>
+<p><code>tools/call workspaces__cancel_workspace_session</code></p>
+<pre><code class="language-json">{ &quot;workspace_id&quot;: &quot;&lt;your workspace id&gt;&quot;, &quot;session_id&quot;: &quot;&lt;session id&gt;&quot; }
+</code></pre>
+<p>A subsequent <code>get_workspace_session</code> shows the session <code>ended</code> with
+<code>ended_reason: &quot;cancelled&quot;</code>.</p>
+<h2 id="testing">Testing</h2>
+<p>A scripted end-to-end test drives the endpoint exactly as an external client
+would (<code>tests/e2e/test_cookbook_mcp_service.py</code>, <code>SMK-COOKBOOK-16</code>): it connects
+over the StreamableHTTP transport, lists tools, creates a session bound to a
+trivial agent, polls it, reads it back, and cancels a second one. A companion
+test (<code>tests/e2e/test_cookbook_mcp_service_cli.py</code>, <code>SMK-COOKBOOK-CLI-16</code>) does
+the operator-side setup the published path supports, creating the agent and
+workspace with <code>primectl create -f</code>, then drives the runtime over the MCP client
+(the product surface), since the MCP client <em>is</em> how this capability is
+consumed. The MCP exposure enable is done over the console cookie session in
+both tests, because that surface is console-only by design.</p>
+<p>Expected outcome (verified):</p>
+<ul>
+<li><strong>Exposure gate.</strong> <code>tools/list</code> returns exactly the four allowlisted ids and
+nothing else; a non-allowlisted workspace tool (such as
+<code>workspaces__delete_workspace</code>) is absent.</li>
+<li><strong>The offloaded session runs.</strong> <code>create_workspace_session</code> returns a session
+id; polling <code>get_workspace_session</code> reaches <code>status: &quot;ended&quot;</code> with
+<code>ended_reason: &quot;completed&quot;</code>. The same session read from the console Sessions
+page shows the identical <code>ended</code> status.</li>
+<li><strong>The result is retrievable over MCP.</strong> <code>read_workspace_file</code> on the session's
+transcript (or a produced file) returns the agent's output.</li>
+<li><strong>Cancel is honoured.</strong> A cancelled session converges to terminal <code>ended</code>.</li>
+</ul>
+<p>The whole flow runs headlessly over the in-process MCP transport, so it is a
+faithful stand-in for a real IDE assistant or desktop agent driving primer as a
+backend.</p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>
