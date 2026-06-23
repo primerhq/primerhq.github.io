@@ -2,7 +2,7 @@
 slug: cookbook-onboarding-assembly
 title: New-customer onboarding assembly
 section: cookbook
-summary: "Compose reusable child graphs as subgraph nodes, broadcast one across several regions, and kick the whole assembly off from a single agent with invoke_graph."
+summary: "Compose reusable child graphs as subgraph nodes, broadcast one across several regions, and kick the whole assembly off from a single agent with invoke_graph. Built in the console or with primectl."
 difficulty: advanced
 time_minutes: 30
 tags: ["graphs", "subgraph", "composition", "fan-out", "broadcast", "invoke_graph"]
@@ -23,12 +23,14 @@ This recipe assembles three reusable child graphs into one parent:
   **`fan_out: broadcast` OVER a subgraph** target, so the same child graph runs
   N times in parallel, each with isolated state.
 - A coordinator agent kicks the whole thing off from a single instruction using
-  the **`workspace_ext::invoke_graph`** tool, and gets the rolled-up result back.
+  the **`workspace_ext__invoke_graph`** tool, and gets the rolled-up result back.
 
 The headline mechanic is **subgraph composition**: a child graph's output flows
 into the parent (`nodes.<child>.text`), a failing child fails the parent instead
 of being silently skipped, and a broadcast over a subgraph gives every instance
-its own nested run.
+its own nested run. As with the other recipes, each step is shown **in the
+console** first, then **Via the CLI**; for the graphs the editor's **Import
+spec** paste and the `primectl create graph -f` manifest describe the same spec.
 
 ## Ingredients
 
@@ -40,30 +42,49 @@ its own nested run.
 - No triggers or subscriptions: the coordinator agent starts the assembly itself
   with `invoke_graph`.
 
+If you have not connected `primectl` yet, see "Connecting the CLI" in the
+[RAG knowledge base](cookbook-rag-knowledge-base) recipe.
+
 ## Walkthrough
 
 ### 1. Build the three reusable child graphs
 
 Each is a tiny `begin -> agent -> end` graph. The agent does the work; the `end`
 node exposes the agent's text as the child graph's output. Keep them generic so
-the same graph slots into any parent.
+the same graph slots into any parent. (Create a `kyc-agent`, a
+`provision-agent`, and a `region-agent` first under **Compute > Agents**, each
+with your LLM provider and a one-line system prompt.)
 
-`system::create_graph` (kyc-check)
-```json
-{
-  "id": "kyc-check",
-  "description": "Verify a new customer's identity.",
-  "max_iterations": 10,
-  "nodes": [
-    {"kind": "begin", "id": "begin"},
-    {"kind": "agent", "id": "work", "agent_id": "kyc-agent", "input_template": "{{ initial_input }}"},
-    {"kind": "end", "id": "end", "output_template": "{{ nodes.work.text }}"}
-  ],
-  "edges": [
-    {"kind": "static", "from_node": "begin", "to_node": "work"},
-    {"kind": "static", "from_node": "work", "to_node": "end"}
-  ]
-}
+In the console:
+
+1. Go to **Compute > Graphs**, click **New graph**, give it the **ID**
+   `kyc-check`, pick the `kyc-agent` as **Seed agent**, and click **Create**.
+2. In the editor click **Import spec**, paste the JSON from the manifest's `spec`
+   (below), **Load into editor**, and **Save**.
+3. Repeat for `provision-account` and `provision-region`, swapping the `id` and
+   the `agent_id`.
+
+Via the CLI:
+
+```
+primectl create -f kyc-check.yaml
+primectl create -f provision-account.yaml
+primectl create -f provision-region.yaml
+```
+
+```yaml
+kind: graph
+spec:
+  id: kyc-check
+  description: Verify a new customer's identity.
+  max_iterations: 10
+  nodes:
+    - { kind: begin, id: begin }
+    - { kind: agent, id: work, agent_id: kyc-agent, input_template: "{{ initial_input }}" }
+    - { kind: end, id: end, output_template: "{{ nodes.work.text }}" }
+  edges:
+    - { kind: static, from_node: begin, to_node: work }
+    - { kind: static, from_node: work, to_node: end }
 ```
 
 Create `provision-account` and `provision-region` the same way (swap the agent
@@ -76,29 +97,47 @@ parent reads off `nodes.<child>.text`.
 The parent references each child by id as a `kind: graph` node, chains the two
 sequential ones, then fans the region child out with a `broadcast` spec.
 
-`system::create_graph` (onboarding-assembly)
-```json
-{
-  "id": "onboarding-assembly",
-  "description": "Compose KYC + account provisioning, then a regional footprint.",
-  "max_iterations": 30,
-  "nodes": [
-    {"kind": "begin", "id": "begin"},
-    {"kind": "graph", "id": "kyc", "graph_id": "kyc-check", "input_template": "Customer: {{ initial_input }}"},
-    {"kind": "graph", "id": "provision", "graph_id": "provision-account", "input_template": "Provision for {{ initial_input }}"},
-    {"kind": "fan_out", "id": "regions", "specs": [{"kind": "broadcast", "target_node_id": "region", "count": 3}]},
-    {"kind": "graph", "id": "region", "graph_id": "provision-region", "input_template": "Provision region #{{ fanout_index }}"},
-    {"kind": "fan_in", "id": "rollup", "aggregate_template": "{% for r in nodes.region %}region #{{ loop.index0 }}: {{ r.text }}\n{% endfor %}"},
-    {"kind": "end", "id": "end", "output_template": "KYC={{ nodes.kyc.text }} | PROV={{ nodes.provision.text }}\n{{ nodes.rollup.text }}"}
-  ],
-  "edges": [
-    {"kind": "static", "from_node": "begin", "to_node": "kyc"},
-    {"kind": "static", "from_node": "kyc", "to_node": "provision"},
-    {"kind": "static", "from_node": "provision", "to_node": "regions"},
-    {"kind": "static", "from_node": "region", "to_node": "rollup"},
-    {"kind": "static", "from_node": "rollup", "to_node": "end"}
-  ]
-}
+In the console:
+
+1. **New graph**, **ID** `onboarding-assembly`, any seed agent, **Create**.
+2. **Import spec**, paste the manifest's `spec` below, **Load into editor**,
+   **Save**. (To build it by hand instead: add a **Begin**, two **Graph**
+   subgraph nodes (`kyc` -> `kyc-check`, `provision` -> `provision-account`), a
+   **Fan-out** in **broadcast** mode (target `region`, count 3), a **Graph**
+   node `region` -> `provision-region`, a **Fan-in** `rollup`, and an **End**;
+   wire `begin -> kyc -> provision -> regions` and `region -> rollup -> end` with
+   static edges. The fan-out spec spawns the region instances, so there is no
+   `regions -> region` edge.)
+
+Via the CLI:
+
+```
+primectl create -f onboarding-assembly.yaml
+```
+
+```yaml
+kind: graph
+spec:
+  id: onboarding-assembly
+  description: Compose KYC + account provisioning, then a regional footprint.
+  max_iterations: 30
+  nodes:
+    - { kind: begin, id: begin }
+    - { kind: graph, id: kyc, graph_id: kyc-check, input_template: "Customer: {{ initial_input }}" }
+    - { kind: graph, id: provision, graph_id: provision-account, input_template: "Provision for {{ initial_input }}" }
+    - kind: fan_out
+      id: regions
+      specs:
+        - { kind: broadcast, target_node_id: region, count: 3 }
+    - { kind: graph, id: region, graph_id: provision-region, input_template: "Provision region #{{ fanout_index }}" }
+    - { kind: fan_in, id: rollup, aggregate_template: "{% for r in nodes.region %}region #{{ loop.index0 }}: {{ r.text }}\n{% endfor %}" }
+    - { kind: end, id: end, output_template: "KYC={{ nodes.kyc.text }} | PROV={{ nodes.provision.text }}\n{{ nodes.rollup.text }}" }
+  edges:
+    - { kind: static, from_node: begin, to_node: kyc }
+    - { kind: static, from_node: kyc, to_node: provision }
+    - { kind: static, from_node: provision, to_node: regions }
+    - { kind: static, from_node: region, to_node: rollup }
+    - { kind: static, from_node: rollup, to_node: end }
 ```
 
 Five things that decide whether the composition runs the way you expect:
@@ -129,12 +168,35 @@ Five things that decide whether the composition runs the way you expect:
 ### 3. Kick it off from a coordinator agent
 
 The coordinator runs the whole assembly inside its own session with
-`workspace_ext::invoke_graph` and gets the graph's output back as the tool
+`workspace_ext__invoke_graph` and gets the graph's output back as the tool
 result, so a single agent instruction drives the entire onboarding.
 
-`system::create_agent` (onboarding-coordinator)
-```json
-{"id": "onboarding-coordinator", "description": "Kicks off the onboarding assembly.", "model": {"provider_id": "<llm>", "model_name": "<model>"}, "tools": ["workspace_ext__invoke_graph"], "system_prompt": ["When asked to onboard a customer, call workspace_ext__invoke_graph with graph_id 'onboarding-assembly' and input set to the customer name, then report the returned output."]}
+In the console:
+
+1. Go to **Compute > Agents**, **New agent**, **ID** `onboarding-coordinator`,
+   pick the LLM provider/model; on the **Tools** tab check
+   `workspace_ext__invoke_graph`; on **Advanced** paste the system prompt
+   (below). Click **Create**.
+
+Via the CLI:
+
+```
+primectl create -f coordinator.yaml
+```
+
+```yaml
+kind: agent
+spec:
+  id: onboarding-coordinator
+  description: Kicks off the onboarding assembly.
+  model: { provider_id: <llm>, model_name: <model> }
+  tools:
+    - workspace_ext__invoke_graph
+  system_prompt:
+    - >-
+      When asked to onboard a customer, call workspace_ext__invoke_graph with
+      graph_id 'onboarding-assembly' and input set to the customer name, then
+      report the returned output.
 ```
 
 Start an agent session on `onboarding-coordinator` with an instruction like
@@ -142,9 +204,21 @@ Start an agent session on `onboarding-coordinator` with an instruction like
 `onboarding-assembly` graph runs nested inside the session, and the rolled-up
 output comes back as the tool result.
 
+In the console, click **New session**, set the **Binding** to `agent`, pick
+`onboarding-coordinator` and a **Workspace**, type the instruction into
+**Initial instructions**, and click **Create**.
+
+Via the CLI:
+
+```
+primectl session run <workspace-id> --agent onboarding-coordinator \
+  -i "Onboard the new customer Acme Corp"
+```
+
 ## Testing
 
-Start a coordinator session and poll `GET /v1/sessions/<id>` until it ends.
+Start a coordinator session (console or `primectl session run`) and watch it to
+completion.
 
 Expected outcome (verified):
 
@@ -159,13 +233,15 @@ Expected outcome (verified):
   region #2: REGION READY
   ```
 
-- The parent graph state (`.state/graphs/<sid>/state.json`, where `<sid>` is the
-  nested invoke-graph run id) records the sequential children `kyc` and
-  `provision` as `ended`, plus one `region[i]` node per broadcast instance, each
-  with its own isolated node directory under `.state/graphs/<sid>/nodes/`. The
-  invoke-graph run nests under the agent session, and each region instance is its
-  own run dir (`...__region[0]`, `...__region[1]`, `...__region[2]`), never one
-  shared `...__region`.
+- The parent graph state records the sequential children `kyc` and `provision`
+  as `ended`, plus one `region[i]` node per broadcast instance, each with its
+  own isolated node directory. The invoke-graph run nests under the agent
+  session, and each region instance is its own run dir (`...__region[0]`,
+  `...__region[1]`, `...__region[2]`), never one shared `...__region`. You can
+  confirm this with
+  `primectl workspace files ls <workspace-id> .state/graphs` (the run dirs) and
+  `primectl workspace files get <workspace-id> .state/sessions/<sid>/messages.jsonl --content`
+  (the rolled-up transcript).
 - A failing child fails the parent: if you point a parent's subgraph node at a
   child graph that ends `failed`, the parent graph ends `failed` and that
   subgraph node is marked `failed` with the child's failure detail. Composition
@@ -175,7 +251,7 @@ Expected outcome (verified):
 
 - **Both subgraph paths are covered.** Composition has two code paths that behave
   identically here: the `kind: graph` NODE path (used by the sequential and
-  broadcast children inside the parent) and the `workspace_ext::invoke_graph`
+  broadcast children inside the parent) and the `workspace_ext__invoke_graph`
   TOOL path (used by the coordinator to run the parent). Both capture the child's
   End output and both fail the caller when the child fails.
 - **Keep nesting shallow.** Two levels of nesting (coordinator -> parent ->
