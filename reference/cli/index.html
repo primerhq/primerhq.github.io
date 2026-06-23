@@ -91,6 +91,27 @@
 <a class="nav-link" href="/features/observability/">Observability</a>
 </div>
 <div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
 <div class="nav-title">Reference</div>
 <a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
 <a class="nav-link" href="/reference/api-agents/">Agents API</a>
@@ -119,7 +140,7 @@
 <h2 id="top-level">Top-level</h2>
 <p><code>primer</code> is a Typer application. Run <code>--help</code> on any subcommand for
 the full flag list:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-66b34e-bash">bash</button></div><div class="tab-panel active" id="tab-66b34e-bash"><pre class="md-pre lang-bash"><code>uv run primer --help
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-8d426e-bash">bash</button></div><div class="tab-panel active" id="tab-8d426e-bash"><pre class="md-pre lang-bash"><code>uv run primer --help
 # Primer microagents framework: API + worker entrypoints.
 #
 # commands:
@@ -130,7 +151,7 @@ the full flag list:</p>
 <p>Starts the FastAPI HTTP server via uvicorn. By default it also starts
 an in-process worker pool (<code>runtime_mode=api+worker</code>). Pass
 <code>--no-worker</code> to split API and worker into separate processes.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-873b3e-bash">bash</button></div><div class="tab-panel active" id="tab-873b3e-bash"><pre class="md-pre lang-bash"><code># Default: API + worker in one process, auto-loads ~/.primer/config.yaml
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-8c0ce1-bash">bash</button></div><div class="tab-panel active" id="tab-8c0ce1-bash"><pre class="md-pre lang-bash"><code># Default: API + worker in one process, auto-loads ~/.primer/config.yaml
 uv run primer api
 
 # Explicit config file.
@@ -178,7 +199,7 @@ workers becomes independent of scaling HTTP capacity.</p>
 <p>Runs only the worker pool. A minimal HTTP surface (<code>/v1/health</code> and
 <code>/v1/workers</code>) is still served for liveness/readiness probes. Pairs
 with a <code>primer api --no-worker</code> process.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-403cdf-bash">bash</button></div><div class="tab-panel active" id="tab-403cdf-bash"><pre class="md-pre lang-bash"><code># Default: auto-loads ~/.primer/config.yaml
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-50eee7-bash">bash</button></div><div class="tab-panel active" id="tab-50eee7-bash"><pre class="md-pre lang-bash"><code># Default: auto-loads ~/.primer/config.yaml
 uv run primer worker
 
 # Explicit config.
@@ -207,7 +228,7 @@ uv run primer worker -c /etc/primer/config.yaml</code></pre></div></div>
 <p>Runs first-time bootstrap. Idempotent: rows that already exist are
 skipped. Pass <code>--force</code> to re-run the bootstrap even when the
 completion marker is already set (useful for partially-failed runs).</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f9b56a-bash">bash</button></div><div class="tab-panel active" id="tab-f9b56a-bash"><pre class="md-pre lang-bash"><code># Idempotent bootstrap against default config.
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-47df5a-bash">bash</button></div><div class="tab-panel active" id="tab-47df5a-bash"><pre class="md-pre lang-bash"><code># Idempotent bootstrap against default config.
 uv run primer init
 
 # Explicit config file.

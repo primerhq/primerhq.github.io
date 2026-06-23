@@ -91,6 +91,27 @@
 <a class="nav-link" href="/features/observability/">Observability</a>
 </div>
 <div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
 <div class="nav-title">Reference</div>
 <a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
 <a class="nav-link" href="/reference/api-agents/">Agents API</a>
@@ -149,7 +170,7 @@ HTTP to the running <code>primer api</code> process.</p>
 <h2 id="auth">Auth</h2>
 <p>Every request to <code>/v1/mcp</code> must carry a valid bearer token in the
 <code>Authorization</code> header:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-20f7b6-bash">bash</button></div><div class="tab-panel active" id="tab-20f7b6-bash"><pre class="md-pre lang-bash"><code>Authorization: Bearer &lt;token&gt;</code></pre></div></div>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-85e110-bash">bash</button></div><div class="tab-panel active" id="tab-85e110-bash"><pre class="md-pre lang-bash"><code>Authorization: Bearer &lt;token&gt;</code></pre></div></div>
 <p>Anonymous requests receive <code>401</code> with <code>WWW-Authenticate: Bearer realm=&quot;primer&quot;</code>. Bearer tokens that lack the <code>mcp</code> scope receive
 <code>403</code> with <code>{&quot;code&quot;: &quot;scope_required&quot;, &quot;scope&quot;: &quot;mcp&quot;}</code>.</p>
 <p>Cookie sessions (operator console) pass the scope check without
@@ -158,7 +179,7 @@ scope; grant only the scopes the remote agent actually needs.</p>
 <h2 id="enabling-exposure">Enabling exposure</h2>
 <p>Before any tools appear on <code>tools/list</code>, the operator must enable the
 allowlist:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d9adb7-bash">bash</button></div><div class="tab-panel active" id="tab-d9adb7-bash"><pre class="md-pre lang-bash"><code>curl -X PUT http://localhost:8000/v1/mcp_exposure \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-7322c7-bash">bash</button></div><div class="tab-panel active" id="tab-7322c7-bash"><pre class="md-pre lang-bash"><code>curl -X PUT http://localhost:8000/v1/mcp_exposure \
   -H &quot;Cookie: &lt;session&gt;&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{&quot;enabled&quot;: true, &quot;allowed_tools&quot;: [&quot;system__call_tool&quot;, &quot;misc__uuid_v4&quot;]}&#x27;</code></pre></div></div>
@@ -188,7 +209,7 @@ make it callable over MCP, disable or delete the approval policy
 first.</p>
 <h2 id="listing-tools">Listing tools</h2>
 <p>Connect an MCP client to <code>/v1/mcp</code> and issue <code>tools/list</code>:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5c9beb-bash">bash</button></div><div class="tab-panel active" id="tab-5c9beb-bash"><pre class="md-pre lang-bash"><code># Using the MCP Inspector (example):
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ee9bb3-bash">bash</button></div><div class="tab-panel active" id="tab-ee9bb3-bash"><pre class="md-pre lang-bash"><code># Using the MCP Inspector (example):
 npx @modelcontextprotocol/inspector \
   --url http://localhost:8000/v1/mcp \
   --header &quot;Authorization: Bearer &lt;token&gt;&quot;</code></pre></div></div>
@@ -196,7 +217,7 @@ npx @modelcontextprotocol/inspector \
 not blocked by the safety floor. If exposure is disabled (<code>enabled: false</code>), the list is empty.</p>
 <h2 id="calling-a-tool">Calling a tool</h2>
 <p>Issue a <code>tools/call</code> request with the scoped tool id:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-bcd4f4-json">json</button></div><div class="tab-panel active" id="tab-bcd4f4-json"><pre class="md-pre lang-json"><code>{
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ab3be0-json">json</button></div><div class="tab-panel active" id="tab-ab3be0-json"><pre class="md-pre lang-json"><code>{
   &quot;method&quot;: &quot;tools/call&quot;,
   &quot;params&quot;: {
     &quot;name&quot;: &quot;misc__uuid_v4&quot;,
@@ -205,7 +226,7 @@ not blocked by the safety floor. If exposure is disabled (<code>enabled: false</
 }</code></pre></div></div>
 <h2 id="result-envelope">Result envelope</h2>
 <p>Every tool result has the same shape regardless of success or error:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-dc685d-json">json</button></div><div class="tab-panel active" id="tab-dc685d-json"><pre class="md-pre lang-json"><code>{
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f00df3-json">json</button></div><div class="tab-panel active" id="tab-f00df3-json"><pre class="md-pre lang-json"><code>{
   &quot;isError&quot;: false,
   &quot;content&quot;: [
     { &quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;&lt;tool output&gt;&quot; }

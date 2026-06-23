@@ -5,6 +5,24 @@
   <url><loc>/channels/channel-rules/</loc></url>
   <url><loc>/channels/channels/</loc></url>
   <url><loc>/channels/overview/</loc></url>
+  <url><loc>/cookbook/app-builder/</loc></url>
+  <url><loc>/cookbook/code-interpreter/</loc></url>
+  <url><loc>/cookbook/compliance-sweep/</loc></url>
+  <url><loc>/cookbook/fanout-code-review/</loc></url>
+  <url><loc>/cookbook/harness-packaging/</loc></url>
+  <url><loc>/cookbook/incident-responder/</loc></url>
+  <url><loc>/cookbook/iterative-web-research/</loc></url>
+  <url><loc>/cookbook/mcp-service/</loc></url>
+  <url><loc>/cookbook/meta-agent-builder/</loc></url>
+  <url><loc>/cookbook/onboarding-assembly/</loc></url>
+  <url><loc>/cookbook/overview/</loc></url>
+  <url><loc>/cookbook/policy-desk/</loc></url>
+  <url><loc>/cookbook/rag-knowledge-base/</loc></url>
+  <url><loc>/cookbook/release-conductor/</loc></url>
+  <url><loc>/cookbook/scheduled-stock-monitor/</loc></url>
+  <url><loc>/cookbook/self-improving-skill/</loc></url>
+  <url><loc>/cookbook/support-desk/</loc></url>
+  <url><loc>/cookbook/tiered-help-desk/</loc></url>
   <url><loc>/embedding/collections-and-documents/</loc></url>
   <url><loc>/embedding/cross-encoder-providers/</loc></url>
   <url><loc>/embedding/embedding-providers/</loc></url>

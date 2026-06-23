@@ -91,6 +91,27 @@
 <a class="nav-link" href="/features/observability/">Observability</a>
 </div>
 <div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
 <div class="nav-title">Reference</div>
 <a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
 <a class="nav-link" href="/reference/api-agents/">Agents API</a>
@@ -265,7 +286,7 @@
 </table>
 <h2 id="create-an-agent">Create an agent</h2>
 <p><code>POST /v1/agents</code> - returns <code>201 Created</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-44863e-curl">curl</button><button class="tab" data-tab="tab-44863e-python">python</button><button class="tab" data-tab="tab-44863e-javascript">javascript</button></div><div class="tab-panel active" id="tab-44863e-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/agents \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ed4ee1-curl">curl</button><button class="tab" data-tab="tab-ed4ee1-python">python</button><button class="tab" data-tab="tab-ed4ee1-javascript">javascript</button></div><div class="tab-panel active" id="tab-ed4ee1-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/agents \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -274,7 +295,7 @@
     &quot;model&quot;: {&quot;provider_id&quot;: &quot;anthropic-prod&quot;, &quot;model_name&quot;: &quot;claude-sonnet-4-6&quot;},
     &quot;system_prompt&quot;: [&quot;You are a senior software engineer.&quot;, &quot;Be concise.&quot;],
     &quot;tools&quot;: [&quot;system__list_files&quot;, &quot;system__read_file&quot;]
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-44863e-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-ed4ee1-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/agents&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -286,7 +307,7 @@ r = httpx.post(
         &quot;tools&quot;: [&quot;system__list_files&quot;, &quot;system__read_file&quot;],
     },
 )
-assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-44863e-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/agents&quot;, {
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-ed4ee1-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/agents&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -305,30 +326,30 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-448
 </ul>
 <h2 id="get-an-agent">Get an agent</h2>
 <p><code>GET /v1/agents/{id}</code> - returns <code>200 OK</code> with the agent object.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a299a4-curl">curl</button><button class="tab" data-tab="tab-a299a4-python">python</button><button class="tab" data-tab="tab-a299a4-javascript">javascript</button></div><div class="tab-panel active" id="tab-a299a4-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/agents/my-agent \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-a299a4-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-6854e5-curl">curl</button><button class="tab" data-tab="tab-6854e5-python">python</button><button class="tab" data-tab="tab-6854e5-javascript">javascript</button></div><div class="tab-panel active" id="tab-6854e5-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/agents/my-agent \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-6854e5-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/agents/my-agent&quot;,
-              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})</code></pre></div><div class="tab-panel" id="tab-a299a4-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/agents/my-agent&quot;, {
+              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})</code></pre></div><div class="tab-panel" id="tab-6854e5-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/agents/my-agent&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <p><strong>Errors:</strong> <code>404</code> if the id does not exist.</p>
 <h2 id="list-agents">List agents</h2>
 <p><code>GET /v1/agents</code> - returns an offset or cursor page of agent objects.</p>
 <p>Query parameters: <code>limit</code> (1-200, default 20), <code>offset</code> (default 0), <code>cursor</code>, <code>order_by</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-52af19-curl">curl</button><button class="tab" data-tab="tab-52af19-python">python</button><button class="tab" data-tab="tab-52af19-javascript">javascript</button></div><div class="tab-panel active" id="tab-52af19-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/agents?limit=50&amp;offset=0&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-52af19-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c75bca-curl">curl</button><button class="tab" data-tab="tab-c75bca-python">python</button><button class="tab" data-tab="tab-c75bca-javascript">javascript</button></div><div class="tab-panel active" id="tab-c75bca-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/agents?limit=50&amp;offset=0&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-c75bca-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/agents&quot;,
               headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
               params={&quot;limit&quot;: 50, &quot;offset&quot;: 0})
 page = r.json()
-agents = page[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-52af19-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/agents?limit=50&amp;offset=0&quot;, {
+agents = page[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-c75bca-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/agents?limit=50&amp;offset=0&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const {items, total, length, offset} = await r.json()</code></pre></div></div>
 <h2 id="replace-an-agent">Replace an agent</h2>
 <p><code>PUT /v1/agents/{id}</code> - full replacement; returns <code>200 OK</code> with the updated agent.</p>
 <p>The body uses the same schema as <code>POST</code>. All fields are replaced; omitted optional fields reset to their defaults.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-409ac5-curl">curl</button><button class="tab" data-tab="tab-409ac5-python">python</button><button class="tab" data-tab="tab-409ac5-javascript">javascript</button></div><div class="tab-panel active" id="tab-409ac5-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/agents/my-agent \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-1eac9b-curl">curl</button><button class="tab" data-tab="tab-1eac9b-python">python</button><button class="tab" data-tab="tab-1eac9b-javascript">javascript</button></div><div class="tab-panel active" id="tab-1eac9b-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/agents/my-agent \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -337,7 +358,7 @@ const {items, total, length, offset} = await r.json()</code></pre></div></div>
     &quot;model&quot;: {&quot;provider_id&quot;: &quot;anthropic-prod&quot;, &quot;model_name&quot;: &quot;claude-sonnet-4-6&quot;},
     &quot;system_prompt&quot;: [&quot;Updated system prompt.&quot;],
     &quot;tools&quot;: []
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-409ac5-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-1eac9b-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.put(
     &quot;https://your-host/v1/agents/my-agent&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -348,7 +369,7 @@ r = httpx.put(
         &quot;system_prompt&quot;: [&quot;Updated system prompt.&quot;],
         &quot;tools&quot;: [],
     },
-)</code></pre></div><div class="tab-panel" id="tab-409ac5-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/agents/my-agent&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-1eac9b-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/agents/my-agent&quot;, {
   method: &quot;PUT&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -362,17 +383,17 @@ r = httpx.put(
 <p><strong>Errors:</strong> <code>404</code> if not found, <code>409</code> if the agent is managed by a harness.</p>
 <h2 id="delete-an-agent">Delete an agent</h2>
 <p><code>DELETE /v1/agents/{id}</code> - returns <code>204 No Content</code>. Idempotent: deleting a non-existent id returns <code>404</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-50a533-curl">curl</button><button class="tab" data-tab="tab-50a533-python">python</button><button class="tab" data-tab="tab-50a533-javascript">javascript</button></div><div class="tab-panel active" id="tab-50a533-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/agents/my-agent \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-50a533-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-cfe5e2-curl">curl</button><button class="tab" data-tab="tab-cfe5e2-python">python</button><button class="tab" data-tab="tab-cfe5e2-javascript">javascript</button></div><div class="tab-panel active" id="tab-cfe5e2-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/agents/my-agent \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-cfe5e2-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.delete(&quot;https://your-host/v1/agents/my-agent&quot;,
                  headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
-assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-50a533-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/agents/my-agent&quot;, {
+assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-cfe5e2-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/agents/my-agent&quot;, {
   method: &quot;DELETE&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <h2 id="find-agents-by-predicate">Find agents by predicate</h2>
 <p><code>POST /v1/agents/find</code> - filter, sort, and paginate agents server-side. Returns <code>200 OK</code> with an offset or cursor page.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-318b6e-curl">curl</button><button class="tab" data-tab="tab-318b6e-python">python</button><button class="tab" data-tab="tab-318b6e-javascript">javascript</button></div><div class="tab-panel active" id="tab-318b6e-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/agents/find \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-819820-curl">curl</button><button class="tab" data-tab="tab-819820-python">python</button><button class="tab" data-tab="tab-819820-javascript">javascript</button></div><div class="tab-panel active" id="tab-819820-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/agents/find \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -383,7 +404,7 @@ assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-50a
       &quot;right&quot;: {&quot;kind&quot;: &quot;value&quot;, &quot;value&quot;: &quot;coding-%&quot;}
     },
     &quot;page&quot;: {&quot;kind&quot;: &quot;offset&quot;, &quot;offset&quot;: 0, &quot;length&quot;: 20}
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-318b6e-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-819820-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/agents/find&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -395,7 +416,7 @@ r = httpx.post(
         },
         &quot;page&quot;: {&quot;kind&quot;: &quot;offset&quot;, &quot;offset&quot;: 0, &quot;length&quot;: 20},
     },
-)</code></pre></div><div class="tab-panel" id="tab-318b6e-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/agents/find&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-819820-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/agents/find&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -409,10 +430,10 @@ r = httpx.post(
 })</code></pre></div></div>
 <h2 id="validate-agent-status">Validate agent status</h2>
 <p><code>GET /v1/agents/{id}/status</code> - checks whether the agent's <code>model.provider_id</code> (an <code>LLMProvider</code> row) and any non-built-in toolsets referenced by <code>tools</code> exist in storage. Returns <code>200 OK</code> with <code>{&quot;ok&quot;: boolean, &quot;issues&quot;: [string, ...]}</code>. It does not call the live LLM or toolset providers.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-1c7583-curl">curl</button><button class="tab" data-tab="tab-1c7583-python">python</button><button class="tab" data-tab="tab-1c7583-javascript">javascript</button></div><div class="tab-panel active" id="tab-1c7583-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/agents/my-agent/status \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-1c7583-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a6468a-curl">curl</button><button class="tab" data-tab="tab-a6468a-python">python</button><button class="tab" data-tab="tab-a6468a-javascript">javascript</button></div><div class="tab-panel active" id="tab-a6468a-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/agents/my-agent/status \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-a6468a-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/agents/my-agent/status&quot;,
-              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})</code></pre></div><div class="tab-panel" id="tab-1c7583-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/agents/my-agent/status&quot;, {
+              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})</code></pre></div><div class="tab-panel" id="tab-a6468a-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/agents/my-agent/status&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <p><strong>Errors:</strong> <code>404</code> if the agent id does not exist.</p>

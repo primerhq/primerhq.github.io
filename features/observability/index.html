@@ -91,6 +91,27 @@
 <a class="nav-link" href="/features/observability/">Observability</a>
 </div>
 <div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
 <div class="nav-title">Reference</div>
 <a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
 <a class="nav-link" href="/reference/api-agents/">Agents API</a>
@@ -226,11 +247,11 @@
 </tr>
 </tbody>
 </table>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b84887-curl">curl</button><button class="tab" data-tab="tab-b84887-python">python</button><button class="tab" data-tab="tab-b84887-javascript">javascript</button></div><div class="tab-panel active" id="tab-b84887-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/health</code></pre></div><div class="tab-panel" id="tab-b84887-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b2e791-curl">curl</button><button class="tab" data-tab="tab-b2e791-python">python</button><button class="tab" data-tab="tab-b2e791-javascript">javascript</button></div><div class="tab-panel active" id="tab-b2e791-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/health</code></pre></div><div class="tab-panel" id="tab-b2e791-python"><pre class="md-pre lang-python"><code>import httpx
 health = httpx.get(&quot;https://your-host/v1/health&quot;).json()
 assert health[&quot;status&quot;] == &quot;ok&quot;
 capacity = health[&quot;worker_pool&quot;][&quot;capacity&quot;]
-in_flight = health[&quot;worker_pool&quot;][&quot;in_flight&quot;]</code></pre></div><div class="tab-panel" id="tab-b84887-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/health&quot;)
+in_flight = health[&quot;worker_pool&quot;][&quot;in_flight&quot;]</code></pre></div><div class="tab-panel" id="tab-b2e791-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/health&quot;)
 const health = await r.json()
 const {capacity, in_flight} = health.worker_pool</code></pre></div></div>
 <h2 id="workers-inspect-and-drain">Workers: inspect and drain</h2>
@@ -334,7 +355,7 @@ const {capacity, in_flight} = health.worker_pool</code></pre></div></div>
 <p>The <code>primer_*</code> counters surfaced under <code>/v1/health</code> (claims, turns, lease expirations, notifications) are the scheduler and pool snapshot fields described above; the table here is the registry scraped by a Prometheus pipeline.</p>
 <div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p>The metrics endpoint is mounted at the host root (<code>/metrics</code>), not under the <code>/v1</code> API prefix, so a scrape config targets <code>https://your-host/metrics</code> directly.</p>
 </div></div>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-90929b-curl">curl</button><button class="tab" data-tab="tab-90929b-python">python</button></div><div class="tab-panel active" id="tab-90929b-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/metrics</code></pre></div><div class="tab-panel" id="tab-90929b-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b6b124-curl">curl</button><button class="tab" data-tab="tab-b6b124-python">python</button></div><div class="tab-panel active" id="tab-b6b124-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/metrics</code></pre></div><div class="tab-panel" id="tab-b6b124-python"><pre class="md-pre lang-python"><code>import httpx
 text = httpx.get(&quot;https://your-host/metrics&quot;).text
 # Prometheus text exposition format; feed to your scrape pipeline.</code></pre></div></div>
 <h2 id="tracing">Tracing</h2>

@@ -91,6 +91,27 @@
 <a class="nav-link" href="/features/observability/">Observability</a>
 </div>
 <div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
 <div class="nav-title">Reference</div>
 <a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
 <a class="nav-link" href="/reference/api-agents/">Agents API</a>
@@ -135,7 +156,7 @@
 <p>Not every tool can be added to the allowlist. Three categories are always excluded:</p>
 <ul>
 <li><strong>Tools from user-defined Toolset rows.</strong> The endpoint exposes only primer's reserved built-in toolsets (<code>system</code>, <code>workspaces</code>, <code>search</code>, <code>trigger</code>, <code>web</code>, <code>misc</code>, <code>harness</code>, and <code>workspace_ext</code>). Tools from toolsets you defined yourself, including external MCP servers you mounted, are denied with reason <code>not_system_toolset</code>. They belong to primer's own agents, not to outside MCP clients.</li>
-<li><strong>Yielding tools</strong> - tools that park a session on an event bus (such as <code>misc__ask_user</code>, <code>misc__sleep</code>, <code>trigger__subscribe_to_trigger</code>, and <code>workspaces__watch_files</code>). MCP v1 has no pause/resume primitive, so a round-trip is impossible. These are denied with reason <code>yielding_unsupported</code>.</li>
+<li><strong>Yielding tools</strong> - tools that park a session on an event bus (such as <code>system__ask_user</code>, <code>workspace_ext__sleep</code>, <code>trigger__subscribe_to_trigger</code>, and <code>workspace_ext__watch_files</code>). MCP v1 has no pause/resume primitive, so a round-trip is impossible. These are denied with reason <code>yielding_unsupported</code>.</li>
 <li><strong>Workspace tools that need an active agent session</strong> - workspace tools that read the current <code>session_id</code> from the agent runtime context. These are meaningless outside an agent loop and are denied with reason <code>needs_session</code>.</li>
 </ul>
 <p>There is no policy-level denylist beyond those technical floors: you enabled MCP, you chose which tools to expose, and you minted the token, so you choose the risk surface (including powerful tools like <code>system__call_tool</code> or <code>web__http_request</code>).</p>
@@ -235,10 +256,10 @@
 </ol>
 <h3 id="connecting-claude-code">Connecting Claude Code</h3>
 <p>Register primer's endpoint as an MCP server. This is exactly how primer's own dogfood instance is driven:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a62f20-bash">bash</button></div><div class="tab-panel active" id="tab-a62f20-bash"><pre class="md-pre lang-bash"><code>claude mcp add --transport http primer &lt;your-primer-origin&gt;/v1/mcp</code></pre></div></div>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-34517f-bash">bash</button></div><div class="tab-panel active" id="tab-34517f-bash"><pre class="md-pre lang-bash"><code>claude mcp add --transport http primer &lt;your-primer-origin&gt;/v1/mcp</code></pre></div></div>
 <p>Supply the bearer token (with the <code>mcp</code> scope) when prompted, or add it manually to your Claude Code MCP config. Use the trailing-slash form of the URL if you call the endpoint directly over JSON-RPC; a bare <code>/v1/mcp</code> may redirect.</p>
 <p>After Claude Code reconnects, the published tools appear in its palette. From there an external agent uses primer as a backend to build and run an agentic system. For example, the agent can search for an existing agent, create a new one, then invoke it and read the result:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-408238-json">json</button></div><div class="tab-panel active" id="tab-408238-json"><pre class="md-pre lang-json"><code>{ &quot;method&quot;: &quot;tools/call&quot;,
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-711493-json">json</button></div><div class="tab-panel active" id="tab-711493-json"><pre class="md-pre lang-json"><code>{ &quot;method&quot;: &quot;tools/call&quot;,
   &quot;params&quot;: { &quot;name&quot;: &quot;search__search_agents&quot;, &quot;arguments&quot;: { &quot;query&quot;: &quot;triage incoming support tickets&quot; } } }
 { &quot;method&quot;: &quot;tools/call&quot;,
   &quot;params&quot;: { &quot;name&quot;: &quot;system__create_agent&quot;,

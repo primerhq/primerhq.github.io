@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/" />
+<title>Release conductor &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/features/agents/">Agents</a>
+<a class="nav-link" href="/features/chats/">Chats</a>
+<a class="nav-link" href="/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/web/overview/">Web</a>
+<a class="nav-link" href="/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/channels/overview/">Channels</a>
+<a class="nav-link" href="/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/features/triggers/">Triggers</a>
+<a class="nav-link" href="/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/features/workers/">Workers</a>
+<a class="nav-link" href="/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Cookbook</span> / <span>Release conductor</span></nav><h1>Release conductor</h1>
+<h2 id="goal">Goal</h2>
+<p>You want to ship a build, but two things must happen first: a human resolves the
+ambiguity (&quot;which environment? which version?&quot;), and a human signs off on the
+irreversible step before it runs. This is the canonical <strong>irreversible action behind
+a human gate</strong> pattern, and it leans on two of primer's human-in-the-loop primitives
+on a session:</p>
+<ul>
+<li><strong><code>ask_user</code></strong>, the agent pauses the session to ask the operator a question, and
+resumes with the answer.</li>
+<li><strong>A required tool-approval gate</strong>, a policy that forces an operator decision before
+a named tool can run. Approve and the gated call executes; reject and it returns a
+rejection result and a durable record is written.</li>
+</ul>
+<p>This recipe shows both gates firing back to back in one session: first <code>ask_user</code>, then
+the deploy approval. Every step is shown two ways: first <strong>in the console</strong> (which page
+to open, what to click, which fields to fill), then a <strong>Via the CLI</strong> block with the
+exact <code>primectl</code> command. Pick whichever you prefer; the two paths drive the same
+session.</p>
+<h2 id="ingredients">Ingredients</h2>
+<ul>
+<li><strong>An LLM provider.</strong></li>
+<li><strong>A <code>local</code> workspace</strong> for the session to run in.</li>
+<li><strong>A deploy tool to gate.</strong> In production this is your real &quot;ship it&quot; action, an MCP
+toolset like <code>deploy-ops__run_deploy</code>, or whatever runs your migration. The gate is
+tool-agnostic: it keys on the <code>(toolset_id, tool_name)</code> pair, so the mechanism is the
+same whatever the tool does. For a self-contained dry run you can gate the built-in
+<code>workspaces__write_workspace_file</code> and treat the written file as the deploy marker.</li>
+<li><strong>A required tool-approval policy</strong> on that tool (see the
+<a href="api-tool-approval">tool-approval reference</a>).</li>
+</ul>
+<p>If you have not connected <code>primectl</code> yet, see &quot;Connecting the CLI&quot; in the
+<a href="cookbook-rag-knowledge-base">RAG knowledge base</a> recipe.</p>
+<h2 id="walkthrough">Walkthrough</h2>
+<h3 id="1-create-the-release-conductor-agent">1. Create the release-conductor agent</h3>
+<p>Give it exactly two tools: <code>ask_user</code> to confirm, and the deploy tool. The system
+prompt forbids deploying without confirming first.</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Compute &gt; Agents</strong> and click <strong>New agent</strong>.</li>
+<li>On <strong>Basic</strong> set <strong>ID</strong> to <code>release-conductor</code>, add a <strong>Description</strong>, and pick the
+<strong>LLM provider</strong> and <strong>Model</strong>.</li>
+<li>On <strong>Tools</strong> check <code>system__ask_user</code> and your deploy tool (here
+<code>workspaces__write_workspace_file</code>).</li>
+<li>On <strong>Advanced</strong> paste the system prompt (below) and set <strong>max tool turns</strong> to <code>5</code>.
+Click <strong>Create</strong>.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f release-conductor.yaml
+</code></pre>
+<pre><code class="language-yaml">kind: agent
+spec:
+  id: release-conductor
+  description: Confirms a deploy target with a human, then deploys behind an approval gate.
+  model: { provider_id: &lt;llm&gt;, model_name: &lt;model&gt; }
+  tools:
+    - system__ask_user
+    - workspaces__write_workspace_file
+  max_tool_turns: 5
+  system_prompt:
+    - &gt;-
+      You are a Release Conductor. If the target or version is ambiguous, call
+      ask_user to confirm the environment and version. Then deploy by writing the
+      RELEASE marker file with the confirmed values. Never deploy without confirming
+      first.
+</code></pre>
+<h3 id="2-gate-the-deploy-tool-with-a-required-policy">2. Gate the deploy tool with a required policy</h3>
+<p>A <code>required</code> policy means: every call to that tool pauses the session for an operator
+decision before it runs.</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Compute &gt; Approvals</strong> and click <strong>New approval policy</strong>.</li>
+<li>Set the <strong>Toolset id</strong> to <code>workspaces</code> (your deploy tool's toolset), the
+<strong>Tool name</strong> to <code>write_workspace_file</code>, and the <strong>approval type</strong> to <strong>required</strong>.
+Set a <strong>timeout</strong> if you like, leave it <strong>enabled</strong>, and click <strong>Create policy</strong>.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f deploy-policy.yaml
+</code></pre>
+<pre><code class="language-yaml">kind: tool_approval_policy
+spec:
+  id: tap-run-deploy
+  toolset_id: workspaces
+  tool_name: write_workspace_file
+  enabled: true
+  approval: { type: required }
+  timeout_seconds: 600
+</code></pre>
+<p>The resolver caches policies in-process. After creating or changing one, invalidate
+the cache so a running worker picks it up immediately, in the console by reopening the
+Approvals page (the per-tool badge re-reads policies), and on the CLI with:</p>
+<pre><code>primectl call tool_approval_policy invalidate
+</code></pre>
+<p>Note the policy keys on the <strong>bare</strong> pair (<code>toolset_id</code> + <code>tool_name</code>), but the
+pending-approval echo and the durable record report the call's <strong>namespaced</strong> name
+(<code>workspaces__write_workspace_file</code>).</p>
+<h3 id="3-start-the-session-ambiguously-and-ride-both-gates">3. Start the session ambiguously and ride both gates</h3>
+<p>Start the session with an instruction that leaves the target open, so the agent has to
+ask. The agent calls <code>ask_user</code> (the session parks), you answer, the agent calls the
+deploy tool (the gate trips, the session parks again), and you approve or reject.</p>
+<p>In the console:</p>
+<ol>
+<li>Click <strong>New session</strong> (top right of the dashboard or the Sessions page). Set the
+<strong>Binding</strong> to <code>agent</code>, pick <code>release-conductor</code>, choose your <strong>Workspace</strong>, type
+<code>Deploy the latest build.</code> into <strong>Initial instructions</strong>, and click <strong>Create</strong>.</li>
+<li>Open the session. When it parks on <code>ask_user</code>, the <strong>ask_user</strong> panel shows the
+prompt; type your answer (<code>staging, v1.4.2</code>) and submit. The turn resumes.</li>
+<li>When the deploy call trips the gate, the session parks on the approval. Go to
+<strong>Compute &gt; Approvals</strong> (or use the in-session approval banner): the pending row
+shows the tool name (<code>workspaces__write_workspace_file</code>), the arguments, and
+<strong>Approve</strong> / <strong>Reject</strong> buttons.
+<ul>
+<li><strong>Approve</strong>, and the gated tool re-dispatches and runs for real; the agent reports
+success and the session ends <code>completed</code>.</li>
+<li><strong>Reject</strong> (enter a reason such as <code>change freeze window</code>), and the gated call
+resolves to a rejection result instead of running; the agent aborts without the
+deploy side effect, the session ends, and a durable rejection record is written.</li>
+</ul>
+</li>
+</ol>
+<p>Via the CLI, <code>session run --watch</code> (the default) handles both parks inline: it polls
+the session to terminal, surfaces each prompt, and answers it from your scripted flags.
+<code>--answer</code> feeds a canned <code>ask_user</code> reply, and <code>--yes</code> auto-approves every approval
+gate:</p>
+<pre><code>primectl session run &lt;workspace-id&gt; --agent release-conductor \
+  -i &quot;Deploy the latest build.&quot; \
+  --answer &quot;staging, v1.4.2&quot; --yes
+</code></pre>
+<p>That is the <strong>approve</strong> path end to end: it answers the <code>ask_user</code> park with
+<code>staging, v1.4.2</code>, auto-approves the deploy gate, and watches the session to
+<code>ended: completed</code>.</p>
+<p>For the <strong>reject</strong> path, start without <code>--yes</code> and resolve the approval
+non-interactively with <code>session respond</code> once the session parks on the gate. Start the
+run watching only the ask_user park (answer it, then let it park on the gate):</p>
+<pre><code>primectl session run &lt;workspace-id&gt; --agent release-conductor \
+  -i &quot;Deploy the latest build.&quot; \
+  --answer &quot;staging, v1.4.2&quot; --no-watch
+</code></pre>
+<p>then poll <code>primectl get session &lt;session-id&gt; -o json -r</code> until <code>parked_status</code> is
+<code>parked</code> on the approval, and reject it:</p>
+<pre><code>primectl session respond tool-approval &lt;session-id&gt; \
+  --decision rejected --reason &quot;change freeze window&quot;
+</code></pre>
+<p>(<code>session respond ask-user &lt;session-id&gt; --response &quot;staging, v1.4.2&quot;</code> is the matching
+one-shot for the ask_user park if you script the poll loop yourself.)</p>
+<p>A few things worth knowing:</p>
+<ul>
+<li><strong>Two parks, one session.</strong> <code>ask_user</code> and the approval gate are independent pauses;
+the session parks, resumes, and parks again. <code>session run --watch</code> answers both in
+order; <code>session respond</code> answers either one-shot.</li>
+<li><strong>The human makes the decision, not the model.</strong> The agent only chooses to <em>call</em>
+<code>ask_user</code> and the deploy tool. Whether the answer says &quot;staging&quot; or the gate is
+approved or rejected is entirely the operator's.</li>
+<li><strong>Reject is safe by construction.</strong> On a rejection the gated tool never executes, so
+the irreversible action has no side effect. The denial is recorded; read it from the
+Approvals page (resolved records are retained). There is no first-class resource for
+the records list, so on the CLI it is the <code>primectl raw</code> escape hatch:
+<code>primectl raw GET /v1/tool_approval/records --param status=rejected -o json</code>, then
+find the row whose <code>session_id</code> is your session.</li>
+</ul>
+<h2 id="testing">Testing</h2>
+<p>A scripted end-to-end test exercises the full loop both ways
+(<code>tests/e2e/test_cookbook_release_conductor_cli.py</code>, <code>SMK-COOKBOOK-CLI-13</code>). It builds
+the conductor and the required policy with <code>primectl create -f</code>, then drives the
+session HITL with <code>primectl session run --watch</code>: the <strong>approve</strong> run uses
+<code>--answer &quot;staging, v1.4.2&quot; --yes</code> to answer the <code>ask_user</code> park and auto-approve the
+gate, and the <strong>reject</strong> run answers the <code>ask_user</code> park then rejects the gate with
+<code>session respond tool-approval</code>. It gates the built-in
+<code>workspaces__write_workspace_file</code> as the stand-in deploy (the written <code>RELEASE</code> file
+is the observable side effect).</p>
+<p>Expected outcome (verified):</p>
+<ul>
+<li><strong>Approve path:</strong> the transcript
+(<code>primectl workspace files get &lt;ws&gt; .state/sessions/&lt;sid&gt;/messages.jsonl --content</code>)
+shows both the <code>ask_user</code> call and the deploy call; the deploy <code>tool_result</code>
+succeeded; the session ends <code>ended</code> / <code>completed</code>; and the deploy side effect (the
+<code>RELEASE</code> marker) is on disk.</li>
+<li><strong>Reject path:</strong> the deploy was offered but its <code>tool_result</code> is a rejection
+(carrying your <code>reason</code>); there is <strong>no</strong> deploy side effect; the session ends; and a
+rejected approval record exists with the namespaced <code>tool_name</code> and your <code>reason</code>.</li>
+</ul>
+<p>Point the gated tool at your real deploy action and you have a release pipeline that
+will not ship until a human confirms the target and signs off on the irreversible step.</p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>
