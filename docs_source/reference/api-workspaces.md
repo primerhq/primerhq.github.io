@@ -323,7 +323,7 @@ curl -s -X POST https://primer.example/v1/workspace_templates \
     "provider_id": "k8s-prod",
     "backend": {
       "kind": "kubernetes",
-      "image": "192.168.70.168:30500/primer/workspace-runtime:1.0",
+      "image": "127.0.0.1:30500/primer/workspace-runtime:1.0",
       "entrypoint": ["python", "-m", "primer_runtime.server"],
       "pvc_size": "1Gi"
     }
@@ -339,7 +339,7 @@ r = httpx.post(
         "provider_id": "k8s-prod",
         "backend": {
             "kind": "kubernetes",
-            "image": "192.168.70.168:30500/primer/workspace-runtime:1.0",
+            "image": "127.0.0.1:30500/primer/workspace-runtime:1.0",
             "entrypoint": ["python", "-m", "primer_runtime.server"],
             "pvc_size": "1Gi",
         },
@@ -359,7 +359,7 @@ await fetch("/v1/workspace_templates", {
     provider_id: "k8s-prod",
     backend: {
       kind: "kubernetes",
-      image: "192.168.70.168:30500/primer/workspace-runtime:1.0",
+      image: "127.0.0.1:30500/primer/workspace-runtime:1.0",
       entrypoint: ["python", "-m", "primer_runtime.server"],
       pvc_size: "1Gi",
     },

@@ -32,7 +32,7 @@ Returns the list of workers registered in the pool with their current status, ca
   "items": [
     {
       "id": "wrk-d5ba94ecac66",
-      "host": "uae-homenode",
+      "host": "build-host",
       "pid": 3371965,
       "capacity": 8,
       "started_at": "2026-06-07T19:00:55.238423Z",

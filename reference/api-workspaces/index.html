@@ -504,7 +504,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-3ab649-jav
     &quot;provider_id&quot;: &quot;k8s-prod&quot;,
     &quot;backend&quot;: {
       &quot;kind&quot;: &quot;kubernetes&quot;,
-      &quot;image&quot;: &quot;192.168.70.168:30500/primer/workspace-runtime:1.0&quot;,
+      &quot;image&quot;: &quot;127.0.0.1:30500/primer/workspace-runtime:1.0&quot;,
       &quot;entrypoint&quot;: [&quot;python&quot;, &quot;-m&quot;, &quot;primer_runtime.server&quot;],
       &quot;pvc_size&quot;: &quot;1Gi&quot;
     }
@@ -518,7 +518,7 @@ r = httpx.post(
         &quot;provider_id&quot;: &quot;k8s-prod&quot;,
         &quot;backend&quot;: {
             &quot;kind&quot;: &quot;kubernetes&quot;,
-            &quot;image&quot;: &quot;192.168.70.168:30500/primer/workspace-runtime:1.0&quot;,
+            &quot;image&quot;: &quot;127.0.0.1:30500/primer/workspace-runtime:1.0&quot;,
             &quot;entrypoint&quot;: [&quot;python&quot;, &quot;-m&quot;, &quot;primer_runtime.server&quot;],
             &quot;pvc_size&quot;: &quot;1Gi&quot;,
         },
@@ -536,7 +536,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-a8da19-jav
     provider_id: &quot;k8s-prod&quot;,
     backend: {
       kind: &quot;kubernetes&quot;,
-      image: &quot;192.168.70.168:30500/primer/workspace-runtime:1.0&quot;,
+      image: &quot;127.0.0.1:30500/primer/workspace-runtime:1.0&quot;,
       entrypoint: [&quot;python&quot;, &quot;-m&quot;, &quot;primer_runtime.server&quot;],
       pvc_size: &quot;1Gi&quot;,
     },
