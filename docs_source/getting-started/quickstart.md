@@ -9,18 +9,24 @@ In this guide you will build a small "blog content assistant" from scratch using
 
 ## Step 0 - Install and start
 
-Clone the repo, sync dependencies, and start the API server. Then open the console at http://localhost:8000/console/.
+Install primer and start the API server, then open the console at http://localhost:8000/console/. This tutorial uses semantic search and internal collections, so install the batteries-included `[full]` build.
 
 ```code-tabs:bash
 --- bash
-git clone https://github.com/primerhq/primer.git
-cd primer
-uv sync
-uv run primer api
+# pipx (needs Python 3.12+)
+pipx install 'primer-ai[full]'
+primer api
+
+# or Docker (no Python toolchain)
+docker run --rm -p 8000:8000 ghcr.io/primerhq/primer:latest
+
+# or from source
+git clone https://github.com/primerhq/primer.git && cd primer
+uv sync --all-extras && uv run primer api
 ```
 
 ```callout:info
-This is the git-based install for now. Released-artifact installation is coming; until then, clone and run from source.
+The bare `pipx install primer-ai` installs a lean core (REST API, console, MCP, storage, API-based providers). The `[full]` extra adds the local embeddings, document ingestion, channels, and container / Kubernetes backends - including the semantic search this tutorial uses. From source, `uv sync --all-extras` gives the same full setup.
 ```
 
 ## Step 1 - Add an LLM provider (OpenRouter)

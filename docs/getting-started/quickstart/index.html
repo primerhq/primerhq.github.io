@@ -139,12 +139,18 @@
     <article class="article" id="article"><nav class="breadcrumb"><span>Getting Started</span> / <span>Quickstart</span></nav><h1>Quickstart</h1>
 <p>In this guide you will build a small &quot;blog content assistant&quot; from scratch using primer. Everything runs from the console against a free LLM key, and each step builds directly on the last. By the end you will have two agents, a shared chat, a semantic router, a workspace file, and a graph that watches for that file and then drafts and reviews a blog post.</p>
 <h2 id="step-0---install-and-start">Step 0 - Install and start</h2>
-<p>Clone the repo, sync dependencies, and start the API server. Then open the console at http://localhost:8000/console/.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e6ec85-bash">bash</button></div><div class="tab-panel active" id="tab-e6ec85-bash"><pre class="md-pre lang-bash"><code>git clone https://github.com/primerhq/primer.git
-cd primer
-uv sync
-uv run primer api</code></pre></div></div>
-<div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p>This is the git-based install for now. Released-artifact installation is coming; until then, clone and run from source.</p>
+<p>Install primer and start the API server, then open the console at http://localhost:8000/console/. This tutorial uses semantic search and internal collections, so install the batteries-included <code>[full]</code> build.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-53f895-bash">bash</button></div><div class="tab-panel active" id="tab-53f895-bash"><pre class="md-pre lang-bash"><code># pipx (needs Python 3.12+)
+pipx install &#x27;primer-ai[full]&#x27;
+primer api
+
+# or Docker (no Python toolchain)
+docker run --rm -p 8000:8000 ghcr.io/primerhq/primer:latest
+
+# or from source
+git clone https://github.com/primerhq/primer.git &amp;&amp; cd primer
+uv sync --all-extras &amp;&amp; uv run primer api</code></pre></div></div>
+<div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p>The bare <code>pipx install primer-ai</code> installs a lean core (REST API, console, MCP, storage, API-based providers). The <code>[full]</code> extra adds the local embeddings, document ingestion, channels, and container / Kubernetes backends - including the semantic search this tutorial uses. From source, <code>uv sync --all-extras</code> gives the same full setup.</p>
 </div></div>
 <h2 id="step-1---add-an-llm-provider-openrouter">Step 1 - Add an LLM provider (OpenRouter)</h2>
 <p>Get a free API key at <a href="https://openrouter.ai/">openrouter.ai</a>. In the console, go to Providers, then LLM, then Add provider. Choose provider type &quot;openrouter&quot; and paste your key; the base URL is already filled in, so you only need the key.</p>
@@ -159,7 +165,7 @@ uv run primer api</code></pre></div></div>
 </ul>
 <p>For each agent, open Agents, click New agent, fill the Basic tab (name, description, and the model: select the OpenRouter provider you created in Step 1, then pick the <code>meta-llama/llama-3.1-8b-instruct:free</code> model), then open the Advanced tab to paste the system prompt below, and save.</p>
 <p><strong>topic-scout</strong> system prompt:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-60801a-text">text</button></div><div class="tab-panel active" id="tab-60801a-text"><pre class="md-pre lang-text"><code>You are topic-scout, a blog ideation assistant. Given a broad theme from
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-57173d-text">text</button></div><div class="tab-panel active" id="tab-57173d-text"><pre class="md-pre lang-text"><code>You are topic-scout, a blog ideation assistant. Given a broad theme from
 the user, propose exactly five specific, distinct blog post topics aimed at
 a general technical audience.
 
@@ -172,7 +178,7 @@ Do not write the posts themselves, and do not ask clarifying questions: if
 the theme is broad, make reasonable assumptions and proceed. Keep the whole
 reply under 200 words.</code></pre></div></div>
 <p><strong>outline-editor</strong> system prompt:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9827c8-text">text</button></div><div class="tab-panel active" id="tab-9827c8-text"><pre class="md-pre lang-text"><code>You are outline-editor. The user gives you a single blog post topic, often
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-08a305-text">text</button></div><div class="tab-panel active" id="tab-08a305-text"><pre class="md-pre lang-text"><code>You are outline-editor. The user gives you a single blog post topic, often
 chosen from a numbered list earlier in the conversation. Produce one clear,
 structured outline for that topic.
 
@@ -198,7 +204,7 @@ Outline only; do not write full prose paragraphs. If the user refers to
 <p><strong>Part A: enable the collections.</strong> Go to Internal Collections and click Configure. Choose the bundled local embedder and the pre-configured <code>lance</code> semantic search provider; it is local and file-based, so it needs no API key. After saving, the subsystem is in the configured state; click Bootstrap now to index primer's own agents, graphs, tools, and knowledge collections. The subsystem becomes active once bootstrapping completes.</p>
 <figure class="embed"><picture><source srcset="/_embeds/internal-collections-enable-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/internal-collections-enable-light.png" alt="internal-collections-enable (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
 <p><strong>Part B: create a router agent.</strong> Create a new agent called <strong>content-router</strong> (again selecting the OpenRouter provider and the llama model). Give it the tools <code>search__search_agents</code> and <code>system__invoke_agent</code>, and the system prompt below:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-72e887-text">text</button></div><div class="tab-panel active" id="tab-72e887-text"><pre class="md-pre lang-text"><code>You are content-router. Route each user request to the most suitable
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-642584-text">text</button></div><div class="tab-panel active" id="tab-642584-text"><pre class="md-pre lang-text"><code>You are content-router. Route each user request to the most suitable
 existing agent and run it, rather than answering directly.
 
 For every request:
