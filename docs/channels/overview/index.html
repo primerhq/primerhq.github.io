@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Channels &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,18 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>channels</span> / <span>Channels</span></nav><h1>Channels</h1>
+<h2 id="what-channels-give-you">What channels give you</h2>
+<p>A <strong>channel</strong> connects primer to a messaging platform so agents are reachable where people already are. A channel is one set of credentials and one room, used by two independent surfaces:</p>
+<ul>
+<li><strong>Inbound: channel event to platform action.</strong> A message or command arriving in the room is normalized into a <code>ChannelEvent</code> and matched against rules. A match dispatches an action: start a chat, run an agent or graph session, or resume a parked workflow. The default &quot;a new message opens a chat&quot; still works with no rule at all.</li>
+<li><strong>Outbound: session reply to channel.</strong> When a session asks a question, hits an approval gate, or finishes, that traffic follows a reply binding back to the channel and thread it came from. The standing reply binding lives on the workspace; an inbound rule can set a more specific one per session.</li>
+</ul>
+<p>A <strong>channel provider</strong> holds the platform connection and credentials; <strong>channel rules</strong> map inbound events to actions; a <strong>reply binding</strong> decides where a workspace's session traffic goes back.</p>
+<p><a href="/docs/channels/channel-providers/">Register a Slack, Telegram, or Discord channel provider and its credentials.</a></p>
+<p><a href="/docs/channels/channels/">How channels drive chats and the per-room chat settings.</a></p>
+<p><a href="/docs/channels/channel-rules/">Map inbound events to platform actions and choose the reply target.</a></p>
+<p><a href="/docs/channels/channel-reply-binding/">Bind a workspace to a channel as its standing outbound reply destination.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

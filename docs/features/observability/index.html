@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/docs/" />
+<title>Observability &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/primerhq/primer" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/docs/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/docs/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/docs/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/docs/features/agents/">Agents</a>
+<a class="nav-link" href="/docs/features/chats/">Chats</a>
+<a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/docs/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/docs/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/docs/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/docs/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/docs/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/docs/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/docs/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/docs/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/docs/web/overview/">Web</a>
+<a class="nav-link" href="/docs/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/docs/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/docs/channels/overview/">Channels</a>
+<a class="nav-link" href="/docs/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/docs/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/docs/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/docs/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/docs/features/triggers/">Triggers</a>
+<a class="nav-link" href="/docs/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/docs/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/docs/features/workers/">Workers</a>
+<a class="nav-link" href="/docs/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/docs/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/docs/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/docs/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/docs/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/docs/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/docs/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/docs/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/docs/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/docs/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/docs/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/docs/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/docs/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/docs/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/docs/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/docs/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/docs/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/docs/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/docs/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/docs/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/docs/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/docs/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/docs/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/docs/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/docs/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/docs/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/docs/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/docs/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/docs/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/docs/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/docs/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/docs/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/docs/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/docs/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/docs/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/docs/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/docs/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/docs/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Features</span> / <span>Observability</span></nav><h1>Observability</h1>
+<h2 id="what-you-can-observe">What you can observe</h2>
+<p>A running Primer process exposes its runtime state through three always-available surfaces and one configurable one:</p>
+<ul>
+<li><strong><code>GET /v1/health</code></strong>: a liveness probe that folds in a snapshot of scheduler and worker-pool metrics. Public (no auth).</li>
+<li><strong><code>GET /v1/workers</code></strong>: the list of registered workers, their capacity, and their last heartbeat. Public (no auth). <code>POST /v1/workers/{id}/drain</code> takes a worker out of rotation cleanly.</li>
+<li><strong><code>GET /metrics</code></strong>: a Prometheus exposition endpoint backed by a dedicated registry. Enabled by default; can be turned off.</li>
+<li><strong>Structured logs</strong>: one JSON object per line by default, suitable for a log aggregator.</li>
+</ul>
+<p>The health and metrics surfaces overlap on purpose: <code>/v1/health</code> lets a dashboard scrape scheduler and pool counters without a Prometheus collector, while <code>/metrics</code> is the full counter and histogram set for a real scrape pipeline.</p>
+<h2 id="liveness-get-v1health">Liveness: GET /v1/health</h2>
+<p><code>GET /v1/health</code> returns <code>200 OK</code> whenever the process is responsive. Alongside the constant <code>status</code> and the API <code>version</code>, it surfaces a light-touch snapshot of scheduler liveness and worker-pool capacity so a monitor can read pool pressure without a second endpoint.</p>
+<pre><code class="language-json">{
+  &quot;status&quot;: &quot;ok&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;scheduler&quot;: {
+    &quot;alive&quot;: true,
+    &quot;metrics&quot;: {
+      &quot;primer_sessions_active&quot;: {},
+      &quot;primer_sessions_runnable_queue_depth&quot;: 0,
+      &quot;primer_lease_expirations_total&quot;: 0,
+      &quot;primer_scheduler_notify_received_total&quot;: 0
+    }
+  },
+  &quot;worker_pool&quot;: {
+    &quot;in_flight&quot;: 0,
+    &quot;capacity&quot;: 8,
+    &quot;metrics&quot;: {
+      &quot;primer_worker_id&quot;: &quot;wrk-d5ba94ecac66&quot;,
+      &quot;primer_worker_in_flight&quot;: 0,
+      &quot;primer_worker_capacity&quot;: 8,
+      &quot;primer_worker_claims_total&quot;: 1,
+      &quot;primer_worker_claims_empty_total&quot;: 7,
+      &quot;primer_session_turns_total&quot;: {},
+      &quot;primer_session_turn_duration_seconds&quot;: {&quot;count&quot;: 0, &quot;sum&quot;: 0.0}
+    }
+  }
+}
+</code></pre>
+<ul>
+<li><code>scheduler.alive</code> is <code>true</code> when the process has a live scheduler instance. <code>scheduler.metrics</code> carries the scheduler snapshot (see below). It is empty when the scheduler is absent.</li>
+<li><code>worker_pool.in_flight</code> and <code>worker_pool.capacity</code> are <code>null</code> in an API-only process (no attached pool). <code>worker_pool.metrics</code> carries the full pool snapshot.</li>
+</ul>
+<p>A broken metrics snapshot never takes the endpoint down: a failing snapshot degrades to an empty object so the probe still returns <code>200</code>.</p>
+<p>The scheduler snapshot reports:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>primer_sessions_active</code></td>
+<td>Count of sessions by status (a map keyed by status value).</td>
+</tr>
+<tr>
+<td><code>primer_sessions_runnable_queue_depth</code></td>
+<td>Runnable leases not yet claimed by any worker.</td>
+</tr>
+<tr>
+<td><code>primer_lease_expirations_total</code></td>
+<td>Leases that expired (worker stalled or crashed without releasing).</td>
+</tr>
+<tr>
+<td><code>primer_scheduler_notify_received_total</code></td>
+<td>Wake-up notifications the scheduler received.</td>
+</tr>
+</tbody>
+</table>
+<p>This is the snapshot the default in-process (in-memory) scheduler returns. A Postgres-backed scheduler reports a reduced synchronous snapshot under <code>/v1/health</code> (<code>primer_scheduler_notify_received_total</code> plus <code>primer_scheduler_listen_reconnects_total</code>); its session, queue-depth, and lease-expiration gauges are computed in a separate database query that the health probe does not call. Scrape <code>/metrics</code> for the full counter set under Postgres.</p>
+<p>The worker-pool snapshot reports:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>primer_worker_id</code></td>
+<td>This pool's worker identifier (prefix <code>wrk-</code>).</td>
+</tr>
+<tr>
+<td><code>primer_worker_in_flight</code></td>
+<td>Sessions currently executing in this pool.</td>
+</tr>
+<tr>
+<td><code>primer_worker_capacity</code></td>
+<td>Configured per-worker concurrency.</td>
+</tr>
+<tr>
+<td><code>primer_worker_claims_total</code></td>
+<td>Claim attempts that won a runnable lease.</td>
+</tr>
+<tr>
+<td><code>primer_worker_claims_empty_total</code></td>
+<td>Poll cycles that found nothing to claim.</td>
+</tr>
+<tr>
+<td><code>primer_session_turns_total</code></td>
+<td>Completed turns by result (a map keyed by result).</td>
+</tr>
+<tr>
+<td><code>primer_session_turn_duration_seconds</code></td>
+<td>Turn duration as <code>{count, sum}</code> (a real exporter folds this into buckets).</td>
+</tr>
+</tbody>
+</table>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-55df79-curl">curl</button><button class="tab" data-tab="tab-55df79-python">python</button><button class="tab" data-tab="tab-55df79-javascript">javascript</button></div><div class="tab-panel active" id="tab-55df79-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/health</code></pre></div><div class="tab-panel" id="tab-55df79-python"><pre class="md-pre lang-python"><code>import httpx
+health = httpx.get(&quot;https://your-host/v1/health&quot;).json()
+assert health[&quot;status&quot;] == &quot;ok&quot;
+capacity = health[&quot;worker_pool&quot;][&quot;capacity&quot;]
+in_flight = health[&quot;worker_pool&quot;][&quot;in_flight&quot;]</code></pre></div><div class="tab-panel" id="tab-55df79-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/health&quot;)
+const health = await r.json()
+const {capacity, in_flight} = health.worker_pool</code></pre></div></div>
+<h2 id="workers-inspect-and-drain">Workers: inspect and drain</h2>
+<p><code>GET /v1/workers</code> lists every worker registered with the scheduler, each with its host, pid, capacity, last heartbeat, and status (<code>active</code>, <code>draining</code>, or <code>dead</code>). It is public so a load balancer can poll it pre-login. Drain a worker before a planned restart so its in-flight sessions finish cleanly instead of being re-claimed mid-turn: <code>POST /v1/workers/{worker_id}/drain</code> flips the worker to <code>draining</code> (this call requires auth) and the worker stops accepting new claims while it finishes what it holds.</p>
+<p>The console <strong>Workers</strong> page renders this surface live, with a summary strip (total / active / running-now / scheduler) and a per-worker table.</p>
+<p><a href="/docs/features/workers/">The worker pool, claim and lease model, park and resume, and the Workers page.</a></p>
+<p><a href="/docs/reference/api-workers-health/">Full request and response shapes for the workers list, drain, and health endpoints.</a></p>
+<h2 id="metrics-get-metrics">Metrics: GET /metrics</h2>
+<p>When observability is enabled, the process mounts a Prometheus exposition endpoint at <code>GET /metrics</code>. It is backed by a dedicated registry, so the endpoint returns only Primer-defined metrics, not the default process or platform collectors. When <code>PRIMER_OBSERVABILITY__ENABLED</code> or <code>PRIMER_OBSERVABILITY__METRICS_ENABLED</code> is <code>false</code>, the mount is skipped and <code>GET /metrics</code> returns <code>404</code>.</p>
+<p>The registry defines these metrics:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type</th>
+<th>Labels</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>llm_tokens_total</code></td>
+<td>counter</td>
+<td><code>provider</code>, <code>direction</code></td>
+<td>LLM tokens processed, by provider and in/out direction.</td>
+</tr>
+<tr>
+<td><code>llm_duration_seconds</code></td>
+<td>histogram</td>
+<td><code>provider</code></td>
+<td>LLM streaming call duration.</td>
+</tr>
+<tr>
+<td><code>llm_failure_total</code></td>
+<td>counter</td>
+<td><code>provider</code>, <code>error_type</code></td>
+<td>LLM call failures, by provider and error type.</td>
+</tr>
+<tr>
+<td><code>llm_retry_total</code></td>
+<td>counter</td>
+<td><code>provider</code></td>
+<td>LLM call retries, by provider.</td>
+</tr>
+<tr>
+<td><code>tool_calls_total</code></td>
+<td>counter</td>
+<td><code>name</code>, <code>outcome</code></td>
+<td>Tool calls, by tool name and ok/fail outcome.</td>
+</tr>
+<tr>
+<td><code>tool_duration_seconds</code></td>
+<td>histogram</td>
+<td><code>name</code></td>
+<td>Tool execution duration, by tool name.</td>
+</tr>
+<tr>
+<td><code>claim_enqueue_latency_seconds</code></td>
+<td>histogram</td>
+<td><code>kind</code></td>
+<td>Time a lease waited in the queue before being claimed.</td>
+</tr>
+<tr>
+<td><code>claim_queue_depth</code></td>
+<td>gauge</td>
+<td><code>kind</code></td>
+<td>Unclaimed leases currently in the queue.</td>
+</tr>
+<tr>
+<td><code>claim_active_count</code></td>
+<td>gauge</td>
+<td><code>kind</code></td>
+<td>Active (claimed, not yet completed) leases.</td>
+</tr>
+<tr>
+<td><code>ws_connections_active</code></td>
+<td>gauge</td>
+<td><code>kind</code></td>
+<td>Active WebSocket connections.</td>
+</tr>
+<tr>
+<td><code>ws_frames_sent_total</code></td>
+<td>counter</td>
+<td><code>kind</code></td>
+<td>WebSocket frames sent.</td>
+</tr>
+<tr>
+<td><code>ws_session_duration_seconds</code></td>
+<td>histogram</td>
+<td><code>kind</code></td>
+<td>WebSocket session duration.</td>
+</tr>
+<tr>
+<td><code>ws_replay_backlog_seconds</code></td>
+<td>histogram</td>
+<td><code>kind</code></td>
+<td>Age of the oldest replayed event at WS connect time.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>primer_*</code> counters surfaced under <code>/v1/health</code> (claims, turns, lease expirations, notifications) are the scheduler and pool snapshot fields described above; the table here is the registry scraped by a Prometheus pipeline.</p>
+<div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p>The metrics endpoint is mounted at the host root (<code>/metrics</code>), not under the <code>/v1</code> API prefix, so a scrape config targets <code>https://your-host/metrics</code> directly.</p>
+</div></div>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c1ab59-curl">curl</button><button class="tab" data-tab="tab-c1ab59-python">python</button></div><div class="tab-panel active" id="tab-c1ab59-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/metrics</code></pre></div><div class="tab-panel" id="tab-c1ab59-python"><pre class="md-pre lang-python"><code>import httpx
+text = httpx.get(&quot;https://your-host/metrics&quot;).text
+# Prometheus text exposition format; feed to your scrape pipeline.</code></pre></div></div>
+<h2 id="tracing">Tracing</h2>
+<p>When tracing is enabled and an OTLP endpoint is configured, the process exports OpenTelemetry spans to the collector. Tracing shares the observability master switch and has its own toggle and endpoint. By default the LLM request and response payloads are not included in spans (they produce large spans); a dedicated flag turns that on when you need it.</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PRIMER_OBSERVABILITY__ENABLED</code></td>
+<td><code>true</code></td>
+<td>Master switch for tracing and metrics.</td>
+</tr>
+<tr>
+<td><code>PRIMER_OBSERVABILITY__TRACES_ENABLED</code></td>
+<td><code>true</code></td>
+<td>Export OTEL traces (effective only when enabled).</td>
+</tr>
+<tr>
+<td><code>PRIMER_OBSERVABILITY__METRICS_ENABLED</code></td>
+<td><code>true</code></td>
+<td>Serve <code>/metrics</code> (effective only when enabled).</td>
+</tr>
+<tr>
+<td><code>PRIMER_OBSERVABILITY__TRACE_LLM_IO</code></td>
+<td><code>false</code></td>
+<td>Include full LLM request/response payloads in spans.</td>
+</tr>
+<tr>
+<td><code>PRIMER_OBSERVABILITY__OTLP_ENDPOINT</code></td>
+<td>unset</td>
+<td>OTLP HTTP endpoint for trace export.</td>
+</tr>
+<tr>
+<td><code>PRIMER_OBSERVABILITY__SERVICE_NAME</code></td>
+<td><code>primer</code></td>
+<td><code>service.name</code> resource attribute.</td>
+</tr>
+<tr>
+<td><code>PRIMER_OBSERVABILITY__SERVICE_NAMESPACE</code></td>
+<td><code>default</code></td>
+<td><code>service.namespace</code> resource attribute.</td>
+</tr>
+</tbody>
+</table>
+<p><a href="/docs/reference/env-vars/">Every observability environment variable and its default.</a></p>
+<h2 id="structured-logging">Structured logging</h2>
+<p>Logging is configured once at startup. The default format is JSON: one self-contained object per line carrying <code>timestamp</code> (ISO 8601 UTC), <code>level</code>, <code>logger</code>, and <code>message</code>, plus any structured fields attached at the call site. Stack traces from error logging land under a <code>traceback</code> key. This format is safe to ship straight to a log aggregator.</p>
+<p>A human-readable single-line dev format is available for local hacking: <code>&lt;timestamp&gt; [&lt;level&gt;] &lt;logger&gt;: &lt;message&gt;</code> with stack traces inline.</p>
+<p>Because the root logger is configured, every logger in Primer code and in its dependencies (the LLM SDKs, httpx, and so on) inherits the same format; you can silence or re-route individual logger names afterward through the standard library.</p>
+<h2 id="what-to-watch">What to watch</h2>
+<p>A practical baseline:</p>
+<ul>
+<li><strong>Liveness</strong>: poll <code>GET /v1/health</code> and alert when it stops returning <code>200</code> or when <code>scheduler.alive</code> goes false.</li>
+<li><strong>Pool saturation</strong>: watch <code>worker_pool.in_flight</code> against <code>worker_pool.capacity</code>. Sustained saturation means work is queuing; add worker capacity.</li>
+<li><strong>Queue depth</strong>: a rising <code>primer_sessions_runnable_queue_depth</code> (health) or <code>claim_queue_depth</code> (metrics) with no free slots is the same saturation signal from the scheduler side.</li>
+<li><strong>Lease expirations</strong>: a climbing <code>primer_lease_expirations_total</code> points at workers stalling or crashing mid-turn.</li>
+<li><strong>LLM failures and retries</strong>: <code>llm_failure_total</code> and <code>llm_retry_total</code> by provider surface a failing or rate-limited upstream.</li>
+</ul>
+<pre><code></code></pre>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

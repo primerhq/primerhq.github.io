@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/docs/" />
+<title>RAG knowledge base + Q&amp;A &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/primerhq/primer" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/docs/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/docs/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/docs/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/docs/features/agents/">Agents</a>
+<a class="nav-link" href="/docs/features/chats/">Chats</a>
+<a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/docs/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/docs/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/docs/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/docs/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/docs/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/docs/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/docs/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/docs/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/docs/web/overview/">Web</a>
+<a class="nav-link" href="/docs/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/docs/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/docs/channels/overview/">Channels</a>
+<a class="nav-link" href="/docs/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/docs/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/docs/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/docs/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/docs/features/triggers/">Triggers</a>
+<a class="nav-link" href="/docs/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/docs/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/docs/features/workers/">Workers</a>
+<a class="nav-link" href="/docs/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/docs/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/docs/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/docs/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/docs/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/docs/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/docs/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/docs/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/docs/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/docs/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/docs/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/docs/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/docs/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/docs/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/docs/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/docs/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/docs/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/docs/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/docs/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/docs/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/docs/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/docs/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/docs/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/docs/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/docs/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/docs/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/docs/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/docs/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/docs/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/docs/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/docs/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/docs/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/docs/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/docs/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/docs/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/docs/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/docs/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/docs/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Cookbook</span> / <span>RAG knowledge base + Q&amp;A</span></nav><h1>RAG knowledge base + Q&amp;A</h1>
+<h2 id="goal">Goal</h2>
+<p>Turn a pile of documents into a knowledge base an agent can answer questions
+against, grounded in the source material and citing where each answer came from.
+A collection holds and embeds the documents; a Q&amp;A agent searches it with
+<code>search_collection</code> and answers from the hits.</p>
+<p>Every step below is shown two ways: first <strong>in the console</strong> (which page to open,
+what to click, which fields to fill), then a <strong>Via the CLI</strong> block with the exact
+<code>primectl</code> command. Pick whichever you prefer; the two paths build the same
+objects.</p>
+<h2 id="ingredients">Ingredients</h2>
+<ul>
+<li><strong>An LLM provider</strong> and an <strong>embedding provider</strong> (the collection embeds documents
+for semantic search).</li>
+<li>A <strong>semantic search provider</strong> (the vector store, for example pgvector).</li>
+<li>Optionally a <strong>cross-encoder provider</strong> for reranking.</li>
+<li>The <strong><code>system</code></strong> toolset (for <code>search_collection</code>).</li>
+</ul>
+<h3 id="connecting-the-cli-one-time">Connecting the CLI (one time)</h3>
+<p>The console is served by your primer instance; just open it in a browser and log
+in. To use the CLI path, point <code>primectl</code> at the same instance once. Mint an API
+token from <strong>Settings &gt; API tokens</strong> (click <strong>New token</strong>, copy the one-time
+plaintext), then:</p>
+<pre><code>primectl config set-context primer --server https://your-primer.example --token env:PRIMER_API_TOKEN
+primectl config use-context primer
+</code></pre>
+<p>Set <code>PRIMER_API_TOKEN</code> in your shell to the token you copied. From here on,
+<code>primectl get agent</code>, <code>primectl create ...</code>, and friends all talk to that
+instance. Run <code>primectl api-resources</code> to see every resource and its verbs.</p>
+<h2 id="walkthrough">Walkthrough</h2>
+<h3 id="1-create-the-embedding-provider">1. Create the embedding provider</h3>
+<p>The collection needs an embedding model to turn documents into vectors.</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Providers &gt; Embedding</strong> and click <strong>New embedding provider</strong>.</li>
+<li>Set <strong>Provider</strong> to your embedding backend (for example <code>openai</code>), fill in the
+<strong>URL</strong> and <strong>API key</strong>, and add your embedding model under <strong>Models</strong>.</li>
+<li>Click <strong>Create</strong>.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f embedder.yaml
+</code></pre>
+<p>where <code>embedder.yaml</code> is:</p>
+<pre><code class="language-yaml">kind: embedding_provider
+spec:
+  id: embedder
+  provider: openai
+  models:
+    - name: &lt;embed-model&gt;
+  config:
+    url: &lt;embedding-endpoint&gt;
+    api_key: &lt;key&gt;
+  limits:
+    max_concurrency: 2
+</code></pre>
+<h3 id="2-create-the-semantic-search-provider">2. Create the semantic search provider</h3>
+<p>The search provider is the vector store the collection writes embeddings to.</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Providers &gt; Semantic Search</strong> and click <strong>New Semantic Search provider</strong>.</li>
+<li>Pick a <strong>Backend</strong> (for example <code>pgvector</code>) and fill in the connection fields
+(hostname, port, database, username, password).</li>
+<li>Click <strong>Create</strong>.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f ssp.yaml
+</code></pre>
+<pre><code class="language-yaml">kind: ssp
+spec:
+  id: kb-vectors
+  provider: pgvector
+  config:
+    hostname: localhost
+    port: 5432
+    database: primer
+    username: primer
+    password: primer
+</code></pre>
+<h3 id="3-create-the-knowledge-base-collection">3. Create the knowledge base collection</h3>
+<p>The collection binds an embedder and a search provider together; everything you
+put into it is embedded and indexed.</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Knowledge &gt; Collections</strong> and click <strong>New collection</strong>.</li>
+<li>Set <strong>ID</strong> to <code>kb</code>, add a <strong>Description</strong>, pick the <strong>Embedding provider</strong> and
+<strong>Embedding model</strong> you created, and choose your <strong>Search provider</strong>.</li>
+<li>Leave the search-config toggles (MMR, cross-encoder reranker) off for a plain
+RAG collection. Click <strong>Create</strong>.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f kb.yaml
+</code></pre>
+<pre><code class="language-yaml">kind: collection
+spec:
+  id: kb
+  description: IT support knowledge base for question answering.
+  embedder:
+    provider_id: embedder
+    model: &lt;embed-model&gt;
+  search_provider_id: kb-vectors
+</code></pre>
+<h3 id="4-ingest-the-documents">4. Ingest the documents</h3>
+<p>Each document is path-addressed: the path is its identity, so re-ingesting the
+same path upserts it and re-runs stay idempotent.</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Knowledge &gt; Documents</strong>, choose the <code>kb</code> collection, and click
+<strong>New document</strong>.</li>
+<li>Set the <strong>Path</strong> (for example <code>password.md</code>), an optional <strong>Title</strong>, and paste
+the document text into <strong>Content</strong>.</li>
+<li>Click <strong>Create</strong>. Repeat for each document.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl doc put kb password.md --content &quot;To reset your password: open id.company.com, click Forgot Password, enter your employee email, and follow the reset link. Reset links expire after 15 minutes.&quot;
+</code></pre>
+<p>Repeat <code>primectl doc put kb &lt;path&gt; --content &quot;...&quot;</code> (or <code>--file &lt;localfile&gt;</code>) for
+each document. <code>primectl doc list kb</code> shows what is ingested.</p>
+<p>To pull content from the web instead, give an ingestion agent the <code>web</code> toolset
+and have it fetch a page then write it back with <code>put_document</code>, and drive that on
+a schedule so the index stays fresh (see the
+<a href="cookbook-scheduled-stock-monitor">stock-news monitor</a> for the trigger shape).</p>
+<h3 id="5-create-the-qa-agent">5. Create the Q&amp;A agent</h3>
+<p>The agent searches the collection and answers from the hits.</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Compute &gt; Agents</strong> and click <strong>New agent</strong>.</li>
+<li>On the <strong>Basic</strong> tab set <strong>ID</strong> to <code>kb-qa</code>, add a <strong>Description</strong>, and pick the
+<strong>LLM provider</strong> and <strong>Model</strong>.</li>
+<li>On the <strong>Tools</strong> tab, filter for <code>search_collection</code> and check
+<code>system__search_collection</code>.</li>
+<li>On the <strong>Advanced</strong> tab paste the system prompt (below). Click <strong>Create</strong>.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f kbqa.yaml
+</code></pre>
+<pre><code class="language-yaml">kind: agent
+spec:
+  id: kb-qa
+  description: Answers questions from the KB with citations.
+  model:
+    provider_id: &lt;llm&gt;
+    model_name: &lt;model&gt;
+  tools:
+    - system__search_collection
+  max_tool_turns: 6
+  system_prompt:
+    - &gt;-
+      You answer questions using the kb collection. First call
+      search_collection (collection_id kb) with the user question to find
+      relevant docs. Then answer concisely using only those docs, and cite the
+      document path you used. If nothing relevant is found, say you do not know.
+</code></pre>
+<h3 id="6-ask-a-question">6. Ask a question</h3>
+<p>Run the agent in a session and watch it search the KB and answer.</p>
+<p>In the console:</p>
+<ol>
+<li>Click <strong>New session</strong> (top right of the dashboard or the Sessions page).</li>
+<li>Set the <strong>Binding</strong> to <code>agent</code>, pick the <code>kb-qa</code> agent, choose a <strong>Workspace</strong>,
+and type your question into <strong>Initial instructions</strong>.</li>
+<li>Click <strong>Create</strong> and watch the transcript: the agent calls <code>search_collection</code>,
+then answers citing the source path.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl session run &lt;workspace-id&gt; --agent kb-qa -i &quot;How do I add a printer in the office?&quot;
+</code></pre>
+<p><code>session run</code> creates the session, then polls it to completion and prints the
+progress. (If you do not have a workspace yet, create a local one with
+<code>primectl create -f workspace_provider.yaml</code>, a matching <code>workspace_template</code>, then
+<code>primectl create workspace --set template_id=&lt;tpl&gt;</code>.)</p>
+<p>A few things worth knowing:</p>
+<ul>
+<li><strong>Embedding is asynchronous.</strong> A freshly ingested document is searchable a
+moment later, once the embedder has indexed it; retry the first query if it
+returns nothing.</li>
+<li><strong><code>search_collection</code> returns scored chunks</strong> (<code>{document_id, chunk_id, score, text, meta}</code>), highest score first. Grounding the agent in those hits, and
+telling it to cite the source, is what keeps answers honest.</li>
+<li><strong>Rerank for precision.</strong> Turn on a cross-encoder on the collection to rerank
+the embedding hits before the agent reads them; trade a little latency for
+sharper top results (see the <a href="cookbook-policy-desk">policy desk</a> recipe).</li>
+</ul>
+<h2 id="testing">Testing</h2>
+<p>Seed a few docs (a VPN guide, a password-reset guide, a printer guide) and ask the
+agent a question that only one of them answers.</p>
+<blockquote>
+<p>&quot;How do I add a printer in the office?&quot;</p>
+</blockquote>
+<p>Expected outcome (verified):</p>
+<ul>
+<li>The agent calls <code>search_collection</code>; the printer guide comes back as the top hit
+(semantic search matches &quot;add a printer&quot; to the printer document even without
+exact keywords, and a password query likewise returns the password doc at a high
+score). You can confirm the ranking yourself with <strong>Search</strong> on the collection
+detail (console) or <code>primectl call collection search kb -f query.json</code> where
+<code>query.json</code> is <code>{&quot;query&quot;: &quot;how do I add a printer&quot;, &quot;top_k&quot;: 3}</code> (CLI).</li>
+<li>The agent answers <strong>from that document and cites it</strong>, for example <em>&quot;open System
+Settings, choose Printers, click Add, and select FLOOR3-HP ... (Source:
+printer.md)&quot;</em>.</li>
+<li>Ask something the KB does not cover and confirm it says it does not know rather
+than inventing an answer.</li>
+</ul>
+<p>To make the KB reachable from outside primer (an IDE, another agent), expose the
+Q&amp;A agent's tools over the <strong>MCP server</strong> from <strong>Settings &gt; MCP</strong>; only
+non-yielding, exposable tools surface, so a read-only <code>search_collection</code>-backed
+answerer is a good fit.</p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

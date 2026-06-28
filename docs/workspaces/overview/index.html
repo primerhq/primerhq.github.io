@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Workspaces &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,21 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>workspaces</span> / <span>Workspaces</span></nav><h1>Workspaces</h1>
+<h2 id="the-four-pieces">The four pieces</h2>
+<p>A workspace gives an agent a real place to work: a filesystem it can read and write, a shell it can run commands in, and a git-backed <code>.state/</code> history. Four concepts share the workspace namespace:</p>
+<ul>
+<li><strong>Provider</strong>: the backend configuration: which runtime (local filesystem, container daemon, Kubernetes cluster) and how to reach it.</li>
+<li><strong>Template</strong>: the materialisation recipe that references a provider: which image or base path, environment variables, initial files, and init commands.</li>
+<li><strong>Instance</strong>: the live, materialised sandbox created from a template. Many instances can come from one template.</li>
+<li><strong>Sessions</strong>: the runs hosted on an instance. One instance hosts many sessions at once.</li>
+</ul>
+<p>The <strong>workspace toolset</strong> lets agents manage all of the above programmatically, and <strong>yielding tools</strong> let a session park on an external event and resume when it fires.</p>
+<p><a href="/docs/workspaces/workspace-providers/">Register local, container, and Kubernetes workspace providers.</a></p>
+<p><a href="/docs/workspaces/workspace-templates/">Author templates that materialise workspaces from a provider.</a></p>
+<p><a href="/docs/workspaces/workspaces-and-sessions/">How a workspace instance hosts sessions, and the session lifecycle.</a></p>
+<p><a href="/docs/workspaces/workspace-toolset/">The workspace toolset agents use to manage providers, templates, workspaces, and sessions.</a></p>
+<p><a href="/docs/workspaces/yielding-tools/">How a session parks on a tool call and resumes when the event fires.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

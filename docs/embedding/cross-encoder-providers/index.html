@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Cross-encoder Providers &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,67 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>embedding</span> / <span>Cross-encoder Providers</span></nav><h1>Cross-encoder Providers</h1>
+<h2 id="concept">Concept</h2>
+<p>A cross-encoder is a model that scores a (query, document) pair together rather than encoding them separately. This is different from an embedding model, which encodes query and document independently and then compares vectors. The cross-encoder reads both texts at once, letting them attend to each other, and returns a single relevance score. That score is more accurate than a cosine similarity between independent embeddings, but it is also more expensive to compute, so it is used as a reranking step rather than a first-pass retrieval step.</p>
+<p>The typical pipeline looks like this:</p>
+<pre class="mermaid">flowchart LR
+    q[Query] --&gt; emb[Embedding provider]
+    emb --&gt; vs[(Vector store)]
+    vs --&gt;|top-N candidates| ce[Cross-encoder provider]
+    ce --&gt;|reranked top-K| agent[Agent context]</pre>
+<ol>
+<li>The embedding provider encodes the query and the vector store returns the top-N nearest-neighbor chunks (fast, approximate retrieval).</li>
+<li>The cross-encoder scores each (query, chunk) pair and reorders them. Only the top-K highest-scoring chunks are injected into the agent's context.</li>
+</ol>
+<p>This two-stage approach keeps retrieval fast while using the cross-encoder's superior accuracy for the final ranking. The collection UI exposes a <strong>cross-encoder reranker</strong> (CER) toggle and top-K control that wire directly to this provider.</p>
+<p>One cross-encoder provider type ships today:</p>
+<ul>
+<li><strong>huggingface</strong>: local inference via <code>sentence-transformers</code> <code>CrossEncoder</code> class. The model runs inside the primer process using <code>asyncio.to_thread</code> to avoid blocking the event loop during weight loading or inference. No outbound API call. A reserved provider row (id <code>huggingface-ce</code>) is auto-created on first boot for public Hub models that need no token.</li>
+</ul>
+<div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p>Only one cross-encoder backend is available today. Future provider types (remote reranker APIs) will follow the same provider-pattern and appear here when added.</p>
+</div></div>
+<h2 id="configuration">Configuration</h2>
+<p>Every cross-encoder provider row has these fields:</p>
+<h3 id="provider-type">Provider type</h3>
+<p>Currently only <code>huggingface</code>.</p>
+<h3 id="provider-id">Provider ID</h3>
+<p>A unique handle such as <code>hf-ce-bge</code>. Collections reference this ID when CER is enabled.</p>
+<h3 id="connection-fields">Connection fields</h3>
+<p><strong>huggingface</strong></p>
+<ul>
+<li><code>token</code>: optional HuggingFace token. Only required if the model is in a gated repository. Public reranker models such as <code>BAAI/bge-reranker-v2-m3</code> and models in the <code>cross-encoder/*</code> family do not need a token. The auto-bootstrapped <code>huggingface-ce</code> row has no token.</li>
+</ul>
+<h3 id="models">Models</h3>
+<p>A list of cross-encoder model identifiers. Each entry has:</p>
+<ul>
+<li><code>name</code>: the provider-side model slug (e.g. <code>BAAI/bge-reranker-v2-m3</code>, <code>cross-encoder/ms-marco-MiniLM-L-6-v2</code>).</li>
+<li><code>max_pair_length</code>: optional cap on the combined (query + document) token length per pair. Leave unset to defer to the model's own default. Set this if you need predictable truncation behavior on very long chunks.</li>
+</ul>
+<h3 id="limits">Limits</h3>
+<ul>
+<li><code>max_concurrency</code>: maximum number of in-flight reranking batches at once. Cross-encoder inference is CPU-intensive (or GPU-intensive if available). Start low (e.g. <code>2</code>) on modest hardware and increase if throughput allows. Required; no default.</li>
+<li><code>request_timeout_seconds</code>: per-event inactivity timeout (default: <code>300</code>). For a local HuggingFace model this guards against runaway inference on very large batches. Set to <code>null</code> to disable.</li>
+</ul>
+<h2 id="walkthrough">Walkthrough</h2>
+<p>The following steps add a cross-encoder provider for the <code>BAAI/bge-reranker-v2-m3</code> model.</p>
+<ol>
+<li>Go to <strong>Providers</strong> in the left navigation and open the <strong>Cross-encoder</strong> tab.</li>
+<li>Click <strong>Add provider</strong>.</li>
+<li>Set <strong>Provider type</strong> to <code>huggingface</code>.</li>
+<li>Enter a provider ID such as <code>hf-ce-bge</code>.</li>
+<li>Leave <code>token</code> blank (this is a public model on the Hub).</li>
+<li>Click <strong>Add model</strong> and enter <code>BAAI/bge-reranker-v2-m3</code>.</li>
+<li>Leave <code>max_pair_length</code> unset to use the model's own default.</li>
+<li>Set <code>max_concurrency</code> to <code>2</code> as a starting point.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<figure class="embed"><picture><source srcset="/_embeds/cross-encoder-provider-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/cross-encoder-provider-light.png" alt="cross-encoder-provider (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<p>After saving, go to a collection and enable the <strong>Cross-encoder reranker</strong> toggle in the collection settings. Select the provider you just created and choose the top-K value (how many chunks to pass to the agent after reranking).</p>
+<div class="callout callout-tip"><div class="callout-title">tip</div><div class="callout-body"><p>The built-in <code>huggingface-ce</code> provider row is created automatically on first boot. If it already carries the model you want, you can use it directly without adding a new row.</p>
+</div></div>
+<p><a href="/docs/embedding/semantic-search-providers/">The vector store backend that the cross-encoder reranks results from.</a></p>
+<p><a href="/docs/embedding/collections-and-documents/">How to enable the cross-encoder reranker toggle on a collection.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

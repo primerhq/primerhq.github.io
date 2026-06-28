@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Embedding Providers &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,81 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>embedding</span> / <span>Embedding Providers</span></nav><h1>Embedding Providers</h1>
+<h2 id="concept">Concept</h2>
+<p>An embedding provider converts a piece of text into a dense numeric vector. Primer uses these vectors to store and search documents in knowledge collections and in the internal collections subsystem. When you create a collection, you pick which embedding provider backs it; all documents ingested into that collection are encoded by that provider, and all queries against it are encoded the same way before the vector search runs.</p>
+<p>The choice of provider determines:</p>
+<ul>
+<li><strong>Dimensionality</strong>: the length of the vector each model produces. Primer learns this automatically from the first chunk ingested rather than requiring you to declare it.</li>
+<li><strong>Model family semantics</strong>: some model families (BGE, E5, nomic-embed-text) expect different prefixes on query text versus document text (asymmetric retrieval). The HuggingFace adapter handles this automatically.</li>
+<li><strong>Hosting</strong>: HuggingFace runs the model locally inside the primer process (no external API call). OpenAI and Gemini call a remote API.</li>
+</ul>
+<p>Three embedding provider types ship today:</p>
+<ul>
+<li><strong>huggingface</strong>: local inference via <code>sentence-transformers</code>. No outbound API call; models are downloaded from the HuggingFace Hub on first use. A <code>huggingface</code> provider row (id <code>huggingface</code>) is auto-created on first boot with an empty token, so public Hub models work out of the box with no configuration.</li>
+<li><strong>openai</strong>: the OpenAI embeddings API, or any OpenAI-compatible embedding endpoint (LM Studio, and others via the <code>flavor</code> field).</li>
+<li><strong>gemini</strong>: the Gemini embedding API via Google AI Studio.</li>
+</ul>
+<pre class="mermaid">flowchart LR
+    ingest[Document ingest / query]
+    ingest --&gt; registry[Provider registry]
+    registry --&gt; hf[huggingface adapter - local model]
+    registry --&gt; oai[openai adapter - OpenAI embeddings API]
+    registry --&gt; gem[gemini adapter - Gemini embed_content]
+    hf --&gt; vec[(Vector store)]
+    oai --&gt; vec
+    gem --&gt; vec</pre>
+<h2 id="configuration">Configuration</h2>
+<p>Every embedding provider row has these fields:</p>
+<h3 id="provider-type">Provider type</h3>
+<p>Selects the backend: <code>huggingface</code>, <code>openai</code>, or <code>gemini</code>.</p>
+<h3 id="provider-id">Provider ID</h3>
+<p>A unique handle such as <code>hf-local</code> or <code>openai-embed</code>. Collections reference this ID when selecting an embedding backend.</p>
+<h3 id="connection-fields-per-type">Connection fields (per type)</h3>
+<p><strong>huggingface</strong></p>
+<ul>
+<li><code>token</code>: HuggingFace token used to pull transformer model weights. Required at the schema level, but the auto-bootstrapped <code>huggingface</code> row seeds it with an empty string, which maps to <code>token=None</code> on the <code>SentenceTransformer</code> call. This is correct for public Hub models. Only set a real token if the model you want is in a gated repository.</li>
+</ul>
+<p><strong>openai</strong></p>
+<ul>
+<li><code>url</code>: base URL of the embedding endpoint (e.g. <code>https://api.openai.com</code>).</li>
+<li><code>api_key</code>: bearer token. Optional for endpoints that do not require authentication (LM Studio by default).</li>
+<li><code>flavor</code>: server variant: <code>openai</code> (real OpenAI, requires a non-empty key), <code>lmstudio</code> (tolerates empty key), or <code>other</code> (conservative, treats missing key as an error). Defaults to <code>other</code>.</li>
+</ul>
+<p><strong>gemini</strong></p>
+<ul>
+<li><code>api_key</code>: Gemini API key from Google AI Studio. Optional when fronted by a proxy that supplies auth.</li>
+</ul>
+<h3 id="models">Models</h3>
+<p>A list of embedding model identifiers the provider is allowed to serve. Each entry has:</p>
+<ul>
+<li><code>name</code>: the provider-side model slug (e.g. <code>text-embedding-3-small</code>, <code>all-MiniLM-L6-v2</code>, <code>models/text-embedding-004</code>).</li>
+</ul>
+<p>Vector dimensionality is not declared here; primer measures it from the first real embedding produced during ingestion and stores it on the collection.</p>
+<h3 id="limits">Limits</h3>
+<ul>
+<li><code>max_concurrency</code>: maximum number of in-flight embedding requests at once. This applies equally to ingest (bulk chunking) and to query-time encoding. Required; choose a value that fits your API tier.</li>
+<li><code>request_timeout_seconds</code>: per-event inactivity timeout (default: <code>300</code>). Applies to the remote API call for OpenAI and Gemini. The HuggingFace adapter runs locally so the timeout still applies but stalls are less common. Set to <code>null</code> to disable.</li>
+</ul>
+<h2 id="walkthrough">Walkthrough</h2>
+<p>The following steps add a HuggingFace embedding provider for a specific model. Steps for OpenAI and Gemini differ only in the connection fields.</p>
+<ol>
+<li>Go to <strong>Providers</strong> in the left navigation and open the <strong>Embedding</strong> tab.</li>
+<li>Click <strong>Add provider</strong>.</li>
+<li>Set <strong>Provider type</strong> to <code>huggingface</code>.</li>
+<li>Enter a provider ID such as <code>hf-bge</code>.</li>
+<li>For a public model, leave <code>token</code> blank. For a gated model, paste your HuggingFace token.</li>
+<li>Click <strong>Add model</strong> and type the model name, for example <code>BAAI/bge-small-en-v1.5</code>.</li>
+<li>Set <code>max_concurrency</code> to <code>4</code> as a starting point for local inference on modest hardware.</li>
+<li>Leave <code>request_timeout_seconds</code> at <code>300</code>.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<p>When you later create a collection and choose this provider, the model weights are downloaded from the Hub on first ingest and cached locally.</p>
+<figure class="embed"><picture><source srcset="/_embeds/embedding-provider-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/embedding-provider-light.png" alt="embedding-provider (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p>The built-in <code>huggingface</code> provider row (id <code>huggingface</code>) is created automatically on first boot. You can use it directly without adding a new row, or add separate rows if you want to register different models with different concurrency limits.</p>
+</div></div>
+<p><a href="/docs/embedding/semantic-search-providers/">The vector store backend that receives the embeddings.</a></p>
+<p><a href="/docs/embedding/collections-and-documents/">How to create a collection backed by an embedding provider and ingest documents into it.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

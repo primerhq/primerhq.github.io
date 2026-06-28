@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Chatting Through Channels &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,167 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>channels</span> / <span>Chatting Through Channels</span></nav><h1>Chatting Through Channels</h1>
+<h2 id="what-a-channel-is">What a channel is</h2>
+<p>A channel is a specific conversational room on a messaging platform: a Slack channel ID, a Telegram chat ID, or a Discord channel snowflake. It belongs to a channel provider (the credential set for the platform) and carries two directions of traffic:</p>
+<ul>
+<li><strong>Inbound: events to actions.</strong> A message or command arriving in the room is normalized into an event and matched against rules. A match dispatches a platform action: start a chat, run an agent or graph session, or resume a parked workflow. With chat enabled and no rule at all, the default is still that a new message opens or continues a chat.</li>
+<li><strong>Outbound: reply binding.</strong> When a session asks a question, hits a tool approval gate, calls <code>inform_user</code>, or finishes, that traffic follows a reply binding back to the channel and thread. The standing reply binding lives on the workspace.</li>
+</ul>
+<p>Both directions run on the same room object. You configure the inbound rules in the rule editor and the outbound destination through the workspace reply binding.</p>
+<p>Three pieces work together:</p>
+<ul>
+<li><strong>Channel provider</strong>: credentials for one platform (one Slack app, one Telegram bot, one Discord bot). See the channel providers page for setup.</li>
+<li><strong>Channel</strong>: a room inside a provider, identified by its external ID on the platform.</li>
+<li><strong>Reply binding</strong>: binds a workspace to a channel so that workspace's session traffic forwards there.</li>
+</ul>
+<pre class="mermaid">flowchart LR
+    prov[Channel provider\nSlack / Telegram / Discord]
+    prov --&gt;|owns| ch[Channel\nexternal_id]
+    ch --&gt;|event matches rule| act[start chat / run session / resume]
+    ws[Workspace] --&gt;|reply binding| ch
+    ws --&gt;|session gate| ch
+    ch --&gt;|reply arrives| res[session resumes]</pre>
+<h2 id="configuration">Configuration</h2>
+<p>Each channel has the following fields:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Provider</td>
+<td>yes</td>
+<td>The channel provider this room belongs to. Locked after creation.</td>
+</tr>
+<tr>
+<td>External ID</td>
+<td>yes</td>
+<td>The platform's room identifier (Slack channel ID like <code>C0123ABC456</code>, Telegram numeric chat ID, Discord channel snowflake).</td>
+</tr>
+<tr>
+<td>Label</td>
+<td>no</td>
+<td>A human-readable name (up to 200 characters, e.g. <code>#ops-alerts</code>). Shown in the console in place of the external ID.</td>
+</tr>
+<tr>
+<td>Chat config</td>
+<td>no</td>
+<td>Controls whether incoming messages start primer chats. See below.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="chat-settings">Chat settings</h3>
+<p>Chat settings live on the channel and control the chat surface for that room:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enabled</code></td>
+<td>false</td>
+<td>When true, messages in this room can start or continue primer chats.</td>
+</tr>
+<tr>
+<td><code>default_agent</code></td>
+<td>none</td>
+<td>The agent each new chat starts with. Required when <code>enabled</code> is true.</td>
+</tr>
+<tr>
+<td><code>allow_agent_switch</code></td>
+<td>false</td>
+<td>Whether users may run <code>/agent</code> to switch the chat to a different agent. Off by default.</td>
+</tr>
+<tr>
+<td><code>allowed_agents</code></td>
+<td>(any)</td>
+<td>When agent switching is on, restricts <code>/agent</code> to this list. Empty means any agent is allowed.</td>
+</tr>
+<tr>
+<td><code>relay_mode</code></td>
+<td><code>final</code></td>
+<td>Controls outbound verbosity. <code>final</code> posts only the assistant's last message; <code>all</code> posts every streaming chunk.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="walkthrough-add-a-channel">Walkthrough: add a channel</h2>
+<ol>
+<li>Confirm a provider exists. Open <strong>Channels</strong> in the sidebar and check the <strong>Providers</strong> tab. Create a provider first if none is listed.</li>
+<li>Switch to the <strong>Channels</strong> tab.</li>
+<li>Click <strong>New channel</strong>.</li>
+<li>Select the <strong>provider</strong> the channel belongs to. This field is locked after creation.</li>
+<li>Enter the <strong>external ID</strong> of the room:
+<ul>
+<li>Slack: channel ID (e.g. <code>C0123ABC456</code>). Find it in Slack by right-clicking the channel name and choosing &quot;Copy link&quot; or &quot;Copy Channel ID&quot;.</li>
+<li>Telegram: chat ID (numeric). You can obtain it by messaging <code>@userinfobot</code> or from the bot's <code>getUpdates</code> response.</li>
+<li>Discord: channel snowflake. Right-click the channel in Discord (with Developer Mode on) and choose &quot;Copy Channel ID&quot;.</li>
+</ul>
+</li>
+<li>Optionally enter a <strong>label</strong> for display.</li>
+<li>Set chat settings if you want the room to drive chats (toggle <strong>enabled</strong>, pick a <strong>default agent</strong>).</li>
+<li>Click <strong>Create channel</strong>.</li>
+</ol>
+<p>After creating the channel, set a workspace reply binding if you want session gates to forward there, and author channel rules if you want inbound events to drive actions.</p>
+<h2 id="in-channel-commands">In-channel commands</h2>
+<p>When chat is enabled on a room, users can type slash commands to manage their conversations. Which commands are available depends on whether the platform supports threads:</p>
+<p><strong>Thread-based platforms (Slack, Discord):</strong> Each thread is a separate chat, so <code>/new</code>, <code>/list</code>, and <code>/switch</code> are unnecessary. Only <code>/agent</code> and <code>/help</code> are offered.</p>
+<p><strong>Single-thread platform (Telegram):</strong> Telegram has no threads, so all four chat-management commands are available.</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Platforms</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/new</code></td>
+<td>Telegram</td>
+<td>Start a fresh chat with the default agent.</td>
+</tr>
+<tr>
+<td><code>/list</code></td>
+<td>Telegram</td>
+<td>List existing chats on this channel.</td>
+</tr>
+<tr>
+<td><code>/switch &lt;chat-id&gt;</code></td>
+<td>Telegram</td>
+<td>Switch the active chat to a previous one.</td>
+</tr>
+<tr>
+<td><code>/agent</code></td>
+<td>All</td>
+<td>Pick a different agent for the current chat (only if <code>allow_agent_switch</code> is on).</td>
+</tr>
+<tr>
+<td><code>/help</code></td>
+<td>All</td>
+<td>Show the available commands.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="multimedia">Multimedia</h2>
+<p>Channels support inbound and outbound media:</p>
+<ul>
+<li><strong>Inbound:</strong> photos, documents, and audio sent by users arrive as media parts attached to the chat message. The agent can process them.</li>
+<li><strong>Outbound:</strong> media produced by tools (files written to a workspace, images returned from a tool result) are forwarded to the channel when the session gate fires.</li>
+</ul>
+<p><a href="/docs/channels/channel-providers/">Set up the provider credentials before creating channels.</a></p>
+<p><a href="/docs/channels/channel-rules/">Map inbound events to actions and choose where the reply goes back.</a></p>
+<p><a href="/docs/channels/channel-reply-binding/">Bind a workspace to a channel and understand the full inbound/outbound flow.</a></p>
+<p><a href="/docs/features/chats/">How chat turns work and the agent switcher.</a></p>
+<p><a href="/docs/reference/api-channels/">Full REST schema for channels and workspace association.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

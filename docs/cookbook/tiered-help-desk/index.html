@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/docs/" />
+<title>Tiered help desk with supervisor sign-off &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/primerhq/primer" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/docs/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/docs/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/docs/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/docs/features/agents/">Agents</a>
+<a class="nav-link" href="/docs/features/chats/">Chats</a>
+<a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/docs/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/docs/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/docs/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/docs/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/docs/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/docs/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/docs/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/docs/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/docs/web/overview/">Web</a>
+<a class="nav-link" href="/docs/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/docs/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/docs/channels/overview/">Channels</a>
+<a class="nav-link" href="/docs/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/docs/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/docs/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/docs/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/docs/features/triggers/">Triggers</a>
+<a class="nav-link" href="/docs/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/docs/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/docs/features/workers/">Workers</a>
+<a class="nav-link" href="/docs/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/docs/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/docs/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/docs/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/docs/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/docs/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/docs/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/docs/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/docs/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/docs/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/docs/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/docs/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/docs/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/docs/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/docs/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/docs/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/docs/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/docs/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/docs/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/docs/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/docs/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/docs/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/docs/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/docs/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/docs/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/docs/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/docs/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/docs/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/docs/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/docs/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/docs/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/docs/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/docs/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/docs/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/docs/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/docs/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/docs/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/docs/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Cookbook</span> / <span>Tiered help desk with supervisor sign-off</span></nav><h1>Tiered help desk with supervisor sign-off</h1>
+<h2 id="goal">Goal</h2>
+<p>Run a tiered customer-support desk as a single chat conversation. A front-line
+agent answers from your knowledge base; when it needs a detail it does not have,
+it asks the customer right there in the chat; when the topic moves to billing it
+hands the conversation to a specialist; and when the customer wants a large
+refund, the specialist's refund action waits for a supervisor to sign off.</p>
+<p>This is the <strong>chat</strong> surface of primer's human-in-the-loop story. Where the
+<a href="cookbook-release-conductor">release conductor</a> drives the same <code>ask_user</code> and
+tool-approval gates on a <strong>session</strong>, which parks and resumes, a chat handles
+them differently: it <strong>soft-yields</strong>. A chat never parks. Each gate degrades to
+an ordinary conversational turn, and the customer's (or supervisor's) next
+message in the chat is consumed as the answer. That makes the whole desk
+drivable over a single chat stream, with no out-of-band park or resume calls.</p>
+<p>Every step below is shown two ways: first <strong>in the console</strong> (which page to
+open, what to click), then a <strong>Via the CLI</strong> block with the exact <code>primectl</code>
+command. The running chat can be driven from either the Chats page or
+<code>primectl chat</code>. If you have not connected <code>primectl</code> yet, see &quot;Connecting the
+CLI&quot; in the <a href="cookbook-rag-knowledge-base">RAG knowledge base</a> recipe.</p>
+<h2 id="ingredients">Ingredients</h2>
+<ul>
+<li><strong>An LLM provider</strong> and an <strong>embedding provider</strong> (for the KB).</li>
+<li>A <strong>knowledge base</strong> collection with your support docs (the
+<a href="cookbook-rag-knowledge-base">RAG recipe</a> builds one), ingested with a
+refund-policy doc and whatever else your desk fields.</li>
+<li>A <strong>front-line agent</strong> with <code>system__search_collection</code>, <code>system__ask_user</code>,
+and <code>system__switch_to_agent</code>.</li>
+<li>A <strong>billing specialist agent</strong> with the refund tool you want to gate.</li>
+<li>A <strong>required tool-approval policy</strong> on that refund tool.</li>
+<li>A <strong>chat</strong> bound to the front-line agent.</li>
+</ul>
+<h2 id="walkthrough">Walkthrough</h2>
+<h3 id="1-build-the-kb-and-the-two-agents">1. Build the KB and the two agents</h3>
+<p>Create the <code>kb</code> collection and ingest your support docs (the
+<a href="cookbook-rag-knowledge-base">RAG recipe</a> builds one), including a refund-policy
+doc. Then the front-line agent (it searches the KB, asks the customer for
+anything it is missing, and hands off when the topic turns to billing) and the
+specialist (it issues the refund).</p>
+<p>In the console: <strong>Compute &gt; Agents &gt; New agent</strong>. Create <code>frontline</code> with the
+three front-line tools and prompt, then <code>billing-specialist</code> with its refund
+tool and prompt. On each, set the tools on the <strong>Tools</strong> tab and the prompt on
+<strong>Advanced</strong>, then <strong>Create</strong>.</p>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f frontline.yaml
+primectl create -f billing-specialist.yaml
+</code></pre>
+<p>where <code>frontline.yaml</code> is:</p>
+<pre><code class="language-yaml">kind: agent
+spec:
+  id: frontline
+  description: Front-line support.
+  model:
+    provider_id: &lt;llm&gt;
+    model_name: &lt;model&gt;
+  tools:
+    - system__search_collection
+    - system__ask_user
+    - system__switch_to_agent
+  system_prompt:
+    - &gt;-
+      You are front-line support. Search the kb collection and answer grounded,
+      citing the doc path. If you need a detail (such as the charge amount),
+      call ask_user to ask the customer. When the request is a billing action
+      like a refund, call switch_to_agent to hand off to the
+      billing-specialist.
+</code></pre>
+<p>and <code>billing-specialist.yaml</code> is:</p>
+<pre><code class="language-yaml">kind: agent
+spec:
+  id: billing-specialist
+  description: Billing specialist; issues refunds.
+  model:
+    provider_id: &lt;llm&gt;
+    model_name: &lt;model&gt;
+  tools:
+    - billing__issue_refund
+  system_prompt:
+    - &gt;-
+      You are a billing specialist. Issue the refund the customer requested.
+      Large refunds require a supervisor sign-off.
+</code></pre>
+<blockquote>
+<p>The gated action here is <code>billing__issue_refund</code>, your real refund tool (an
+MCP toolset, or whatever moves the money). The gate is tool-agnostic: it keys
+on the <code>(toolset_id, tool_name)</code> pair, so the mechanism is identical whatever
+the tool does. For a self-contained dry run you can gate any built-in tool and
+treat its result as the refund marker.</p>
+</blockquote>
+<h3 id="2-gate-the-refund-with-a-required-policy">2. Gate the refund with a required policy</h3>
+<p>A <code>required</code> policy means every call to that tool waits for a supervisor
+decision before it runs.</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Settings &gt; Tool approval policies</strong> and click <strong>New policy</strong>.</li>
+<li>Set the <strong>Toolset</strong> to <code>billing</code> and the <strong>Tool name</strong> to <code>issue_refund</code>,
+choose <strong>Required</strong> approval, set a <strong>Timeout</strong> (for example 600 seconds),
+and leave it <strong>Enabled</strong>. Click <strong>Create</strong>.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f tap-issue-refund.yaml
+primectl call tool_approval_policy invalidate
+</code></pre>
+<p>where <code>tap-issue-refund.yaml</code> is:</p>
+<pre><code class="language-yaml">kind: tool_approval_policy
+spec:
+  id: tap-issue-refund
+  toolset_id: billing
+  tool_name: issue_refund
+  enabled: true
+  approval:
+    type: required
+  timeout_seconds: 600
+</code></pre>
+<blockquote>
+<p>The resolver caches policies in-process. After creating or changing one, run
+<code>primectl call tool_approval_policy invalidate</code> (the console does this for you
+on save) so a running worker picks it up immediately. The policy keys on the
+<strong>bare</strong> pair (<code>toolset_id</code> + <code>tool_name</code>), but the chat's pending-gate echo
+and the durable record report the call's <strong>namespaced</strong> name
+(<code>billing__issue_refund</code>).</p>
+</blockquote>
+<h3 id="3-open-a-chat-on-the-front-line-agent">3. Open a chat on the front-line agent</h3>
+<p>In the console: go to <strong>Chats</strong>, click <strong>New chat</strong>, and bind it to <code>frontline</code>.</p>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f frontline-chat.yaml
+</code></pre>
+<p>where <code>frontline-chat.yaml</code> is:</p>
+<pre><code class="language-yaml">kind: chat
+spec:
+  agent_id: frontline
+</code></pre>
+<p><code>create -f</code> prints the new <code>chat/&lt;id&gt;</code>. Customer turns arrive as chat messages,
+from a bound channel in production, or from the Chats composer / <code>primectl chat say</code> directly. The chat row reports <code>turn_status</code>, <code>agent_id</code>, and
+<code>pending_tool_call</code>; read it from the Chats page or with
+<code>primectl get chat &lt;chat-id&gt; -r -o json</code>, and the transcript with
+<code>primectl call chat messages-get &lt;chat-id&gt; --param after_seq=0</code> (the chat
+resource carries both a send and a list operation on <code>messages</code>, so the
+read-back is the suffixed <code>messages-get</code> action).</p>
+<h3 id="4-the-customer-asks-and-the-front-line-answers-inline">4. The customer asks, and the front-line answers inline</h3>
+<p>The customer sends &quot;I want a refund for a charge.&quot; In the console, type it into
+the chat composer. Via the CLI:</p>
+<pre><code>primectl chat say &lt;chat-id&gt; &quot;I want a refund for a 900 dollar charge.&quot;
+</code></pre>
+<p>The front-line agent calls <code>search_collection</code>, answers grounded on the
+refund-policy doc (citing its path), and, needing the amount, calls
+<code>ask_user(&quot;What is the charge amount?&quot;)</code>.</p>
+<p>This is the <strong>soft-yield</strong>. The question surfaces as an ordinary assistant turn
+in the transcript; the chat records a <code>pending_tool_call</code> with <code>mode: &quot;ask_user&quot;</code>
+and returns <code>turn_status</code> to <code>idle</code>. The chat does <strong>not</strong> park; there is no
+<code>parked_status</code> on a chat row. The customer's next message is consumed as the
+answer, and the front-line turn resumes from there. You can watch this on the
+chat row: poll until <code>pending_tool_call.mode</code> is <code>&quot;ask_user&quot;</code> while
+<code>turn_status</code> is <code>&quot;idle&quot;</code>.</p>
+<h3 id="5-the-customer-answers-and-the-chat-hands-off">5. The customer answers, and the chat hands off</h3>
+<p>The customer replies &quot;It was 900 dollars.&quot; Send it the same way (composer, or
+<code>primectl chat say &lt;chat-id&gt; &quot;It was 900 dollars.&quot;</code>). That message is consumed
+as the <code>ask_user</code> answer; the front-line agent now sees the amount and calls
+<code>switch_to_agent(agent_id: &quot;billing-specialist&quot;, prompt: &quot;...refund of 900...&quot;)</code>.</p>
+<p>The handoff repoints the chat: <code>chat.agent_id</code> becomes <code>billing-specialist</code>, and
+the handoff prompt is queued as the specialist's first turn. The shared message
+history is preserved; the specialist inherits the whole transcript, including
+the original request and the grounded KB answer.</p>
+<blockquote>
+<p>You can also drive the handoff yourself. In the console, use the agent control
+in the thread header; via the CLI, <code>primectl chat switch &lt;chat-id&gt; billing-specialist</code>; in-channel, <code>/agent billing-specialist</code>. Switching a
+chat's agent while it has a pending gate auto-rejects that gate first, so the
+new agent starts clean.</p>
+</blockquote>
+<h3 id="6-the-supervisor-signs-off">6. The supervisor signs off</h3>
+<p>The specialist calls <code>issue_refund</code>. The required policy trips, and the chat
+soft-yields again, this time with <code>pending_tool_call.mode: &quot;approval&quot;</code> (and,
+again, no park). The pending echo carries the namespaced <code>tool_name</code> and the
+<code>approval_type</code>.</p>
+<p>The supervisor resolves it conversationally, with their next message in the
+chat (composer, or <code>primectl chat say &lt;chat-id&gt; &quot;yes&quot;</code>):</p>
+<ul>
+<li>An <strong>affirmative</strong> reply (&quot;yes&quot;, &quot;approve&quot;, &quot;ok&quot;) runs the gated refund tool
+for real, and a durable approval record with <code>decision: &quot;approved&quot;</code> is
+written.</li>
+<li>A <strong>refusal</strong> (&quot;no&quot;) resolves the call to a rejection result <strong>without</strong>
+running the tool, so no refund side effect, and records
+<code>decision: &quot;rejected&quot;</code>.</li>
+</ul>
+<p>Either way the <code>pending_tool_call</code> clears and the turn returns to <code>idle</code>. The
+audit trail lives under the tool-approval records; the console surfaces it on
+the chat, and a running worker writes one record per resolved gate.</p>
+<p>A few things worth knowing:</p>
+<ul>
+<li><strong>A chat never parks; it soft-yields.</strong> Every gate, <code>ask_user</code> and the
+approval, becomes a conversational turn keyed on the chat. The next message in
+the chat is the answer. There is no <code>parked_status</code> on a chat and no separate
+respond call: the chat stream carries both the question and the answer.</li>
+<li><strong>The human makes the decision, not the model.</strong> The agent only chooses to
+<em>call</em> <code>ask_user</code>, <code>switch_to_agent</code>, and the refund tool. The amount, and
+whether the refund is approved or rejected, come entirely from the customer
+and supervisor messages.</li>
+<li><strong>Reject is safe by construction.</strong> On a refusal the gated refund never
+executes, so there is no money movement. The denial is recorded for audit.</li>
+<li><strong>History survives the handoff.</strong> The specialist sees the full prior
+transcript, so it picks up with the customer's original request and the
+front-line answer in context.</li>
+</ul>
+<h2 id="testing">Testing</h2>
+<p>A scripted end-to-end test exercises the full chat-HITL loop both ways over the
+chat WebSocket (<code>tests/e2e/test_cookbook_tiered_help_desk.py</code>,
+<code>SMK-COOKBOOK-13</code>). A second test drives the identical desk over the published
+CLI path (<code>tests/e2e/test_cookbook_tiered_help_desk_cli.py</code>,
+<code>SMK-COOKBOOK-CLI-15</code>): it creates the agents, the required policy, and the chat
+with <code>primectl create -f</code>, sends each customer and supervisor turn with
+<code>primectl chat say</code>, and asserts the same outcome. Both run against a real
+embedder-backed KB: the agents are scripted (deterministic mock LLM) but the
+embedder, indexer, and vector search are real, and the approve/reject decision
+is operator-driven (the supervisor's message), never scripted into the model.
+The gated <code>issue_refund</code> is stood in by a built-in tool that runs for real on
+approve.</p>
+<p>Expected outcome (verified):</p>
+<ul>
+<li><strong>KB grounding:</strong> the refund query ranks the refund-policy doc first, and the
+front-line answer cites that doc path in the transcript.</li>
+<li><strong>Soft-yield <code>ask_user</code>:</strong> the chat records <code>pending_tool_call.mode: &quot;ask_user&quot;</code>
+at <code>turn_status: &quot;idle&quot;</code> with no park columns; the inline question shows up as
+an ordinary assistant turn; the customer's next message resumes the turn.</li>
+<li><strong>Handoff:</strong> the chat's <code>agent_id</code> repoints to the billing specialist, and the
+prior history (the original request and the grounded answer) is still in the
+transcript.</li>
+<li><strong>Approve path:</strong> the supervisor's &quot;yes&quot; runs the gated refund cleanly, and an
+approval record with <code>decision: &quot;approved&quot;</code> exists for the chat.</li>
+<li><strong>Reject path:</strong> the supervisor's &quot;no&quot; leaves the refund un-run (its
+<code>tool_result</code> is a refusal), and an approval record with
+<code>decision: &quot;rejected&quot;</code> exists for the chat.</li>
+</ul>
+<p>Point <code>billing__issue_refund</code> at your real refund action and bind the chat to a
+channel, and you have a tiered desk that answers from your KB, asks the customer
+what it needs, escalates to a specialist, and will not move money until a
+supervisor signs off, all inside one conversation.</p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

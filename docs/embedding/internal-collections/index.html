@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Internal Search Subsystem &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,138 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>embedding</span> / <span>Internal Search Subsystem</span></nav><h1>Internal Search Subsystem</h1>
+<h2 id="what-internal-collections-are">What internal collections are</h2>
+<p>Primer indexes its own entity catalogue into four reserved vector collections:
+agents, graphs, tools, and knowledge collections. Once this subsystem is active,
+agents can issue natural-language searches against these collections using the
+<code>search</code> toolset tools (<code>search_agents</code>, <code>search_graphs</code>, <code>search_tools</code>,
+<code>search_collections</code>, <code>search_ai_docs</code>). The four <code>/v1/{kind}/search</code> routes
+return <code>503</code> until the subsystem is active.</p>
+<p>This is the mechanism behind the dogfooding pattern from the quickstart: an
+agent that can search for the right agent or tool by description rather than
+having the entire catalogue stuffed into its system prompt. The catalogue stays
+out of context; the agent retrieves only the small slice it needs at query time.</p>
+<p>The subsystem uses the same embedding and search provider machinery as
+operator-managed knowledge collections, but the four reserved collections are
+owned and maintained by the platform itself. A CDC (change-data-capture) worker
+keeps them up to date as entities are created, updated, or deleted.</p>
+<h3 id="three-states">Three states</h3>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Inactive</strong></td>
+<td>No config row exists. Search routes return <code>503</code>.</td>
+</tr>
+<tr>
+<td><strong>Configured</strong></td>
+<td>Config saved but bootstrap not yet run. Search routes still return <code>503</code>.</td>
+</tr>
+<tr>
+<td><strong>Active</strong></td>
+<td>Bootstrap completed. Search routes return results. CDC worker is running.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dimension-mismatch-on-activation">Dimension mismatch on activation</h3>
+<p>The SSP, embedding provider, and embedding model are locked once the subsystem
+is bootstrapped. If you try to activate with a model whose embedding dimension
+differs from the dimension already stored in the collections, the bootstrap
+returns a <code>422</code> with a <code>DimensionMismatchError</code>. The error message names the
+stored dimension and the new model's dimension. To resolve it, deactivate first
+(drops the four reserved collections), then re-configure with the intended
+model and re-bootstrap.</p>
+<h2 id="configuration">Configuration</h2>
+<p>Three fields are required to configure the subsystem:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Semantic search provider</strong></td>
+<td>The SSP that will back the four reserved collections. Create an SSP first if the list is empty.</td>
+</tr>
+<tr>
+<td><strong>Embedding provider</strong></td>
+<td>The provider used to generate embeddings for ingestion and queries.</td>
+</tr>
+<tr>
+<td><strong>Embedding model</strong></td>
+<td>The model from the selected provider's list.</td>
+</tr>
+</tbody>
+</table>
+<p>Two optional enhancements:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MMR diversification</strong></td>
+<td>Maximum marginal relevance reranking. Enable and set a lambda (0-1, where 1 = pure relevance, 0 = pure diversity).</td>
+</tr>
+<tr>
+<td><strong>Cross-encoder reranker</strong></td>
+<td>A second-pass reranker applied after vector search. Pick the provider and model.</td>
+</tr>
+</tbody>
+</table>
+<p>Once the subsystem is active, the SSP, embedding provider, and embedding model
+are locked. Cross-encoder and MMR settings remain editable at any time via
+<strong>Update config</strong> without requiring a re-bootstrap.</p>
+<h2 id="walkthrough-activate-internal-collections">Walkthrough: activate internal collections</h2>
+<ol>
+<li>Navigate to <strong>Internal Collections</strong> in the sidebar.</li>
+<li>If the subsystem is inactive, the page shows &quot;Internal Collections is not
+configured.&quot; Click <strong>Configure</strong>.</li>
+</ol>
+<figure class="embed"><picture><source srcset="/_embeds/internal-collections-enable-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/internal-collections-enable-light.png" alt="internal-collections-enable (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<ol start="3">
+<li>In the Configure modal, fill in the required fields:
+<ul>
+<li><strong>Semantic Search provider</strong>: pick an existing SSP, or follow the link
+to create one. The local <code>lance</code> provider works without any API key.</li>
+<li><strong>Embedding provider</strong>: pick an existing embedding provider.</li>
+<li><strong>Embedding model</strong>: select the model from the provider's list.</li>
+</ul>
+</li>
+<li>Optionally enable <strong>MMR diversification</strong> and set the lambda. Optionally
+enable a <strong>Cross-encoder reranker</strong> and pick its provider and model.</li>
+<li>Click <strong>Save</strong>. The page transitions to the configured state with a warning
+that bootstrap is required.</li>
+<li>Click <strong>Bootstrap now</strong>. A progress panel appears showing the current phase:
+draining CDC queue, materialising collections, ingesting agents, graphs,
+collections, and tools, then finalising.</li>
+</ol>
+<p>Bootstrap runs as a background task on the server. You can navigate away; the
+progress panel resumes when you return. When bootstrap completes, the page
+transitions to the active state (green header) and the search routes go live.</p>
+<div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p>The SSP, embedding provider, and embedding model are locked once the subsystem
+is activated. Changing them requires deactivating first: the config row is
+removed and all four reserved collections are dropped. Re-configure and
+re-bootstrap to rebuild from scratch. Cross-encoder and MMR settings remain
+editable at any time.</p>
+</div></div>
+<p><a href="/docs/embedding/semantic-search-providers/">Create and configure the semantic search provider that backs the four reserved
+collections.</a></p>
+<p><a href="/docs/embedding/collections-and-documents/">Operator-managed knowledge collections use the same SSP and embedding
+machinery.</a></p>
+<p><a href="/docs/reference/api-knowledge/">REST API for PUT /internal_collections/config, POST /internal_collections/bootstrap,
+and DELETE /internal_collections/config with full schema detail.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

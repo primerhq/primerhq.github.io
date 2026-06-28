@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Workspace Toolset &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,111 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>workspaces</span> / <span>Workspace Toolset</span></nav><h1>Workspace Toolset</h1>
+<h2 id="what-the-workspace-toolset-is">What the workspace toolset is</h2>
+<p>When an agent runs inside a workspace session, primer automatically registers a fixed set of workspace tools with it. You do not add these on the agent's Tools tab and you cannot remove them: any agent that executes in a workspace gets them, because their whole purpose is to grant that agent access to its workspace.</p>
+<p>These tools operate on the <strong>current session's workspace</strong>, its filesystem and a shell. They are the same tools whether the workspace runs on the local filesystem, a container, or a Kubernetes pod: the backend differs but the tool surface is identical.</p>
+<p>There are seven of them, and they use short, conventional names. The model sees them scoped under the reserved <code>workspace</code> toolset (<code>workspace__ls</code>, <code>workspace__read</code>, and so on); this page refers to them by their short names:</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ls</code></td>
+<td>List a directory</td>
+</tr>
+<tr>
+<td><code>read</code></td>
+<td>Read a file with line offset/limit paging</td>
+</tr>
+<tr>
+<td><code>write</code></td>
+<td>Create or replace a file</td>
+</tr>
+<tr>
+<td><code>edit</code></td>
+<td>Replace a substring in a file</td>
+</tr>
+<tr>
+<td><code>glob</code></td>
+<td>Find files by glob pattern</td>
+</tr>
+<tr>
+<td><code>grep</code></td>
+<td>Search file contents by regex</td>
+</tr>
+<tr>
+<td><code>exec</code></td>
+<td>Run a shell command</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p>These seven are the inside view: how an agent acts within the workspace it is running in. They are distinct from the reserved <code>workspaces</code> orchestration toolset, which an agent binds explicitly to manage workspaces, templates, and sessions from the outside. That toolset is covered alongside the entities it operates on; see the workspace providers, templates, and sessions pages.</p>
+</div></div>
+<h2 id="the-seven-workspace-tools">The seven workspace tools</h2>
+<h3 id="ls"><code>ls</code></h3>
+<p>Lists a directory inside the workspace.</p>
+<ul>
+<li><code>path</code> (default <code>.</code>): directory relative to the workspace root.</li>
+<li><code>show_hidden</code> (default false): include dotfiles.</li>
+<li><code>recursive</code> (default false) and <code>max_depth</code>: walk subdirectories, optionally bounded.</li>
+</ul>
+<p>Output is one line per entry as <code>&lt;type&gt; &lt;size&gt; &lt;name&gt;</code>, where type is <code>f</code>, <code>d</code>, or <code>l</code> (file, directory, symlink), sorted alphabetically.</p>
+<h3 id="read"><code>read</code></h3>
+<p>Reads a file with offset/limit paging, the same shape coding assistants use, so large or truncated files can be read in pages.</p>
+<ul>
+<li><code>path</code> (required): file relative to the workspace root.</li>
+<li><code>offset</code> (default 0): line number to start from.</li>
+<li><code>limit</code> (default 2000): maximum lines to return.</li>
+</ul>
+<p>Output is the requested lines prefixed with line numbers. Binary files return a stable summary (<code>&lt;binary file: ...&gt;</code>) rather than raw bytes.</p>
+<h3 id="write"><code>write</code></h3>
+<p>Creates or replaces a file.</p>
+<ul>
+<li><code>path</code> (required), <code>content</code> (required), <code>mode</code> (optional octal string; when omitted the backend applies its default, typically 0644).</li>
+<li><code>force</code> (default false): bypass the read-before-write guard.</li>
+</ul>
+<p><code>write</code> enforces a <strong>read-before-write</strong> rule: it refuses to overwrite an existing file the agent has not <code>read</code> during the current session, unless <code>force=true</code> is passed. Creating a new file is always allowed. This mirrors the safety rule coding assistants use to avoid clobbering content the agent has not actually seen.</p>
+<h3 id="edit"><code>edit</code></h3>
+<p>A targeted string-replace edit, the workhorse for incremental changes.</p>
+<ul>
+<li><code>path</code> (required), <code>old_string</code> (required, the exact substring to replace), <code>new_string</code> (required).</li>
+<li><code>replace_all</code> (default false): replace every occurrence; otherwise <code>old_string</code> must be unique in the file.</li>
+</ul>
+<p>It errors clearly when <code>old_string</code> is not found, or is non-unique without <code>replace_all</code>.</p>
+<h3 id="glob"><code>glob</code></h3>
+<p>Finds files by glob pattern.</p>
+<ul>
+<li><code>pattern</code> (required, e.g. <code>src/**/*.py</code>), <code>path</code> (default <code>.</code>), plus <code>limit</code> (default 250) and <code>offset</code> for paging.</li>
+</ul>
+<p>Returns matching paths, newest first.</p>
+<h3 id="grep"><code>grep</code></h3>
+<p>Searches file contents by regular expression (a pure-Python implementation).</p>
+<ul>
+<li><code>pattern</code> (required regex), <code>path</code> (default <code>.</code>), and <code>glob</code> to filter which files are searched.</li>
+<li><code>output_mode</code>: <code>files_with_matches</code> (default), <code>content</code>, or <code>count</code>.</li>
+<li><code>case_insensitive</code>, <code>multiline</code>, <code>context</code> (lines of context around a match), and <code>head_limit</code> (default 250).</li>
+</ul>
+<p>In <code>content</code> mode it emits <code>&lt;path&gt;:&lt;lineno&gt;:&lt;text&gt;</code>; in <code>count</code> mode, <code>&lt;path&gt;:&lt;count&gt;</code>.</p>
+<h3 id="exec"><code>exec</code></h3>
+<p>Runs a shell command in the workspace. This is what lets an agent build, test, run scripts, use git, install packages, and generally do real work, not just file edits.</p>
+<ul>
+<li><code>command</code> (required): a command line passed to a shell.</li>
+<li><code>workdir</code> (default <code>.</code>): working directory relative to the workspace root.</li>
+<li><code>timeout_ms</code> (default 120000): a hard timeout.</li>
+<li><code>background</code> (default false): reserved for non-blocking execution. Not yet implemented; passing <code>background=true</code> returns an error.</li>
+<li><code>description</code> (required): a one-line description of what the command does.</li>
+</ul>
+<p>It returns the exit code, then stdout, then stderr (truncated by the standard output policy).</p>
+<div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p><code>exec</code> gives the agent a real shell inside the workspace sandbox. Scope what a workspace agent can reach through its workspace template and the backend you run it on (a throwaway local directory, a container, or a Kubernetes pod), and gate sensitive operations with an approval policy if needed.</p>
+</div></div>
+<p><a href="/docs/workspaces/workspace-providers/">Workspace backends (local, container, kubernetes) and how a workspace is materialised.</a></p>
+<p><a href="/docs/workspaces/workspaces-and-sessions/">Workspace sessions: how an agent run is bound to a workspace.</a></p>
+<p><a href="/docs/workspaces/yielding-tools/">watch_files, invoke_graph, and the park-resume protocol.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Semantic Search Providers &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,170 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>embedding</span> / <span>Semantic Search Providers</span></nav><h1>Semantic Search Providers</h1>
+<h2 id="concept">Concept</h2>
+<p>Every knowledge collection stores its document chunks as dense vectors and retrieves them by similarity. A <strong>semantic search provider (SSP)</strong> is the backend that holds those vectors and answers nearest-neighbour queries. Primer separates the SSP from the collection so you can run several backends simultaneously (a lightweight local store for development and a Postgres-backed store for production) and bind each collection to whichever backend fits its workload.</p>
+<p>Three backends ship with Primer:</p>
+<ul>
+<li><strong>LanceDB</strong> (<code>lance</code>): an embedded, file-backed vector store with no external dependency. Primer auto-creates a reserved <code>lance</code> row at first boot so semantic search works without any manual configuration. Use it for development, local demos, or workloads where a flat-file backup (copy the directory) is sufficient.</li>
+<li><strong>pgvector</strong> (<code>pgvector</code>): vectors stored in Postgres tables alongside the rest of your data. A single Postgres instance serves both storage and semantic search; suitable for small to medium collections.</li>
+<li><strong>pgvectorscale</strong> (<code>pgvectorscale</code>): pgvector extended with the StreamingDiskANN index and Statistical Binary Quantization. Choose this backend for very large collections (10 million+ vectors) where HNSW memory cost becomes prohibitive.</li>
+</ul>
+<p>Once you register an SSP, you bind a collection to it at create time. That binding is immutable: every embedded chunk for that collection lives in that backend. Deleting an SSP that still has collections bound to it returns 409.</p>
+<pre class="mermaid">erDiagram
+    SemanticSearchProvider ||--o{ Collection : &quot;backs (search_provider_id)&quot;
+    SemanticSearchProvider ||--|| VectorStore : &quot;constructs&quot;
+    Collection }o--|| EmbeddingProvider : &quot;uses embedder&quot;
+    Collection ||--o{ EmbeddingRecord : &quot;indexed chunks&quot;
+    VectorStore ||--o{ EmbeddingRecord : &quot;stores + ranks&quot;</pre>
+<p>The search pipeline works as follows: an agent or the console search modal embeds the query text using the collection's configured embedder, sends the resulting vector to the SSP's vector store, and the store returns the top-k nearest chunks by similarity. That ranked list can be further refined by a cross-encoder reranker or MMR diversification; both are configured on the collection, not the SSP (see ref:embedding/collections-and-documents).</p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="lancedb-fields">LanceDB fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path</td>
+<td>required</td>
+<td>Absolute filesystem path for the LanceDB datasets. Created with mode 0700 on first use. The directory is your backup unit; copy it to snapshot the index.</td>
+</tr>
+<tr>
+<td>HNSW M</td>
+<td>16</td>
+<td>Graph degree. Higher values improve recall and increase index size.</td>
+</tr>
+<tr>
+<td>HNSW ef construction</td>
+<td>64</td>
+<td>Candidate list size during index build. Higher = better recall, slower build.</td>
+</tr>
+<tr>
+<td>HNSW ef search</td>
+<td>40</td>
+<td>Candidate list size during queries. Higher = better recall, slower queries.</td>
+</tr>
+<tr>
+<td>Index min rows</td>
+<td>1000</td>
+<td>Brute-force search is used below this threshold; the ANN index is built lazily once the collection crosses it.</td>
+</tr>
+</tbody>
+</table>
+<p>The reserved <code>lance</code> row uses <code>~/.primer/vector</code> as its path. You can add additional LanceDB SSPs at different paths to partition workloads into separate directories.</p>
+<h3 id="pgvector-fields">pgvector fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DSN</td>
+<td>required</td>
+<td>Postgres connection string (e.g. <code>postgresql://user:pass@host/db</code>). The <code>vector</code> extension is installed automatically on first use.</td>
+</tr>
+<tr>
+<td>HNSW M</td>
+<td>16</td>
+<td>See LanceDB above.</td>
+</tr>
+<tr>
+<td>HNSW ef construction</td>
+<td>64</td>
+<td>See LanceDB above.</td>
+</tr>
+<tr>
+<td>HNSW ef search</td>
+<td>40</td>
+<td>See LanceDB above.</td>
+</tr>
+<tr>
+<td>Reindex cron</td>
+<td>none</td>
+<td>Crontab expression for periodic HNSW maintenance. Leave blank to disable.</td>
+</tr>
+<tr>
+<td>Use halfvec</td>
+<td>off</td>
+<td>Store vectors as pgvector <code>halfvec</code> (half-precision, up to 4000 dimensions) instead of the standard <code>vector</code> type (up to 2000 dimensions). Enable for embedding models above 2000 dimensions; for example <code>text-embedding-3-large</code> outputs 3072-dimensional vectors. <strong>Only affects collections created while this flag is on</strong>; existing collections keep their original type.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pgvectorscale-fields">pgvectorscale fields</h3>
+<p>pgvectorscale shares all pgvector fields and adds the following DiskANN controls (active only when <strong>Enable DiskANN</strong> is on):</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enable DiskANN</td>
+<td>off</td>
+<td>When on, collections get a StreamingDiskANN index instead of HNSW. Recommended for 10 million+ vectors.</td>
+</tr>
+<tr>
+<td>Storage layout</td>
+<td><code>memory_optimized</code></td>
+<td><code>memory_optimized</code> enables Statistical Binary Quantization (SBQ) to reduce memory; <code>plain</code> keeps full-precision vectors in the index.</td>
+</tr>
+<tr>
+<td>Num neighbors</td>
+<td>50</td>
+<td>DiskANN graph degree. Higher = better recall, larger index.</td>
+</tr>
+<tr>
+<td>Search list size</td>
+<td>100</td>
+<td>Build and query-time candidate list. Higher = better recall, slower build and queries.</td>
+</tr>
+<tr>
+<td>Max alpha</td>
+<td>1.2</td>
+<td>Graph density. Values up to ~1.4 increase recall at the cost of build time.</td>
+</tr>
+<tr>
+<td>Num bits per dimension</td>
+<td>auto</td>
+<td>Bits per dimension used by SBQ. Leave blank to use the pgvectorscale default. Ignored when storage layout is <code>plain</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="walkthrough">Walkthrough</h2>
+<h3 id="add-a-pgvector-ssp">Add a pgvector SSP</h3>
+<ol>
+<li>In the console, open <strong>Providers</strong> in the left navigation and click the <strong>Semantic Search</strong> tab.</li>
+<li>Click <strong>Add provider</strong>.</li>
+<li>Choose <strong>pgvector</strong> from the provider type dropdown.</li>
+<li>Enter an ID (e.g. <code>pgvector-prod</code>). IDs are immutable after creation.</li>
+<li>Enter the Postgres DSN for your database.</li>
+<li>Adjust HNSW tuning if needed; defaults work for most workloads.</li>
+<li>Enable <strong>Use halfvec</strong> if you plan to use embedding models with more than 2000 dimensions.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<figure class="embed"><picture><source srcset="/_embeds/ssp-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/ssp-light.png" alt="ssp (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<p>The provider row is saved and the backend runs <code>CREATE EXTENSION IF NOT EXISTS vector</code> on first use. The SSP appears in the provider list and is immediately selectable when creating a collection.</p>
+<h3 id="add-a-lancedb-ssp">Add a LanceDB SSP</h3>
+<p>Follow the same steps, choose <strong>lance</strong> as the provider type, and supply an absolute path on a filesystem where Primer has write access. The directory is created on first use.</p>
+<h3 id="edit-or-invalidate-a-provider">Edit or invalidate a provider</h3>
+<p>The connection fields (hostname, port, database, username, password) are mutable. To repoint a provider or update rotated credentials, click <strong>Edit</strong> on the provider row, change the fields, and save: the cached adapter is rebuilt with the new settings on the next request, so the change takes effect without a restart.</p>
+<p><strong>Invalidate</strong> is a separate action that forces a fresh connection <em>without</em> a config change. Click <strong>Invalidate</strong> next to the provider row (or send <code>POST /v1/ssp/{id}/invalidate</code>) when the existing connection has gone stale (for example, the database was restarted or a pooled connection dropped) but the stored settings are still correct. The cached adapter is closed and rebuilt on the next request. Either way, no vector data is lost.</p>
+<p><a href="/docs/embedding/embedding-providers/">embedding/embedding-providers</a></p>
+<p><a href="/docs/embedding/collections-and-documents/">embedding/collections-and-documents</a></p>
+<p><a href="/docs/embedding/cross-encoder-providers/">embedding/cross-encoder-providers</a></p>
+<p><a href="/docs/embedding/internal-collections/">embedding/internal-collections</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

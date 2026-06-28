@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Web Search Providers &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,119 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>web</span> / <span>Web Search Providers</span></nav><h1>Web Search Providers</h1>
+<h2 id="concept">Concept</h2>
+<p>Primer agents can search the web through the <code>web__web_search</code> tool. Behind that tool is the web search subsystem: a registry of <strong>web search providers</strong> plus an <strong>active configuration</strong> that decides which provider (or ordered list of providers) handles every query.</p>
+<p>Four provider backends ship with Primer:</p>
+<ul>
+<li><strong>DuckDuckGo</strong>: keyless, zero-configuration. Primer auto-creates a reserved <code>DuckDuckGo</code> row and points the active configuration at it on first boot, so web search works immediately without any API keys.</li>
+<li><strong>Tavily</strong>: a search API designed for LLM agents. Requires a Tavily API key.</li>
+<li><strong>Firecrawl</strong>: a crawl-and-extract service. Requires a Firecrawl API key.</li>
+<li><strong>Exa</strong>: a neural search API. Requires an Exa API key.</li>
+</ul>
+<p>The <strong>active configuration</strong> controls how providers are used at runtime. It has two modes:</p>
+<ul>
+<li><strong>Single</strong>: route every query to one named provider. This is the default out of the box (pointing at DuckDuckGo).</li>
+<li><strong>Aggregated</strong>: try an ordered list of providers. If the first provider fails (quota, transient error, or misconfiguration), the service moves to the next. Only when every provider in the list fails does the tool return an error to the agent.</li>
+</ul>
+<pre class="mermaid">flowchart LR
+    tool[&quot;web__web_search tool&quot;]
+    service[&quot;WebSearchService&quot;]
+    config[&quot;Active config\n(single or aggregated)&quot;]
+    p1[&quot;Provider 1\n(primary)&quot;]
+    p2[&quot;Provider 2\n(fallback)&quot;]
+    engine1[&quot;Search engine 1&quot;]
+    engine2[&quot;Search engine 2&quot;]
+
+    tool --&gt; service
+    service --&gt; config
+    config --&gt; p1
+    p1 --&gt;|ok| engine1
+    p1 --&gt;|error| p2
+    p2 --&gt; engine2</pre>
+<p>The tool returns up to 25 hits per query, each with a title, URL, and snippet. Agents receive the hits as a JSON list and decide how to use them.</p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="provider-fields">Provider fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>DuckDuckGo</th>
+<th>Tavily</th>
+<th>Firecrawl</th>
+<th>Exa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>required</td>
+<td>required</td>
+<td>required</td>
+<td>required</td>
+</tr>
+<tr>
+<td>API key</td>
+<td>none</td>
+<td>required</td>
+<td>required</td>
+<td>required</td>
+</tr>
+</tbody>
+</table>
+<p>IDs are immutable after creation. API keys are redacted in list and get responses; the plaintext key is stored internally.</p>
+<p>DuckDuckGo has no configuration fields beyond the ID. The reserved <code>DuckDuckGo</code> row cannot be deleted (returns 403) and its ID cannot be reused (returns 409).</p>
+<h3 id="active-configuration-fields">Active configuration fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mode</td>
+<td><code>single</code> or <code>aggregated</code>.</td>
+</tr>
+<tr>
+<td>Provider ID (single mode)</td>
+<td>The ID of the provider to use for all queries.</td>
+</tr>
+<tr>
+<td>Provider IDs (aggregated mode)</td>
+<td>An ordered list of provider IDs tried in priority order. Duplicates are deduplicated while preserving order.</td>
+</tr>
+</tbody>
+</table>
+<p>Changing the active configuration takes effect within 5 seconds for all running workers (the service caches the singleton with a 5-second TTL). You cannot delete a provider while it is referenced by the active configuration (returns 409).</p>
+<h2 id="walkthrough">Walkthrough</h2>
+<h3 id="add-a-tavily-provider">Add a Tavily provider</h3>
+<ol>
+<li>In the console, open <strong>Web Search</strong> in the left navigation.</li>
+<li>In the <strong>Providers</strong> section, click <strong>Add provider</strong>.</li>
+<li>Choose <strong>Tavily</strong> from the provider type dropdown.</li>
+<li>Enter an ID (e.g. <code>tavily-main</code>) and paste your Tavily API key.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<figure class="embed"><picture><source srcset="/_embeds/web-search-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/web-search-light.png" alt="web-search (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<p>The provider row is saved and a <strong>Test</strong> button appears next to it. Click <strong>Test</strong> to fire a live query (<code>primer</code>, 1 result) and verify the key is valid.</p>
+<h3 id="switch-the-active-provider">Switch the active provider</h3>
+<ol>
+<li>In the <strong>Active configuration</strong> card at the top of the Web Search page, click <strong>Edit</strong>.</li>
+<li>Set mode to <strong>Single</strong> and choose your new provider ID from the dropdown.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<p>Agents running in-flight pick up the new provider within 5 seconds.</p>
+<h3 id="set-up-a-fallback-chain">Set up a fallback chain</h3>
+<ol>
+<li>In the <strong>Active configuration</strong> card, click <strong>Edit</strong>.</li>
+<li>Set mode to <strong>Aggregated</strong>.</li>
+<li>Add provider IDs in priority order (e.g. <code>tavily-main</code>, <code>DuckDuckGo</code>).</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<p>If Tavily is unavailable or returns an error, the service automatically retries with DuckDuckGo before surfacing an error to the agent.</p>
+<p><a href="/docs/toolsets/toolsets-system/">toolsets/toolsets-system</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

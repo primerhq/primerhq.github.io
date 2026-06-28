@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Semantic Search &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,21 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>embedding</span> / <span>Semantic Search</span></nav><h1>Semantic Search</h1>
+<h2 id="the-pipeline">The pipeline</h2>
+<p>Semantic search in primer is a small pipeline of independently-configured pieces:</p>
+<ol>
+<li>An <strong>embedding provider</strong> turns text into vectors.</li>
+<li>A <strong>semantic search provider</strong> is the vector store that holds those vectors and returns the nearest neighbours for a query.</li>
+<li>A <strong>collection</strong> ties an embedder and a vector store together and holds the documents you ingest. Documents are chunked, embedded, and stored on ingest.</li>
+<li>At query time the embedder vectorises the query, the store returns top-k nearest chunks, and an optional <strong>cross-encoder</strong> reranks those candidates for precision.</li>
+</ol>
+<p><strong>Internal collections</strong> apply the same machinery to primer's own catalogue (agents, providers, and the like) so agents can search the platform itself.</p>
+<p><a href="/docs/embedding/embedding-providers/">Register embedding providers that turn text into vectors.</a></p>
+<p><a href="/docs/embedding/semantic-search-providers/">Register the vector store that holds embeddings and serves nearest-neighbour queries.</a></p>
+<p><a href="/docs/embedding/collections-and-documents/">Create collections, ingest documents, and run searches over them.</a></p>
+<p><a href="/docs/embedding/cross-encoder-providers/">Add a cross-encoder reranker to refine the top-k results.</a></p>
+<p><a href="/docs/embedding/internal-collections/">Make primer's own catalogue searchable as internal collections.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

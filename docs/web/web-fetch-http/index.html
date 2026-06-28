@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Web Fetch &amp; HTTP Requests &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,97 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>web</span> / <span>Web Fetch &amp; HTTP Requests</span></nav><h1>Web Fetch &amp; HTTP Requests</h1>
+<h2 id="two-url-tools">Two URL tools</h2>
+<p>The <code>web</code> toolset has two tools that act on a URL you already have. (To discover a URL first, use <code>web__web_search</code>, covered separately.)</p>
+<ul>
+<li><strong><code>web__web_fetch</code></strong> reads a human-facing web page or document and returns clean markdown of its main content, with navigation, sidebars, and scripts stripped out.</li>
+<li><strong><code>web__http_request</code></strong> performs an HTTP request and returns the raw response status, headers, and body as JSON. Use it for JSON/API endpoints, webhooks, or when you need to inspect raw status and headers.</li>
+</ul>
+<p>Pick <code>web_fetch</code> to read a page and <code>http_request</code> to call an endpoint.</p>
+<h2 id="web_fetch">web_fetch</h2>
+<p>Fetches a URL and returns markdown of the page's main content. The output is a small header (<code># &lt;title&gt;</code> when the page has one, plus a <code>Source: &lt;final-url&gt;</code> line) followed by the extracted markdown. When extraction yields very little text, primer appends a note that the page may require JavaScript rendering and suggests configuring a JS-capable web-fetch provider.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>url</code></td>
+<td>Yes</td>
+<td>string (http/https)</td>
+<td>Absolute URL of the page to read.</td>
+</tr>
+<tr>
+<td><code>max_chars</code></td>
+<td>No</td>
+<td>integer &gt; 0</td>
+<td>Cap the returned markdown to this many characters.</td>
+</tr>
+<tr>
+<td><code>max_lines</code></td>
+<td>No</td>
+<td>integer &gt; 0</td>
+<td>Cap the returned markdown to this many lines.</td>
+</tr>
+</tbody>
+</table>
+<p>Machine metadata (HTTP status, content type, final URL after redirects, character and line counts, and whether the output was truncated by a limit or judged thin) is returned alongside the markdown as extended fields.</p>
+<p>Web fetch routes through a configured web-fetch provider, so behaviour and JavaScript support depend on which provider is active.</p>
+<h2 id="http_request">http_request</h2>
+<p>Performs a single HTTP request and returns a JSON object with the response.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>url</code></td>
+<td>Yes</td>
+<td>string (http/https)</td>
+<td>Absolute URL to request.</td>
+</tr>
+<tr>
+<td><code>method</code></td>
+<td>No</td>
+<td>enum</td>
+<td>One of GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS. Defaults to GET.</td>
+</tr>
+<tr>
+<td><code>headers</code></td>
+<td>No</td>
+<td>object</td>
+<td>Optional request headers; keys and values are strings.</td>
+</tr>
+<tr>
+<td><code>body</code></td>
+<td>No</td>
+<td>string</td>
+<td>Optional request body. Serialise structured payloads (JSON, form encoding) yourself before the call.</td>
+</tr>
+<tr>
+<td><code>timeout_seconds</code></td>
+<td>No</td>
+<td>number</td>
+<td>Per-request timeout, greater than 0 and at most 300. Defaults to 30.</td>
+</tr>
+</tbody>
+</table>
+<p>The response is JSON with four fields: <code>status</code> (the HTTP status code), <code>headers</code> (the response headers), <code>body</code> (the response body as text), and <code>truncated</code> (a boolean).</p>
+<h3 id="output-truncation">Output truncation</h3>
+<p>The response body is capped at a configurable byte limit. The default cap is 1 MB (1,000,000 bytes). When the body exceeds the cap it is truncated to the cap and <code>truncated</code> is set to <code>true</code>, so the agent can tell that more content was available. The cap is configured per deployment.</p>
+<p><a href="/docs/web/web-search-providers/">Configure the web search providers that back web_search, the discovery counterpart to these two tools.</a></p>
+<p><a href="/docs/features/mcp-server/">Exposing web tools (and others) to external clients when primer runs as an MCP server.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

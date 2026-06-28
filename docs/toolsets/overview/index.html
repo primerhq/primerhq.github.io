@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Toolsets &amp; Tools &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,21 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>toolsets</span> / <span>Toolsets &amp; Tools</span></nav><h1>Toolsets &amp; Tools</h1>
+<h2 id="tools-and-toolsets">Tools and toolsets</h2>
+<p>A <strong>tool</strong> is one callable function an agent can invoke during a turn: it has an id, a JSON argument schema, and a handler. A <strong>toolset</strong> is a named collection of related tools. An agent is bound to toolsets (not individual tools at the wire level), and its effective tool list is the union of every toolset it has.</p>
+<p>Tool ids are scoped by their toolset using a double-underscore separator, for example <code>system__invoke_agent</code>, <code>search__search_agents</code>, or <code>web__web_search</code>.</p>
+<h2 id="two-kinds-of-toolset">Two kinds of toolset</h2>
+<ul>
+<li><strong>System (built-in) toolsets</strong> ship with primer and are always available: agents, search, workspaces, web, and the rest. They are reserved; you cannot create or delete them, only bind agents to them and pick which tools are exposed.</li>
+<li><strong>External toolsets</strong> are registered by you and pull tools in from outside primer over a transport. Today the one external kind is MCP (Model Context Protocol) servers.</li>
+</ul>
+<p>Both kinds appear in the same toolset list and bind to agents the same way.</p>
+<h2 id="approvals">Approvals</h2>
+<p>Any tool call can be gated behind an approval policy, so a human (or another agent) must sign off before the call runs. Approvals are configured per agent and per tool, independent of which toolset the tool came from.</p>
+<p><a href="/docs/toolsets/toolsets-system/">The built-in system toolsets and how to explore tools with list_toolset_tools and call_tool.</a></p>
+<p><a href="/docs/toolsets/toolsets-external/">Register external toolsets (MCP servers) over stdio and HTTP so agents can call their tools.</a></p>
+<p><a href="/docs/toolsets/toolsets-approvals/">Gate tool calls behind an approval policy and decide each request before it runs.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/docs/" />
+<title>Quickstart &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/primerhq/primer" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/docs/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/docs/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/docs/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/docs/features/agents/">Agents</a>
+<a class="nav-link" href="/docs/features/chats/">Chats</a>
+<a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/docs/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/docs/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/docs/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/docs/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/docs/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/docs/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/docs/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/docs/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/docs/web/overview/">Web</a>
+<a class="nav-link" href="/docs/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/docs/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/docs/channels/overview/">Channels</a>
+<a class="nav-link" href="/docs/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/docs/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/docs/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/docs/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/docs/features/triggers/">Triggers</a>
+<a class="nav-link" href="/docs/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/docs/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/docs/features/workers/">Workers</a>
+<a class="nav-link" href="/docs/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/docs/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/docs/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/docs/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/docs/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/docs/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/docs/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/docs/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/docs/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/docs/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/docs/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/docs/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/docs/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/docs/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/docs/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/docs/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/docs/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/docs/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/docs/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/docs/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/docs/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/docs/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/docs/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/docs/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/docs/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/docs/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/docs/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/docs/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/docs/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/docs/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/docs/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/docs/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/docs/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/docs/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/docs/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/docs/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/docs/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/docs/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Getting Started</span> / <span>Quickstart</span></nav><h1>Quickstart</h1>
+<p>In this guide you will build a small &quot;blog content assistant&quot; from scratch using primer. Everything runs from the console against a free LLM key, and each step builds directly on the last. By the end you will have two agents, a shared chat, a semantic router, a workspace file, and a graph that watches for that file and then drafts and reviews a blog post.</p>
+<h2 id="step-0---install-and-start">Step 0 - Install and start</h2>
+<p>Clone the repo, sync dependencies, and start the API server. Then open the console at http://localhost:8000/console/.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e6ec85-bash">bash</button></div><div class="tab-panel active" id="tab-e6ec85-bash"><pre class="md-pre lang-bash"><code>git clone https://github.com/primerhq/primer.git
+cd primer
+uv sync
+uv run primer api</code></pre></div></div>
+<div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p>This is the git-based install for now. Released-artifact installation is coming; until then, clone and run from source.</p>
+</div></div>
+<h2 id="step-1---add-an-llm-provider-openrouter">Step 1 - Add an LLM provider (OpenRouter)</h2>
+<p>Get a free API key at <a href="https://openrouter.ai/">openrouter.ai</a>. In the console, go to Providers, then LLM, then Add provider. Choose provider type &quot;openrouter&quot; and paste your key; the base URL is already filled in, so you only need the key.</p>
+<p>Once saved, enable a free model such as <code>meta-llama/llama-3.1-8b-instruct:free</code> from the models list, and set its context length to match the model. <code>llama-3.1-8b-instruct</code> has a 128K-token context window, so <code>131072</code> is the right value (if you leave it too low, longer chats and the graph in Step 6 will truncate their history).</p>
+<figure class="embed"><picture><source srcset="/_embeds/llm-provider-openrouter-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/llm-provider-openrouter-light.png" alt="llm-provider-openrouter (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<p><a href="/docs/reference/api-providers/">Provider types, config fields, and model discovery.</a></p>
+<h2 id="step-2---create-two-agents">Step 2 - Create two agents</h2>
+<p>You will create two lightweight agents for this guide:</p>
+<ul>
+<li><strong>topic-scout</strong>: given a broad theme, brainstorms five blog topics. No tools needed.</li>
+<li><strong>outline-editor</strong>: takes one chosen topic and turns it into a structured outline with sections and bullet points.</li>
+</ul>
+<p>For each agent, open Agents, click New agent, fill the Basic tab (name, description, and the model: select the OpenRouter provider you created in Step 1, then pick the <code>meta-llama/llama-3.1-8b-instruct:free</code> model), then open the Advanced tab to paste the system prompt below, and save.</p>
+<p><strong>topic-scout</strong> system prompt:</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-60801a-text">text</button></div><div class="tab-panel active" id="tab-60801a-text"><pre class="md-pre lang-text"><code>You are topic-scout, a blog ideation assistant. Given a broad theme from
+the user, propose exactly five specific, distinct blog post topics aimed at
+a general technical audience.
+
+For each topic, give a short working title followed by a one-sentence angle
+that says what the post would cover and why a reader would care. Prefer
+concrete, specific angles over generic ones, and avoid overlap between the
+five. Number them 1 to 5.
+
+Do not write the posts themselves, and do not ask clarifying questions: if
+the theme is broad, make reasonable assumptions and proceed. Keep the whole
+reply under 200 words.</code></pre></div></div>
+<p><strong>outline-editor</strong> system prompt:</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9827c8-text">text</button></div><div class="tab-panel active" id="tab-9827c8-text"><pre class="md-pre lang-text"><code>You are outline-editor. The user gives you a single blog post topic, often
+chosen from a numbered list earlier in the conversation. Produce one clear,
+structured outline for that topic.
+
+Format the outline as: a working title, a one-sentence thesis, then 4 to 6
+top-level sections as markdown headings. Under each section add 2 to 4
+bullet points naming the key idea, a supporting point, or an example to
+include. Finish with a short &quot;Call to action&quot; section.
+
+Outline only; do not write full prose paragraphs. If the user refers to
+&quot;topic 3&quot; or similar, use the matching topic from the earlier conversation.</code></pre></div></div>
+<figure class="embed"><picture><source srcset="/_embeds/quickstart-agents-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/quickstart-agents-light.png" alt="quickstart-agents (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<p><a href="/docs/features/agents/">Every field in the agent create modal.</a></p>
+<h2 id="step-3---chat-and-switch-agents-mid-conversation">Step 3 - Chat, and switch agents mid-conversation</h2>
+<p>Open Chats and start a new chat with <strong>topic-scout</strong>. Ask it for five blog topics on a theme you like, for example &quot;getting started with home automation&quot;. Once you see the suggestions, switch the same chat to <strong>outline-editor</strong>: the agent switcher is the agent dropdown in the chat composer, at the left of the message box just before the attachment (paperclip) button. Pick <strong>outline-editor</strong> from it, then continue the conversation by asking it to outline topic 3.</p>
+<p>The key idea: both agents share the same conversation history. outline-editor can see the topics topic-scout produced, and you did not have to copy anything between windows.</p>
+<figure class="embed"><picture><source srcset="/_embeds/chat-agent-switch-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/chat-agent-switch-light.png" alt="chat-agent-switch (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<pre class="mermaid">flowchart LR
+    u[You] --&gt; c[One chat]
+    c --&gt;|first turns| a1[topic-scout]
+    c --&gt;|after switch| a2[outline-editor]</pre>
+<p><a href="/docs/features/chats/">Turn mechanics, the agent switcher, and streaming.</a></p>
+<h2 id="step-4---enable-internal-collections-and-a-search-and-invoke-agent">Step 4 - Enable internal collections and a search-and-invoke agent</h2>
+<p><strong>Part A: enable the collections.</strong> Go to Internal Collections and click Configure. Choose the bundled local embedder and the pre-configured <code>lance</code> semantic search provider; it is local and file-based, so it needs no API key. After saving, the subsystem is in the configured state; click Bootstrap now to index primer's own agents, graphs, tools, and knowledge collections. The subsystem becomes active once bootstrapping completes.</p>
+<figure class="embed"><picture><source srcset="/_embeds/internal-collections-enable-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/internal-collections-enable-light.png" alt="internal-collections-enable (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<p><strong>Part B: create a router agent.</strong> Create a new agent called <strong>content-router</strong> (again selecting the OpenRouter provider and the llama model). Give it the tools <code>search__search_agents</code> and <code>system__invoke_agent</code>, and the system prompt below:</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-72e887-text">text</button></div><div class="tab-panel active" id="tab-72e887-text"><pre class="md-pre lang-text"><code>You are content-router. Route each user request to the most suitable
+existing agent and run it, rather than answering directly.
+
+For every request:
+1. Call search__search_agents with a concise query describing what the user
+   wants done, to find candidate agents in the internal agents collection.
+2. Choose the single best-matching agent from the returned descriptions. If
+   nothing matches well, tell the user no suitable agent was found and stop.
+3. Call system__invoke_agent with that agent&#x27;s id and a clear task derived
+   from the user&#x27;s request, passing along any specifics it needs (for
+   example, the chosen topic).
+4. Return the invoked agent&#x27;s result to the user, and briefly note which
+   agent you picked and why.
+
+Always delegate through the tools; never perform the task yourself.</code></pre></div></div>
+<p>Now open a new chat with content-router and ask: &quot;Find an agent that can outline a blog post and run it on a topic you pick.&quot; The agent searches the internal collection, finds outline-editor by description, and calls it, all without you naming it explicitly.</p>
+<div class="callout callout-tip"><div class="callout-title">tip</div><div class="callout-body"><p>This is the dogfooding pattern: an agent that finds and runs other agents, with the full catalog kept out of its context behind semantic search.</p>
+</div></div>
+<p><a href="/docs/embedding/internal-collections/">The internal collections and the search toolset.</a></p>
+<h2 id="step-5---create-a-workspace-and-write-a-file">Step 5 - Create a workspace and write a file</h2>
+<p>Go to Workspaces and create a new workspace using the default local provider. Give it a name like &quot;blog-assistant&quot;.</p>
+<p>Next, create a small <strong>brief-writer</strong> agent (no special tools needed on the agent itself). When an agent runs inside a workspace session, the <code>workspaces__*</code> tools, including <code>workspaces__write_workspace_file</code>, are registered with it automatically, so you do not add them in the agent's tool list. Just give brief-writer a system prompt telling it to write the content it is given into the requested file.</p>
+<p>Start a workspace session bound to brief-writer and the workspace you just created. Because this is a fresh session with a different agent, it does not share the Step 3 chat history, so paste the outline text produced in Step 3 directly into the session's instructions. Then instruct the agent to write that outline into a file called <code>outline.md</code> in the workspace; it will use <code>workspaces__write_workspace_file</code> to do so.</p>
+<figure class="embed"><picture><source srcset="/_embeds/workspaces-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/workspaces-light.png" alt="workspaces (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<figure class="embed"><picture><source srcset="/_embeds/session-detail-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/session-detail-light.png" alt="session-detail (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<p><a href="/docs/workspaces/workspace-providers/">Workspace providers, templates, and the file tools.</a></p>
+<h2 id="step-6---build-and-run-a-graph-watch-draft-judge">Step 6 - Build and run a graph (watch, draft, judge)</h2>
+<p>Now tie everything together with a graph. First, create three small agents for the graph nodes: <strong>outline-watcher</strong>, <strong>draft-writer</strong>, and <strong>completeness-judge</strong> (or reuse existing ones if you already have them). A graph runs inside a workspace session, so the in-workspace runtime tools (<code>ls</code>, <code>read</code>, <code>write</code>, <code>edit</code>, <code>glob</code>, <code>grep</code>, <code>exec</code>) are auto-registered with its agent nodes. The watcher is the one exception: <code>watch_files</code> is a yielding tool in the separate <code>workspace_ext</code> toolset, which is <strong>not</strong> auto-registered, so the watcher agent must bind <code>workspace_ext</code> explicitly on its Tools tab. Because the graph runs in a workspace session, the bound <code>workspace_ext</code> tools are then registered with that agent (they would be suppressed if the same agent ran on a chat). Otherwise you only need to ask for the behavior in the system prompt.</p>
+<p>Create a new graph with these nodes:</p>
+<ul>
+<li><strong>start</strong>: the entry point.</li>
+<li><strong>watcher</strong>: an agent node (with the <code>workspace_ext</code> toolset bound) whose system prompt tells it to call <code>workspace_ext__watch_files</code> and wait until <code>outline.md</code> appears in the workspace. <code>workspace_ext__watch_files</code> is a yielding tool, so the run parks here (see the note below) instead of holding the turn open.</li>
+<li><strong>draft-writer</strong>: an agent node that reads the outline and writes a full blog draft.</li>
+<li><strong>completeness-judge</strong>: an agent node with a <code>response_format</code> that returns <code>accept</code> or <code>reject</code> plus brief feedback.</li>
+<li><strong>done</strong>: the end node that renders the finished draft.</li>
+</ul>
+<p>Wire the edges: start to watcher, watcher to draft-writer, draft-writer to judge. Add a conditional router on the judge: <code>reject</code> loops back to draft-writer (set <code>max_iterations</code> to cap the loop), and <code>accept</code> continues to done.</p>
+<p><strong>How the park-resume works.</strong> When the watcher node calls <code>workspace_ext__watch_files</code>, the graph suspends (parks) instead of holding an open connection. The run stays parked until the file-change event fires. Writing <code>outline.md</code> in your workspace (Step 5 does exactly this) wakes the graph, and the producer-judge loop then runs to completion on its own.</p>
+<figure class="embed"><picture><source srcset="/_embeds/quickstart-graph-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/quickstart-graph-light.png" alt="quickstart-graph (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<pre class="mermaid">flowchart LR
+    s([start]) --&gt; w[watcher: watch_files parks here]
+    w --&gt;|file written| d[draft-writer]
+    d --&gt; j{completeness-judge}
+    j --&gt;|reject + feedback| d
+    j --&gt;|accept| done([done])</pre>
+<p><a href="/docs/graphs/overview/">What a graph is, the node kinds, and when to reach for one.</a></p>
+<p><a href="/docs/workspaces/yielding-tools/">Why a tool call can suspend a run and how it resumes.</a></p>
+<div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p>The Step 6 graph parks on a real file watch to show how a run suspends and resumes. If you would rather not wait, write outline.md first, then run the graph.</p>
+</div></div>
+<h2 id="where-to-next">Where to next</h2>
+<p>You have seen all the major building blocks: an LLM provider, two agents, a shared chat with an agent switch, a semantic router backed by internal collections, a workspace session that writes a file, and a graph with a park-resume loop. The guides below go deeper on each piece.</p>
+<p><a href="/docs/features/agents/">How an agent turn actually runs and every configuration field.</a></p>
+<p><a href="/docs/features/harnesses/">Package your tuned agents and graphs into a shareable, git-backed bundle.</a></p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

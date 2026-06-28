@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Channel rules &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,144 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>channels</span> / <span>Channel rules</span></nav><h1>Channel rules</h1>
+<h2 id="two-surfaces-one-set-of-rules">Two surfaces, one set of rules</h2>
+<p>A channel carries two directions of traffic, and a rule shapes each one:</p>
+<ul>
+<li><strong>Inbound: event to action.</strong> A message or command arriving on the room is normalized into a <code>ChannelEvent</code>, matched against a predicate, and dispatched to an action (start a chat, run a session, resume a parked session). This is what the rule editor authors.</li>
+<li><strong>Outbound: reply binding.</strong> Whatever a session sends back (a question, an approval prompt, the final result) follows a reply binding to a channel and thread. A rule's reply target sets the outbound destination for the action it starts.</li>
+</ul>
+<p>Both run on the same room. You author inbound rules here and pick the reply target for each one; the standing outbound destination for a workspace is the reply binding on the workspace itself.</p>
+<h2 id="normalized-events">Normalized events</h2>
+<p>Every provider's raw events (Slack, Telegram, Discord) are normalized into one envelope so a rule never has to know platform specifics. The v1 core event types are:</p>
+<table>
+<thead>
+<tr>
+<th>Event type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message.posted</code></td>
+<td>A user posts text or media in the room.</td>
+</tr>
+<tr>
+<td><code>command.invoked</code></td>
+<td>A user runs a slash or bot command, with its name and arguments.</td>
+</tr>
+</tbody>
+</table>
+<p>The richness lives in the envelope dimensions a matcher keys off, not in a long list of types. A matcher is the AND of whatever fields you set; omit a field and it is unconstrained:</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>What it matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>event_type</code></td>
+<td>Required. <code>message.posted</code> or <code>command.invoked</code>.</td>
+</tr>
+<tr>
+<td><code>surface</code></td>
+<td>A subset of <code>dm</code>, <code>channel</code>, <code>thread</code> (where the message landed).</td>
+</tr>
+<tr>
+<td><code>mentions_bot</code></td>
+<td>Whether the message mentions the bot.</td>
+</tr>
+<tr>
+<td><code>command_name</code></td>
+<td>The command name for a <code>command.invoked</code> event (for example <code>deploy</code>).</td>
+</tr>
+<tr>
+<td><code>sender_roles_any</code></td>
+<td>Match when the sender holds any of these roles.</td>
+</tr>
+<tr>
+<td><code>sender_ids_any</code></td>
+<td>Match when the sender is one of these platform user ids.</td>
+</tr>
+<tr>
+<td><code>text_pattern</code></td>
+<td>A regular expression the message text must contain.</td>
+</tr>
+<tr>
+<td><code>room_external_ids</code></td>
+<td>Restrict to specific platform room ids.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="actions">Actions</h2>
+<p>When an event matches, the rule dispatches one action:</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Start a new chat</td>
+<td>Open a fresh chat bound to the source thread, seeded with the event text, and relay the reply back.</td>
+</tr>
+<tr>
+<td>Reply to a chat</td>
+<td>Append the event text to an existing chat (named directly, or resolved from the source thread's bound chat).</td>
+</tr>
+<tr>
+<td>Run a session</td>
+<td>Spin up a fresh agent or graph session in a workspace; the reply target becomes that session's reply binding (full-lifecycle relay).</td>
+</tr>
+<tr>
+<td>Resume a parked session</td>
+<td>Wake a session that is parked waiting on a channel event (the runtime subscribe path; for example a slash command resumes a workflow).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="capabilities-and-prerequisites">Capabilities and prerequisites</h2>
+<p>Each provider can emit only the events it is configured for, and some require platform setup. The rule editor offers the supported events per provider and surfaces these prerequisites as warnings:</p>
+<ul>
+<li><strong>Discord</strong> needs the MESSAGE CONTENT privileged intent enabled in the bot's settings before it can read message text.</li>
+<li><strong>Telegram</strong> needs privacy mode disabled in BotFather (or the bot made a group admin) to receive group messages; direct messages always arrive.</li>
+<li><strong>Slack</strong> needs the matching event subscriptions plus bot scopes (<code>chat:write</code>, <code>channels:read</code>, <code>channels:history</code>).</li>
+</ul>
+<p>A missing prerequisite is a warning, not a hard failure: the rule saves, but the event may never arrive until the platform side is configured.</p>
+<h2 id="reply-targets">Reply targets</h2>
+<p>A rule's reply target decides where the action's outbound traffic goes:</p>
+<table>
+<thead>
+<tr>
+<th>Reply target</th>
+<th>Where the reply lands</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>source_thread</code> (default)</td>
+<td>The thread the event came from.</td>
+</tr>
+<tr>
+<td><code>source_room</code></td>
+<td>The room root, not a thread.</td>
+</tr>
+<tr>
+<td><code>dm_sender</code></td>
+<td>A direct message to the person who triggered the event.</td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td>No outbound reply; the action runs silently.</td>
+</tr>
+</tbody>
+</table>
+<p>For session actions the resolved reply target becomes a session-scoped reply binding anchored to the originating thread, so the session feels conversational and a specific event rule wins over the workspace's standing binding.</p>
+<p><a href="/docs/channels/channels/">Channel rooms, chat settings, and in-channel commands.</a></p>
+<p><a href="/docs/channels/channel-providers/">Platform credentials and provider setup, including the required scopes and intents.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

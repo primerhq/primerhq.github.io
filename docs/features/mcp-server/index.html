@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/docs/" />
+<title>MCP Server &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/primerhq/primer" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/docs/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/docs/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/docs/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/docs/features/agents/">Agents</a>
+<a class="nav-link" href="/docs/features/chats/">Chats</a>
+<a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/docs/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/docs/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/docs/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/docs/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/docs/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/docs/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/docs/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/docs/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/docs/web/overview/">Web</a>
+<a class="nav-link" href="/docs/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/docs/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/docs/channels/overview/">Channels</a>
+<a class="nav-link" href="/docs/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/docs/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/docs/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/docs/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/docs/features/triggers/">Triggers</a>
+<a class="nav-link" href="/docs/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/docs/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/docs/features/workers/">Workers</a>
+<a class="nav-link" href="/docs/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/docs/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/docs/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/docs/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/docs/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/docs/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/docs/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/docs/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/docs/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/docs/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/docs/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/docs/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/docs/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/docs/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/docs/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/docs/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/docs/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/docs/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/docs/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/docs/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/docs/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/docs/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/docs/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/docs/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/docs/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/docs/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/docs/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/docs/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/docs/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/docs/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/docs/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/docs/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/docs/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/docs/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/docs/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/docs/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/docs/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/docs/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Features</span> / <span>MCP Server</span></nav><h1>MCP Server</h1>
+<h2 id="concept">Concept</h2>
+<p>Primer ships a built-in MCP server at <code>/v1/mcp</code>. The point of that endpoint is to turn the whole platform into a toolbox that an external agent can drive. Connect Claude Code, Claude Desktop, claude.ai, or any other MCP-speaking agentic system to that URL and primer's own capabilities become tools the external agent can call: create and configure agents, wire up graphs, spin up workspace sessions and run them, manage collections, channels, and triggers, and run semantic search across the platform. In short, primer-as-an-MCP-server lets an outside agent use primer as a backend to <strong>build and run agentic AI systems</strong> without ever touching primer's REST API or console directly.</p>
+<p>This is primer exposing <em>its own</em> platform surface to the outside. It is the inverse of mounting external MCP servers as toolsets so primer's own agents can call them; for that direction, see the <a href="toolsets-mcp">toolsets over MCP</a> feature. This page is only about the server primer hosts.</p>
+<p>The tools that become available are primer's built-in toolsets:</p>
+<ul>
+<li><strong><code>system</code></strong> - CRUD over the core entities (agents, graphs, collections, channels, providers, approval policies, and more) plus <code>system__invoke_agent</code> and <code>system__invoke_graph</code> to run them, <code>system__search_collection</code>, and document operations.</li>
+<li><strong><code>workspaces</code></strong> - create, run, steer, and cancel workspace sessions (<code>workspaces__create_workspace_session</code>), and read or write workspace files.</li>
+<li><strong><code>search</code></strong> - semantic search across agents, graphs, collections, and tools (<code>search__search_agents</code>, <code>search__search_collections</code>).</li>
+<li><strong><code>trigger</code></strong> - manage triggers and subscriptions.</li>
+<li><strong><code>web</code></strong> - web search and HTTP requests.</li>
+<li><strong><code>misc</code></strong> and <strong><code>harness</code></strong> - utility and harness-management helpers.</li>
+</ul>
+<p>An external agent that holds a token for these tools can, for example, search for an existing agent, create a new one from a prompt, then invoke it and read the result, all over MCP. That is the platform's actual dogfooding pattern: primer's own dogfood instance registers its MCP endpoint with Claude Code and is driven entirely through these tools.</p>
+<h3 id="the-exposure-model">The exposure model</h3>
+<p>Nothing is published by default. Exposure is governed by a single global <code>McpExposure</code> record with two fields: an <code>enabled</code> boolean and an <code>allowed_tools</code> list. The list holds scoped tool ids of the form <code>toolset_id__tool_id</code> (for example, <code>system__invoke_agent</code> or <code>search__search_agents</code>). Only tools in the allowlist appear on the client's <code>tools/list</code>, and only while <code>enabled</code> is true. A fresh install starts with <code>enabled=false</code> and an empty allowlist, so the endpoint publishes zero tools until you opt in. Editing the allowlist takes effect on the next client request.</p>
+<p>The allowlist is operator-controlled and mutated only from the console (cookie session); a bearer token cannot change it even with the <code>mcp</code> scope. Saving a new allowlist replaces the previous one atomically.</p>
+<p>Not every tool can be added to the allowlist. Three categories are always excluded:</p>
+<ul>
+<li><strong>Tools from user-defined Toolset rows.</strong> The endpoint exposes only primer's reserved built-in toolsets (<code>system</code>, <code>workspaces</code>, <code>search</code>, <code>trigger</code>, <code>web</code>, <code>misc</code>, <code>harness</code>, and <code>workspace_ext</code>). Tools from toolsets you defined yourself, including external MCP servers you mounted, are denied with reason <code>not_system_toolset</code>. They belong to primer's own agents, not to outside MCP clients.</li>
+<li><strong>Yielding tools</strong> - tools that park a session on an event bus (such as <code>system__ask_user</code>, <code>workspace_ext__sleep</code>, <code>trigger__subscribe_to_trigger</code>, and <code>workspace_ext__watch_files</code>). MCP v1 has no pause/resume primitive, so a round-trip is impossible. These are denied with reason <code>yielding_unsupported</code>.</li>
+<li><strong>Workspace tools that need an active agent session</strong> - workspace tools that read the current <code>session_id</code> from the agent runtime context. These are meaningless outside an agent loop and are denied with reason <code>needs_session</code>.</li>
+</ul>
+<p>There is no policy-level denylist beyond those technical floors: you enabled MCP, you chose which tools to expose, and you minted the token, so you choose the risk surface (including powerful tools like <code>system__call_tool</code> or <code>web__http_request</code>).</p>
+<p>Approval-gated tools are exposable from a catalogue standpoint, but the dispatcher refuses to invoke them when called over MCP. If a client calls an approval-gated tool, it receives an error rather than a park for a human decision. If you plan to expose tools to external clients, prefer tools that do not require approvals, or explicitly lift the approval requirement for those tools.</p>
+<h3 id="authentication">Authentication</h3>
+<p>MCP clients authenticate with a bearer token. Tokens are created on the <strong>API Tokens</strong> page. Mint a dedicated token for each MCP client and grant only the scopes that client needs.</p>
+<p>Primer is single-operator in v1. The first visit to the console presents a one-time registration screen that creates the only account. Subsequent visits show the login screen. Bearer tokens let automated clients (including MCP clients) authenticate without a browser session.</p>
+<p><strong>Creating an API token for MCP:</strong></p>
+<ol>
+<li>Navigate to <strong>API Tokens</strong> in the left nav.</li>
+<li>Click <strong>Create token</strong>.</li>
+<li>Enter a unique name (for example, <code>claude-desktop-mcp</code>). Names must be unique and at most 128 characters.</li>
+<li>Under <strong>Scopes</strong>, check <code>mcp</code> to permit calls to the MCP endpoint. This is currently the only scope the platform enforces; other scope strings are accepted but not yet checked by any route.</li>
+<li>Optionally set an expiry date.</li>
+<li>Click <strong>Create token</strong>.</li>
+</ol>
+<p>The dialog switches to a one-time reveal:</p>
+<figure class="embed"><picture><source srcset="/_embeds/api-token-create-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/api-token-create-light.png" alt="api-token-create (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<ol start="7">
+<li>Click <strong>Copy token</strong> to copy the plaintext to your clipboard.</li>
+<li>Click <strong>I have saved it, close</strong> once you have stored the value.</li>
+</ol>
+<p>The token is never shown again. If you lose it, revoke it and create a new one.</p>
+<p>To revoke a token, click <strong>Revoke</strong> on the token's row and confirm. The token stops working immediately. The row remains in the list for audit purposes.</p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="mcp-exposure-fields">MCP exposure fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Enabled</strong></td>
+<td>Whether the <code>/v1/mcp</code> endpoint accepts connections. When disabled, clients receive a connection error.</td>
+</tr>
+<tr>
+<td><strong>Allowed tools</strong></td>
+<td>The allowlist of scoped tool ids (<code>toolset_id__tool_id</code>). Only these tools appear in the client palette.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="api-token-fields">API token fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Name</strong></td>
+<td>Unique label. At most 128 characters.</td>
+</tr>
+<tr>
+<td><strong>Scopes</strong></td>
+<td>Comma-separated scope strings. <code>mcp</code> is required for MCP endpoint access.</td>
+</tr>
+<tr>
+<td><strong>Expires at</strong></td>
+<td>Optional expiry datetime. Leave blank for a non-expiring token.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="walkthrough">Walkthrough</h2>
+<h3 id="enabling-the-endpoint">Enabling the endpoint</h3>
+<ol>
+<li>Navigate to <strong>MCP Server</strong> in the left nav.</li>
+<li>In the <strong>MCP server endpoint</strong> panel, click <strong>Enable</strong>. The status pill changes to <code>enabled</code>.</li>
+<li>Click <strong>Copy URL</strong> to copy the endpoint URL (<code>&lt;your-primer-origin&gt;/v1/mcp</code>), or click <strong>Copy Claude Desktop config</strong> to copy a ready-to-paste JSON snippet for <code>~/Library/Application Support/Claude/claude_desktop_config.json</code>.</li>
+<li>Replace the <code>&lt;YOUR_TOKEN&gt;</code> placeholder in the config with a token from the API Tokens page that has the <code>mcp</code> scope.</li>
+</ol>
+<figure class="embed"><picture><source srcset="/_embeds/mcp-exposure-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/mcp-exposure-light.png" alt="mcp-exposure (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<h3 id="choosing-which-tools-to-expose">Choosing which tools to expose</h3>
+<div class="callout callout-tip"><div class="callout-title">tip</div><div class="callout-body"><p>The Exposed tools table shows every tool in the catalogue with an <code>exposable</code> or blocked status. Blocked tools show a reason in the Status column and cannot be added to the allowlist.</p>
+</div></div>
+<ol>
+<li>Use the toolset filter chips at the top of the <strong>Exposed tools</strong> table to narrow by toolset.</li>
+<li>Check <strong>Exposable only</strong> to hide non-exposable rows.</li>
+<li>Tick the checkbox next to each tool you want to publish. The header checkbox selects or deselects all currently visible exposable rows.</li>
+<li>Use <strong>Recommend safe defaults</strong> to pre-select a conservative read-only set (search toolset tools, <code>get_*</code>, <code>list_*</code>, <code>find_*</code>, and a handful of pure-function misc tools). This only stages the selection - nothing is saved until you click <strong>Save</strong>.</li>
+<li>Click <strong>Save</strong> to publish the updated allowlist.</li>
+</ol>
+<p>Click <strong>Reset</strong> to discard staged changes before saving.</p>
+<div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p>Saving a new allowlist replaces the previous one atomically. Any tool you deselect is removed from the client's tool palette on the next request. Clients mid-call on a removed tool receive an error.</p>
+</div></div>
+<h3 id="connecting-claude-desktop">Connecting Claude Desktop</h3>
+<ol>
+<li>Copy the Claude Desktop config from the MCP Server page.</li>
+<li>Open <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> (create it if it does not exist).</li>
+<li>Paste the config under the top-level <code>mcpServers</code> key.</li>
+<li>Replace <code>&lt;YOUR_TOKEN&gt;</code> with a real token that has the <code>mcp</code> scope.</li>
+<li>Restart Claude Desktop. The published tools appear in Claude's tool palette.</li>
+</ol>
+<h3 id="connecting-claude-code">Connecting Claude Code</h3>
+<p>Register primer's endpoint as an MCP server. This is exactly how primer's own dogfood instance is driven:</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-81f87d-bash">bash</button></div><div class="tab-panel active" id="tab-81f87d-bash"><pre class="md-pre lang-bash"><code>claude mcp add --transport http primer &lt;your-primer-origin&gt;/v1/mcp</code></pre></div></div>
+<p>Supply the bearer token (with the <code>mcp</code> scope) when prompted, or add it manually to your Claude Code MCP config. Use the trailing-slash form of the URL if you call the endpoint directly over JSON-RPC; a bare <code>/v1/mcp</code> may redirect.</p>
+<p>After Claude Code reconnects, the published tools appear in its palette. From there an external agent uses primer as a backend to build and run an agentic system. For example, the agent can search for an existing agent, create a new one, then invoke it and read the result:</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d51bbd-json">json</button></div><div class="tab-panel active" id="tab-d51bbd-json"><pre class="md-pre lang-json"><code>{ &quot;method&quot;: &quot;tools/call&quot;,
+  &quot;params&quot;: { &quot;name&quot;: &quot;search__search_agents&quot;, &quot;arguments&quot;: { &quot;query&quot;: &quot;triage incoming support tickets&quot; } } }
+{ &quot;method&quot;: &quot;tools/call&quot;,
+  &quot;params&quot;: { &quot;name&quot;: &quot;system__create_agent&quot;,
+    &quot;arguments&quot;: { &quot;id&quot;: &quot;ticket-triage&quot;, &quot;model&quot;: &quot;...&quot;, &quot;system_prompt&quot;: &quot;You triage support tickets...&quot; } } }
+{ &quot;method&quot;: &quot;tools/call&quot;,
+  &quot;params&quot;: { &quot;name&quot;: &quot;system__invoke_agent&quot;,
+    &quot;arguments&quot;: { &quot;agent_id&quot;: &quot;ticket-triage&quot;, &quot;input&quot;: &quot;Customer reports a billing error.&quot; } } }</code></pre></div></div>
+<p>The same pattern wires graphs (<code>system__create_graph</code> then <code>system__invoke_graph</code>), spins up workspace sessions (<code>workspaces__create_workspace_session</code>), and manages channels and triggers, all without leaving the external agent's interface.</p>
+<p><a href="/docs/toolsets/toolsets-external/">Mount external MCP servers as toolsets so primer's agents can call them.</a></p>
+<p><a href="/docs/toolsets/toolsets-approvals/">How the approval gate works and which tools require approval before execution.</a></p>
+<p><a href="/docs/reference/api-auth-tokens/">Full token resource schema, list and create endpoints, and revoke endpoint.</a></p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>
