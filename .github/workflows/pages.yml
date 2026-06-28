@@ -35,6 +35,10 @@ jobs:
           # Component embeds are committed (regenerated cross-repo from the
           # primer console UI); fold them into the deployed site.
           cp -r _embeds _site/_embeds
+          # Product homepage: a standalone static artifact at the repo root
+          # (the build owns /docs/ only). Fold it into the site root.
+          cp index.html home.css home.js _site/
+          cp -r home _site/home
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
