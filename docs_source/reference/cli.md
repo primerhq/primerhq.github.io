@@ -12,7 +12,7 @@ the full flag list:
 
 ```code-tabs:bash
 --- bash
-uv run primer --help
+primer --help
 # Primer microagents framework: API + worker entrypoints.
 #
 # commands:
@@ -30,14 +30,14 @@ an in-process worker pool (`runtime_mode=api+worker`). Pass
 ```code-tabs:bash
 --- bash
 # Default: API + worker in one process, auto-loads ~/.primer/config.yaml
-uv run primer api
+primer api
 
 # Explicit config file.
-uv run primer api --config /etc/primer/config.yaml
-uv run primer api -c /etc/primer/config.yaml
+primer api --config /etc/primer/config.yaml
+primer api -c /etc/primer/config.yaml
 
 # API only; pair with a dedicated `primer worker` process.
-uv run primer api --no-worker
+primer api --no-worker
 ```
 
 ### Flags
@@ -70,11 +70,11 @@ with a `primer api --no-worker` process.
 ```code-tabs:bash
 --- bash
 # Default: auto-loads ~/.primer/config.yaml
-uv run primer worker
+primer worker
 
 # Explicit config.
-uv run primer worker --config /etc/primer/config.yaml
-uv run primer worker -c /etc/primer/config.yaml
+primer worker --config /etc/primer/config.yaml
+primer worker -c /etc/primer/config.yaml
 ```
 
 ### Flags
@@ -92,13 +92,13 @@ completion marker is already set (useful for partially-failed runs).
 ```code-tabs:bash
 --- bash
 # Idempotent bootstrap against default config.
-uv run primer init
+primer init
 
 # Explicit config file.
-uv run primer init --config /etc/primer/config.yaml
+primer init --config /etc/primer/config.yaml
 
 # Re-run even if bootstrap already completed.
-uv run primer init --force
+primer init --force
 ```
 
 ### Flags
