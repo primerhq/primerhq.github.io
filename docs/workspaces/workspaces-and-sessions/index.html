@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/docs/" />
+<title>Workspace &amp; Sessions &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/primerhq/primer" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/docs/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/docs/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/docs/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/docs/features/agents/">Agents</a>
+<a class="nav-link" href="/docs/features/chats/">Chats</a>
+<a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/docs/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/docs/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/docs/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/docs/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/docs/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/docs/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/docs/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/docs/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/docs/web/overview/">Web</a>
+<a class="nav-link" href="/docs/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/docs/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/docs/channels/overview/">Channels</a>
+<a class="nav-link" href="/docs/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/docs/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/docs/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/docs/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/docs/features/triggers/">Triggers</a>
+<a class="nav-link" href="/docs/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/docs/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/docs/features/workers/">Workers</a>
+<a class="nav-link" href="/docs/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/docs/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/docs/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/docs/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/docs/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/docs/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/docs/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/docs/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/docs/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/docs/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/docs/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/docs/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/docs/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/docs/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/docs/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/docs/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/docs/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/docs/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/docs/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/docs/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/docs/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/docs/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/docs/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/docs/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/docs/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/docs/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/docs/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/docs/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/docs/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/docs/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/docs/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/docs/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/docs/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/docs/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/docs/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/docs/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/docs/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/docs/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>workspaces</span> / <span>Workspace &amp; Sessions</span></nav><h1>Workspace &amp; Sessions</h1>
+<h2 id="workspace-instances-host-sessions">Workspace instances host sessions</h2>
+<p>A <strong>workspace instance</strong> is a live, materialised sandbox created from a workspace template: a filesystem the agent reads and writes, a shell it can run commands in, and a git-backed <code>.state/</code> history that records every assistant turn as a commit. One instance can host many sessions from different agents or graphs running at the same time; the sessions do not share memory but they do share the instance filesystem. (How instances are backed and configured is covered by their provider and template, linked at the foot of this page.)</p>
+<p>A <strong>session</strong> is one run on that instance. The rest of this page is about the session lifecycle: how to start a run, watch its turns, and pause, resume, or cancel it.</p>
+<h2 id="what-a-session-is">What a session is</h2>
+<p>A session is one run of one agent (or one graph) on one workspace. It is the right primitive when the work is &quot;do this thing, take as long as you need, here are the tools, tell me when you are done.&quot; The operator fires it off, the agent works through turns until it finishes or needs input, and the transcript survives restarts because it lives in the workspace's own <code>messages.jsonl</code> file rather than in memory.</p>
+<p>The same agent can run many sessions against the same workspace at the same time without sharing memory. Each session owns its own state slot inside the workspace's git-backed <code>.state/sessions/&lt;session-id&gt;/</code> directory.</p>
+<div class="callout callout-tip"><div class="callout-title">tip</div><div class="callout-body"><p>Think of an agent as a function definition and a session as a single call to that function, with every intermediate step, tool call, and tool result recorded in order.</p>
+</div></div>
+<h3 id="sessions-vs-chats">Sessions vs chats</h3>
+<p>Sessions run headless under a scheduler. Chats are interactive: each chat turn waits for a human (or another agent) to send a message before proceeding. Both use the same agent loop and the same tool-dispatch machinery, but a chat has a live WebSocket surface for streaming replies turn by turn, while a session streams into <code>messages.jsonl</code> and the operator polls or subscribes for results.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Session</th>
+<th>Chat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Who drives each turn</td>
+<td>The scheduler; agent runs autonomously</td>
+<td>A human or external agent sends a message</td>
+</tr>
+<tr>
+<td>Stopping point</td>
+<td>Runs until done, waiting, or paused</td>
+<td>Waits for the next user message</td>
+</tr>
+<tr>
+<td>History store</td>
+<td><code>messages.jsonl</code> inside the workspace</td>
+<td>Ordered message rows in the database</td>
+</tr>
+<tr>
+<td>Workspace</td>
+<td>Always scoped to one workspace</td>
+<td>No workspace attached</td>
+</tr>
+</tbody>
+</table>
+<h3 id="turns">Turns</h3>
+<p>A turn is one cycle through the agent loop: the worker claims the session, runs the model, dispatches any tool calls, and persists the results. Each turn produces an ordered list of messages (assistant text, tool calls, and tool results) appended to <code>messages.jsonl</code> inside the workspace.</p>
+<p>A per-turn audit log (<code>turns.jsonl</code>) records a structured boundary event on every start, completion, failure, yield, and resume, so you can trace exactly what happened during each turn without replaying the full message history.</p>
+<h3 id="relationship-to-workspaces">Relationship to workspaces</h3>
+<p>A session is always scoped to one workspace. The workspace provides the filesystem the agent reads and writes. The session's message history and audit log live inside that workspace's <code>.state/sessions/&lt;session-id&gt;/</code> directory, so the history travels with the workspace if it is moved or archived.</p>
+<p>A workspace can host many sessions from different agents or graphs running at the same time. Sessions do not share memory, but they do share the workspace filesystem, so concurrent sessions can read and write the same files.</p>
+<h2 id="session-lifecycle">Session lifecycle</h2>
+<p>A session moves through five statuses:</p>
+<pre class="mermaid">stateDiagram-v2
+    [*] --&gt; CREATED : create session
+    CREATED --&gt; RUNNING : auto_start=true or explicit resume
+    RUNNING --&gt; WAITING : agent asks a question or needs approval
+    RUNNING --&gt; PAUSED : operator suspends
+    RUNNING --&gt; ENDED : completed / failed / cancelled
+    WAITING --&gt; RUNNING : new instruction or approval decision
+    PAUSED --&gt; RUNNING : operator resumes
+    WAITING --&gt; ENDED : cancel
+    PAUSED --&gt; ENDED : cancel
+
+    state RUNNING {
+        [*] --&gt; active
+        active --&gt; parked : tool yields
+        parked --&gt; resumable : event fires
+        resumable --&gt; active : re-claimed by worker
+    }</pre>
+<p><strong>CREATED</strong>: the row exists but no worker has been told to run it yet. This is the state when <code>auto_start=false</code> on create. The session stays in CREATED until you explicitly resume it.</p>
+<p><strong>RUNNING</strong>: a worker holds a lease and a turn is in flight. Within RUNNING, a session can temporarily park when a tool yields (waiting for a trigger, an external event, or an approval decision); parking releases the worker lease so no compute is consumed while the session waits.</p>
+<p><strong>WAITING</strong>: the agent reached a stopping point and needs external input, for example because the assistant ended a turn with a trailing question or hit a model stop limit. The session stays in WAITING until you provide a response via the API. (Calls to <code>system__ask_user</code> and approval gates are handled by the parking mechanism inside RUNNING, described below, rather than by moving the session to WAITING.)</p>
+<p><strong>PAUSED</strong>: an operator requested suspension. The session resumes on demand.</p>
+<p><strong>ENDED</strong>: terminal. Ended sessions carry a reason: <code>completed</code>, <code>failed</code>, <code>cancelled</code>, <code>workspace_lost</code>, or <code>force_deleted</code>.</p>
+<h3 id="the-auto_start-flag">The auto_start flag</h3>
+<p>When you create a session via the API or MCP tools, the <code>auto_start</code> field controls whether the session starts immediately:</p>
+<ul>
+<li><code>auto_start=true</code> (the default for trigger-created sessions and for the MCP/workspace toolset create tool): the session transitions directly from CREATED to RUNNING and a worker picks it up at once.</li>
+<li><code>auto_start=false</code> (the default for the REST create endpoint): the session stays in CREATED until you call the resume endpoint. This lets you inspect or adjust the session before it runs, or schedule it to start at a specific moment.</li>
+</ul>
+<p>The console always shows the current status, so you can see whether a session is waiting to be started or already running.</p>
+<h3 id="pause-resume-and-cancel">Pause, resume, and cancel</h3>
+<p>All three controls are durable. If the API process restarts between the request and the next worker claim, the flag survives in the database and the worker honours it on the next claim.</p>
+<ul>
+<li><strong>Pause</strong>: holds the session at the next turn boundary. The worker releases the slot. The session moves to PAUSED. Use this to inspect state before the next turn runs.</li>
+<li><strong>Resume</strong>: reverses a pause or activates a CREATED session. The session re-enters the queue and a worker picks it up at the next turn.</li>
+<li><strong>Cancel</strong>: moves the session to ENDED immediately at the next turn boundary. Any in-flight tool call receives a cancellation error. The transcript is preserved and readable after cancellation. Cancel is terminal; sessions cannot be restarted after they end.</li>
+</ul>
+<h2 id="walkthrough-start-and-monitor-a-session">Walkthrough: start and monitor a session</h2>
+<ol>
+<li>Navigate to <strong>Sessions</strong> in the left nav.</li>
+<li>Click <strong>New session</strong> (top-right of the filter bar).</li>
+<li>Select the agent (or graph) to run, the workspace to run it in, and provide the initial instructions.</li>
+<li>Click <strong>Start</strong>. The new session row appears at the top of the list with status <code>created</code>, then transitions to <code>running</code> as a worker picks it up.</li>
+</ol>
+<figure class="embed"><picture><source srcset="/_embeds/sessions-list-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/sessions-list-light.png" alt="sessions-list (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<p>The filter bar supports:</p>
+<ul>
+<li><strong>Status chips</strong>: click one or more statuses to filter (created / running / waiting / paused / ended). Active-status chips are highlighted.</li>
+<li><strong>Agent</strong> dropdown: narrow to sessions bound to a specific agent.</li>
+<li><strong>Workspace</strong> dropdown: narrow to sessions in a specific workspace.</li>
+<li><strong>Text search</strong>: matches session id, agent id, graph id, or workspace id.</li>
+<li><strong>Column headers</strong>: click to sort by created time, last-turn time, agent, or worker.</li>
+</ul>
+<h2 id="viewing-session-detail">Viewing session detail</h2>
+<p>Click any row to open the session detail view.</p>
+<figure class="embed"><picture><source srcset="/_embeds/session-detail-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/session-detail-light.png" alt="session-detail (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<p>The detail view shows:</p>
+<ul>
+<li><strong>Header strip</strong>: session id, bound agent, current status, and elapsed time.</li>
+<li><strong>Transcript pane</strong>: turns stream in as they land. Each turn shows the role (user / assistant / tool), content, and timestamp.</li>
+<li><strong>Footer</strong>: for sessions in <code>waiting</code> or <code>paused</code> state, the footer shows the reason the session stopped, typically the event key the agent yielded on. Use this to diagnose where the session is blocked.</li>
+</ul>
+<p>Three operator controls appear in the session detail header: <strong>Pause</strong>, <strong>Resume</strong>, and <strong>Cancel</strong>.</p>
+<div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p>Cancel is immediate and irreversible. If the agent was mid-write (writing a file, sending a message), the write may or may not have completed before the cancellation error arrived. Check the transcript to see where the last tool call landed before assuming the operation is rolled back.</p>
+</div></div>
+<h3 id="steering-a-running-session">Steering a running session</h3>
+<p>On the session detail, use the steer control to append a new instruction to a session that is already running or waiting, without starting over. This is useful when you want to nudge the agent mid-run or supply extra context after it has begun working.</p>
+<p><a href="/docs/features/agents/">Agent creation, tool selection, and system prompt configuration.</a></p>
+<p><a href="/docs/features/workers/">Worker pools, claim lifecycle, and how sessions are scheduled.</a></p>
+<p><a href="/docs/workspaces/yielding-tools/">How a session parks on a tool call and resumes when the event fires.</a></p>
+<p><a href="/docs/reference/api-sessions/">Full session resource schema, list/create/control endpoints, and transcript inspection.</a></p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

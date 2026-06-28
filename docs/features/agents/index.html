@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/docs/" />
+<title>Agents &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/primerhq/primer" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/docs/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/docs/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/docs/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/docs/features/agents/">Agents</a>
+<a class="nav-link" href="/docs/features/chats/">Chats</a>
+<a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/docs/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/docs/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/docs/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/docs/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/docs/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/docs/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/docs/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/docs/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/docs/web/overview/">Web</a>
+<a class="nav-link" href="/docs/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/docs/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/docs/channels/overview/">Channels</a>
+<a class="nav-link" href="/docs/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/docs/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/docs/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/docs/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/docs/features/triggers/">Triggers</a>
+<a class="nav-link" href="/docs/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/docs/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/docs/features/workers/">Workers</a>
+<a class="nav-link" href="/docs/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/docs/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/docs/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/docs/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/docs/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/docs/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/docs/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/docs/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/docs/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/docs/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/docs/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/docs/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/docs/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/docs/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/docs/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/docs/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/docs/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/docs/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/docs/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/docs/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/docs/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/docs/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/docs/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/docs/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/docs/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/docs/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/docs/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/docs/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/docs/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/docs/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/docs/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/docs/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/docs/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/docs/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/docs/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/docs/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/docs/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/docs/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Features</span> / <span>Agents</span></nav><h1>Agents</h1>
+<h2 id="what-an-agent-is">What an agent is</h2>
+<p>An agent is a reusable definition that tells primer how to drive an LLM on your behalf. It has three core parts:</p>
+<ul>
+<li><strong>Model binding</strong>: which LLM provider and model to use.</li>
+<li><strong>System prompt</strong>: the fixed instruction block prepended to every turn.</li>
+<li><strong>Tool allowlist</strong>: the specific tools the agent may call, chosen from the available toolsets and MCP servers.</li>
+</ul>
+<p>Two optional settings tune its behavior:</p>
+<ul>
+<li><strong>Temperature</strong>: overrides the model's output randomness for this agent. Leave it unset to use the provider's default.</li>
+<li><strong>Compaction prompt</strong>: custom instructions for how the conversation is summarized when it nears the model's context window. Leave it unset to use the framework default.</li>
+</ul>
+<p>The definition is stateless. The conversation transcript, the workspace filesystem the agent reads and writes, the channel it replies into: all of that lives elsewhere. Multiple chats, sessions, or graph nodes can invoke the same agent simultaneously without sharing memory.</p>
+<div class="callout callout-tip"><div class="callout-title">tip</div><div class="callout-body"><p>Think of an agent as a function signature. Chats, sessions, and graph nodes are the call sites. The state lives in the call site, not the function.</p>
+</div></div>
+<h3 id="the-turn-loop">The turn loop</h3>
+<p>When an agent is invoked, primer runs a turn loop:</p>
+<ol>
+<li>Assemble the full prompt from the system prompt plus conversation history.</li>
+<li>Stream the model until it stops.</li>
+<li>If the model produced tool calls, route each through the approval gate.</li>
+<li>Dispatch approved calls; feed the results back as tool-result messages.</li>
+<li>Return to step 2.</li>
+<li>When the model produces a final response with no pending tool calls, the turn ends and the result is persisted.</li>
+</ol>
+<pre class="mermaid">flowchart TD
+    A[Assemble prompt] --&gt; B[Stream model]
+    B --&gt; C{Tool calls?}
+    C --&gt;|yes| D[Approval gate]
+    D --&gt;|approved| E[Dispatch tools]
+    D --&gt;|parked| F[Yield, wait for operator]
+    E --&gt; G[Feed results back]
+    G --&gt; B
+    F --&gt;|operator decides| E
+    C --&gt;|no| H[Persist turn, done]</pre>
+<p>Context grows with every round-trip. When it approaches the model's context limit, primer automatically compacts the oldest turns into a summary message so the agent can keep working without losing its broader intent.</p>
+<h3 id="how-agents-relate-to-chats-and-sessions">How agents relate to chats and sessions</h3>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent</td>
+<td>A reusable definition: model + prompt + tools</td>
+</tr>
+<tr>
+<td>Chat</td>
+<td>An interactive, multi-turn conversation driven by a human</td>
+</tr>
+<tr>
+<td>Session</td>
+<td>A headless, autonomous run of an agent on a workspace</td>
+</tr>
+<tr>
+<td>Graph</td>
+<td>A pipeline that routes between multiple agents</td>
+</tr>
+</tbody>
+</table>
+<p>An agent does nothing on its own. It runs only when a chat, session, graph node, or trigger invokes it with a concrete input and a place to write output.</p>
+<h3 id="tool-routing">Tool routing</h3>
+<p>Every tool is identified by a scoped name: <code>toolset_id__tool_name</code>. The double-underscore separator keeps tool names unambiguous when the agent has access to multiple toolsets, MCP servers, or workspace tools that happen to share bare names.</p>
+<p>Before a tool dispatches, the approval gate evaluates any configured policy on that <code>(toolset_id, tool_name)</code> pair. By default the gate is a no-op. When a policy is configured, it can let the call through immediately, block it, or park the agent until an operator decides.</p>
+<h2 id="configuration">Configuration</h2>
+<p>The agent create and edit modal has three tabs: <strong>Basic</strong>, <strong>Tools</strong>, and <strong>Advanced</strong>.</p>
+<h3 id="basic-tab">Basic tab</h3>
+<ul>
+<li><strong>ID</strong>: optional. If left blank, the backend assigns a type-prefixed id (for example, <code>agent-3f9a1c8d</code>). The id is immutable after creation.</li>
+<li><strong>Description</strong>: a short label shown in the agents table and used by the internal-collections search index when other agents search for agents by capability.</li>
+<li><strong>LLM provider</strong>: select from the providers configured under Providers &gt; LLM. If the list is empty, create a provider first.</li>
+<li><strong>Model</strong>: the dropdown populates from the selected provider.</li>
+</ul>
+<h3 id="tools-tab">Tools tab</h3>
+<p>The Tools tab shows every tool from every registered toolset and MCP server. Use the search box to filter by name, description, or toolset. Check individual tools or use the toolset header checkbox to bulk-select all tools in a toolset. The counter at the top right shows how many tools are selected.</p>
+<p>Only the tools you explicitly check are exposed to the model. You are not binding an entire toolset; you choose the minimum set the agent needs. This matters for two reasons:</p>
+<ul>
+<li><strong>Scope control</strong>: a large toolset can ship over 100 tools. Binding all of them inflates the model's tool list, increasing token cost per turn and the chance of an unintended call.</li>
+<li><strong>Emergency deny</strong>: remove a specific tool from the agent's list to deny it immediately without changing the underlying toolset or approval policy.</li>
+</ul>
+<p>Two controls compose for layered access:</p>
+<ol>
+<li><strong>Tool selection</strong> (this tab): determines which scoped tool ids (<code>toolset__tool</code>) are registered with the agent. Nothing outside this list can be called.</li>
+<li><strong>Tool approval policies</strong> (Toolsets &gt; Approvals): for calls that should route to a human gate, configure an approval policy on the <code>(toolset, tool)</code> pair. The agent still sees the tool in its list but the runtime intercepts the call before dispatch.</li>
+</ol>
+<div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p>Binding tools from the <code>system</code> toolset gives the agent shell and filesystem access through the sandboxed workspace. Pair it with a tight workspace template when prototyping. Relax limits only after validating the prompt and tool-use pattern.</p>
+</div></div>
+<h3 id="advanced-tab">Advanced tab</h3>
+<ul>
+<li>
+<p><strong>System prompt</strong>: the fixed instruction block sent before every turn. It is sent verbatim, joined across its parts; the runtime does not substitute placeholders into it (a workspace session appends its own fixed fragment, but that is added by the runtime, not templated from your text).</p>
+<p>Keep the system prompt focused on role, output format, and constraints. Pass data that changes per-run through the session input instead of hardcoding it into the prompt.</p>
+</li>
+<li>
+<p><strong>Compaction prompt</strong>: instructions the runtime uses when it compacts the conversation history to fit within the model's context window. Leave blank to use the framework default, which preserves system context, recent turns, and pending tool calls. Override it only when your agent has a domain-specific retention need (for example, a research agent that must preserve cited sources, or a coding agent that must retain the current file path under edit).</p>
+</li>
+<li>
+<p><strong>Temperature</strong>: controls model output randomness. Leave blank to use the provider's default. Set to a low value (0.1 to 0.3) for deterministic extraction or structured output tasks. Use higher values (0.7 to 1.0) for creative or open-ended generation. The valid range and maximum depend on the provider.</p>
+</li>
+</ul>
+<h2 id="walkthrough-create-your-first-agent">Walkthrough: create your first agent</h2>
+<figure class="embed"><picture><source srcset="/_embeds/agents-page-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/agents-page-light.png" alt="agents-page (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<ol>
+<li>Open <strong>Agents</strong> from the left nav.</li>
+<li>Click <strong>New agent</strong> (top-right of the filter bar).</li>
+<li>On the <strong>Basic</strong> tab, enter a name in Description and select your LLM provider and model. Leave the ID blank to let the backend generate one.</li>
+<li>Switch to the <strong>Tools</strong> tab. Search for the tools this agent needs and check them. If the agent is a pure chat agent with no tool use, leave the list empty.</li>
+<li>Switch to the <strong>Advanced</strong> tab and write a system prompt. One or two sentences describing the agent's role and expected output format is enough to start.</li>
+<li>Click <strong>Create</strong>. The modal closes and the new agent row appears in the list.</li>
+</ol>
+<figure class="embed"><picture><source srcset="/_embeds/quickstart-agents-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/quickstart-agents-light.png" alt="quickstart-agents (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<h2 id="editing-an-agent">Editing an agent</h2>
+<p>Open the agent detail, go to the <strong>Config</strong> tab, and click <strong>Edit</strong>. The same three-tab modal opens with existing values pre-filled. The ID field is locked after creation.</p>
+<p>Agents managed by a harness show a notice on the Config tab; edit the harness instead of the agent directly.</p>
+<p>Sessions started after an edit pick up the new definition. Any session already in flight keeps the old model and tools until it ends.</p>
+<h2 id="calling-other-agents-and-graphs">Calling other agents and graphs</h2>
+<p>An agent can invoke other agents and graphs as part of its own turn. Three tools cover the patterns; bind them from the Tools tab.</p>
+<h3 id="invoke_agent-run-a-subagent"><code>invoke_agent</code> (run a subagent)</h3>
+<p><code>system__invoke_agent</code> runs another agent once on a prompt and returns its text. The call is blocking and stateless: the subagent sees its own system prompt plus the prompt you pass, not the caller's conversation, and nothing is persisted as a separate chat or session.</p>
+<p>Use it to delegate a self-contained subtask to a specialist and fold the result back into your own reasoning.</p>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agent_id</code></td>
+<td>The agent to run</td>
+</tr>
+<tr>
+<td><code>prompt</code></td>
+<td>The input for the subagent</td>
+</tr>
+</tbody>
+</table>
+<p>The subagent runs with its full <code>tools</code> surface, including yielding tools (ask_user, approval gates), and the caller's approval gate is inherited. If a tool yields, the whole nested-invocation chain parks and resumes when the human replies. Nested invocations are capped by a depth limit (default 8, configurable via <code>PRIMER_MAX_INVOCATION_DEPTH</code>) so a cycle of agents calling each other cannot recurse forever.</p>
+<h3 id="switch_to_agent-hand-off-the-chat"><code>switch_to_agent</code> (hand off the chat)</h3>
+<p><code>system__switch_to_agent</code> hands the current chat off to another agent and ends the current turn. Unlike <code>invoke_agent</code>, it does not return a value: the chat's agent changes and the new agent runs the handoff prompt as the next turn, with the full prior conversation as shared context.</p>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agent_id</code></td>
+<td>The agent to hand off to</td>
+</tr>
+<tr>
+<td><code>prompt</code></td>
+<td>The instruction the new agent runs next</td>
+</tr>
+</tbody>
+</table>
+<p>This is the tool-driven equivalent of the agent dropdown in the chat header. It is chat-only: a workspace session has no single conversation to retarget, so the tool returns an error there.</p>
+<h3 id="invoke_graph-run-a-graph-in-the-session"><code>invoke_graph</code> (run a graph in the session)</h3>
+<p><code>workspace_ext__invoke_graph</code> runs another graph inside the current workspace session and returns its output. The invoked graph's state nests under the session's state tree.</p>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>graph_id</code></td>
+<td>The graph to run</td>
+</tr>
+<tr>
+<td><code>input</code></td>
+<td>The graph input</td>
+</tr>
+</tbody>
+</table>
+<p><code>invoke_graph</code> is a workspace-session tool: it requires a session and is not available in plain chats. It supports full human-in-the-loop: if the invoked graph hits an approval node or an agent that asks the user, the session parks and resumes when the human replies.</p>
+<p><a href="/docs/features/chats/">Creating chats, the agent switcher, and streaming.</a></p>
+<p><a href="/docs/workspaces/workspaces-and-sessions/">Starting sessions, lifecycle statuses, and the session detail view.</a></p>
+<p><a href="/docs/toolsets/toolsets-system/">Toolsets, tool approval policies, and the internal toolsets reference.</a></p>
+<p><a href="/docs/reference/api-agents/">Full resource schema, list/create/update/delete endpoints, and status check.</a></p>
+<div class="ai-doc"><div class="ai-doc-label">Agent-facing reference</div><div class="ai-doc-slug">agents</div></div>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

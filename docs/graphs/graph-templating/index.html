@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/docs/" />
+<title>Templating &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/primerhq/primer" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/docs/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/docs/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/docs/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/docs/features/agents/">Agents</a>
+<a class="nav-link" href="/docs/features/chats/">Chats</a>
+<a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/docs/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/docs/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/docs/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/docs/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/docs/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/docs/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/docs/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/docs/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/docs/web/overview/">Web</a>
+<a class="nav-link" href="/docs/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/docs/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/docs/channels/overview/">Channels</a>
+<a class="nav-link" href="/docs/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/docs/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/docs/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/docs/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/docs/features/triggers/">Triggers</a>
+<a class="nav-link" href="/docs/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/docs/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/docs/features/workers/">Workers</a>
+<a class="nav-link" href="/docs/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/docs/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/docs/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/docs/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/docs/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/docs/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/docs/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/docs/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/docs/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/docs/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/docs/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/docs/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/docs/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/docs/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/docs/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/docs/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/docs/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/docs/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/docs/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/docs/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/docs/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/docs/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/docs/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/docs/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/docs/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/docs/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/docs/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/docs/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/docs/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/docs/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/docs/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/docs/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/docs/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/docs/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/docs/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/docs/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/docs/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/docs/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>graphs</span> / <span>Templating</span></nav><h1>Templating</h1>
+<h2 id="what-graph-templating-is">What graph templating is</h2>
+<p>Every node in a graph can carry a Jinja2 template that the executor renders just before the node runs. Rendering produces a string: the user-role message that seeds an agent turn, the final output of an End node, or the aggregated text from a Fan-in node.</p>
+<p>Templates read from a shared <code>GraphContext</code> that the executor builds and extends as nodes complete. The context holds the graph's initial input, all completed node outputs, and the current iteration counter. Templates can reference any completed upstream node by its id.</p>
+<p>The template engine uses a <code>SandboxedEnvironment</code> with <code>StrictUndefined</code>. Sandboxing blocks access to Python internals (<code>__import__</code>, dunder attributes). <code>StrictUndefined</code> raises an error on undefined variables instead of silently emitting an empty string, so a typo in a template surfaces at run time rather than producing a silently incorrect output.</p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="the-graphcontext-variables">The GraphContext variables</h3>
+<p>Every template has these variables in scope:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>initial_input</code></td>
+<td><code>list[Message]</code> or <code>Any</code></td>
+<td>The graph's initial input as passed at session-create time. When passed as a list of messages, each <code>m.parts[0].text</code> is a string. When passed as a raw dict or string, the value is available directly.</td>
+</tr>
+<tr>
+<td><code>iteration</code></td>
+<td><code>int</code></td>
+<td>The current superstep iteration counter, starting at 0 for Begin.</td>
+</tr>
+<tr>
+<td><code>nodes</code></td>
+<td><code>dict[str, NodeOutput]</code></td>
+<td>Completed node outputs keyed by node id.</td>
+</tr>
+</tbody>
+</table>
+<p><code>NodeOutput</code> has two attributes you will access most often:</p>
+<ul>
+<li><code>nodes.&lt;id&gt;.text</code>: the node's raw string output (an agent's last assistant turn, or a rendered template).</li>
+<li><code>nodes.&lt;id&gt;.parsed</code>: the <code>json.loads</code> of <code>text</code> when the node had <code>response_format</code> or <code>output_schema</code> set; <code>None</code> otherwise.</li>
+</ul>
+<h3 id="where-templates-appear">Where templates appear</h3>
+<table>
+<thead>
+<tr>
+<th>Node kind</th>
+<th>Template field</th>
+<th>Rendered into</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent (<code>kind=agent</code>)</td>
+<td><code>input_template</code></td>
+<td>User-role message prepended to the node's history before the LLM turn.</td>
+</tr>
+<tr>
+<td>Subgraph (<code>kind=graph</code>)</td>
+<td><code>input_template</code></td>
+<td>The child graph's <code>initial_input</code>.</td>
+</tr>
+<tr>
+<td>End (<code>kind=end</code>)</td>
+<td><code>output_template</code></td>
+<td>The graph's final output string.</td>
+</tr>
+<tr>
+<td>Fan-in (<code>kind=fan_in</code>)</td>
+<td><code>aggregate_template</code></td>
+<td>The Fan-in's <code>NodeOutput.text</code>, collected from all parallel branches.</td>
+</tr>
+<tr>
+<td>Tool-call (<code>kind=tool_call</code>)</td>
+<td><code>arguments_template</code></td>
+<td>Full JSON argument object (shadows the <code>arguments</code> dict when set).</td>
+</tr>
+<tr>
+<td>Tool-call (<code>kind=tool_call</code>)</td>
+<td><code>arguments</code> values</td>
+<td>String-valued leaves in the <code>arguments</code> dict are each rendered as a mini-template against <code>GraphContext</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="default-input-template">Default input template</h3>
+<p>When <code>input_template</code> is left blank, Agent and Subgraph nodes use this default:</p>
+<pre><code>{% for m in initial_input %}{{ m.parts[0].text }}
+{% endfor %}
+</code></pre>
+<p>This iterates over the initial input messages and concatenates their text parts. Override it when you want to pass a specific upstream node's output instead.</p>
+<h3 id="referencing-upstream-node-outputs">Referencing upstream node outputs</h3>
+<p>Access any completed upstream node's output by its id:</p>
+<pre><code>Summarise the following research:
+
+{{ nodes.researcher.text }}
+</code></pre>
+<p>When the upstream node had <code>response_format</code> set, its parsed output is a dict available at <code>nodes.&lt;id&gt;.parsed</code>:</p>
+<pre><code>The judge said: {{ nodes.judge.parsed.decision }}
+Feedback: {{ nodes.judge.parsed.feedback }}
+</code></pre>
+<p>Dotted attribute access works because <code>NodeOutput</code> exposes <code>text</code>, <code>parsed</code>, <code>history</code>, and <code>iteration</code> as attributes directly.</p>
+<h3 id="referencing-the-graphs-initial-input">Referencing the graph's initial input</h3>
+<p>Pass the raw initial input to an agent:</p>
+<pre><code>{{ initial_input }}
+</code></pre>
+<p>When <code>initial_input</code> is a list of messages, iterate over them:</p>
+<pre><code>{% for m in initial_input %}{{ m.parts[0].text }}
+{% endfor %}
+</code></pre>
+<p>When <code>initial_input</code> is a plain string or dict (from <code>session.metadata['graph_input']</code>), access it directly:</p>
+<pre><code>Topic: {{ initial_input.topic }}
+Keywords: {{ initial_input.keywords | join(', ') }}
+</code></pre>
+<h3 id="using-the-iteration-counter">Using the iteration counter</h3>
+<p>Reference <code>iteration</code> to adapt a node's behavior on repeat runs in a loop:</p>
+<pre><code>{% if iteration == 0 %}
+Write a first draft on the topic below.
+{% else %}
+Revise the previous draft based on the judge's feedback:
+{{ nodes.judge.parsed.feedback }}
+{% endif %}
+
+Topic: {{ nodes.begin.text }}
+</code></pre>
+<h3 id="fan-out-templates">Fan-out templates</h3>
+<p>When a Fan-out node dispatches instances, the executor injects two extra variables into each instance's template scope:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fanout_index</code></td>
+<td><code>int</code> or <code>None</code></td>
+<td>Zero-based index of this instance (broadcast and map modes). <code>None</code> for tee instances.</td>
+</tr>
+<tr>
+<td><code>fanout_item</code></td>
+<td><code>Any</code> or <code>None</code></td>
+<td>The list item at <code>fanout_index</code> for map mode. <code>None</code> for broadcast and tee instances.</td>
+</tr>
+</tbody>
+</table>
+<p>A <code>map</code> fan-out over a list of URLs, with each fetcher instance receiving its own URL:</p>
+<pre><code>Fetch and summarise the content at this URL:
+
+{{ fanout_item }}
+</code></pre>
+<p>A <code>broadcast</code> fan-out where each instance knows its position:</p>
+<pre><code>You are analyst number {{ fanout_index + 1 }}.
+Analyse the following document from angle {{ fanout_index + 1 }}:
+
+{{ nodes.begin.text }}
+</code></pre>
+<h3 id="fan-in-aggregate-templates">Fan-in aggregate templates</h3>
+<p>The Fan-in's <code>aggregate_template</code> has access to the full aggregator list at <code>nodes.&lt;target_node_id&gt;</code> and each individual instance at <code>nodes['target[i]']</code>.</p>
+<p>Aggregate a list of results into a single summary:</p>
+<pre><code>{% for result in nodes.fetcher %}
+{% if result and not result.error %}
+### Source {{ loop.index }}
+{{ result.text }}
+
+{% endif %}
+{% endfor %}
+</code></pre>
+<p>Under <code>on_failure='collect'</code>, failed instances have <code>result.error</code> set to a non-None string. A collect-mode template can branch on that:</p>
+<pre><code>{% for result in nodes.fetcher %}
+{% if result.error %}
+- [FAILED] {{ result.error }}
+{% else %}
+- {{ result.text }}
+{% endif %}
+{% endfor %}
+</code></pre>
+<h3 id="end-node-output-templates">End node output templates</h3>
+<p>The End node's <code>output_template</code> renders the graph's final output. It has full access to all completed node outputs:</p>
+<pre><code># Blog Post
+
+{{ nodes.draft-writer.text }}
+
+---
+Reviewed by: {{ nodes.judge.parsed.reviewer }}
+Score: {{ nodes.judge.parsed.score }}
+</code></pre>
+<p>When <code>output_schema</code> is set, the rendered string must parse as valid JSON conforming to the schema. Use Jinja2 to construct the JSON:</p>
+<pre><code>{
+  &quot;title&quot;: &quot;{{ nodes.title-agent.text | tojson | trim('&quot;') }}&quot;,
+  &quot;body&quot;: {{ nodes.draft-writer.text | tojson }},
+  &quot;accepted&quot;: true
+}
+</code></pre>
+<h3 id="tool-call-argument-templates">Tool-call argument templates</h3>
+<p>The Tool-call node accepts two forms. The <code>arguments</code> dict is the ergonomic default; string leaves are each rendered as a mini-template:</p>
+<pre><code class="language-json">{
+  &quot;path&quot;: &quot;{{ nodes.begin.parsed.filename }}&quot;,
+  &quot;content&quot;: &quot;{{ nodes.draft-writer.text }}&quot;
+}
+</code></pre>
+<p>When you need to produce a dynamic argument structure (a variable-length list, a conditionally present key), use <code>arguments_template</code> instead. This shadows <code>arguments</code> entirely and must render to a valid JSON string:</p>
+<pre><code>{
+  &quot;urls&quot;: [
+    {% for item in nodes.researcher.parsed.urls %}
+    &quot;{{ item }}&quot;{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</code></pre>
+<h2 id="walkthrough-chaining-two-nodes">Walkthrough: chaining two nodes</h2>
+<p>This walkthrough shows the minimal template chain: a <code>researcher</code> agent feeds its output to a <code>writer</code> agent.</p>
+<ol>
+<li>Create a graph with Begin -&gt; <code>researcher</code> -&gt; <code>writer</code> -&gt; End.</li>
+<li>Leave <code>researcher</code>'s <code>input_template</code> at the default. The researcher receives the graph's initial input.</li>
+<li>Set <code>writer</code>'s <code>input_template</code> to:<pre><code>Write a blog post based on this research:
+
+{{ nodes.researcher.text }}
+</code></pre>
+</li>
+<li>Set the End node's <code>output_template</code> to <code>{{ nodes.writer.text }}</code>.</li>
+<li>Save and run with <code>graph_input</code> set to your research topic.</li>
+</ol>
+<p>The researcher receives the topic, produces research text, and the writer node receives that text as its input.</p>
+<pre class="mermaid">flowchart LR
+    B([Begin\ninitial_input = topic]) --&gt; R[researcher\ndefault template]
+    R --&gt;|nodes.researcher.text| W[writer\nreads nodes.researcher.text]
+    W --&gt; E([End\nnodes.writer.text])</pre>
+<p><a href="/docs/graphs/graphs/">Creating and running graphs from the console.</a></p>
+<p><a href="/docs/graphs/graph-node-types/">All node kinds and their template fields.</a></p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/docs/" />
+<title>Self-improving skill loop &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/primerhq/primer" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/docs/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/docs/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/docs/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/docs/features/agents/">Agents</a>
+<a class="nav-link" href="/docs/features/chats/">Chats</a>
+<a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/docs/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/docs/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/docs/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/docs/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/docs/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/docs/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/docs/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/docs/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/docs/web/overview/">Web</a>
+<a class="nav-link" href="/docs/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/docs/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/docs/channels/overview/">Channels</a>
+<a class="nav-link" href="/docs/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/docs/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/docs/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/docs/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/docs/features/triggers/">Triggers</a>
+<a class="nav-link" href="/docs/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/docs/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/docs/features/workers/">Workers</a>
+<a class="nav-link" href="/docs/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/docs/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/docs/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/docs/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/docs/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/docs/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/docs/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/docs/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/docs/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/docs/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/docs/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/docs/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/docs/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/docs/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/docs/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/docs/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/docs/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/docs/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/docs/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/docs/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/docs/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/docs/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/docs/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/docs/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/docs/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/docs/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/docs/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/docs/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/docs/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/docs/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/docs/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/docs/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/docs/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/docs/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/docs/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/docs/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/docs/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/docs/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Cookbook</span> / <span>Self-improving skill loop</span></nav><h1>Self-improving skill loop</h1>
+<h2 id="goal">Goal</h2>
+<p>Keep a reusable <strong>skill</strong> (a prompt fragment or how-to) in a collection and let it
+improve itself from real outcomes. A producer drops each finished result into a file;
+an <strong>evaluator</strong> agent watches that file, grades how well the current skill would have
+produced the result, rewrites the skill, and goes back to watching. The skill gets
+measurably better over time with no human in the loop.</p>
+<p>This recipe demonstrates <code>watch_files</code> (a yielding tool that parks a session at zero
+cost until a file changes), reading and writing collection documents from inside an
+agent, and a loop that runs forever. Each setup step is shown two ways: first <strong>in the
+console</strong>, then <strong>via the CLI</strong>.</p>
+<h2 id="ingredients">Ingredients</h2>
+<ul>
+<li><strong>An LLM provider</strong> (any chat model).</li>
+<li>An <strong>embedding provider</strong> and a <strong>semantic search provider</strong> (a collection requires
+both at create).</li>
+<li><strong>A collection</strong> to hold the skill document(s).</li>
+<li>The <strong><code>workspace_ext</code></strong> toolset (for <code>watch_files</code>) and the <strong><code>system</code></strong> toolset
+(for <code>get_document_content</code> + <code>put_document</code>).</li>
+<li><strong>A local workspace</strong> (the evaluator runs as a session in it; the producer writes
+results into the same workspace).</li>
+<li>A platform whose background <strong>watcher</strong> is healthy (see the note in step 4).</li>
+<li>To drive the CLI path, point <code>primectl</code> at your instance once; see the one-time
+<a href="cookbook-rag-knowledge-base">Connecting the CLI</a> block in the RAG recipe.</li>
+</ul>
+<h2 id="walkthrough">Walkthrough</h2>
+<h3 id="1-create-the-skill-collection-and-seed-a-skill">1. Create the skill collection and seed a skill</h3>
+<p>Create the embedding and semantic-search providers the same way the RAG recipe does,
+then create the collection and seed one skill document.</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Knowledge &gt; Collections</strong>, click <strong>New collection</strong>, set <strong>ID</strong> to <code>skills</code>,
+pick your embedder and search provider, and click <strong>Create</strong>.</li>
+<li>Go to <strong>Knowledge &gt; Documents</strong>, choose the <code>skills</code> collection, click
+<strong>New document</strong>, set the <strong>Path</strong> to <code>support-reply.md</code>, paste the skill body
+(below), and click <strong>Create</strong>.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f skills.yaml
+primectl doc put skills support-reply.md --content &quot;# Support reply skill
+
+When replying to a support ticket:
+1. Greet the customer.
+2. Restate the problem.
+3. Give the fix steps.
+4. Offer further help.&quot;
+</code></pre>
+<p>where <code>skills.yaml</code> is:</p>
+<pre><code class="language-yaml">kind: collection
+spec:
+  id: skills
+  description: Reusable skills that improve over time from evaluation feedback.
+  embedder:
+    provider_id: &lt;embedder&gt;
+    model: &lt;embed-model&gt;
+  search_provider_id: &lt;ssp&gt;
+</code></pre>
+<h3 id="2-create-the-evaluator-agent">2. Create the evaluator agent</h3>
+<p>It binds <code>watch_files</code> plus the two document tools. The system prompt makes it loop.</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Compute &gt; Agents</strong> and click <strong>New agent</strong>.</li>
+<li>On the <strong>Basic</strong> tab set <strong>ID</strong> to <code>skill-evaluator</code>, add a <strong>Description</strong>, and pick
+the <strong>LLM provider</strong> and <strong>Model</strong>.</li>
+<li>On the <strong>Tools</strong> tab check <code>workspace_ext__watch_files</code>,
+<code>system__get_document_content</code>, and <code>system__put_document</code>.</li>
+<li>On the <strong>Advanced</strong> tab paste the system prompt (below). Click <strong>Create</strong>.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f skill-evaluator.yaml
+</code></pre>
+<p>where <code>skill-evaluator.yaml</code> is:</p>
+<pre><code class="language-yaml">kind: agent
+spec:
+  id: skill-evaluator
+  description: Watches a results file, grades it against a skill, and rewrites the skill.
+  model:
+    provider_id: &lt;llm&gt;
+    model_name: &lt;model&gt;
+  tools:
+    - workspace_ext__watch_files
+    - system__get_document_content
+    - system__put_document
+  max_tool_turns: 12
+  system_prompt:
+    - &gt;-
+      You continuously improve a support-reply skill from real results. Repeat this
+      loop: (1) call watch_files to wait for changes to the EXACT file path
+      results/latest.md; (2) read results/latest.md (it is a support reply someone
+      wrote); (3) read the current skill with get_document_content (collection_id
+      skills, path support-reply.md); (4) judge how well that skill would have
+      produced the reply, then write an IMPROVED version of the skill back with
+      put_document (collection_id skills, path support-reply.md, content = the
+      revised skill); (5) state in one line what you changed, then go back to step 1.
+      Watch the specific file results/latest.md, not the directory.
+</code></pre>
+<h3 id="3-run-the-evaluator">3. Run the evaluator</h3>
+<p>Start a session bound to the evaluator. It runs one turn, calls <code>watch_files</code>, and
+<strong>parks</strong> (zero compute) waiting for <code>results/latest.md</code>.</p>
+<p>In the console:</p>
+<ol>
+<li>Click <strong>New session</strong>, set the <strong>Binding</strong> to <code>agent</code>, pick <code>skill-evaluator</code>,
+choose your <strong>Workspace</strong>, and type <code>Begin the watch loop.</code> into
+<strong>Initial instructions</strong>.</li>
+<li>Click <strong>Create</strong>. On the Sessions page the session shows as parked once it calls
+<code>watch_files</code>.</li>
+</ol>
+<p>Via the CLI (start it without watching to terminal, since it parks on purpose):</p>
+<pre><code>primectl session run &lt;workspace-id&gt; --agent skill-evaluator \
+  -i &quot;Begin the watch loop.&quot; --no-watch
+</code></pre>
+<h3 id="4-feed-it-results">4. Feed it results</h3>
+<p>Whatever produces the work (another agent, a session, a script) writes each result to
+the <strong>exact</strong> path the evaluator watches, <code>results/latest.md</code>, overwriting it each time.
+On every write the evaluator wakes, grades the result, rewrites <code>support-reply.md</code> in
+the <code>skills</code> collection, and parks again.</p>
+<p>There is no operator console button for this write - the producer is an upstream
+process inside the same workspace. To exercise the wake yourself, write the file
+directly:</p>
+<pre><code>primectl workspace files put &lt;workspace-id&gt; results/latest.md \
+  --content &quot;hey. is it broken? just restart it. bye.&quot;
+</code></pre>
+<p>Three things that matter:</p>
+<ul>
+<li><strong>Watch a specific FILE path, not a directory.</strong> <code>watch_files</code> matches the exact
+paths you pass. Watching <code>results/</code> will <strong>not</strong> fire for <code>results/foo.md</code> - watch
+<code>results/latest.md</code> and write that exact path.</li>
+<li><strong>The watched file's directory and the watcher are workspace-relative.</strong> The producer
+must write inside the same workspace the evaluator runs in.</li>
+<li><strong><code>watch_files</code> relies on the platform's background watcher</strong> (a leader-elected task).
+If parked sessions never wake, check that your deployment's coordinator / leader
+election is healthy and that you are not exhausting the OS inotify instance limit
+with a large number of simultaneously-parked watch sessions.</li>
+</ul>
+<h2 id="testing">Testing</h2>
+<p>Seed the 4-step skill above, start the evaluator, then write a deliberately poor reply
+to <code>results/latest.md</code> (via <code>primectl workspace files put</code> as in step 4, or from your
+producer process):</p>
+<blockquote>
+<p>hey. is it broken? just restart it. bye.</p>
+</blockquote>
+<p>Expected outcome (verified):</p>
+<ul>
+<li>The parked evaluator <strong>wakes</strong> within a second or two of the write (its <code>turn_no</code>
+advances on the Sessions page).</li>
+<li>It reads the reply, reads <code>support-reply.md</code>, and <strong>rewrites the skill</strong> - the
+document's content changes from the seed (for example it grows from the 4-step list
+to a version with an added improvement note such as <em>&quot;For urgent issues, add
+'Restarting now...' after the greeting&quot;</em>).</li>
+<li>Confirm by re-reading the document: <strong>Knowledge &gt; Documents</strong> on the <code>skills</code>
+collection, or <code>primectl doc get skills support-reply.md</code> - its content now differs
+from the seed.</li>
+<li>Write a second, different reply and watch the skill evolve again - the loop keeps
+running.</li>
+</ul>
+<p>To grade against a <strong>library</strong> of skills instead of one, give the evaluator
+<code>search_collection</code> so it can find the most relevant skill for each result before
+rewriting it.</p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

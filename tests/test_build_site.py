@@ -9,15 +9,22 @@ from build_site import DocsLintError, build_site
 def test_builds_a_page_per_doc(tmp_path):
     out = tmp_path / "dist"
     build_site(Path("docs_source"), out)
-    assert (out / "getting-started" / "introduction" / "index.html").exists()
-    home = (out / "getting-started" / "introduction" / "index.html").read_text()
+    page = out / "docs" / "getting-started" / "introduction" / "index.html"
+    assert page.exists()
+    home = page.read_text()
     assert "Features" in home and "LLM Providers" in home
+    # Pages live under /docs/, so the base href and assets are rooted there.
+    assert '<base href="/docs/"' in home
+    assert (out / "docs" / "assets" / "docs.css").exists()
+    # GitHub link points at the real repo, not the placeholder.
+    assert "https://github.com/primerhq/primer" in home
 
 
 def test_excludes_internal_meta_authoring_docs(tmp_path):
     out = tmp_path / "dist"
     build_site(Path("docs_source"), out)
     # _meta is writer guidance, not public docs: no pages built for it.
+    assert not (out / "docs" / "_meta").exists()
     assert not (out / "_meta").exists()
 
 
@@ -35,10 +42,11 @@ def test_emits_404_and_sitemap(tmp_path):
     assert "Page not found" in nf_html
     assert "nav-link" in nf_html
 
-    # The sitemap lists every published page url, including a known one.
+    # The sitemap lists the homepage plus every published page url under /docs/.
     sm_xml = sitemap.read_text()
     assert "<urlset" in sm_xml
-    assert "<loc>/getting-started/introduction/</loc>" in sm_xml
+    assert "<loc>/</loc>" in sm_xml
+    assert "<loc>/docs/getting-started/introduction/</loc>" in sm_xml
 
 
 def test_build_fails_on_broken_corpus(tmp_path):
@@ -55,3 +63,19 @@ def test_build_fails_on_broken_corpus(tmp_path):
 
     with pytest.raises(DocsLintError):
         build_site(src, tmp_path / "dist")
+
+
+def test_docs_root_redirects_to_home(tmp_path):
+    out = tmp_path / "dist"
+    build_site(Path("docs_source"), out)
+    docs_index = out / "docs" / "index.html"
+    assert docs_index.exists()
+    # The bare /docs/ root redirects to the docs home page.
+    assert "/docs/getting-started/introduction/" in docs_index.read_text()
+
+
+def test_root_is_left_for_homepage(tmp_path):
+    out = tmp_path / "dist"
+    build_site(Path("docs_source"), out)
+    # The build no longer writes a root index.html; the homepage owns "/".
+    assert not (out / "index.html").exists()

@@ -37,6 +37,11 @@ _TEMPLATE_DIR = Path(__file__).resolve().parent / "site_template"
 # not part of the published site. Excluded from page output, nav, search, sitemap.
 _META_SECTION = "_meta"
 
+# Every doc is served under this base path; the site root ("/") is reserved
+# for the product homepage (a separate, designer-built artifact). Keep the
+# leading and trailing slash.
+BASE_PATH = "/docs/"
+
 # ``ref:<section>/<slug>`` cross-link forms. Inline links look like
 # ``[text](ref:section/slug)`` (optionally ``#anchor``); the block form
 # is a fenced code block whose info string is ``ref:section/slug`` with
@@ -54,7 +59,7 @@ _CODE_TABS_SECTION_RE = re.compile(r"^---\s+(\w+)\s*$")
 
 def _doc_url(slug: str) -> str:
     """Map a full ``<section>/<basename>`` slug to its page url."""
-    return f"/{slug}/"
+    return f"{BASE_PATH}{slug}/"
 
 
 def _slug_url_map(service: UserDocsService) -> dict[str, str]:
@@ -345,6 +350,7 @@ def _render_404(template: str, sidebar: str, home_url: str) -> str:
         "<h1>Page not found</h1>\n"
         "<p>The page you were looking for does not exist or has moved.</p>\n"
         f'<p><a href="{html.escape(home_url)}">Back to the docs home</a></p>\n'
+        '<p><a href="/">Back to the Primer home</a></p>\n'
     )
     return (
         template.replace("{{TITLE}}", "Page not found")
@@ -509,6 +515,7 @@ def build_site(src_root: Path, out_dir: Path) -> None:
     section_titles = _section_titles(sections)
 
     template = (_TEMPLATE_DIR / "page.html").read_text(encoding="utf-8")
+    template = template.replace("{{BASE}}", BASE_PATH)
 
     out_dir.mkdir(parents=True, exist_ok=True)
     search_index: list[dict[str, Any]] = []
@@ -534,14 +541,14 @@ def build_site(src_root: Path, out_dir: Path) -> None:
             .replace("{{SIDEBAR}}", sidebar)
             .replace("{{ARTICLE}}", article)
         )
-        page_dir = out_dir / Path(entry.slug)
+        page_dir = out_dir / "docs" / Path(entry.slug)
         page_dir.mkdir(parents=True, exist_ok=True)
         (page_dir / "index.html").write_text(page, encoding="utf-8")
 
     # Prebuilt client search index: one compact record per published doc,
     # fetched by docs.js to power topbar search. Kept small (title +
     # section + url + heading texts + a short plain-text excerpt).
-    (out_dir / "search-index.json").write_text(
+    (out_dir / "docs" / "search-index.json").write_text(
         json.dumps(search_index, ensure_ascii=False),
         encoding="utf-8",
     )
@@ -559,23 +566,25 @@ def build_site(src_root: Path, out_dir: Path) -> None:
         encoding="utf-8",
     )
 
-    # Root landing page: redirect the site root to the docs home (first
-    # published page) so serving at a domain root does not 404.
-    (out_dir / "index.html").write_text(
+    # /docs/ landing: redirect the bare docs root to the docs home (the first
+    # published page). The site root (/) is reserved for the product homepage,
+    # a separate artifact, so the build no longer writes out/index.html.
+    (out_dir / "docs").mkdir(parents=True, exist_ok=True)
+    (out_dir / "docs" / "index.html").write_text(
         _render_root_redirect(home_url),
         encoding="utf-8",
     )
 
-    # sitemap.xml: every published page url (root-relative).
+    # sitemap.xml at the site root: the homepage plus every published page url.
     (out_dir / "sitemap.xml").write_text(
-        _render_sitemap(page_urls),
+        _render_sitemap(["/"] + page_urls),
         encoding="utf-8",
     )
 
     # Assets: the vendored stylesheet plus a placeholder docs.js so the
     # template's <script> tag resolves (the SPA bundle lands in a later
     # phase).
-    assets = out_dir / "assets"
+    assets = out_dir / "docs" / "assets"
     assets.mkdir(parents=True, exist_ok=True)
     (assets / "docs.css").write_text(
         (_TEMPLATE_DIR / "docs.css").read_text(encoding="utf-8"),

@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/docs/" />
+<title>Channel reply binding &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/primerhq/primer" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/docs/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/docs/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/docs/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/docs/features/agents/">Agents</a>
+<a class="nav-link" href="/docs/features/chats/">Chats</a>
+<a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/docs/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/docs/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/docs/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/docs/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/docs/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/docs/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/docs/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/docs/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/docs/web/overview/">Web</a>
+<a class="nav-link" href="/docs/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/docs/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/docs/channels/overview/">Channels</a>
+<a class="nav-link" href="/docs/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/docs/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/docs/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/docs/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/docs/features/triggers/">Triggers</a>
+<a class="nav-link" href="/docs/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/docs/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/docs/features/workers/">Workers</a>
+<a class="nav-link" href="/docs/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/docs/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/docs/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/docs/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/docs/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/docs/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/docs/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/docs/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/docs/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/docs/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/docs/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/docs/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/docs/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/docs/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/docs/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/docs/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/docs/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/docs/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/docs/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/docs/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/docs/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/docs/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/docs/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/docs/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/docs/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/docs/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/docs/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/docs/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/docs/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/docs/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/docs/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/docs/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/docs/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/docs/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/docs/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/docs/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/docs/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/docs/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>channels</span> / <span>Channel reply binding</span></nav><h1>Channel reply binding</h1>
+<h2 id="what-a-reply-binding-is">What a reply binding is</h2>
+<p>A <strong>reply binding</strong> answers one question: when a workspace session sends something a human should see (a question, an approval prompt, an <code>inform</code> message, a start acknowledgement, the final result), which channel and thread does it post to?</p>
+<p>A reply binding resolves by precedence, most specific first:</p>
+<ol>
+<li><strong>Session-scoped binding.</strong> Set by an inbound channel rule's reply target when a channel event spawns the session, anchored to the originating thread. This is why a channel-triggered session feels conversational.</li>
+<li><strong>Workspace-standing binding.</strong> The <code>Workspace.reply_binding</code> link, anchored to the channel's default room. This is the standing destination for every session that runs in the workspace.</li>
+<li><strong>None.</strong> With no binding, gates park silently and <code>inform</code> is a no-op, exactly as before.</li>
+</ol>
+<p>This page covers the workspace-standing binding. The session-scoped override is set by a rule's reply target.</p>
+<p>Key properties:</p>
+<ul>
+<li><strong>One channel per workspace.</strong> A workspace has at most one standing reply binding. Replace it by setting a new one; clear it with a DELETE.</li>
+<li><strong>Full lifecycle.</strong> When a binding exists, the session auto-posts a start acknowledgement, forwards <code>ask_user</code>, tool approvals, and <code>inform</code>, and posts its final result. A per-binding quiet mode can suppress the acks while still forwarding gates.</li>
+<li><strong>Mutable at any time.</strong> Set or clear it without stopping running sessions. New dispatches use the new value; in-flight gates are unaffected.</li>
+<li><strong>Correlation survives restarts.</strong> Primer writes a <code>ChannelCorrelation</code> row for each gate it dispatches, mapping the platform thread (or Telegram gate message) to the specific session and tool-call id. If the API restarts between dispatch and reply, the row is still there and the inbound reply routes correctly.</li>
+</ul>
+<h2 id="inbound-and-outbound-flow">Inbound and outbound flow</h2>
+<pre class="mermaid">sequenceDiagram
+    participant Sess as Session (worker)
+    participant Disp as ChannelDispatcher
+    participant Plat as Platform (Slack/TG/Discord)
+    participant Corr as CorrelationStore (DB)
+    participant IR as Inbound router
+    participant Bus as Event bus
+
+    Sess-&gt;&gt;Sess: park on ask_user or tool approval
+    Sess-&gt;&gt;Disp: dispatch_prompt (fire and forget)
+    Disp-&gt;&gt;Disp: resolve reply binding (session then workspace)
+    Disp-&gt;&gt;Plat: post message / buttons / thread
+    Disp-&gt;&gt;Corr: upsert_session(channel_id, anchor, session_id, tool_call_id)
+    Note over Plat: Human replies or clicks
+    Plat-&gt;&gt;IR: inbound event (anchor)
+    IR-&gt;&gt;Corr: lookup(channel_id, anchor)
+    Corr--&gt;&gt;IR: ChannelCorrelation(kind=session)
+    IR-&gt;&gt;Bus: publish ask_user:{sid}:{tcid}
+    Bus-&gt;&gt;Sess: mark_resumable (first wins)</pre>
+<p>The dispatch is fire-and-forget: the worker schedules it as a background task after parking so a slow platform post never delays releasing the session's compute lease.</p>
+<p>The anchor identifies the conversation thread (a Slack thread timestamp, a Discord message id, or a Telegram gate-message id). The <code>ChannelCorrelation</code> row keyed on <code>(channel_id, anchor)</code> is what connects the platform reply back to the right session. The unique index on <code>(channel_id, anchor)</code> plus an atomic upsert means two workers racing to dispatch the same gate write exactly one correlation row, preventing double-resume.</p>
+<h2 id="attribution-header">Attribution header</h2>
+<p>Every gate post includes a one-line attribution header showing which workspace and session the prompt came from:</p>
+<pre><code>Workspace: blog-assistant / Session: sess-abc123
+[agent's ask_user prompt text]
+</code></pre>
+<p>This lets a channel that serves multiple workspaces and sessions stay organised. The header is omitted when neither a workspace name nor a session label is available.</p>
+<h2 id="configuration">Configuration</h2>
+<p>The standing binding is a field on the workspace row. No separate entity is created.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>channel_id</code></td>
+<td>The id of the Channel to forward session traffic to. Must refer to a channel that exists.</td>
+</tr>
+</tbody>
+</table>
+<p>A workspace has its <code>reply_binding</code> cleared (null) by default. Setting it via PUT activates forwarding immediately; DELETE clears it.</p>
+<h2 id="walkthrough-bind-a-workspace-to-a-channel">Walkthrough: bind a workspace to a channel</h2>
+<p><strong>Via the console:</strong></p>
+<ol>
+<li>Open <strong>Workspaces</strong> in the sidebar and select the workspace you want to configure.</li>
+<li>Find the <strong>Reply binding</strong> section in the workspace detail panel.</li>
+<li>Click <strong>Set channel</strong>.</li>
+<li>Choose the channel from the dropdown. Only channels with a provider configured appear in the list.</li>
+<li>Click <strong>Save</strong>. The workspace detail page now shows the bound channel name.</li>
+</ol>
+<p><strong>Via the REST API:</strong></p>
+<pre><code>PUT /v1/workspaces/{workspace_id}/reply_binding
+Content-Type: application/json
+
+{&quot;channel_id&quot;: &quot;channel-abc123&quot;}
+</code></pre>
+<p>To clear the binding:</p>
+<pre><code>DELETE /v1/workspaces/{workspace_id}/reply_binding
+</code></pre>
+<p><strong>Via primectl:</strong></p>
+<pre><code>primectl channel binding set &lt;workspace_id&gt; &lt;channel_id&gt;
+primectl channel binding clear &lt;workspace_id&gt;
+primectl channel binding get &lt;workspace_id&gt;
+</code></pre>
+<p><code>binding set</code> issues the <code>PUT</code>, <code>binding clear</code> the <code>DELETE</code>, and <code>binding get</code> reads the workspace and prints its current <code>reply_binding</code>.</p>
+<p><strong>Via agent tools:</strong> The <code>system__set_reply_binding</code> and <code>system__clear_reply_binding</code> tools do the same from inside a session, letting an agent configure its own workspace's channel routing programmatically.</p>
+<h2 id="allowed-agents-and-the-chat-surface">Allowed agents and the chat surface</h2>
+<p>The <code>allowed_agents</code> and <code>allow_agent_switch</code> settings live on the channel's chat config, not on the reply binding. If the channel has chat enabled:</p>
+<ul>
+<li><code>allow_agent_switch: false</code> (default): users cannot run <code>/agent</code> to change which agent handles their chat.</li>
+<li><code>allow_agent_switch: true</code>: users may run <code>/agent</code>; the picker shows all agents unless <code>allowed_agents</code> is set.</li>
+<li><code>allowed_agents: [&quot;agent-id-1&quot;, &quot;agent-id-2&quot;]</code>: restricts the <code>/agent</code> picker to the listed agents (and requires <code>default_agent</code> to be in the list).</li>
+</ul>
+<p>These settings are on the channel itself, not on the binding, because they describe what is allowed for that room regardless of which workspace sessions are currently forwarding to it.</p>
+<p><a href="/docs/channels/channels/">Channel rooms, chat config, and in-channel commands.</a></p>
+<p><a href="/docs/channels/channel-rules/">Map inbound events to actions and set a per-session reply target.</a></p>
+<p><a href="/docs/channels/channel-providers/">Platform credentials and provider setup.</a></p>
+<p><a href="/docs/workspaces/workspace-providers/">Workspace provider types and creating workspaces.</a></p>
+<p><a href="/docs/workspaces/yielding-tools/">How ask_user and tool approval gates park and resume a session.</a></p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

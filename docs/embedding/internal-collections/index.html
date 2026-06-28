@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/docs/" />
+<title>Internal Search Subsystem &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/primerhq/primer" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/docs/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/docs/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/docs/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/docs/features/agents/">Agents</a>
+<a class="nav-link" href="/docs/features/chats/">Chats</a>
+<a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/docs/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/docs/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/docs/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/docs/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/docs/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/docs/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/docs/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/docs/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/docs/web/overview/">Web</a>
+<a class="nav-link" href="/docs/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/docs/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/docs/channels/overview/">Channels</a>
+<a class="nav-link" href="/docs/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/docs/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/docs/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/docs/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/docs/features/triggers/">Triggers</a>
+<a class="nav-link" href="/docs/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/docs/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/docs/features/workers/">Workers</a>
+<a class="nav-link" href="/docs/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/docs/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/docs/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/docs/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/docs/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/docs/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/docs/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/docs/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/docs/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/docs/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/docs/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/docs/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/docs/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/docs/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/docs/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/docs/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/docs/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/docs/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/docs/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/docs/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/docs/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/docs/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/docs/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/docs/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/docs/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/docs/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/docs/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/docs/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/docs/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/docs/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/docs/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/docs/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/docs/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/docs/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/docs/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/docs/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/docs/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/docs/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>embedding</span> / <span>Internal Search Subsystem</span></nav><h1>Internal Search Subsystem</h1>
+<h2 id="what-internal-collections-are">What internal collections are</h2>
+<p>Primer indexes its own entity catalogue into four reserved vector collections:
+agents, graphs, tools, and knowledge collections. Once this subsystem is active,
+agents can issue natural-language searches against these collections using the
+<code>search</code> toolset tools (<code>search_agents</code>, <code>search_graphs</code>, <code>search_tools</code>,
+<code>search_collections</code>, <code>search_ai_docs</code>). The four <code>/v1/{kind}/search</code> routes
+return <code>503</code> until the subsystem is active.</p>
+<p>This is the mechanism behind the dogfooding pattern from the quickstart: an
+agent that can search for the right agent or tool by description rather than
+having the entire catalogue stuffed into its system prompt. The catalogue stays
+out of context; the agent retrieves only the small slice it needs at query time.</p>
+<p>The subsystem uses the same embedding and search provider machinery as
+operator-managed knowledge collections, but the four reserved collections are
+owned and maintained by the platform itself. A CDC (change-data-capture) worker
+keeps them up to date as entities are created, updated, or deleted.</p>
+<h3 id="three-states">Three states</h3>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Inactive</strong></td>
+<td>No config row exists. Search routes return <code>503</code>.</td>
+</tr>
+<tr>
+<td><strong>Configured</strong></td>
+<td>Config saved but bootstrap not yet run. Search routes still return <code>503</code>.</td>
+</tr>
+<tr>
+<td><strong>Active</strong></td>
+<td>Bootstrap completed. Search routes return results. CDC worker is running.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dimension-mismatch-on-activation">Dimension mismatch on activation</h3>
+<p>The SSP, embedding provider, and embedding model are locked once the subsystem
+is bootstrapped. If you try to activate with a model whose embedding dimension
+differs from the dimension already stored in the collections, the bootstrap
+returns a <code>422</code> with a <code>DimensionMismatchError</code>. The error message names the
+stored dimension and the new model's dimension. To resolve it, deactivate first
+(drops the four reserved collections), then re-configure with the intended
+model and re-bootstrap.</p>
+<h2 id="configuration">Configuration</h2>
+<p>Three fields are required to configure the subsystem:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Semantic search provider</strong></td>
+<td>The SSP that will back the four reserved collections. Create an SSP first if the list is empty.</td>
+</tr>
+<tr>
+<td><strong>Embedding provider</strong></td>
+<td>The provider used to generate embeddings for ingestion and queries.</td>
+</tr>
+<tr>
+<td><strong>Embedding model</strong></td>
+<td>The model from the selected provider's list.</td>
+</tr>
+</tbody>
+</table>
+<p>Two optional enhancements:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MMR diversification</strong></td>
+<td>Maximum marginal relevance reranking. Enable and set a lambda (0-1, where 1 = pure relevance, 0 = pure diversity).</td>
+</tr>
+<tr>
+<td><strong>Cross-encoder reranker</strong></td>
+<td>A second-pass reranker applied after vector search. Pick the provider and model.</td>
+</tr>
+</tbody>
+</table>
+<p>Once the subsystem is active, the SSP, embedding provider, and embedding model
+are locked. Cross-encoder and MMR settings remain editable at any time via
+<strong>Update config</strong> without requiring a re-bootstrap.</p>
+<h2 id="walkthrough-activate-internal-collections">Walkthrough: activate internal collections</h2>
+<ol>
+<li>Navigate to <strong>Internal Collections</strong> in the sidebar.</li>
+<li>If the subsystem is inactive, the page shows &quot;Internal Collections is not
+configured.&quot; Click <strong>Configure</strong>.</li>
+</ol>
+<figure class="embed"><picture><source srcset="/_embeds/internal-collections-enable-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/internal-collections-enable-light.png" alt="internal-collections-enable (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<ol start="3">
+<li>In the Configure modal, fill in the required fields:
+<ul>
+<li><strong>Semantic Search provider</strong>: pick an existing SSP, or follow the link
+to create one. The local <code>lance</code> provider works without any API key.</li>
+<li><strong>Embedding provider</strong>: pick an existing embedding provider.</li>
+<li><strong>Embedding model</strong>: select the model from the provider's list.</li>
+</ul>
+</li>
+<li>Optionally enable <strong>MMR diversification</strong> and set the lambda. Optionally
+enable a <strong>Cross-encoder reranker</strong> and pick its provider and model.</li>
+<li>Click <strong>Save</strong>. The page transitions to the configured state with a warning
+that bootstrap is required.</li>
+<li>Click <strong>Bootstrap now</strong>. A progress panel appears showing the current phase:
+draining CDC queue, materialising collections, ingesting agents, graphs,
+collections, and tools, then finalising.</li>
+</ol>
+<p>Bootstrap runs as a background task on the server. You can navigate away; the
+progress panel resumes when you return. When bootstrap completes, the page
+transitions to the active state (green header) and the search routes go live.</p>
+<div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p>The SSP, embedding provider, and embedding model are locked once the subsystem
+is activated. Changing them requires deactivating first: the config row is
+removed and all four reserved collections are dropped. Re-configure and
+re-bootstrap to rebuild from scratch. Cross-encoder and MMR settings remain
+editable at any time.</p>
+</div></div>
+<p><a href="/docs/embedding/semantic-search-providers/">Create and configure the semantic search provider that backs the four reserved
+collections.</a></p>
+<p><a href="/docs/embedding/collections-and-documents/">Operator-managed knowledge collections use the same SSP and embedding
+machinery.</a></p>
+<p><a href="/docs/reference/api-knowledge/">REST API for PUT /internal_collections/config, POST /internal_collections/bootstrap,
+and DELETE /internal_collections/config with full schema detail.</a></p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

@@ -1,11 +1,389 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="refresh" content="0; url=/getting-started/introduction/">
-<link rel="canonical" href="/getting-started/introduction/">
-<title>Primer docs</title>
-<script>location.replace("/getting-started/introduction/");</script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Primer — Build the loop. Trust the output.</title>
+<meta name="description" content="An unopinionated, batteries-included agent orchestration platform you self-host — built so a small, clean context beats a big one." />
+<meta name="color-scheme" content="dark" />
+<meta property="og:title" content="Primer — Build the loop. Trust the output." />
+<meta property="og:description" content="A self-hosted, batteries-included agent orchestration platform focused on context optimization." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="home.css" />
 </head>
-<body><p>Redirecting to <a href="/getting-started/introduction/">the documentation</a>.</p></body>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============================ TOP BAR ============================ -->
+<header class="topbar" id="topbar">
+  <div class="topbar__inner">
+    <a class="brand" href="/" aria-label="Primer home">
+      <span class="brand__mark" aria-hidden="true">
+        <svg class="logo" width="24" height="24" viewBox="0 0 24 24">
+          <polygon class="f f1" points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+          <polygon class="f f2" points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+          <polygon class="f f3" points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+          <polygon class="f f4" points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+          <polygon class="f f5" points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+        </svg>
+      </span>
+      <span class="brand__name">Primer</span>
+    </a>
+
+    <nav class="topnav" aria-label="Primary">
+      <a href="#problem">Problem</a>
+      <a href="#loop">Loop</a>
+      <a href="#install">Install</a>
+      <a href="#features">Features</a>
+      <a href="/docs/">Docs</a>
+    </nav>
+
+    <div class="topbar__actions">
+      <a class="btn btn--ghost" href="/docs/">Docs</a>
+      <a class="btn btn--icon" href="https://github.com/primerhq/primer" aria-label="Primer on GitHub" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-1.7c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.6 18 4.9 18 4.9c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============================ HERO ============================ -->
+  <section class="hero" id="top">
+    <div class="hero__glow" aria-hidden="true"></div>
+    <div class="hero__inner reveal">
+      <p class="eyebrow"><span class="dot"></span> Self-hosted agent orchestration</p>
+      <h1 class="hero__title">Build the loop.<br /><span class="accent">Trust the output.</span></h1>
+      <p class="hero__sub">An unopinionated, batteries-included agent orchestration platform you self-host — built so a small, clean context beats a big one.</p>
+
+      <div class="hero__cta">
+        <div class="installs">
+          <div class="install" data-copy-group>
+            <div class="install__head">
+              <span class="install__label">pipx</span>
+              <button class="copy-btn" type="button" data-copy-target="hero-pipx" aria-label="Copy pipx install command">
+                <svg class="copy-i" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="copy-txt">Copy</span>
+              </button>
+            </div>
+            <pre class="install__code" id="hero-pipx"><code><span class="ln"><span class="pr">$</span> pipx install primer-ai</span>
+<span class="ln"><span class="pr">$</span> primer api</span></code></pre>
+          </div>
+          <div class="install" data-copy-group>
+            <div class="install__head">
+              <span class="install__label">Docker</span>
+              <button class="copy-btn" type="button" data-copy-target="hero-docker" aria-label="Copy Docker run command">
+                <svg class="copy-i" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span class="copy-txt">Copy</span>
+              </button>
+            </div>
+            <pre class="install__code" id="hero-docker"><code><span class="ln"><span class="pr">$</span> docker run --rm -p 8000:8000 ghcr.io/primerhq/primer:0.1.0</span></code></pre>
+          </div>
+        </div>
+        <a class="btn btn--secondary" href="/docs/">Read the docs →</a>
+      </div>
+      <p class="hero__note">Then open the console at <code>http://localhost:8000/console/</code></p>
+    </div>
+
+    <div class="hero__visual reveal" aria-hidden="true">
+      <!-- Compact producer–judge loop preview; full animated version below -->
+      <div class="loopcard">
+        <div class="loopcard__chrome"><span></span><span></span><span></span><em>producer · judge</em></div>
+        <div class="loopcard__body" id="hero-loop">
+          <svg viewBox="0 0 440 290" aria-hidden="true">
+            <defs>
+              <marker id="arrow-h" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/>
+              </marker>
+            </defs>
+            <path class="edge" id="h-trig"    d="M96,84 V128"  stroke="var(--accent-2)" marker-end="url(#arrow-h)"/>
+            <path class="edge" id="h-produce" d="M148,142 H200" stroke="var(--text-3)" marker-end="url(#arrow-h)"/>
+            <path class="edge" id="h-retry"   d="M200,160 H148" stroke="var(--amber)" marker-end="url(#arrow-h)"/>
+            <path class="edge" id="h-pass"    d="M302,150 H346" stroke="var(--accent)" marker-end="url(#arrow-h)"/>
+            <text class="edgelabel" x="174" y="134" fill="var(--text-3)">draft</text>
+            <text class="edgelabel" x="174" y="178" fill="var(--amber)">retry</text>
+            <text class="edgelabel" x="324" y="142" fill="var(--accent)">pass</text>
+            <g class="node" data-node="trigger"><rect class="node__box" x="50" y="40" width="92" height="44" rx="10"/><text class="node__label" x="96" y="62">Trigger</text></g>
+            <g class="node" data-node="producer"><rect class="node__box" x="50" y="128" width="98" height="44" rx="10"/><text class="node__label" x="99" y="150">Producer</text></g>
+            <g class="node" data-node="judge"><rect class="node__box" x="200" y="128" width="102" height="44" rx="10"/><text class="node__label" x="251" y="150">Judge</text></g>
+            <g class="node" data-node="deliver"><rect class="node__box" x="346" y="128" width="90" height="44" rx="10"/><text class="node__label" x="391" y="150">Deliver</text></g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ PROBLEM ============================ -->
+  <section class="section" id="problem">
+    <div class="section__head reveal">
+      <p class="kicker">The bet</p>
+      <h2>Context, not scale.</h2>
+      <p class="lede">A model spreads a fixed attention budget across every token at once. Bloat the context and you dilute the few tokens that actually matter — the “lost in the middle” effect. Primer keeps each agent’s context small and purpose-built, a wager that even small models stay accurate when you stop drowning them.</p>
+    </div>
+
+    <!-- INFOGRAPHIC (a): tight vs bloated heat bars -->
+    <figure class="heat reveal" id="heat" aria-label="Attention across a context window: a bloated context loses the middle, a tight context stays bright edge to edge.">
+      <div class="heat__row">
+        <div class="heat__meta">
+          <span class="heat__name">Bloated context</span>
+          <span class="heat__cap">attention dilutes toward the middle</span>
+        </div>
+        <div class="heat__bar heat__bar--bloated">
+          <span class="heat__mid">the model loses this</span>
+        </div>
+      </div>
+      <div class="heat__row">
+        <div class="heat__meta">
+          <span class="heat__name accent">Primer · tight context</span>
+          <span class="heat__cap">small, purpose-built — bright edge to edge</span>
+        </div>
+        <div class="heat__bar heat__bar--tight"></div>
+      </div>
+
+      <figcaption class="heat__chart">
+        <svg viewBox="0 0 420 180" role="img" aria-label="Accuracy versus context size: a naive setup drops after roughly 8k tokens while Primer's tight context stays flat.">
+          <!-- axes -->
+          <line x1="40" y1="150" x2="410" y2="150" class="ax"/>
+          <line x1="40" y1="20" x2="40" y2="150" class="ax"/>
+          <text x="40" y="170" class="axlabel">0</text>
+          <text x="200" y="170" class="axlabel">~8k</text>
+          <text x="360" y="170" class="axlabel">context size →</text>
+          <text x="14" y="28" class="axlabel">acc</text>
+          <!-- primer: flat high -->
+          <path id="line-primer" class="line line--primer" d="M40,46 C140,44 280,48 410,45"/>
+          <!-- naive: drops after 8k -->
+          <path id="line-naive" class="line line--naive" d="M40,52 C120,52 175,60 205,80 C250,108 320,132 410,140"/>
+          <g class="legend">
+            <rect x="250" y="28" width="10" height="3" class="sw sw--primer"/>
+            <text x="266" y="33" class="leg">Primer (tight)</text>
+            <rect x="250" y="44" width="10" height="3" class="sw sw--naive"/>
+            <text x="266" y="49" class="leg">Naive (bloated)</text>
+          </g>
+        </svg>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ============================ LOOP ============================ -->
+  <section class="section section--alt" id="loop">
+    <div class="section__head reveal">
+      <p class="kicker">Loop engineering</p>
+      <h2>A producer drafts. A judge critiques. It loops until it passes.</h2>
+      <p class="lede">Primer gives you the building blocks for designing agent loops — directed cyclic graphs where work is made, checked, and either retried, escalated to a human, or delivered.</p>
+    </div>
+
+    <div class="loopgrid">
+      <!-- INFOGRAPHIC (b): producer–judge directed cyclic graph -->
+      <figure class="dcg reveal" id="dcg" aria-label="Producer–judge loop: a trigger starts the producer, the judge evaluates, then the work either retries, escalates to a human, or is delivered.">
+        <div class="dcg__legend">
+          <span><i class="sw sw--amber"></i> retry</span>
+          <span><i class="sw sw--violet"></i> escalate</span>
+          <span><i class="sw sw--accent"></i> pass</span>
+        </div>
+        <div class="dcg__stage" id="dcg-stage">
+          <svg viewBox="0 0 560 312" aria-hidden="true">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/>
+              </marker>
+            </defs>
+            <!-- edges -->
+            <path class="edge" id="e-trig-prod" d="M144,64 H210" stroke="var(--accent-2)" marker-end="url(#arrow)"/>
+            <path class="edge" id="e-produce"   d="M266,90 V210"  stroke="var(--text-3)" marker-end="url(#arrow)"/>
+            <path class="edge" id="e-retry"     d="M294,210 C368,178 368,122 294,90" stroke="var(--amber)" marker-end="url(#arrow)"/>
+            <path class="edge" id="e-escalate"  d="M218,236 H146" stroke="var(--violet)" marker-end="url(#arrow)"/>
+            <path class="edge" id="e-pass"      d="M342,236 H414" stroke="var(--accent)" marker-end="url(#arrow)"/>
+            <!-- edge labels -->
+            <text class="edgelabel" x="250" y="150" fill="var(--text-3)">produce</text>
+            <text class="edgelabel" x="376" y="150" fill="var(--amber)">retry</text>
+            <text class="edgelabel" x="182" y="226" fill="var(--violet)">escalate</text>
+            <text class="edgelabel" x="378" y="226" fill="var(--accent)">pass</text>
+            <!-- nodes -->
+            <g class="node" data-node="trigger"><rect class="node__box" x="24" y="40" width="120" height="48" rx="11"/><text class="node__label" x="84" y="64">Trigger</text></g>
+            <g class="node" data-node="producer"><rect class="node__box" x="214" y="40" width="132" height="48" rx="11"/><text class="node__label" x="280" y="64">Producer</text></g>
+            <g class="node" data-node="judge"><rect class="node__box" x="220" y="212" width="120" height="48" rx="11"/><text class="node__label" x="280" y="236">Judge</text></g>
+            <g class="node" data-node="human"><rect class="node__box" x="24" y="212" width="120" height="48" rx="11"/><text class="node__label" x="84" y="236">Human</text></g>
+            <g class="node" data-node="deliver"><rect class="node__box" x="416" y="212" width="120" height="48" rx="11"/><text class="node__label" x="476" y="236">✓ Deliver</text></g>
+          </svg>
+        </div>
+      </figure>
+
+      <ul class="blocks reveal">
+        <li><span class="blocks__ic" data-ic="heartbeat"></span><div><b>Heartbeat</b><span>Triggers on cron, delay, or webhook.</span></div></li>
+        <li><span class="blocks__ic" data-ic="isolation"></span><div><b>Isolation</b><span>Git-backed workspaces: local, container, or Kubernetes.</span></div></li>
+        <li><span class="blocks__ic" data-ic="memory"></span><div><b>Durable memory</b><span>Workspaces plus knowledge collections.</span></div></li>
+        <li><span class="blocks__ic" data-ic="makercheck"></span><div><b>Maker + checker</b><span>Producer drafts, judge critiques, loop until it passes.</span></div></li>
+        <li><span class="blocks__ic" data-ic="connectors"></span><div><b>Connectors</b><span>MCP server &amp; client; Slack, Telegram, Discord.</span></div></li>
+        <li><span class="blocks__ic" data-ic="gate"></span><div><b>Human gate</b><span>Approvals; park-and-resume when judgment is needed.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================ INSTALL ============================ -->
+  <section class="section" id="install">
+    <div class="section__head reveal">
+      <p class="kicker">Install in minutes</p>
+      <h2>Two ways to run it.</h2>
+      <p class="lede">Runs on your own hardware — install the Python package with pipx, or pull the container image. No account, no hosted control plane.</p>
+    </div>
+
+    <div class="installs installs--two installs--center reveal">
+      <div class="install" data-copy-group>
+        <div class="install__head">
+          <span class="install__label">pipx · Python</span>
+          <button class="copy-btn" type="button" data-copy-target="install-pipx" aria-label="Copy pipx install command">
+            <svg class="copy-i" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span class="copy-txt">Copy</span>
+          </button>
+        </div>
+        <pre class="install__code" id="install-pipx"><code><span class="ln"><span class="pr">$</span> pipx install primer-ai</span>
+<span class="ln"><span class="pr">$</span> primer api</span></code></pre>
+      </div>
+      <div class="install" data-copy-group>
+        <div class="install__head">
+          <span class="install__label">Docker</span>
+          <button class="copy-btn" type="button" data-copy-target="install-docker" aria-label="Copy Docker run command">
+            <svg class="copy-i" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span class="copy-txt">Copy</span>
+          </button>
+        </div>
+        <pre class="install__code" id="install-docker"><code><span class="ln"><span class="pr">$</span> docker run --rm -p 8000:8000 ghcr.io/primerhq/primer:0.1.0</span></code></pre>
+      </div>
+    </div>
+    <p class="runnote reveal">Either way, open the console at <code>http://localhost:8000/console/</code></p>
+  </section>
+
+  <!-- ============================ FEATURES ============================ -->
+  <section class="section section--alt" id="features">
+    <div class="section__head reveal">
+      <p class="kicker">Batteries included</p>
+      <h2>Everything an agent loop needs, in the box.</h2>
+      <p class="lede">LLM providers, agents, graphs, knowledge collections, workspaces, channels, triggers, harnesses, and an MCP server — all self-hosted.</p>
+    </div>
+
+    <div class="showcase reveal">
+      <div class="showcase__tabs" role="tablist" aria-label="Building blocks">
+        <button class="tab is-active" role="tab" aria-selected="true" data-tab="agents">Agents</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="graphs">Graphs</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="collections">Collections</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="triggers">Triggers</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="harnesses">Harnesses</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="mcp">MCP</button>
+      </div>
+
+      <div class="showcase__panel">
+        <div class="showcase__media">
+          <!-- Stylized console stand-in. Swap with home/<id>-dark.png screenshots. -->
+          <div class="shot" id="shot"></div>
+        </div>
+        <div class="showcase__copy">
+          <h3 id="sc-title">Agents</h3>
+          <p id="sc-desc">Configure agents with their own model, tools, and a deliberately small context. Switch the model behind a chat without touching the loop.</p>
+          <a class="learnmore" id="sc-link" href="/docs/features/agents/">Learn more →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- (Static bento link grid removed; the tabbed showcase above covers the blocks.) -->
+  </section>
+
+  <!-- ============================ RECIPES ============================ -->
+  <section class="section" id="recipes">
+    <div class="section__head reveal">
+      <p class="kicker">Cookbook</p>
+      <h2>Recipes to start from.</h2>
+      <p class="lede">Worked examples that wire the building blocks into a running loop.</p>
+    </div>
+
+    <ul class="recipes reveal">
+      <li><a href="/docs/cookbook/scheduled-stock-monitor/"><b>Scheduled stock monitor</b><span>A cron heartbeat that watches and reports.</span><em>View recipe →</em></a></li>
+      <li><a href="/docs/cookbook/incident-responder/"><b>Incident responder</b><span>Webhook-triggered triage with a human gate.</span><em>View recipe →</em></a></li>
+      <li><a href="/docs/cookbook/support-desk/"><b>Support desk</b><span>Channel-driven agent with durable memory.</span><em>View recipe →</em></a></li>
+      <li><a href="/docs/cookbook/release-conductor/"><b>Release conductor</b><span>Maker + checker shepherding a release.</span><em>View recipe →</em></a></li>
+      <li><a href="/docs/cookbook/code-interpreter/"><b>Code interpreter</b><span>Isolated workspace runs code safely.</span><em>View recipe →</em></a></li>
+      <li><a href="/docs/graphs/overview/"><b>Graphs from scratch</b><span>Compose a producer–judge graph by hand.</span><em>View recipe →</em></a></li>
+    </ul>
+  </section>
+
+  <!-- ============================ SELF-HOSTED ============================ -->
+  <section class="section section--alt" id="selfhost">
+    <div class="selfhost reveal">
+      <p class="kicker">Sandboxed by default</p>
+      <h2>Every agent runs in its own sandbox.</h2>
+      <p>Each agent gets an isolated, git-backed workspace, so parallel loops never step on each other. Run those sandboxes wherever you operate — a local process, a Docker container, or a Kubernetes pod. Your data stays on your hardware; the source lives on GitHub.</p>
+      <ul class="backends" aria-label="Supported sandbox backends">
+        <li><span class="backends__ic"></span>Local process</li>
+        <li><span class="backends__ic"></span>Docker container</li>
+        <li><span class="backends__ic"></span>Kubernetes pod</li>
+      </ul>
+      <a class="btn btn--secondary" href="https://github.com/primerhq/primer" rel="noopener">View on GitHub →</a>
+    </div>
+  </section>
+
+  <!-- ============================ FINAL CTA ============================ -->
+  <section class="finalcta" id="get-started">
+    <div class="finalcta__inner reveal">
+      <h2>Build the loop today.</h2>
+      <div class="installs installs--center">
+        <div class="install" data-copy-group>
+          <div class="install__head">
+            <span class="install__label">pipx · Python</span>
+            <button class="copy-btn" type="button" data-copy-target="final-pipx" aria-label="Copy pipx install command">
+              <svg class="copy-i" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span class="copy-txt">Copy</span>
+            </button>
+          </div>
+          <pre class="install__code" id="final-pipx"><code><span class="ln"><span class="pr">$</span> pipx install primer-ai</span>
+<span class="ln"><span class="pr">$</span> primer api</span></code></pre>
+        </div>
+        <div class="install" data-copy-group>
+          <div class="install__head">
+            <span class="install__label">Docker</span>
+            <button class="copy-btn" type="button" data-copy-target="final-docker" aria-label="Copy Docker run command">
+              <svg class="copy-i" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span class="copy-txt">Copy</span>
+            </button>
+          </div>
+          <pre class="install__code" id="final-docker"><code><span class="ln"><span class="pr">$</span> docker run --rm -p 8000:8000 ghcr.io/primerhq/primer:0.1.0</span></code></pre>
+        </div>
+      </div>
+      <div class="finalcta__actions">
+        <a class="btn btn--primary" href="/docs/">Read the docs</a>
+        <a class="btn btn--secondary" href="https://github.com/primerhq/primer" rel="noopener">View on GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="footer">
+  <div class="footer__inner">
+    <a class="brand" href="/" aria-label="Primer home">
+      <span class="brand__mark" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24">
+          <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+          <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+          <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+          <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+          <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+        </svg>
+      </span>
+      <span class="brand__name">Primer</span>
+    </a>
+    <nav class="footer__nav" aria-label="Footer">
+      <a href="/docs/">Docs</a>
+      <a href="/docs/cookbook/overview/">Cookbook</a>
+      <a href="https://github.com/primerhq/primer" rel="noopener">GitHub</a>
+    </nav>
+    <p class="footer__note">Self-hostable · runs on your hardware · source on GitHub</p>
+  </div>
+</footer>
+
+<script src="home.js" defer></script>
+</body>
 </html>
