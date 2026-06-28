@@ -115,7 +115,6 @@
     agents:      { t: "Agents",      d: "Configure each agent with its own model, tools, and a deliberately small context. Swap the model behind a chat without touching the loop.", l: "/docs/features/agents/" },
     graphs:      { t: "Graphs",      d: "Compose directed cyclic graphs in a visual canvas: a producer drafts, a judge critiques, and work loops until it passes.", l: "/docs/graphs/overview/" },
     collections: { t: "Collections", d: "Build knowledge collections with vector search so agents retrieve exactly what they need — and nothing they don't.", l: "/docs/embedding/collections-and-documents/" },
-    channels:    { t: "Channels",    d: "Connect Slack, Telegram, and Discord. Agents listen, respond, and escalate through the channels your team already uses.", l: "/docs/channels/overview/" },
     triggers:    { t: "Triggers",    d: "Give a loop a heartbeat: fire on a cron schedule, a delay, or an inbound webhook. No always-on babysitting required.", l: "/docs/features/triggers/" },
     harnesses:   { t: "Harnesses",   d: "Package a whole agent setup into an exportable, git-backed bundle — Helm for agents. Version it, share it, redeploy it.", l: "/docs/features/harnesses/" },
     mcp:         { t: "MCP server",  d: "Expose Primer's tools over MCP and consume external MCP servers — interoperable with the wider agent ecosystem.", l: "/docs/features/mcp-server/" }
@@ -125,9 +124,8 @@
     agents: "home/agents-page-dark.png",
     graphs: "home/graph-canvas-dark.png",
     collections: "home/internal-collections-enable-dark.png",
-    // channels: no populated console capture exists in _embeds yet (the
-    // committed channels/channel-provider shots are empty-state), so this tab
-    // falls back to the CSS console stand-in until one is re-captured.
+    // channels: dropped from the showcase — no populated capture exists in
+    // _embeds (only empty-state shots). See home/README.md to restore it.
     triggers: "home/trigger-create-dark.png",
     harnesses: "home/harness-dark.png",
     mcp: "home/mcp-exposure-dark.png"
@@ -162,49 +160,14 @@
       '<circle cx="160" cy="100" r="3.5" fill="var(--amber)"/>' +
       '</svg>';
 
-    // Channels has no populated console capture in _embeds, so render a
-    // representative channels table that fills the panel (demo rows, same
-    // spirit as the fixture-backed screenshots) instead of looking empty.
-    var chCols = "grid-template-columns:1.1fr 1fr 1.1fr 1.1fr";
-    var chRows = [
-      ["ops-alerts",    "slack",    "var(--accent)", "C07AB12QX",     "#ops-alerts"],
-      ["release-bot",   "telegram", "var(--blue)",   "-1001987…", "Release notes"],
-      ["support",       "discord",  "var(--violet)", "99820041…", "#support"],
-      ["oncall",        "slack",    "var(--accent)", "C08RT55ZK",     "#oncall"],
-      ["weekly-digest", "telegram", "var(--blue)",   "-1002233…", "Weekly digest"]
-    ];
-    var channelsMock =
-      '<div style="height:100%;display:flex;flex-direction:column">' +
-        '<div style="display:flex;align-items:center;gap:8px;padding:11px 14px;border-bottom:1px solid var(--border)">' +
-          '<span style="flex:1;max-width:190px;height:26px;border-radius:7px;background:var(--bg-1);border:1px solid var(--border)"></span>' +
-          '<span style="margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--accent);background:var(--accent-dim);border:1px solid oklch(0.82 0.17 145/0.3);border-radius:7px;padding:6px 11px">+ New channel</span>' +
-        '</div>' +
-        '<div style="display:grid;' + chCols + ';gap:8px;padding:9px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--text-3);border-bottom:1px solid var(--border)">' +
-          '<span>ID</span><span>PROVIDER</span><span>EXTERNAL ID</span><span>LABEL</span>' +
-        '</div>' +
-        chRows.map(function (r) {
-          return '<div style="display:grid;' + chCols + ';gap:8px;align-items:center;flex:1;padding:0 16px;border-bottom:1px solid var(--border);font-size:12.5px">' +
-            '<span style="font-family:var(--mono);color:var(--text)">' + r[0] + '</span>' +
-            '<span style="display:inline-flex;align-items:center;gap:7px;color:var(--text-2)"><span style="width:7px;height:7px;border-radius:50%;background:' + r[2] + '"></span>' + r[1] + '</span>' +
-            '<span style="font-family:var(--mono);color:var(--text-3)">' + r[3] + '</span>' +
-            '<span style="color:var(--text-2)">' + r[4] + '</span>' +
-          '</div>';
-        }).join("") +
-      '</div>';
-
-    var inner;
-    if (key === "graphs") {
-      inner = '<div style="padding:14px;height:100%">' + graphMock + '</div>';
-    } else if (key === "channels") {
-      inner = channelsMock;
-    } else {
-      inner = '<div style="height:100%;display:flex;flex-direction:column">' +
-        '<div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border);background:var(--bg-1)">' +
-          '<span style="width:9px;height:9px;border-radius:50%;background:var(--accent)"></span>' +
-          '<span style="font-family:var(--mono);font-size:11px;color:var(--text-3)">' + FEATURES[key].t.toLowerCase() + '</span>' +
-        '</div>' + rows +
-      '</div>';
-    }
+    var inner = (key === "graphs")
+      ? '<div style="padding:14px;height:100%">' + graphMock + '</div>'
+      : '<div style="height:100%;display:flex;flex-direction:column">' +
+          '<div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border);background:var(--bg-1)">' +
+            '<span style="width:9px;height:9px;border-radius:50%;background:var(--accent)"></span>' +
+            '<span style="font-family:var(--mono);font-size:11px;color:var(--text-3)">' + FEATURES[key].t.toLowerCase() + '</span>' +
+          '</div>' + rows +
+        '</div>';
 
     return '<div style="height:100%;background:var(--bg);">' + inner + '</div>';
   }
