@@ -227,7 +227,7 @@
     box.appendChild(results);
 
     var index = null;
-    fetch("/search-index.json")
+    fetch("search-index.json")
       .then(function (r) {
         return r.ok ? r.json() : [];
       })
