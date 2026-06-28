@@ -140,7 +140,7 @@
 <h2 id="top-level">Top-level</h2>
 <p><code>primer</code> is a Typer application. Run <code>--help</code> on any subcommand for
 the full flag list:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-2a6dec-bash">bash</button></div><div class="tab-panel active" id="tab-2a6dec-bash"><pre class="md-pre lang-bash"><code>uv run primer --help
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-8f0998-bash">bash</button></div><div class="tab-panel active" id="tab-8f0998-bash"><pre class="md-pre lang-bash"><code>primer --help
 # Primer microagents framework: API + worker entrypoints.
 #
 # commands:
@@ -151,15 +151,15 @@ the full flag list:</p>
 <p>Starts the FastAPI HTTP server via uvicorn. By default it also starts
 an in-process worker pool (<code>runtime_mode=api+worker</code>). Pass
 <code>--no-worker</code> to split API and worker into separate processes.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-6c96b7-bash">bash</button></div><div class="tab-panel active" id="tab-6c96b7-bash"><pre class="md-pre lang-bash"><code># Default: API + worker in one process, auto-loads ~/.primer/config.yaml
-uv run primer api
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-8fcc86-bash">bash</button></div><div class="tab-panel active" id="tab-8fcc86-bash"><pre class="md-pre lang-bash"><code># Default: API + worker in one process, auto-loads ~/.primer/config.yaml
+primer api
 
 # Explicit config file.
-uv run primer api --config /etc/primer/config.yaml
-uv run primer api -c /etc/primer/config.yaml
+primer api --config /etc/primer/config.yaml
+primer api -c /etc/primer/config.yaml
 
 # API only; pair with a dedicated `primer worker` process.
-uv run primer api --no-worker</code></pre></div></div>
+primer api --no-worker</code></pre></div></div>
 <h3 id="flags">Flags</h3>
 <table>
 <thead>
@@ -199,12 +199,12 @@ workers becomes independent of scaling HTTP capacity.</p>
 <p>Runs only the worker pool. A minimal HTTP surface (<code>/v1/health</code> and
 <code>/v1/workers</code>) is still served for liveness/readiness probes. Pairs
 with a <code>primer api --no-worker</code> process.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-1b76b6-bash">bash</button></div><div class="tab-panel active" id="tab-1b76b6-bash"><pre class="md-pre lang-bash"><code># Default: auto-loads ~/.primer/config.yaml
-uv run primer worker
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-dcb6fd-bash">bash</button></div><div class="tab-panel active" id="tab-dcb6fd-bash"><pre class="md-pre lang-bash"><code># Default: auto-loads ~/.primer/config.yaml
+primer worker
 
 # Explicit config.
-uv run primer worker --config /etc/primer/config.yaml
-uv run primer worker -c /etc/primer/config.yaml</code></pre></div></div>
+primer worker --config /etc/primer/config.yaml
+primer worker -c /etc/primer/config.yaml</code></pre></div></div>
 <h3 id="flags-1">Flags</h3>
 <table>
 <thead>
@@ -228,14 +228,14 @@ uv run primer worker -c /etc/primer/config.yaml</code></pre></div></div>
 <p>Runs first-time bootstrap. Idempotent: rows that already exist are
 skipped. Pass <code>--force</code> to re-run the bootstrap even when the
 completion marker is already set (useful for partially-failed runs).</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-051bff-bash">bash</button></div><div class="tab-panel active" id="tab-051bff-bash"><pre class="md-pre lang-bash"><code># Idempotent bootstrap against default config.
-uv run primer init
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-6dffcd-bash">bash</button></div><div class="tab-panel active" id="tab-6dffcd-bash"><pre class="md-pre lang-bash"><code># Idempotent bootstrap against default config.
+primer init
 
 # Explicit config file.
-uv run primer init --config /etc/primer/config.yaml
+primer init --config /etc/primer/config.yaml
 
 # Re-run even if bootstrap already completed.
-uv run primer init --force</code></pre></div></div>
+primer init --force</code></pre></div></div>
 <h3 id="flags-2">Flags</h3>
 <table>
 <thead>
