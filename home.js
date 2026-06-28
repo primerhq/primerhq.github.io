@@ -124,8 +124,10 @@
   var SHOT_IMG = {
     agents: "home/agents-page-dark.png",
     graphs: "home/graph-canvas-dark.png",
-    collections: "home/collection-list-dark.png",
-    channels: "home/channels-dark.png",
+    collections: "home/internal-collections-enable-dark.png",
+    // channels: no populated console capture exists in _embeds yet (the
+    // committed channels/channel-provider shots are empty-state), so this tab
+    // falls back to the CSS console stand-in until one is re-captured.
     triggers: "home/trigger-create-dark.png",
     harnesses: "home/harness-dark.png",
     mcp: "home/mcp-exposure-dark.png"
