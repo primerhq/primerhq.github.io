@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>MCP server reference &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,133 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>Reference</span> / <span>MCP server reference</span></nav><h1>MCP server reference</h1>
+<h2 id="overview">Overview</h2>
+<p>Primer exposes a curated subset of its built-in tools to external MCP
+clients at <code>/v1/mcp</code>. The endpoint speaks the MCP StreamableHTTP
+transport. Operators control which tools are reachable via the
+allowlist at <code>PUT /v1/mcp_exposure</code>.</p>
+<h2 id="transport">Transport</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path</td>
+<td><code>/v1/mcp</code></td>
+</tr>
+<tr>
+<td>Protocol</td>
+<td>MCP StreamableHTTP (stateful sessions, SSE-based)</td>
+</tr>
+<tr>
+<td>Auth</td>
+<td>Bearer token (see Auth section below)</td>
+</tr>
+</tbody>
+</table>
+<p>The endpoint does not speak stdio. External clients must connect over
+HTTP to the running <code>primer api</code> process.</p>
+<h2 id="auth">Auth</h2>
+<p>Every request to <code>/v1/mcp</code> must carry a valid bearer token in the
+<code>Authorization</code> header:</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-743d78-bash">bash</button></div><div class="tab-panel active" id="tab-743d78-bash"><pre class="md-pre lang-bash"><code>Authorization: Bearer &lt;token&gt;</code></pre></div></div>
+<p>Anonymous requests receive <code>401</code> with <code>WWW-Authenticate: Bearer realm=&quot;primer&quot;</code>. Bearer tokens that lack the <code>mcp</code> scope receive
+<code>403</code> with <code>{&quot;code&quot;: &quot;scope_required&quot;, &quot;scope&quot;: &quot;mcp&quot;}</code>.</p>
+<p>Cookie sessions (operator console) pass the scope check without
+restriction. Mint MCP-specific tokens from the console with the <code>mcp</code>
+scope; grant only the scopes the remote agent actually needs.</p>
+<h2 id="enabling-exposure">Enabling exposure</h2>
+<p>Before any tools appear on <code>tools/list</code>, the operator must enable the
+allowlist:</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-6ff974-bash">bash</button></div><div class="tab-panel active" id="tab-6ff974-bash"><pre class="md-pre lang-bash"><code>curl -X PUT http://localhost:8000/v1/mcp_exposure \
+  -H &quot;Cookie: &lt;session&gt;&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;enabled&quot;: true, &quot;allowed_tools&quot;: [&quot;system__call_tool&quot;, &quot;misc__uuid_v4&quot;]}&#x27;</code></pre></div></div>
+<p><code>PUT /v1/mcp_exposure</code> is cookie-session-only; bearer tokens cannot
+mutate the allowlist even with the <code>mcp</code> scope.</p>
+<h2 id="tool-naming">Tool naming</h2>
+<p>Tools are identified by their scoped id: <code>&lt;toolset_id&gt;__&lt;tool_id&gt;</code>
+(double underscore separator). Examples: <code>system__call_tool</code>,
+<code>misc__uuid_v4</code>, <code>web__web_search</code>.</p>
+<p>Only tools from the reserved built-in toolsets can be exposed. Tools
+from user-defined toolset rows are always denied with reason
+<code>not_system_toolset</code>. Built-in toolset ids are: <code>system</code>, <code>workspaces</code>,
+<code>misc</code>, <code>web</code>, <code>harness</code>, <code>trigger</code>, <code>search</code>, and <code>workspace_ext</code>
+(though every <code>workspace_ext</code> tool is also caught by the yielding or
+session floor below, so none are reachable in practice).</p>
+<p>Additional constraints applied before a tool can be allowlisted:</p>
+<ul>
+<li><strong>Yielding tools</strong> are denied (<code>yielding_unsupported</code>). MCP v1 has
+no park/resume primitive.</li>
+<li><strong>Workspace tools that require an active agent session</strong> are denied
+(<code>needs_session</code>).</li>
+</ul>
+<p>A tool whose effective approval policy is <code>required</code> can be
+allowlisted, but it is <strong>refused at <code>tools/call</code></strong> (MCP has no surface
+to collect an approval), so calls against it fail as not exposed. To
+make it callable over MCP, disable or delete the approval policy
+first.</p>
+<h2 id="listing-tools">Listing tools</h2>
+<p>Connect an MCP client to <code>/v1/mcp</code> and issue <code>tools/list</code>:</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ef0623-bash">bash</button></div><div class="tab-panel active" id="tab-ef0623-bash"><pre class="md-pre lang-bash"><code># Using the MCP Inspector (example):
+npx @modelcontextprotocol/inspector \
+  --url http://localhost:8000/v1/mcp \
+  --header &quot;Authorization: Bearer &lt;token&gt;&quot;</code></pre></div></div>
+<p>The response lists only the tools present in the active allowlist and
+not blocked by the safety floor. If exposure is disabled (<code>enabled: false</code>), the list is empty.</p>
+<h2 id="calling-a-tool">Calling a tool</h2>
+<p>Issue a <code>tools/call</code> request with the scoped tool id:</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f9c870-json">json</button></div><div class="tab-panel active" id="tab-f9c870-json"><pre class="md-pre lang-json"><code>{
+  &quot;method&quot;: &quot;tools/call&quot;,
+  &quot;params&quot;: {
+    &quot;name&quot;: &quot;misc__uuid_v4&quot;,
+    &quot;arguments&quot;: {}
+  }
+}</code></pre></div></div>
+<h2 id="result-envelope">Result envelope</h2>
+<p>Every tool result has the same shape regardless of success or error:</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c71ca5-json">json</button></div><div class="tab-panel active" id="tab-c71ca5-json"><pre class="md-pre lang-json"><code>{
+  &quot;isError&quot;: false,
+  &quot;content&quot;: [
+    { &quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;&lt;tool output&gt;&quot; }
+  ]
+}</code></pre></div></div>
+<p>When <code>isError</code> is <code>true</code>, <code>content[0].text</code> carries the error message.
+A tool that is not in the allowlist returns a JSON-RPC
+<code>method-not-found</code> error rather than an <code>isError</code> result.</p>
+<h2 id="managing-the-allowlist">Managing the allowlist</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/mcp_exposure</code></td>
+<td>Read the singleton row (enabled flag + allowlist)</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/mcp_exposure</code></td>
+<td>Update enabled and/or allowed_tools (cookie session only)</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/mcp_exposure/available</code></td>
+<td>All catalogue tools with exposability verdict</td>
+</tr>
+</tbody>
+</table>
+<div class="ai-doc"><div class="ai-doc-label">Agent-facing reference</div><div class="ai-doc-slug">mcp-exposure</div></div>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Graphs &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,73 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>graphs</span> / <span>Graphs</span></nav><h1>Graphs</h1>
+<h2 id="what-a-graph-is">What a graph is</h2>
+<p>A graph is a directed, potentially cyclic workflow made up of nodes connected by edges. Each node is a unit of work: an agent turn, a direct tool call, or a data-shaping operation like fan-out or aggregation. Edges carry the result of one node into the next.</p>
+<p>The key idea is that a graph encodes structure instead of squeezing multi-step reasoning into a single long prompt. When work splits cleanly into stages (research, then critique, then rewrite) a graph makes those stages explicit, each with its own agent, its own tools, and its own context window.</p>
+<p>Primer's graph engine runs a Pregel-style superstep loop: it computes the set of nodes ready to run, executes all of them concurrently, records each node's output into a shared context, evaluates outgoing edges to compute the next frontier, and repeats until the ready set drains, a cap is hit, or a failure terminates the run.</p>
+<pre class="mermaid">flowchart TD
+    B([Begin]) --&gt; A[agent node]
+    A --&gt; J{conditional edge}
+    J --&gt;|reject| A
+    J --&gt;|accept| E([End])</pre>
+<h2 id="graph-sessions">Graph sessions</h2>
+<p>A graph does not run by itself. It runs as a workspace session bound to the graph: the session carries the initial input (<code>graph_input</code>), the workspace its agents can read and write, and the full run state across every superstep. A worker picks up the session and drives the graph to completion. You create that session only after the graph is built, so &quot;running a graph&quot; always means &quot;starting a session on it.&quot;</p>
+<p>Per-node state is committed to the workspace's <code>.state/graphs/&lt;session_id&gt;/</code> tree after every superstep, so runs survive worker restarts and every turn is recoverable.</p>
+<h2 id="when-to-use-a-graph">When to use a graph</h2>
+<p>Use a graph when work splits cleanly into stages and you want those stages to be distinct, inspectable, and composable. The classic pattern is a producer-and-judge loop: one agent drafts, another critiques, the conditional edge loops back until the judge accepts, then an End node collects the final output.</p>
+<p>Use a single agent for one continuous conversation. Graphs are overhead when the task is a single turn.</p>
+<h2 id="node-kinds-at-a-glance">Node kinds at a glance</h2>
+<table>
+<thead>
+<tr>
+<th>Kind</th>
+<th><code>kind</code> value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Begin</td>
+<td><code>begin</code></td>
+<td>Entry point; receives the graph's initial input. Every graph needs exactly one.</td>
+</tr>
+<tr>
+<td>End</td>
+<td><code>end</code></td>
+<td>Sink; renders the final output template. At least one must be reachable from Begin.</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td><code>agent</code></td>
+<td>Runs a stored agent with a configurable input template. The main workhorse.</td>
+</tr>
+<tr>
+<td>Subgraph</td>
+<td><code>graph</code></td>
+<td>Delegates to another stored graph (recursive composition).</td>
+</tr>
+<tr>
+<td>Fan-out</td>
+<td><code>fan_out</code></td>
+<td>Dispatches the current state to multiple downstream nodes in parallel.</td>
+</tr>
+<tr>
+<td>Fan-in</td>
+<td><code>fan_in</code></td>
+<td>Waits for all parallel branches to finish and aggregates their outputs.</td>
+</tr>
+<tr>
+<td>Tool call</td>
+<td><code>tool_call</code></td>
+<td>Calls a platform tool directly without an agent turn.</td>
+</tr>
+</tbody>
+</table>
+<p><a href="/docs/graphs/graphs/">Build a graph on the visual canvas: add nodes, wire edges, validate, and save.</a></p>
+<p><a href="/docs/graphs/graph-node-types/">Every node kind: configuration fields, behavior, and examples.</a></p>
+<p><a href="/docs/graphs/graph-templating/">How Jinja2 templates in nodes access upstream outputs and graph input.</a></p>
+<p><a href="/docs/workspaces/workspaces-and-sessions/">How sessions are created, how graph_input is validated, and how runs are inspected.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

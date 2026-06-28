@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Workspace Providers &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,185 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>workspaces</span> / <span>Workspace Providers</span></nav><h1>Workspace Providers</h1>
+<h2 id="what-workspace-providers-are">What workspace providers are</h2>
+<p>A workspace gives an agent a real place to work: a filesystem it can read and
+write, a shell it can run commands in, and a git-backed <code>.state/</code> history that
+records every assistant turn as a commit. The workspace provider is the backend
+configuration that tells primer which runtime to use and how to reach it.</p>
+<p>Three concepts share the workspace namespace; knowing them up front prevents
+confusion:</p>
+<ul>
+<li><strong>Provider</strong>: the backend configuration: which runtime (local filesystem,
+container daemon, Kubernetes cluster) and how to reach it. Each provider is
+an id-keyed row (like an LLM provider), and you can register as many as you
+want, including several of the same backend type. For example, two
+Kubernetes providers can point at two different clusters, or two container
+providers at two different Docker daemons.</li>
+<li><strong>Template</strong>: the materialisation recipe that references a provider:
+which image or base path, environment variables, initial files, and init
+commands. Many templates can reference one provider.</li>
+<li><strong>Workspace instance</strong>: the live, materialised sandbox created from a
+template. Many instances can be created from one template; each instance
+hosts one or more sessions.</li>
+</ul>
+<pre class="mermaid">erDiagram
+    Provider ||--o{ Template : &quot;provider_id&quot;
+    Template ||--o{ Workspace : &quot;template_id&quot;
+    Workspace ||--o{ Session : &quot;hosts&quot;</pre>
+<h3 id="three-backends">Three backends</h3>
+<p>Primer ships three backends that all satisfy the same workspace contract:</p>
+<table>
+<thead>
+<tr>
+<th>Backend</th>
+<th>Where the filesystem lives</th>
+<th>Where commands run</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Local</td>
+<td>A directory on the host</td>
+<td>The host process</td>
+</tr>
+<tr>
+<td>Container</td>
+<td>A volume inside a Docker or Podman container</td>
+<td>Inside the container</td>
+</tr>
+<tr>
+<td>Kubernetes</td>
+<td>A PVC attached to a StatefulSet pod</td>
+<td>Inside the pod</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Local</strong> is the simplest choice and requires only the host filesystem and
+<code>git</code>. It is bootstrapped automatically on first start with the reserved id
+<code>local</code>; a default template pointing at it is also created. Use the local
+backend for development and single-machine deployments.</p>
+<p><strong>Container</strong> runs each workspace in an isolated Docker or Podman container.
+File operations and shell commands travel over a persistent WebSocket to an
+in-container <code>primer-runtime</code> server. The connection stays open for the
+lifetime of the workspace so file ops are sub-millisecond and shell exec
+returns at inotify-push latency rather than waiting for a new <code>docker exec</code>
+per call. Use the container backend when you need network isolation,
+reproducible images, or resource caps per workspace.</p>
+<p><strong>Kubernetes</strong> runs each workspace as a StatefulSet pod with a PersistentVolume
+Claim for durability. The same WebSocket runtime protocol is used as for
+container workspaces. Use the Kubernetes backend for production deployments
+where you need cluster scheduling, auto-recovery, and namespace-level network
+policy.</p>
+<p>The provider stores only connection and reachability parameters. Image
+selection, environment variables, init commands, and resource limits all live
+on the template, so one provider can back many differently configured templates.</p>
+<h3 id="lifecycle-and-probe">Lifecycle and probe</h3>
+<pre class="mermaid">stateDiagram-v2
+    [*] --&gt; pending : workspace created
+    pending --&gt; running : first probe hit
+    running --&gt; failed : 3 consecutive probe misses
+    failed --&gt; running : 3 consecutive probe hits
+    running --&gt; terminating : workspace deleted
+    failed --&gt; terminating : workspace deleted
+    terminating --&gt; [*]</pre>
+<p>A newly created workspace starts in the <code>pending</code> phase and is promoted to
+<code>running</code> on its first successful probe ping. A background probe pings every
+running workspace on a configurable interval (default 30 seconds). Three
+consecutive missed pings flip the workspace to <code>failed</code> and end every session
+on it with reason <code>workspace_lost</code>. Three consecutive successful pings restore
+it to <code>running</code>. The phase machine is driven by the probe.</p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="local-provider-fields">Local provider fields</h3>
+<p>The local provider requires only a <code>root_path</code> where workspace directories are
+created. The auto-bootstrapped <code>local</code> provider uses a default path and is
+protected from mutation through the UI or API: re-creating the reserved id
+returns <code>409</code>, and updating or deleting it returns <code>403</code>.</p>
+<p>If you need a second local provider pointing at a different directory, register
+it with <code>provider = &quot;local&quot;</code> and a different <code>root_path</code>.</p>
+<h3 id="container-provider-fields">Container provider fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Runtime</strong></td>
+<td><code>docker</code> (real); <code>podman</code> and <code>containerd</code> are config-accepted stubs that raise <code>ConfigError</code> at use time</td>
+</tr>
+<tr>
+<td><strong>Connection</strong></td>
+<td><code>socket</code> (path to a Unix socket; default <code>/var/run/docker.sock</code>) or <code>remote</code> (a <code>tcp://</code> daemon URL with optional TLS)</td>
+</tr>
+<tr>
+<td><strong>Reachability</strong></td>
+<td>How the platform reaches the runtime server inside the container: <code>host_port</code> (bind a host port, for host-side platforms) or <code>bridge_network</code> (container-to-container DNS on a named Docker network)</td>
+</tr>
+</tbody>
+</table>
+<p>The platform mints a per-workspace bearer token and injects it as
+<code>PRIMER_RUNTIME_TOKEN</code> when creating the container. The token is stored on the
+workspace row so the platform can re-attach after a restart without re-creating
+the container.</p>
+<h3 id="kubernetes-provider-fields">Kubernetes provider fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Connection</strong></td>
+<td><code>in_cluster</code> (when primer runs inside the cluster), <code>kubeconfig</code> with a path, or <code>service_account_token</code> (explicit apiserver URL + token)</td>
+</tr>
+<tr>
+<td><strong>Namespace</strong></td>
+<td>The Kubernetes namespace where StatefulSets and PVCs are created</td>
+</tr>
+<tr>
+<td><strong>Reachability</strong></td>
+<td><code>in_cluster</code> (pod-to-pod DNS), <code>ingress</code> (via a templated ingress URL), or <code>gateway_httproute</code> (via a pre-created Gateway API HTTPRoute)</td>
+</tr>
+</tbody>
+</table>
+<p>The token is stored in a per-workspace Kubernetes Secret and recovered from
+it on re-attach.</p>
+<h2 id="walkthrough-register-a-container-provider">Walkthrough: register a container provider</h2>
+<ol>
+<li>Open <strong>Workspaces</strong> in the left nav.</li>
+<li>Click the <strong>Providers</strong> tab at the top of the page.</li>
+<li>Click <strong>New provider</strong>.</li>
+</ol>
+<figure class="embed"><picture><source srcset="/_embeds/workspace-provider-create-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/workspace-provider-create-light.png" alt="workspace-provider-create (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<ol start="4">
+<li>Select <strong>Container</strong> as the provider type.</li>
+<li>Set <strong>Runtime</strong> to <code>docker</code>.</li>
+<li>Under <strong>Connection</strong>, choose <strong>Socket</strong> and confirm the socket path
+(<code>/var/run/docker.sock</code> is the default on Linux).</li>
+<li>Under <strong>Reachability</strong>, choose <strong>Host port</strong>. The platform will bind a
+random high port for each workspace's runtime server.</li>
+<li>Click <strong>Create provider</strong>. The provider row appears in the list.</li>
+</ol>
+<p>To register a Kubernetes provider, choose <strong>Kubernetes</strong> in step 4, set
+<strong>Connection</strong> to <code>in_cluster</code> (or <code>kubeconfig</code> with the path to your
+kubeconfig file), enter the target namespace, and choose the reachability
+mode that matches your cluster topology.</p>
+<p>The local provider (<code>local</code>) is already registered on first boot. You do not
+need to create it, but you may create additional local providers pointing at
+different directories.</p>
+<p><a href="/docs/workspaces/workspace-templates/">Author templates that materialise workspaces from a provider and configure
+the image, environment variables, init commands, and initial files.</a></p>
+<p><a href="/docs/workspaces/workspaces-and-sessions/">Sessions run on workspace instances; one agent or graph per session,
+many sessions per workspace.</a></p>
+<p><a href="/docs/workspaces/workspace-toolset/">The workspace toolset agents use to manage providers, templates,
+workspaces, and sessions programmatically.</a></p>
+<p><a href="/docs/reference/api-workspaces/">REST API reference for workspace providers, templates, workspace instances,
+the file sub-API, and the diagnostic exec endpoint.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

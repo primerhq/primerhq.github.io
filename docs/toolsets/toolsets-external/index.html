@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>External Toolsets &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,147 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>toolsets</span> / <span>External Toolsets</span></nav><h1>External Toolsets</h1>
+<h2 id="concept">Concept</h2>
+<p>Alongside the built-in system toolsets, primer lets you register <strong>external toolsets</strong>: tool collections that live outside primer and are pulled in over a transport. An external toolset appears in the toolset list next to the built-in ones, and any agent can be bound to it; the agent's effective tool list then includes both the external tools and any other toolsets the agent has.</p>
+<p>Today the one external-toolset kind is <strong>MCP</strong>. The same registration model is what any future external-provider kind would follow: register the source once, and any number of agents can bind to it.</p>
+<h3 id="mcp-toolsets">MCP toolsets</h3>
+<p><strong>MCP (Model Context Protocol)</strong> is an open standard for exposing tools to LLMs. An MCP server advertises a list of callable functions; an MCP client (primer, in this case) connects, lists those functions, and forwards agent calls to them.</p>
+<p>Primer treats each registered MCP server as a <strong>toolset of kind <code>mcp</code></strong>. Once registered, the MCP toolset appears in the toolset list alongside the built-in toolsets, and any agent can be bound to it. This design keeps the integration surface clean: the operator registers an MCP server once, and any number of agents can bind to it. The server does not need to know which agent is calling; primer handles authentication, transport, and the call routing.</p>
+<h3 id="transports">Transports</h3>
+<p>Primer supports two MCP transports.</p>
+<p><strong>stdio</strong>: primer launches the MCP server as a subprocess and speaks MCP over its standard input and output. The subprocess has a per-dispatch lifetime: it is started (and the MCP init handshake run) at the beginning of each dispatch and closed when that dispatch finishes, rather than kept alive for the provider's lifetime. A single dispatch that issues several tool calls reuses the one subprocess; across dispatches a fresh subprocess is started. This keeps behaviour correct when dispatches land on different workers, at the cost of re-running the handshake per dispatch. Useful for local or containerised MCP servers where you have binary access. The command and its arguments are specified as an argv list; environment variables can be injected as key-value pairs.</p>
+<p><strong>HTTP (streamable)</strong>: primer connects to a remote MCP endpoint over the streamable-HTTP transport. A new HTTP session is opened for each tool call (the MCP SDK has no long-lived equivalent for stateless HTTP MCP). Useful for hosted or remote MCP servers. Supports static headers (for example, an <code>Authorization</code> header) and an optional OAuth 2.1 (PKCE) flow for servers that return a 401 on unauthenticated requests.</p>
+<pre class="mermaid">flowchart LR
+    Agent --&gt; Primer[Primer toolset registry]
+    Primer --&gt;|stdio: subprocess| Local[Local MCP server subprocess]
+    Primer --&gt;|HTTP streamable| Remote[Remote MCP endpoint]
+    Local --&gt; Tools1[Tool calls over stdin/stdout]
+    Remote --&gt; Tools2[Tool calls over HTTP]</pre>
+<h3 id="stdio-command-allowlist">Stdio command allowlist</h3>
+<p>In multi-tenant or security-sensitive deployments, an operator can configure an <code>allowed_stdio_commands</code> allowlist on the primer instance. When set, primer refuses to launch any stdio MCP server whose command is not in the allowlist, even if a user creates a Toolset row for it. The allowlist is enforced at dispatch time.</p>
+<h3 id="oauth-preflight-for-http-toolsets">OAuth preflight for HTTP toolsets</h3>
+<p>When an HTTP MCP toolset has an <code>oauth</code> block configured, primer performs OAuth 2.1 (PKCE) automatically. If a request to the MCP server returns a 401, the adapter raises an <code>auth-required</code> error that surfaces to the caller. Once the OAuth flow is complete (via <code>complete_oauth</code>), the adapter caches the bearer token and includes it on subsequent requests. Passing a <code>principal</code> on <code>list_toolset_tools</code> or <code>call_tool</code> scopes the cached token to a specific end-user identity.</p>
+<h2 id="configuration">Configuration</h2>
+<figure class="embed"><picture><source srcset="/_embeds/toolsets-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/toolsets-light.png" alt="toolsets (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<p>To register an MCP toolset:</p>
+<ol>
+<li>
+<p>Open <strong>Toolsets</strong> in the left nav.</p>
+</li>
+<li>
+<p>Click <strong>New toolset</strong>.</p>
+</li>
+<li>
+<p>Enter a unique <strong>id</strong> for the toolset (for example, <code>github-mcp</code>). This id is how agents and the console refer to it.</p>
+</li>
+<li>
+<p>Choose <strong>provider = mcp</strong>.</p>
+</li>
+<li>
+<p>Choose a <strong>transport</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Transport</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stdio</code></td>
+<td>Local binary or container; you have filesystem access to the server process.</td>
+</tr>
+<tr>
+<td><code>http</code></td>
+<td>Remote or hosted MCP endpoint reachable over HTTP.</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Fill in the transport-specific fields:</p>
+</li>
+</ol>
+<h3 id="stdio-fields">stdio fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>command</code></td>
+<td>Yes</td>
+<td>The full argv list. Example: <code>[&quot;npx&quot;, &quot;-y&quot;, &quot;@modelcontextprotocol/server-github&quot;]</code>. The first element must be in the allowlist when one is configured.</td>
+</tr>
+<tr>
+<td><code>env</code></td>
+<td>No</td>
+<td>Environment variables injected into the subprocess. Pass API keys here rather than in the command string.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="http-fields">HTTP fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>url</code></td>
+<td>Yes</td>
+<td>Base URL of the MCP endpoint. Example: <code>https://mcp.example.com</code>.</td>
+</tr>
+<tr>
+<td><code>headers</code></td>
+<td>No</td>
+<td>Static headers sent on every request. Common use: <code>Authorization: Bearer &lt;token&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>oauth</code></td>
+<td>No</td>
+<td>OAuth 2.1 config block. Set when the server requires OAuth rather than a static token.</td>
+</tr>
+</tbody>
+</table>
+<ol start="7">
+<li>Click <strong>Save</strong>. The toolset is now registered and visible in the toolset list.</li>
+</ol>
+<h3 id="binding-the-toolset-to-an-agent">Binding the toolset to an agent</h3>
+<p>After saving the MCP toolset, go to the agent's <strong>Tools</strong> tab and add it to the toolset list. The agent can then select individual tools from the MCP server or take all of them.</p>
+<h2 id="walkthrough-register-a-local-mcp-server">Walkthrough: register a local MCP server</h2>
+<p>This walkthrough registers the GitHub MCP server as a stdio toolset and binds it to an agent.</p>
+<ol>
+<li>Install the MCP server locally if needed: <code>npm install -g @modelcontextprotocol/server-github</code> (or use <code>npx</code>).</li>
+<li>In primer, open <strong>Toolsets</strong> and click <strong>New toolset</strong>.</li>
+<li>Set <strong>id</strong> to <code>github-mcp</code> and <strong>provider</strong> to <code>mcp</code>.</li>
+<li>Set <strong>transport</strong> to <code>stdio</code>.</li>
+<li>Set <strong>command</strong> to <code>[&quot;npx&quot;, &quot;-y&quot;, &quot;@modelcontextprotocol/server-github&quot;]</code>.</li>
+<li>Set <strong>env</strong> to <code>{&quot;GITHUB_PERSONAL_ACCESS_TOKEN&quot;: &quot;&lt;your-token&gt;&quot;}</code>.</li>
+<li>Click <strong>Save</strong>.</li>
+<li>Open an agent, go to the <strong>Tools</strong> tab, and add <code>github-mcp</code> to its toolset list.</li>
+<li>Start a session with that agent and ask: &quot;List the open pull requests in my organisation's main repo.&quot;</li>
+</ol>
+<p>The agent calls the GitHub MCP server's <code>list_pull_requests</code> tool (or equivalent) through primer and returns the results.</p>
+<h3 id="walkthrough-register-a-remote-http-mcp-server">Walkthrough: register a remote HTTP MCP server</h3>
+<ol>
+<li>Open <strong>Toolsets</strong> and click <strong>New toolset</strong>.</li>
+<li>Set <strong>id</strong> to <code>remote-mcp</code> and <strong>provider</strong> to <code>mcp</code>.</li>
+<li>Set <strong>transport</strong> to <code>http</code>.</li>
+<li>Set <strong>url</strong> to the server's endpoint, for example <code>https://mcp.acme.com/v1</code>.</li>
+<li>Optionally add a static <code>Authorization</code> header under <strong>headers</strong>.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<p><a href="/docs/toolsets/toolsets-system/">The eight built-in toolsets and how to explore tools with list_toolset_tools and call_tool.</a></p>
+<p><a href="/docs/features/mcp-server/">Primer as an MCP server: exposing a curated subset of its own tools to external clients.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

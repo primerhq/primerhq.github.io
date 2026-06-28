@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Webhook incident responder &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,139 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>Cookbook</span> / <span>Webhook incident responder</span></nav><h1>Webhook incident responder</h1>
+<h2 id="goal">Goal</h2>
+<p>When your monitoring system fires an alert, you want more than a raw page, you want a
+first-pass triage waiting in your channel: what broke, how bad, the likely cause, and
+a first step. A <strong>webhook</strong> trigger turns the alert into a fresh agent session; the
+agent assesses it and posts a summary via <code>inform_user</code>.</p>
+<p>This recipe shows the <strong>webhook</strong> trigger and passing its payload into the session.
+Every step is shown two ways: first <strong>in the console</strong> (which page to open, what to
+click, which fields to fill), then a <strong>Via the CLI</strong> block with the exact <code>primectl</code>
+command. Pick whichever you prefer; the two paths build the same objects.</p>
+<h2 id="ingredients">Ingredients</h2>
+<ul>
+<li><strong>An LLM provider</strong> and <strong>a channel</strong> with a workspace bound to it (see the
+<a href="cookbook-scheduled-stock-monitor">stock-news monitor</a> for channel and reply-binding
+setup).</li>
+<li>Optionally the <strong>web</strong> toolset or workspace file tools so the agent can investigate
+(search the error, read a log) before summarizing.</li>
+</ul>
+<p>If you have not connected <code>primectl</code> yet, see &quot;Connecting the CLI&quot; in the
+<a href="cookbook-rag-knowledge-base">RAG knowledge base</a> recipe.</p>
+<h2 id="walkthrough">Walkthrough</h2>
+<h3 id="1-create-the-responder-agent">1. Create the responder agent</h3>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Compute &gt; Agents</strong> and click <strong>New agent</strong>.</li>
+<li>On <strong>Basic</strong> set <strong>ID</strong> to <code>incident-responder</code>, add a <strong>Description</strong>, and pick
+the <strong>LLM provider</strong> and <strong>Model</strong>.</li>
+<li>On <strong>Tools</strong> check <code>misc__inform_user</code>.</li>
+<li>On <strong>Advanced</strong> paste the system prompt (below) and set <strong>max tool turns</strong> to <code>5</code>.
+Click <strong>Create</strong>.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f incident-responder.yaml
+</code></pre>
+<pre><code class="language-yaml">kind: agent
+spec:
+  id: incident-responder
+  description: Triages incidents from alerts and notifies the channel.
+  model: { provider_id: &lt;llm&gt;, model_name: &lt;model&gt; }
+  tools:
+    - misc__inform_user
+  max_tool_turns: 5
+  system_prompt:
+    - &gt;-
+      You are an incident responder. An alert payload is in your input. Assess
+      likely severity, name 1-2 plausible causes and a first step, then call
+      inform_user ONCE with a concise triage summary (service, severity, likely
+      cause, first step). Then stop.
+</code></pre>
+<h3 id="2-create-a-webhook-trigger">2. Create a webhook trigger</h3>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Automation &gt; Triggers</strong> and click <strong>New trigger</strong>. Set the <strong>Kind</strong> to
+<strong>Webhook</strong>, give it a slug (<code>incident</code>), <strong>Enable</strong> it, and click <strong>Create</strong>.</li>
+<li>Open the trigger; its detail page shows the <strong>webhook URL</strong>. That public URL is
+<code>POST /v1/webhooks/{token}</code>, what your monitoring system calls. Treat the token as
+a secret.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f trigger.yaml
+</code></pre>
+<pre><code class="language-yaml">kind: trigger
+spec:
+  slug: incident
+  name: Incident webhook
+  config: { kind: webhook }
+  enabled: true
+</code></pre>
+<p>The created trigger carries the <strong>webhook token</strong> in <code>config.token</code>; read it back
+with <code>primectl get trigger &lt;trigger-id&gt; -o json -r</code>. The public URL is
+<code>POST /v1/webhooks/{token}</code>.</p>
+<h3 id="3-wire-a-subscription-that-carries-the-alert">3. Wire a subscription that carries the alert</h3>
+<p>The webhook body is exposed to the payload template as <code>{{ webhook_body }}</code> (raw
+string; <code>webhook_headers</code>, <code>webhook_query</code>, <code>webhook_method</code> are available too).
+Render it into the agent's instructions, and point the subscription at the
+channel-bound workspace.</p>
+<p>In the console:</p>
+<ol>
+<li>Open the trigger and click <strong>New subscription</strong>. Set the <strong>Action</strong> to
+<strong>agent_fresh_session</strong>, pick the <code>incident-responder</code> agent and the
+channel-bound workspace, set the <strong>Payload template</strong> to render the alert (below),
+and click <strong>Create</strong>.</li>
+</ol>
+<p>Via the CLI, the subscription is nested under the trigger, so create it with the
+<code>call trigger subscriptions</code> custom operation (pass the trigger id <code>create</code> echoed
+back):</p>
+<pre><code>primectl call trigger subscriptions &lt;trigger-id&gt; -f subscription.yaml
+</code></pre>
+<pre><code class="language-yaml">config: { kind: agent_fresh_session, agent_id: incident-responder, workspace_id: &lt;channel-bound-workspace&gt; }
+payload_template: &quot;Incident alert received: {{ webhook_body }}. Triage it and post a summary.&quot;
+</code></pre>
+<p>A few things worth knowing:</p>
+<ul>
+<li><strong>The webhook URL is unauthenticated except for the token</strong>, treat the token as a
+secret. For stronger guarantees set <code>config.hmac_secret</code>; callers must then send
+<code>X-Primer-Signature: HMAC-SHA256(secret, body)</code> or get a 401.</li>
+<li><strong><code>webhook_body</code> is the raw string</strong>, not parsed JSON, pass it whole (the agent
+reads it fine), or parse fields in the template if your renderer has a JSON filter.</li>
+<li><strong>Deliver from the agent session.</strong> As in the stock-monitor recipe, <code>inform_user</code>
+reaches the channel from an <code>agent_fresh_session</code> (returns <code>delivered_to: 1</code>); keep
+the notify in the agent, not a graph node.</li>
+<li><strong>Webhooks are rate-limited and body-capped</strong> (1 MB) server-side.</li>
+</ul>
+<h2 id="testing">Testing</h2>
+<p>Simulate an alert by POSTing to the webhook. The webhook is a public,
+token-authenticated endpoint with no first-class console button or <code>primectl</code> verb
+(your monitoring system calls it directly), so the simplest hands-on test is <code>curl</code>,
+or the <code>primectl raw</code> escape hatch:</p>
+<pre><code>primectl raw POST /v1/webhooks/&lt;token&gt; -f alert.json
+</code></pre>
+<p>where <code>alert.json</code> is:</p>
+<pre><code class="language-json">{&quot;service&quot;: &quot;payments-api&quot;, &quot;error&quot;: &quot;5xx error rate 40%, p99 latency 8s&quot;, &quot;region&quot;: &quot;us-east&quot;}
+</code></pre>
+<p>Expected outcome (verified):</p>
+<ul>
+<li>The webhook returns <code>202</code> with <code>{&quot;status&quot;: &quot;accepted&quot;}</code> and a <code>delivery_id</code>, and
+fires the subscription, creating a fresh session from the alert. The fired session
+is created, claimed, and runs to terminal <code>ended</code> / <code>completed</code> (the dispatch hands
+the fired session to the runner, so it actually executes). Find it on the Sessions
+page filtered to the bound workspace (it is tagged with the trigger id); on the CLI
+the session list takes a <code>workspace_id</code> filter through the <code>primectl raw</code> escape
+hatch (<code>primectl raw GET /v1/sessions --param workspace_id=&lt;workspace-id&gt; -o json</code>).</li>
+<li>The agent triages the alert (the rendered <code>{{ webhook_body }}</code> is in its
+instructions) and calls <code>inform_user</code>, so a summary lands in your channel (the tool
+result shows <code>delivered_to: 1</code>). The alert-to-channel delivery is <strong>verified live</strong>,
+the same path proven in the stock-monitor recipe.</li>
+</ul>
+<p>Read the session transcript back with
+<code>primectl workspace files get &lt;workspace-id&gt; .state/sessions/&lt;sid&gt;/messages.jsonl --content</code>
+to confirm the rendered alert and the <code>inform_user</code> triage call.</p>
+<p>Point a real alerting rule (Grafana, Datadog, an uptime checker) at the webhook URL
+and you have hands-off first-response triage. Give the agent the <code>web</code> toolset and it
+can look up the error before summarizing.</p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

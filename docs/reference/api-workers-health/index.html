@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Workers and Health API &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,219 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>Reference</span> / <span>Workers and Health API</span></nav><h1>Workers and Health API</h1>
+<p>The workers and health endpoints expose the runtime state of the worker pool and the scheduler. Both are public (no authentication required) and are suitable for use in load balancer health checks and operational dashboards.</p>
+<p><a href="/docs/workspaces/yielding-tools/">How sessions yield control and park while waiting for events.</a></p>
+<p><a href="/docs/features/workers/">Monitor the worker pool in the console.</a></p>
+<h2 id="endpoints">Endpoints</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Auth</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/v1/workers</code></td>
+<td>none</td>
+<td>List registered workers</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/workers/{worker_id}/drain</code></td>
+<td>required</td>
+<td>Mark a worker as draining</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/health</code></td>
+<td>none</td>
+<td>Liveness probe with scheduler and worker metrics</td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-v1workers">GET /v1/workers</h2>
+<p>Returns the list of workers registered in the pool with their current status, capacity, and heartbeat.</p>
+<pre><code class="language-json">{
+  &quot;items&quot;: [
+    {
+      &quot;id&quot;: &quot;wrk-d5ba94ecac66&quot;,
+      &quot;host&quot;: &quot;build-host&quot;,
+      &quot;pid&quot;: 3371965,
+      &quot;capacity&quot;: 8,
+      &quot;started_at&quot;: &quot;2026-06-07T19:00:55.238423Z&quot;,
+      &quot;last_heartbeat&quot;: &quot;2026-06-07T19:00:55.238423Z&quot;,
+      &quot;status&quot;: &quot;active&quot;
+    }
+  ]
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>Worker identifier (prefix <code>wrk-</code>)</td>
+</tr>
+<tr>
+<td><code>host</code></td>
+<td>string</td>
+<td>Hostname of the process</td>
+</tr>
+<tr>
+<td><code>pid</code></td>
+<td>integer</td>
+<td>Operating system process id</td>
+</tr>
+<tr>
+<td><code>capacity</code></td>
+<td>integer</td>
+<td>Maximum concurrent sessions this worker accepts</td>
+</tr>
+<tr>
+<td><code>started_at</code></td>
+<td>datetime</td>
+<td>When the worker process registered</td>
+</tr>
+<tr>
+<td><code>last_heartbeat</code></td>
+<td>datetime</td>
+<td>Timestamp of the most recent heartbeat</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>string</td>
+<td>One of <code>active</code>, <code>draining</code>, <code>dead</code></td>
+</tr>
+</tbody>
+</table>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c62c61-curl">curl</button><button class="tab" data-tab="tab-c62c61-python">python</button><button class="tab" data-tab="tab-c62c61-javascript">javascript</button></div><div class="tab-panel active" id="tab-c62c61-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/workers</code></pre></div><div class="tab-panel" id="tab-c62c61-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.get(&quot;https://your-host/v1/workers&quot;)
+workers = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-c62c61-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workers&quot;)
+const {items} = await r.json()</code></pre></div></div>
+<p><strong>Note:</strong> No <code>Authorization</code> header is needed. This endpoint is public.</p>
+<h2 id="post-v1workersworker_iddrain">POST /v1/workers/{worker_id}/drain</h2>
+<p>Marks the specified worker as <code>draining</code>. The worker stops accepting new session claims but continues serving any sessions already in flight. Returns <code>204 No Content</code>.</p>
+<p>The worker's <code>status</code> field on <code>GET /v1/workers</code> flips to <code>draining</code> immediately; the row remains visible throughout the drain window. The actual process shutdown happens externally (for example, via a SIGTERM to the worker process). Poll <code>GET /v1/workers</code> to observe the status transition.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-fd77e7-curl">curl</button><button class="tab" data-tab="tab-fd77e7-python">python</button><button class="tab" data-tab="tab-fd77e7-javascript">javascript</button></div><div class="tab-panel active" id="tab-fd77e7-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/workers/wrk-d5ba94ecac66/drain \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-fd77e7-python"><pre class="md-pre lang-python"><code>import httpx, time
+token = &quot;...&quot;
+r = httpx.post(
+    &quot;https://your-host/v1/workers/wrk-d5ba94ecac66/drain&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+)
+assert r.status_code == 204
+
+# Poll the drain status
+for _ in range(30):
+    workers = httpx.get(&quot;https://your-host/v1/workers&quot;).json()[&quot;items&quot;]
+    row = next((w for w in workers if w[&quot;id&quot;] == &quot;wrk-d5ba94ecac66&quot;), None)
+    if row and row[&quot;status&quot;] == &quot;draining&quot;:
+        break
+    time.sleep(0.5)</code></pre></div><div class="tab-panel" id="tab-fd77e7-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workers/wrk-d5ba94ecac66/drain&quot;, {
+  method: &quot;POST&quot;,
+  headers: {&quot;Authorization&quot;: `Bearer ${token}`}
+})
+// r.status === 204</code></pre></div></div>
+<p><strong>Guarantee:</strong> Every <code>GET /v1/workers</code> and <code>GET /v1/health</code> call during the drain window returns a clean 2xx response with no <code>500</code> or <code>/errors/internal</code> envelopes. The drained worker row stays present and identifiable throughout.</p>
+<p><strong>Errors:</strong> <code>500</code> on internal failure.</p>
+<h2 id="get-v1health">GET /v1/health</h2>
+<p>Liveness probe that returns <code>200 OK</code> whenever the API process is responsive. Includes scheduler liveness and worker pool capacity metrics.</p>
+<pre><code class="language-json">{
+  &quot;status&quot;: &quot;ok&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;scheduler&quot;: {
+    &quot;alive&quot;: true,
+    &quot;metrics&quot;: {
+      &quot;primer_sessions_active&quot;: {},
+      &quot;primer_sessions_runnable_queue_depth&quot;: 0,
+      &quot;primer_lease_expirations_total&quot;: 0,
+      &quot;primer_scheduler_notify_received_total&quot;: 0
+    }
+  },
+  &quot;worker_pool&quot;: {
+    &quot;in_flight&quot;: 0,
+    &quot;capacity&quot;: 8,
+    &quot;metrics&quot;: {
+      &quot;primer_worker_id&quot;: &quot;wrk-d5ba94ecac66&quot;,
+      &quot;primer_worker_in_flight&quot;: 0,
+      &quot;primer_worker_capacity&quot;: 8,
+      &quot;primer_worker_claims_total&quot;: 1,
+      &quot;primer_worker_claims_empty_total&quot;: 7,
+      &quot;primer_session_turns_total&quot;: {},
+      &quot;primer_session_turn_duration_seconds&quot;: {&quot;count&quot;: 0, &quot;sum&quot;: 0.0}
+    }
+  }
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>status</code></td>
+<td>string</td>
+<td>Always <code>&quot;ok&quot;</code> when the process is responsive</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>string</td>
+<td>API surface version (semver)</td>
+</tr>
+<tr>
+<td><code>scheduler.alive</code></td>
+<td>boolean</td>
+<td>True when the in-process scheduler is running</td>
+</tr>
+<tr>
+<td><code>scheduler.metrics</code></td>
+<td>object</td>
+<td>Snapshot of scheduler counters and gauges</td>
+</tr>
+<tr>
+<td><code>worker_pool.in_flight</code></td>
+<td>integer or null</td>
+<td>Sessions currently executing; null in API-only mode</td>
+</tr>
+<tr>
+<td><code>worker_pool.capacity</code></td>
+<td>integer or null</td>
+<td>Configured per-worker concurrency; null in API-only mode</td>
+</tr>
+<tr>
+<td><code>worker_pool.metrics</code></td>
+<td>object</td>
+<td>Snapshot of worker-pool counters and histograms</td>
+</tr>
+</tbody>
+</table>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-4da4fc-curl">curl</button><button class="tab" data-tab="tab-4da4fc-python">python</button><button class="tab" data-tab="tab-4da4fc-javascript">javascript</button></div><div class="tab-panel active" id="tab-4da4fc-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/health</code></pre></div><div class="tab-panel" id="tab-4da4fc-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.get(&quot;https://your-host/v1/health&quot;)
+health = r.json()
+assert health[&quot;status&quot;] == &quot;ok&quot;
+capacity = health[&quot;worker_pool&quot;][&quot;capacity&quot;]
+in_flight = health[&quot;worker_pool&quot;][&quot;in_flight&quot;]</code></pre></div><div class="tab-panel" id="tab-4da4fc-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/health&quot;)
+const health = await r.json()
+const {capacity, in_flight} = health.worker_pool</code></pre></div></div>
+<p><strong>Note:</strong> No <code>Authorization</code> header is needed. This endpoint is public and suitable for use as a load balancer health check target.</p>
+<h2 id="errors-note">Errors note</h2>
+<p>All error responses use the RFC 7807 <code>ProblemDetails</code> envelope with <code>type</code>, <code>title</code>, <code>status</code>, <code>detail</code>, <code>instance</code>, and <code>extensions</code> (which includes <code>request_id</code>). See the REST API overview for details.</p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

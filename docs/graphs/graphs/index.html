@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Graph Designer &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,138 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>graphs</span> / <span>Graph Designer</span></nav><h1>Graph Designer</h1>
+<p>The Graph Designer is the visual canvas for building and editing graphs. If you are new to graphs, start with the Graphs overview for the concepts (what a graph is, the superstep engine, graph sessions, and when to use one); this page is the hands-on canvas walkthrough.</p>
+<p><a href="/docs/graphs/overview/">What a graph is, how the superstep engine runs it, and when to reach for one.</a></p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="creating-a-graph">Creating a graph</h3>
+<ol>
+<li>Go to <strong>Graphs</strong> in the left nav and click <strong>New graph</strong>.</li>
+<li>Fill in the modal:
+<ul>
+<li><strong>ID</strong> (optional): a short slug like <code>blog-pipeline</code>. Leave blank and the backend generates one.</li>
+<li><strong>Description</strong>: a one-line label shown in the list view.</li>
+<li><strong>Seed agent</strong>: the agent that seeds the first worker node. The console creates a minimal skeleton: <code>Begin -&gt; agent -&gt; End</code>.</li>
+</ul>
+</li>
+<li>Click <strong>Create</strong>. The canvas opens immediately.</li>
+</ol>
+<h3 id="the-canvas">The canvas</h3>
+<figure class="embed"><picture><source srcset="/_embeds/graph-canvas-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/graph-canvas-light.png" alt="graph-canvas (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<p>The canvas shows nodes on a dot-grid. Edges appear as arrows between them:</p>
+<ul>
+<li>Solid arrows: static edges, always followed.</li>
+<li>Dashed arrows: conditional edges (carry a JSON-path router) or implicit fan-out wiring shown for reference only.</li>
+</ul>
+<p>A legend at the bottom-left identifies edge styles. Drag any node to reposition it; the canvas snaps to an 8-pixel grid. Click <strong>Auto-layout</strong> to reset all positions to a left-to-right computed arrangement.</p>
+<h3 id="node-kinds">Node kinds</h3>
+<table>
+<thead>
+<tr>
+<th>Kind</th>
+<th><code>kind</code> value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Begin</td>
+<td><code>begin</code></td>
+<td>Entry point; receives the graph's initial input. Every graph needs exactly one.</td>
+</tr>
+<tr>
+<td>End</td>
+<td><code>end</code></td>
+<td>Sink; renders the final output template. At least one must be reachable from Begin.</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td><code>agent</code></td>
+<td>Runs a stored agent with a configurable input template. The main workhorse.</td>
+</tr>
+<tr>
+<td>Subgraph</td>
+<td><code>graph</code></td>
+<td>Delegates to another stored graph (recursive composition).</td>
+</tr>
+<tr>
+<td>Fan-out</td>
+<td><code>fan_out</code></td>
+<td>Dispatches the current state to multiple downstream nodes in parallel.</td>
+</tr>
+<tr>
+<td>Fan-in</td>
+<td><code>fan_in</code></td>
+<td>Waits for all parallel branches to finish and aggregates their outputs.</td>
+</tr>
+<tr>
+<td>Tool call</td>
+<td><code>tool_call</code></td>
+<td>Calls a platform tool directly without an agent turn.</td>
+</tr>
+</tbody>
+</table>
+<p>The graph node types page (linked at the end of this page) documents the full configuration of each kind.</p>
+<h3 id="adding-and-configuring-a-node">Adding and configuring a node</h3>
+<ol>
+<li>Click <strong>Add node</strong> in the toolbar and pick a kind from the dropdown.</li>
+<li>The new node appears on the canvas and is immediately selected.</li>
+<li>The right-hand side panel opens. Fill in the fields:
+<ul>
+<li><strong>Agent node</strong>: pick an agent from the dropdown, or click <strong>+ New</strong> to create one inline. Optionally override the <code>input_template</code>.</li>
+<li><strong>End node</strong>: set the <code>output_template</code>. May be left blank.</li>
+<li><strong>Fan-out node</strong>: add one or more specs (<code>broadcast</code>, <code>map</code>, or <code>tee</code>), each pointing to a target node id.</li>
+<li><strong>Fan-in node</strong>: set the <code>aggregate_template</code>.</li>
+<li><strong>Tool call node</strong>: pick a tool id and supply arguments as JSON.</li>
+</ul>
+</li>
+<li>To rename a node, edit the <strong>ID</strong> field. All edges referencing that node update automatically.</li>
+<li>To delete a node, click <strong>Delete node</strong>. All edges touching it are removed.</li>
+</ol>
+<h3 id="wiring-edges">Wiring edges</h3>
+<ol>
+<li>Click <strong>Add edge</strong> in the toolbar. The cursor changes to a crosshair.</li>
+<li>Select <strong>Static</strong> or <strong>Conditional</strong> from the segment control next to the button.</li>
+<li>Click the source node, then the target node. The edge is drawn.</li>
+</ol>
+<p>For a conditional edge, open the edge's side panel to add one or more branches. Each branch carries one or more <code>BranchCondition</code> predicates (ANDed together). The first branch whose conditions all hold fires; if none match and a <code>default_to</code> target is set, that target fires instead. If none match and no default is set, the run terminates failed.</p>
+<p>To delete an edge, click it on the canvas then click <strong>Delete edge</strong> in the panel.</p>
+<div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p>Fan-out nodes must have no outgoing edges in the edge list. Their downstream targets live on the node's specs (broadcast, map, tee) and appear as dashed implicit arrows. Adding a real edge from a Fan-out node is a hard topology violation and blocks Save.</p>
+</div></div>
+<h3 id="max_iterations"><code>max_iterations</code></h3>
+<p>Any graph whose edges can form a cycle must set <code>max_iterations</code>, a positive integer cap on how many supersteps the executor runs before it terminates the run with <code>ended_detail='max_iterations_exceeded'</code>. The canvas validator enforces this: a graph with a cycle and no <code>max_iterations</code> is a hard violation that blocks Save.</p>
+<h3 id="validate-and-save">Validate and save</h3>
+<p>The canvas runs local topology checks as you edit:</p>
+<ul>
+<li><strong>Hard violations</strong> (red): block Save. Examples: missing Begin, End not reachable from Begin, duplicate node ids, broken edge endpoints, Fan-out with real outgoing edges, cyclic graph without <code>max_iterations</code>.</li>
+<li><strong>Warnings</strong> (amber): do not block Save. Examples: orphan nodes, Tool-call referencing a tool not in the catalogue.</li>
+</ul>
+<p>When the banner is clear (or shows only warnings), click <strong>Save</strong>. An &quot;unsaved changes&quot; label appears whenever the draft differs from the last saved version. Click <strong>Discard</strong> to revert.</p>
+<h2 id="walkthrough-a-producer-judge-loop">Walkthrough: a producer-judge loop</h2>
+<p>This walkthrough builds the producer-judge loop from the quickstart: a draft-writer feeds a completeness-judge that either loops back or accepts the draft.</p>
+<ol>
+<li>Open <strong>Graphs</strong> and click <strong>New graph</strong>. Name it <code>blog-pipeline</code>. Choose any agent as the seed.</li>
+<li>The canvas opens with three nodes: <code>begin</code>, <code>agent</code>, and <code>end</code>. Click the agent node and rename it <code>draft-writer</code> in the side panel. Pick your drafting agent.</li>
+<li>Click <strong>Add node</strong> and add a second <strong>Agent</strong> node. Rename it <code>judge</code>. Pick your judge agent. In the side panel, set <code>response_format</code> to a JSON schema with a <code>decision</code> field (<code>&quot;accept&quot;</code> or <code>&quot;reject&quot;</code>) and an optional <code>feedback</code> field.</li>
+<li>Draw a <strong>Static</strong> edge from <code>draft-writer</code> to <code>judge</code>.</li>
+<li>Draw a <strong>Conditional</strong> edge from <code>judge</code> to <code>draft-writer</code> (the reject loop). In the side panel, add a branch with condition <code>decision eq &quot;reject&quot;</code>.</li>
+<li>Draw a <strong>Conditional</strong> edge from <code>judge</code> to <code>end</code> (the accept path). Add a branch with condition <code>decision eq &quot;accept&quot;</code>.</li>
+<li>In the End node's side panel, set the <code>output_template</code> to render the accepted draft: <code>{{ nodes.draft-writer.text }}</code>.</li>
+<li>Set <code>max_iterations</code> to <code>10</code> on the graph (shown in the graph properties panel).</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<pre class="mermaid">flowchart LR
+    b([Begin]) --&gt; d[draft-writer]
+    d --&gt; j{judge}
+    j --&gt;|decision eq reject| d
+    j --&gt;|decision eq accept| e([End])</pre>
+<ol start="10">
+<li>Go to <strong>Sessions</strong>, click <strong>New session</strong>, pick a workspace, select <code>blog-pipeline</code> as the graph, paste your initial topic as <code>graph_input</code>, and submit.</li>
+</ol>
+<p>The session detail view shows per-node status updating as each superstep runs.</p>
+<p><a href="/docs/graphs/graph-node-types/">Every node kind: configuration fields, behavior, and examples.</a></p>
+<p><a href="/docs/graphs/graph-templating/">How Jinja2 templates in nodes access upstream outputs and graph input.</a></p>
+<p><a href="/docs/workspaces/workspaces-and-sessions/">How sessions are created, how graph_input is validated, and how runs are inspected.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

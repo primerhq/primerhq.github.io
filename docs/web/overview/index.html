@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Web &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,16 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>web</span> / <span>Web</span></nav><h1>Web</h1>
+<h2 id="search-versus-fetch">Search versus fetch</h2>
+<p>The always-on <code>web</code> toolset gives agents two distinct capabilities:</p>
+<ul>
+<li><strong>Search</strong> (<code>web__web_search</code>) finds pages across the public web and returns title/url/snippet hits. Use it when you do not yet have a URL. Web search routes through a configured web search provider.</li>
+<li><strong>Fetch and HTTP</strong> (<code>web__web_fetch</code>, <code>web__http_request</code>) act on a URL you already have. <code>web_fetch</code> reads a human web page and returns clean markdown; <code>http_request</code> calls a JSON or API endpoint and returns the raw status, headers, and body.</li>
+</ul>
+<p>A common pattern is search first to discover a page, then <code>web_fetch</code> to read it.</p>
+<p><a href="/docs/web/web-search-providers/">Register and order the web search providers that back web_search.</a></p>
+<p><a href="/docs/web/web-fetch-http/">The web_fetch and http_request tools: parameters, output, and the byte cap.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

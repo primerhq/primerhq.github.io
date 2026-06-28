@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/docs/" />
+<title>Introduction &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/primerhq/primer" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/docs/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/docs/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/docs/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/docs/features/agents/">Agents</a>
+<a class="nav-link" href="/docs/features/chats/">Chats</a>
+<a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/docs/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/docs/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/docs/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/docs/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/docs/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/docs/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/docs/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/docs/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/docs/web/overview/">Web</a>
+<a class="nav-link" href="/docs/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/docs/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/docs/channels/overview/">Channels</a>
+<a class="nav-link" href="/docs/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/docs/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/docs/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/docs/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/docs/features/triggers/">Triggers</a>
+<a class="nav-link" href="/docs/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/docs/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/docs/features/workers/">Workers</a>
+<a class="nav-link" href="/docs/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/docs/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/docs/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/docs/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/docs/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/docs/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/docs/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/docs/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/docs/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/docs/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/docs/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/docs/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/docs/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/docs/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/docs/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/docs/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/docs/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/docs/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/docs/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/docs/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/docs/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/docs/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/docs/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/docs/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/docs/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/docs/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/docs/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/docs/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/docs/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/docs/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/docs/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/docs/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/docs/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/docs/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/docs/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/docs/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/docs/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/docs/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>Getting Started</span> / <span>Introduction</span></nav><h1>Introduction</h1>
+<h2 id="what-primer-is">What primer is</h2>
+<p>Primer is an unopinionated, batteries included agent orchestration platform with a strong focus on context optimization.</p>
+<p>Let's break that down. &quot;Unopinionated&quot; means primer does not force you into one fixed workflow - you compose the pieces yourself. &quot;Batteries included&quot; means LLM providers, workspaces, graphs, channels, and vector search all ship with primer and work together out of the box. &quot;Context-first&quot; means every feature exists to keep each agent's working context small and clean, because that is what makes agents accurate and predictable.</p>
+<h2 id="why-context-not-scale">Why context, not scale</h2>
+<p>A language model does not read your prompt the way you read a page. It spreads a fixed budget of attention across every token in the context all at once. When your context is tight, the handful of tokens that actually matter get most of that attention. When your context is bloated with stale history, unused tool definitions, and irrelevant background, those same important tokens now compete with thousands of distractors. Each distractor pulls a little attention away, and the signal on the tokens that matter gets thinner. This is sometimes called the &quot;lost in the middle&quot; effect: models retrieve facts well when those facts appear near the start or end of a long input, and noticeably worse when the same facts are buried in the middle.</p>
+<p>Primer's core bet is that a small model given a clean, purpose-built context can rival a much larger model on the narrow task that context is built for. That is a hypothesis primer is built to test, not a settled result. The bet is that you often do not need the biggest model, if you give the model you have exactly what it needs and nothing more. The thesis implies that a tightly scoped context is not just a crutch for modest hardware but a lever on any model, large or small.</p>
+<p>That same logic applies to frontier models. More parameters let a large model tolerate noisy contexts better, but the attention-dilution problem is structural, not a quirk of small models. A frontier model running on a bloated context is still fighting the same headwind, just with more horsepower. Cleaning up the context makes it better too.</p>
+<pre class="mermaid">flowchart LR
+    subgraph Tight[&quot;Tight context&quot;]
+        rt[5 relevant tokens] --&gt;|most of the attention| ans1[Confident answer]
+    end
+    subgraph Bloated[&quot;Bloated context&quot;]
+        rb[5 relevant tokens] --&gt; ans2[Diluted answer]
+        d1[Thousands of distractors] --&gt; ans2
+        d2[Stale history] --&gt; ans2
+    end</pre>
+<h2 id="what-you-can-build">What you can build</h2>
+<p>Here are the seven things primer is built to let you do:</p>
+<p><strong>Run multiple agent configurations in parallel on the same context</strong> - You can point several different agent configurations at the same conversation and switch between them while the conversation history carries forward. Start a chat with one agent, then swap the same chat to a different agent and continue right where you left off. The conversation context is shared; you are just changing which agent configuration is driving it.</p>
+<p><strong>Build reusable workflows and graphs</strong> - Wire agents into directed graphs that can loop. The most useful pattern is a producer-and-judge feedback loop, where one agent drafts a piece of work and another critiques it, and the loop runs until the judge is satisfied. Graphs let you express multi-step reasoning as structure instead of squeezing it into a single prompt.</p>
+<p><strong>Create knowledgebases through vector databases</strong> - Store documents in collections with embedding-backed semantic search. When an agent needs information, it retrieves only the few most relevant chunks, not the entire document. This keeps injected context tight and keeps retrieval fast.</p>
+<p><strong>Dogfood the platform by building agents that build other agents</strong> - &quot;Dogfooding&quot; here means using primer to build primer: the platform's own agent APIs are what you use to create more agents. An agent can create and run other agents programmatically, so you can grow your fleet from inside primer itself. Build a scaffolding agent that sets up new specialists on demand, or write a meta-agent that composes a custom pipeline for each incoming request.</p>
+<p><strong>Build dynamic agents that search and invoke other agents and tools</strong> - With two meta-tools (search and call), an agent can discover and use any tool or agent in the system without carrying the whole catalog in its context. The agent asks &quot;is there a tool for this?&quot; at runtime, gets a small answer, and calls it. The catalog never bloats the prompt.</p>
+<p><strong>Export harness templates on git repos</strong> - Export a tuned set of agents, graphs, and collections to a git-backed bundle, then share it so others can install it in one step. Think of it as &quot;Helm for primer&quot;: your configuration becomes a versioned artifact that a teammate or customer can drop into their own instance and run immediately.</p>
+<p><strong>Connect agents to channels like Slack and Telegram</strong> - Bridge agents to Slack, Telegram, and Discord so they can ask people questions, request approvals, and be triggered directly from a channel message. Long-running work can park and wait for a human response, then resume when the reply comes in.</p>
+<h2 id="how-it-fits-together">How it fits together</h2>
+<p>Think of primer as a stack of layers, where each layer keeps the one below it from getting cluttered.</p>
+<p>Context discipline (tool selection, meta-tools, collections) keeps each agent's prompt lean. Workspaces provide shared state so agents can hand off results without carrying history in their own context. Directed cyclic graphs handle sequencing. Event-driven park-and-resume handles time, freeing compute while work waits on a slow tool or a human. Harnesses handle sharing, packaging a working configuration into a versioned bundle. Web search and approval gates handle the edges where agents reach outside the platform.</p>
+<pre class="mermaid">flowchart TD
+    ctx[Context discipline: tool selection, meta-tools, internal collections]
+    ctx --&gt; state[State: workspaces as a shared minimal surface]
+    state --&gt; seq[Sequencing: directed cyclic graphs]
+    seq --&gt; time[Time: event-driven park and resume]
+    time --&gt; share[Sharing: harnesses]
+    share --&gt; edge[Edges: web search and approvals]
+    edge --&gt; primer[Primer: a microagents orchestration platform]</pre>
+<h2 id="loop-engineering">Loop engineering</h2>
+<p>A growing practice called loop engineering reframes how people work with coding agents. Instead of prompting an agent one turn at a time, you design a <em>system</em> that prompts it: a loop that wakes on a schedule, works toward a stated goal, checks its own output, and escalates to a human only when it should. The leverage moves from writing a good prompt to designing a good loop. As the practice puts it, you stop being the person who prompts the agent and start being the person who designs the system that prompts it.</p>
+<p>That practice names a specific set of building blocks every loop needs. Primer exists to provide them, integrated and runnable on your own hardware.</p>
+<ul>
+<li><strong>A heartbeat</strong> - something that surfaces work on a cadence instead of waiting for you to type. Primer's <strong>triggers</strong> start a fresh agent or graph session, or resume a parked one, on a cron schedule, after a delay, or on a webhook.</li>
+<li><strong>Isolation</strong> - parallel agents that do not step on each other. Primer's <strong>workspaces</strong> give each agent its own sandbox (local, container, or Kubernetes) with a persistent, git-backed filesystem.</li>
+<li><strong>Durable memory</strong> - the model forgets between runs; the repository does not. Primer keeps state in <strong>git-backed workspaces</strong> and in <strong>knowledge collections</strong> that agents retrieve from, so knowledge compounds across iterations instead of resetting each time.</li>
+<li><strong>A maker and a checker</strong> - the agent that wrote the work is a poor judge of it. Primer's <strong>directed cyclic graphs</strong> make the producer-judge loop a first-class structure: one agent drafts, another critiques it against a schema or a rubric, and the loop repeats until the check passes.</li>
+<li><strong>Connectors</strong> - a loop has to touch real tools and real people. Primer is an <strong>MCP server</strong> (and an MCP client), and it bridges agents to <strong>Slack, Telegram, and Discord</strong>.</li>
+<li><strong>A human gate</strong> - approve the risky, let the safe run. Primer gates sensitive tool calls behind <strong>human approvals</strong> and lets work <strong>park and resume</strong>, so an agent can wait on a person for hours without holding compute.</li>
+</ul>
+<p>Primer does not press &quot;go&quot; on the loop for you, and it is built so that you do not have to surrender your judgment to run one. Each iteration gets a clean, purpose-built context rather than an ever-growing transcript, which is the same context discipline that keeps a single agent accurate, now applied over and over. That is what lets a loop run for a long time without drifting. To borrow the practice's own advice: build the loop like someone who intends to stay the engineer, not just the person who presses go.</p>
+<h2 id="next">Next</h2>
+<p>Ready to see it in action? The quickstart walks you through building a real agent end to end.</p>
+<p><a href="/docs/getting-started/quickstart/">A hands-on walkthrough: build a blog content assistant end to end.</a></p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

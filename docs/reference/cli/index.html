@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Command-line interface &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,133 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>Reference</span> / <span>Command-line interface</span></nav><h1>Command-line interface</h1>
+<h2 id="top-level">Top-level</h2>
+<p><code>primer</code> is a Typer application. Run <code>--help</code> on any subcommand for
+the full flag list:</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-2a6dec-bash">bash</button></div><div class="tab-panel active" id="tab-2a6dec-bash"><pre class="md-pre lang-bash"><code>uv run primer --help
+# Primer microagents framework: API + worker entrypoints.
+#
+# commands:
+#   api      Serve the HTTP API (and an in-process worker by default)
+#   worker   Run the worker pool (with a minimal health/workers HTTP surface)
+#   init     Run first-time bootstrap. Idempotent; --force re-runs even if completed.</code></pre></div></div>
+<h2 id="primer-api">primer api</h2>
+<p>Starts the FastAPI HTTP server via uvicorn. By default it also starts
+an in-process worker pool (<code>runtime_mode=api+worker</code>). Pass
+<code>--no-worker</code> to split API and worker into separate processes.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-6c96b7-bash">bash</button></div><div class="tab-panel active" id="tab-6c96b7-bash"><pre class="md-pre lang-bash"><code># Default: API + worker in one process, auto-loads ~/.primer/config.yaml
+uv run primer api
+
+# Explicit config file.
+uv run primer api --config /etc/primer/config.yaml
+uv run primer api -c /etc/primer/config.yaml
+
+# API only; pair with a dedicated `primer worker` process.
+uv run primer api --no-worker</code></pre></div></div>
+<h3 id="flags">Flags</h3>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Short</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--config PATH</code></td>
+<td><code>-c</code></td>
+<td><code>~/.primer/config.yaml</code> if it exists, else built-in defaults</td>
+<td>Path to a YAML config file.</td>
+</tr>
+<tr>
+<td><code>--no-worker</code></td>
+<td></td>
+<td>off</td>
+<td>Serve the API only; do NOT start the in-process worker pool.</td>
+</tr>
+</tbody>
+</table>
+<p>Config file discovery order: explicit <code>--config</code> &gt; <code>~/.primer/config.yaml</code>
+(if present) &gt; built-in defaults (embedded SQLite at
+<code>~/.primer/db/data.sqlite</code>).</p>
+<p>YAML config fields map directly to <code>AppConfig</code>. Every field is
+optional. Env vars (<code>PRIMER_*</code>) override missing YAML fields; a
+<code>--config</code>-supplied YAML wins over env vars.</p>
+<div class="callout callout-tip"><div class="callout-title">tip</div><div class="callout-body"><p>For production deploys, run <code>primer api --no-worker</code> and <code>primer worker</code>
+as two separate processes against the same shared storage. Scaling
+workers becomes independent of scaling HTTP capacity.</p>
+</div></div>
+<h2 id="primer-worker">primer worker</h2>
+<p>Runs only the worker pool. A minimal HTTP surface (<code>/v1/health</code> and
+<code>/v1/workers</code>) is still served for liveness/readiness probes. Pairs
+with a <code>primer api --no-worker</code> process.</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-1b76b6-bash">bash</button></div><div class="tab-panel active" id="tab-1b76b6-bash"><pre class="md-pre lang-bash"><code># Default: auto-loads ~/.primer/config.yaml
+uv run primer worker
+
+# Explicit config.
+uv run primer worker --config /etc/primer/config.yaml
+uv run primer worker -c /etc/primer/config.yaml</code></pre></div></div>
+<h3 id="flags-1">Flags</h3>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Short</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--config PATH</code></td>
+<td><code>-c</code></td>
+<td><code>~/.primer/config.yaml</code> if it exists, else built-in defaults</td>
+<td>Path to a YAML config file.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="primer-init">primer init</h2>
+<p>Runs first-time bootstrap. Idempotent: rows that already exist are
+skipped. Pass <code>--force</code> to re-run the bootstrap even when the
+completion marker is already set (useful for partially-failed runs).</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-051bff-bash">bash</button></div><div class="tab-panel active" id="tab-051bff-bash"><pre class="md-pre lang-bash"><code># Idempotent bootstrap against default config.
+uv run primer init
+
+# Explicit config file.
+uv run primer init --config /etc/primer/config.yaml
+
+# Re-run even if bootstrap already completed.
+uv run primer init --force</code></pre></div></div>
+<h3 id="flags-2">Flags</h3>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Short</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--config PATH</code></td>
+<td><code>-c</code></td>
+<td><code>~/.primer/config.yaml</code> if it exists, else built-in defaults</td>
+<td>Path to a YAML config file.</td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td></td>
+<td>off</td>
+<td>Re-run bootstrap even if it has already completed.</td>
+</tr>
+</tbody>
+</table>
+<p>Exit code <code>1</code> when any provider bootstraps with errors (printed to
+stderr). Exit code <code>0</code> when all rows are created or skipped.</p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

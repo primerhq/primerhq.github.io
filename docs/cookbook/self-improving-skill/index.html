@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Page not found &middot; Primer Docs</title>
+<title>Self-improving skill loop &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -136,10 +136,164 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>Docs</span> / <span>Not found</span></nav><h1>Page not found</h1>
-<p>The page you were looking for does not exist or has moved.</p>
-<p><a href="/docs/getting-started/introduction/">Back to the docs home</a></p>
-<p><a href="/">Back to the Primer home</a></p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>Cookbook</span> / <span>Self-improving skill loop</span></nav><h1>Self-improving skill loop</h1>
+<h2 id="goal">Goal</h2>
+<p>Keep a reusable <strong>skill</strong> (a prompt fragment or how-to) in a collection and let it
+improve itself from real outcomes. A producer drops each finished result into a file;
+an <strong>evaluator</strong> agent watches that file, grades how well the current skill would have
+produced the result, rewrites the skill, and goes back to watching. The skill gets
+measurably better over time with no human in the loop.</p>
+<p>This recipe demonstrates <code>watch_files</code> (a yielding tool that parks a session at zero
+cost until a file changes), reading and writing collection documents from inside an
+agent, and a loop that runs forever. Each setup step is shown two ways: first <strong>in the
+console</strong>, then <strong>via the CLI</strong>.</p>
+<h2 id="ingredients">Ingredients</h2>
+<ul>
+<li><strong>An LLM provider</strong> (any chat model).</li>
+<li>An <strong>embedding provider</strong> and a <strong>semantic search provider</strong> (a collection requires
+both at create).</li>
+<li><strong>A collection</strong> to hold the skill document(s).</li>
+<li>The <strong><code>workspace_ext</code></strong> toolset (for <code>watch_files</code>) and the <strong><code>system</code></strong> toolset
+(for <code>get_document_content</code> + <code>put_document</code>).</li>
+<li><strong>A local workspace</strong> (the evaluator runs as a session in it; the producer writes
+results into the same workspace).</li>
+<li>A platform whose background <strong>watcher</strong> is healthy (see the note in step 4).</li>
+<li>To drive the CLI path, point <code>primectl</code> at your instance once; see the one-time
+<a href="cookbook-rag-knowledge-base">Connecting the CLI</a> block in the RAG recipe.</li>
+</ul>
+<h2 id="walkthrough">Walkthrough</h2>
+<h3 id="1-create-the-skill-collection-and-seed-a-skill">1. Create the skill collection and seed a skill</h3>
+<p>Create the embedding and semantic-search providers the same way the RAG recipe does,
+then create the collection and seed one skill document.</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Knowledge &gt; Collections</strong>, click <strong>New collection</strong>, set <strong>ID</strong> to <code>skills</code>,
+pick your embedder and search provider, and click <strong>Create</strong>.</li>
+<li>Go to <strong>Knowledge &gt; Documents</strong>, choose the <code>skills</code> collection, click
+<strong>New document</strong>, set the <strong>Path</strong> to <code>support-reply.md</code>, paste the skill body
+(below), and click <strong>Create</strong>.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f skills.yaml
+primectl doc put skills support-reply.md --content &quot;# Support reply skill
+
+When replying to a support ticket:
+1. Greet the customer.
+2. Restate the problem.
+3. Give the fix steps.
+4. Offer further help.&quot;
+</code></pre>
+<p>where <code>skills.yaml</code> is:</p>
+<pre><code class="language-yaml">kind: collection
+spec:
+  id: skills
+  description: Reusable skills that improve over time from evaluation feedback.
+  embedder:
+    provider_id: &lt;embedder&gt;
+    model: &lt;embed-model&gt;
+  search_provider_id: &lt;ssp&gt;
+</code></pre>
+<h3 id="2-create-the-evaluator-agent">2. Create the evaluator agent</h3>
+<p>It binds <code>watch_files</code> plus the two document tools. The system prompt makes it loop.</p>
+<p>In the console:</p>
+<ol>
+<li>Go to <strong>Compute &gt; Agents</strong> and click <strong>New agent</strong>.</li>
+<li>On the <strong>Basic</strong> tab set <strong>ID</strong> to <code>skill-evaluator</code>, add a <strong>Description</strong>, and pick
+the <strong>LLM provider</strong> and <strong>Model</strong>.</li>
+<li>On the <strong>Tools</strong> tab check <code>workspace_ext__watch_files</code>,
+<code>system__get_document_content</code>, and <code>system__put_document</code>.</li>
+<li>On the <strong>Advanced</strong> tab paste the system prompt (below). Click <strong>Create</strong>.</li>
+</ol>
+<p>Via the CLI:</p>
+<pre><code>primectl create -f skill-evaluator.yaml
+</code></pre>
+<p>where <code>skill-evaluator.yaml</code> is:</p>
+<pre><code class="language-yaml">kind: agent
+spec:
+  id: skill-evaluator
+  description: Watches a results file, grades it against a skill, and rewrites the skill.
+  model:
+    provider_id: &lt;llm&gt;
+    model_name: &lt;model&gt;
+  tools:
+    - workspace_ext__watch_files
+    - system__get_document_content
+    - system__put_document
+  max_tool_turns: 12
+  system_prompt:
+    - &gt;-
+      You continuously improve a support-reply skill from real results. Repeat this
+      loop: (1) call watch_files to wait for changes to the EXACT file path
+      results/latest.md; (2) read results/latest.md (it is a support reply someone
+      wrote); (3) read the current skill with get_document_content (collection_id
+      skills, path support-reply.md); (4) judge how well that skill would have
+      produced the reply, then write an IMPROVED version of the skill back with
+      put_document (collection_id skills, path support-reply.md, content = the
+      revised skill); (5) state in one line what you changed, then go back to step 1.
+      Watch the specific file results/latest.md, not the directory.
+</code></pre>
+<h3 id="3-run-the-evaluator">3. Run the evaluator</h3>
+<p>Start a session bound to the evaluator. It runs one turn, calls <code>watch_files</code>, and
+<strong>parks</strong> (zero compute) waiting for <code>results/latest.md</code>.</p>
+<p>In the console:</p>
+<ol>
+<li>Click <strong>New session</strong>, set the <strong>Binding</strong> to <code>agent</code>, pick <code>skill-evaluator</code>,
+choose your <strong>Workspace</strong>, and type <code>Begin the watch loop.</code> into
+<strong>Initial instructions</strong>.</li>
+<li>Click <strong>Create</strong>. On the Sessions page the session shows as parked once it calls
+<code>watch_files</code>.</li>
+</ol>
+<p>Via the CLI (start it without watching to terminal, since it parks on purpose):</p>
+<pre><code>primectl session run &lt;workspace-id&gt; --agent skill-evaluator \
+  -i &quot;Begin the watch loop.&quot; --no-watch
+</code></pre>
+<h3 id="4-feed-it-results">4. Feed it results</h3>
+<p>Whatever produces the work (another agent, a session, a script) writes each result to
+the <strong>exact</strong> path the evaluator watches, <code>results/latest.md</code>, overwriting it each time.
+On every write the evaluator wakes, grades the result, rewrites <code>support-reply.md</code> in
+the <code>skills</code> collection, and parks again.</p>
+<p>There is no operator console button for this write - the producer is an upstream
+process inside the same workspace. To exercise the wake yourself, write the file
+directly:</p>
+<pre><code>primectl workspace files put &lt;workspace-id&gt; results/latest.md \
+  --content &quot;hey. is it broken? just restart it. bye.&quot;
+</code></pre>
+<p>Three things that matter:</p>
+<ul>
+<li><strong>Watch a specific FILE path, not a directory.</strong> <code>watch_files</code> matches the exact
+paths you pass. Watching <code>results/</code> will <strong>not</strong> fire for <code>results/foo.md</code> - watch
+<code>results/latest.md</code> and write that exact path.</li>
+<li><strong>The watched file's directory and the watcher are workspace-relative.</strong> The producer
+must write inside the same workspace the evaluator runs in.</li>
+<li><strong><code>watch_files</code> relies on the platform's background watcher</strong> (a leader-elected task).
+If parked sessions never wake, check that your deployment's coordinator / leader
+election is healthy and that you are not exhausting the OS inotify instance limit
+with a large number of simultaneously-parked watch sessions.</li>
+</ul>
+<h2 id="testing">Testing</h2>
+<p>Seed the 4-step skill above, start the evaluator, then write a deliberately poor reply
+to <code>results/latest.md</code> (via <code>primectl workspace files put</code> as in step 4, or from your
+producer process):</p>
+<blockquote>
+<p>hey. is it broken? just restart it. bye.</p>
+</blockquote>
+<p>Expected outcome (verified):</p>
+<ul>
+<li>The parked evaluator <strong>wakes</strong> within a second or two of the write (its <code>turn_no</code>
+advances on the Sessions page).</li>
+<li>It reads the reply, reads <code>support-reply.md</code>, and <strong>rewrites the skill</strong> - the
+document's content changes from the seed (for example it grows from the 4-step list
+to a version with an added improvement note such as <em>&quot;For urgent issues, add
+'Restarting now...' after the greeting&quot;</em>).</li>
+<li>Confirm by re-reading the document: <strong>Knowledge &gt; Documents</strong> on the <code>skills</code>
+collection, or <code>primectl doc get skills support-reply.md</code> - its content now differs
+from the seed.</li>
+<li>Write a second, different reply and watch the skill evolve again - the loop keeps
+running.</li>
+</ul>
+<p>To grade against a <strong>library</strong> of skills instead of one, give the evaluator
+<code>search_collection</code> so it can find the most relevant skill for each result before
+rewriting it.</p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>
