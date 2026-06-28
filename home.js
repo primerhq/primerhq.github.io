@@ -162,14 +162,49 @@
       '<circle cx="160" cy="100" r="3.5" fill="var(--amber)"/>' +
       '</svg>';
 
-    var inner = (key === "graphs")
-      ? '<div style="padding:14px;height:100%">' + graphMock + '</div>'
-      : '<div style="height:100%;display:flex;flex-direction:column">' +
-          '<div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border);background:var(--bg-1)">' +
-            '<span style="width:9px;height:9px;border-radius:50%;background:var(--accent)"></span>' +
-            '<span style="font-family:var(--mono);font-size:11px;color:var(--text-3)">' + FEATURES[key].t.toLowerCase() + '</span>' +
-          '</div>' + rows +
-        '</div>';
+    // Channels has no populated console capture in _embeds, so render a
+    // representative channels table that fills the panel (demo rows, same
+    // spirit as the fixture-backed screenshots) instead of looking empty.
+    var chCols = "grid-template-columns:1.1fr 1fr 1.1fr 1.1fr";
+    var chRows = [
+      ["ops-alerts",    "slack",    "var(--accent)", "C07AB12QX",     "#ops-alerts"],
+      ["release-bot",   "telegram", "var(--blue)",   "-1001987…", "Release notes"],
+      ["support",       "discord",  "var(--violet)", "99820041…", "#support"],
+      ["oncall",        "slack",    "var(--accent)", "C08RT55ZK",     "#oncall"],
+      ["weekly-digest", "telegram", "var(--blue)",   "-1002233…", "Weekly digest"]
+    ];
+    var channelsMock =
+      '<div style="height:100%;display:flex;flex-direction:column">' +
+        '<div style="display:flex;align-items:center;gap:8px;padding:11px 14px;border-bottom:1px solid var(--border)">' +
+          '<span style="flex:1;max-width:190px;height:26px;border-radius:7px;background:var(--bg-1);border:1px solid var(--border)"></span>' +
+          '<span style="margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--accent);background:var(--accent-dim);border:1px solid oklch(0.82 0.17 145/0.3);border-radius:7px;padding:6px 11px">+ New channel</span>' +
+        '</div>' +
+        '<div style="display:grid;' + chCols + ';gap:8px;padding:9px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--text-3);border-bottom:1px solid var(--border)">' +
+          '<span>ID</span><span>PROVIDER</span><span>EXTERNAL ID</span><span>LABEL</span>' +
+        '</div>' +
+        chRows.map(function (r) {
+          return '<div style="display:grid;' + chCols + ';gap:8px;align-items:center;flex:1;padding:0 16px;border-bottom:1px solid var(--border);font-size:12.5px">' +
+            '<span style="font-family:var(--mono);color:var(--text)">' + r[0] + '</span>' +
+            '<span style="display:inline-flex;align-items:center;gap:7px;color:var(--text-2)"><span style="width:7px;height:7px;border-radius:50%;background:' + r[2] + '"></span>' + r[1] + '</span>' +
+            '<span style="font-family:var(--mono);color:var(--text-3)">' + r[3] + '</span>' +
+            '<span style="color:var(--text-2)">' + r[4] + '</span>' +
+          '</div>';
+        }).join("") +
+      '</div>';
+
+    var inner;
+    if (key === "graphs") {
+      inner = '<div style="padding:14px;height:100%">' + graphMock + '</div>';
+    } else if (key === "channels") {
+      inner = channelsMock;
+    } else {
+      inner = '<div style="height:100%;display:flex;flex-direction:column">' +
+        '<div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border);background:var(--bg-1)">' +
+          '<span style="width:9px;height:9px;border-radius:50%;background:var(--accent)"></span>' +
+          '<span style="font-family:var(--mono);font-size:11px;color:var(--text-3)">' + FEATURES[key].t.toLowerCase() + '</span>' +
+        '</div>' + rows +
+      '</div>';
+    }
 
     return '<div style="height:100%;background:var(--bg);">' + inner + '</div>';
   }
