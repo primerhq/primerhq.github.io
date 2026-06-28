@@ -8,22 +8,24 @@ def test_writes_search_index(tmp_path):
     out = tmp_path / "dist"
     build_site(Path("docs_source"), out)
 
-    index_path = out / "search-index.json"
+    index_path = out / "docs" / "search-index.json"
     assert index_path.exists()
 
     data = json.loads(index_path.read_text(encoding="utf-8"))
     assert isinstance(data, list)
     assert data, "search index should not be empty"
 
-    # One entry per published doc (the _meta authoring section is excluded
-    # from pages and must be excluded from the search index too). The root
-    # index.html is a redirect to the docs home, not a published doc, so it
-    # is excluded from the count.
-    page_count = sum(1 for p in out.rglob("index.html") if p.parent != out)
+    # One entry per published doc. Exclude the site root and the /docs/
+    # redirect index.html (neither is a published doc).
+    docs_dir = out / "docs"
+    page_count = sum(
+        1 for p in out.rglob("index.html")
+        if p.parent != out and p.parent != docs_dir
+    )
     assert len(data) == page_count
 
     # No _meta urls leak in.
-    assert all(not e["url"].startswith("/_meta/") for e in data)
+    assert all(not e["url"].startswith("/docs/_meta/") for e in data)
 
     for entry in data:
         assert isinstance(entry["title"], str) and entry["title"]
@@ -33,7 +35,7 @@ def test_writes_search_index(tmp_path):
         assert isinstance(entry["excerpt"], str)
 
     by_url = {e["url"]: e for e in data}
-    llm = by_url.get("/features/llm-providers/")
+    llm = by_url.get("/docs/features/llm-providers/")
     assert llm is not None, "LLM Providers page should be indexed"
     assert llm["title"] == "LLM Providers"
     assert llm["section"] == "features"
