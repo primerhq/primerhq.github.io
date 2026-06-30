@@ -150,7 +150,7 @@
 <p><code>GET /v1/health</code> returns <code>200 OK</code> whenever the process is responsive. Alongside the constant <code>status</code> and the API <code>version</code>, it surfaces a light-touch snapshot of scheduler liveness and worker-pool capacity so a monitor can read pool pressure without a second endpoint.</p>
 <pre><code class="language-json">{
   &quot;status&quot;: &quot;ok&quot;,
-  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;version&quot;: &quot;0.2.0&quot;,
   &quot;scheduler&quot;: {
     &quot;alive&quot;: true,
     &quot;metrics&quot;: {
@@ -247,11 +247,11 @@
 </tr>
 </tbody>
 </table>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-55df79-curl">curl</button><button class="tab" data-tab="tab-55df79-python">python</button><button class="tab" data-tab="tab-55df79-javascript">javascript</button></div><div class="tab-panel active" id="tab-55df79-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/health</code></pre></div><div class="tab-panel" id="tab-55df79-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-eb6976-curl">curl</button><button class="tab" data-tab="tab-eb6976-python">python</button><button class="tab" data-tab="tab-eb6976-javascript">javascript</button></div><div class="tab-panel active" id="tab-eb6976-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/health</code></pre></div><div class="tab-panel" id="tab-eb6976-python"><pre class="md-pre lang-python"><code>import httpx
 health = httpx.get(&quot;https://your-host/v1/health&quot;).json()
 assert health[&quot;status&quot;] == &quot;ok&quot;
 capacity = health[&quot;worker_pool&quot;][&quot;capacity&quot;]
-in_flight = health[&quot;worker_pool&quot;][&quot;in_flight&quot;]</code></pre></div><div class="tab-panel" id="tab-55df79-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/health&quot;)
+in_flight = health[&quot;worker_pool&quot;][&quot;in_flight&quot;]</code></pre></div><div class="tab-panel" id="tab-eb6976-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/health&quot;)
 const health = await r.json()
 const {capacity, in_flight} = health.worker_pool</code></pre></div></div>
 <h2 id="workers-inspect-and-drain">Workers: inspect and drain</h2>
@@ -355,7 +355,7 @@ const {capacity, in_flight} = health.worker_pool</code></pre></div></div>
 <p>The <code>primer_*</code> counters surfaced under <code>/v1/health</code> (claims, turns, lease expirations, notifications) are the scheduler and pool snapshot fields described above; the table here is the registry scraped by a Prometheus pipeline.</p>
 <div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p>The metrics endpoint is mounted at the host root (<code>/metrics</code>), not under the <code>/v1</code> API prefix, so a scrape config targets <code>https://your-host/metrics</code> directly.</p>
 </div></div>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c1ab59-curl">curl</button><button class="tab" data-tab="tab-c1ab59-python">python</button></div><div class="tab-panel active" id="tab-c1ab59-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/metrics</code></pre></div><div class="tab-panel" id="tab-c1ab59-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b2e6e1-curl">curl</button><button class="tab" data-tab="tab-b2e6e1-python">python</button></div><div class="tab-panel active" id="tab-b2e6e1-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/metrics</code></pre></div><div class="tab-panel" id="tab-b2e6e1-python"><pre class="md-pre lang-python"><code>import httpx
 text = httpx.get(&quot;https://your-host/metrics&quot;).text
 # Prometheus text exposition format; feed to your scrape pipeline.</code></pre></div></div>
 <h2 id="tracing">Tracing</h2>

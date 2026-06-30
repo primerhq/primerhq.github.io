@@ -25,6 +25,7 @@ Session lifecycle, statuses, and the session detail view.
 | POST | `/v1/workspaces/{workspace_id}/sessions/{session_id}/steer` | Append a steering instruction |
 | GET | `/v1/sessions` | List sessions across all workspaces |
 | GET | `/v1/sessions/{session_id}` | Get session by id (no workspace context) |
+| GET | `/v1/sessions/{session_id}/messages` | Read the recorded message history for any status |
 | POST | `/v1/sessions/find` | Predicate-based search with cursor or offset paging |
 | GET | `/v1/sessions/{session_id}/ask_user/pending` | Get pending ask_user prompt |
 | POST | `/v1/sessions/{session_id}/ask_user/respond` | Submit response to ask_user |
@@ -189,6 +190,43 @@ const session = await r.json();
 ```
 
 **Response: 200** - `WorkspaceSession` object. **Errors:** `404` not found.
+
+---
+
+## GET /v1/sessions/{session_id}/messages
+
+Reads the session's recorded message history straight from its `messages.jsonl` log. Unlike the WebSocket transcript stream (which rejects an `ended` session), this endpoint serves history for a session in any status, including `ended`, so a tool can fetch the full transcript after the run is over. When the session's workspace or its log file is gone, the endpoint returns an empty log rather than a 5xx.
+
+**Query parameters:**
+
+| Param | Type | Notes |
+|-------|------|-------|
+| `limit` | integer | Page size, 1-1000, default 200 |
+| `offset` | integer | Number of leading rows to skip |
+| `after_seq` | integer | Return only rows whose sequence number is greater than this value |
+
+```code-tabs:curl,python,javascript
+--- curl
+curl "https://primer.example/v1/sessions/sess-abc123/messages?limit=200&offset=0" \
+  -H "Authorization: Bearer $TOKEN"
+--- python
+import httpx
+r = httpx.get(
+    "https://primer.example/v1/sessions/sess-abc123/messages",
+    headers={"Authorization": f"Bearer {token}"},
+    params={"limit": 200, "offset": 0},
+)
+r.raise_for_status()
+page = r.json()
+--- javascript
+const params = new URLSearchParams({ limit: 200, offset: 0 });
+const r = await fetch(`/v1/sessions/sess-abc123/messages?${params}`, {
+  headers: { "Authorization": `Bearer ${token}` },
+});
+const page = await r.json();
+```
+
+**Response: 200** - `{"items": [...], "total": N, "offset": N, "limit": N}`, where each item is a recorded row from the session's `messages.jsonl`. A session whose workspace or log file is gone returns an empty `items` list (not a 5xx).
 
 ---
 

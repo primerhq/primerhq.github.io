@@ -239,6 +239,9 @@
 <li>
 <p><strong>Temperature</strong>: controls model output randomness. Leave blank to use the provider's default. Set to a low value (0.1 to 0.3) for deterministic extraction or structured output tasks. Use higher values (0.7 to 1.0) for creative or open-ended generation. The valid range and maximum depend on the provider.</p>
 </li>
+<li>
+<p><strong>Max output tokens</strong>: a hard cap on the number of tokens the model may generate per turn, a runaway-generation guard against an agent that loops or rambles. Leave blank to defer to the model default; set an integer of 1 or more to clamp each turn.</p>
+</li>
 </ul>
 <h2 id="walkthrough-create-your-first-agent">Walkthrough: create your first agent</h2>
 <figure class="embed"><picture><source srcset="/_embeds/agents-page-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/agents-page-light.png" alt="agents-page (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
