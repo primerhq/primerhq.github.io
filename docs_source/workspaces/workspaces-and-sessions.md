@@ -107,7 +107,7 @@ All three controls are durable. If the API process restarts between the request 
 
 The filter bar supports:
 
-- **Status chips**: click one or more statuses to filter (created / running / waiting / paused / ended). Active-status chips are highlighted.
+- **Status chips**: click one or more statuses to filter (created / running / waiting / paused / ended). Active-status chips are highlighted. Two quick-filter chips sit alongside them: **Needs attention** (sessions parked waiting on input or approval) and **Failed**.
 - **Agent** dropdown: narrow to sessions bound to a specific agent.
 - **Workspace** dropdown: narrow to sessions in a specific workspace.
 - **Text search**: matches session id, agent id, graph id, or workspace id.
@@ -124,7 +124,7 @@ The detail view shows:
 
 - **Header strip**: session id, bound agent, current status, and elapsed time.
 - **Transcript pane**: turns stream in as they land. Each turn shows the role (user / assistant / tool), content, and timestamp.
-- **Footer**: for sessions in `waiting` or `paused` state, the footer shows the reason the session stopped, typically the event key the agent yielded on. Use this to diagnose where the session is blocked.
+- **Footer**: the terminal footer is now an outcome banner, a colored label with an optional reason, and it shows live countdowns for any parked yields. For sessions in `waiting` or `paused` state it still surfaces the reason the session stopped, typically the event key the agent yielded on, so you can diagnose where the session is blocked. Ended sessions now show their full recorded transcript at the session level (previously they appeared empty).
 
 Three operator controls appear in the session detail header: **Pause**, **Resume**, and **Cancel**.
 

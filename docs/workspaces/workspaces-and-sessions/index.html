@@ -232,7 +232,7 @@
 <figure class="embed"><picture><source srcset="/_embeds/sessions-list-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/sessions-list-light.png" alt="sessions-list (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
 <p>The filter bar supports:</p>
 <ul>
-<li><strong>Status chips</strong>: click one or more statuses to filter (created / running / waiting / paused / ended). Active-status chips are highlighted.</li>
+<li><strong>Status chips</strong>: click one or more statuses to filter (created / running / waiting / paused / ended). Active-status chips are highlighted. Two quick-filter chips sit alongside them: <strong>Needs attention</strong> (sessions parked waiting on input or approval) and <strong>Failed</strong>.</li>
 <li><strong>Agent</strong> dropdown: narrow to sessions bound to a specific agent.</li>
 <li><strong>Workspace</strong> dropdown: narrow to sessions in a specific workspace.</li>
 <li><strong>Text search</strong>: matches session id, agent id, graph id, or workspace id.</li>
@@ -245,7 +245,7 @@
 <ul>
 <li><strong>Header strip</strong>: session id, bound agent, current status, and elapsed time.</li>
 <li><strong>Transcript pane</strong>: turns stream in as they land. Each turn shows the role (user / assistant / tool), content, and timestamp.</li>
-<li><strong>Footer</strong>: for sessions in <code>waiting</code> or <code>paused</code> state, the footer shows the reason the session stopped, typically the event key the agent yielded on. Use this to diagnose where the session is blocked.</li>
+<li><strong>Footer</strong>: the terminal footer is now an outcome banner, a colored label with an optional reason, and it shows live countdowns for any parked yields. For sessions in <code>waiting</code> or <code>paused</code> state it still surfaces the reason the session stopped, typically the event key the agent yielded on, so you can diagnose where the session is blocked. Ended sessions now show their full recorded transcript at the session level (previously they appeared empty).</li>
 </ul>
 <p>Three operator controls appear in the session detail header: <strong>Pause</strong>, <strong>Resume</strong>, and <strong>Cancel</strong>.</p>
 <div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p>Cancel is immediate and irreversible. If the agent was mid-write (writing a file, sending a message), the write may or may not have completed before the cancellation error arrived. Check the transcript to see where the last tool call landed before assuming the operation is rolled back.</p>

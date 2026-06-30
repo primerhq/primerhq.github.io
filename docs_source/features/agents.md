@@ -106,6 +106,8 @@ Binding tools from the `system` toolset gives the agent shell and filesystem acc
 
 - **Temperature**: controls model output randomness. Leave blank to use the provider's default. Set to a low value (0.1 to 0.3) for deterministic extraction or structured output tasks. Use higher values (0.7 to 1.0) for creative or open-ended generation. The valid range and maximum depend on the provider.
 
+- **Max output tokens**: a hard cap on the number of tokens the model may generate per turn, a runaway-generation guard against an agent that loops or rambles. Leave blank to defer to the model default; set an integer of 1 or more to clamp each turn.
+
 ## Walkthrough: create your first agent
 
 ```embed:agents-page

@@ -281,7 +281,7 @@
 </tr>
 <tr>
 <td><code>templates/&lt;template_name&gt;.yaml</code></td>
-<td>One file per tracked entity. The live entity is exported, system-managed fields are stripped, and each override mapping replaces a value with a <code>{{ overrides.&lt;path&gt; }}</code> token.</td>
+<td>One file per tracked entity. The live entity is exported, system-managed fields are stripped, and each override mapping replaces a value with a <code>{{ overrides.&lt;path&gt; }}</code> token. A tracked <code>document</code> now exports its body as <code>content_inline</code>, so the install restores the actual content rather than an empty shell.</td>
 </tr>
 <tr>
 <td><code>overrides.schema.json</code></td>

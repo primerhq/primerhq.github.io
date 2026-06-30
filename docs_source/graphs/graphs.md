@@ -63,9 +63,12 @@ The graph node types page (linked at the end of this page) documents the full co
 
 ### Wiring edges
 
-1. Click **Add edge** in the toolbar. The cursor changes to a crosshair.
-2. Select **Static** or **Conditional** from the segment control next to the button.
-3. Click the source node, then the target node. The edge is drawn.
+There are two ways to wire an edge:
+
+- **Add edge**: click **Add edge** in the toolbar (the cursor changes to a crosshair), pick **Static** or **Conditional** from the segment control next to the button, then click the source node followed by the target node. The edge is drawn.
+- **Drag**: drag from one node directly onto another to draw the edge in a single gesture.
+
+The canvas also supports pan and zoom: drag the background to pan, and use the mouse wheel to zoom in and out.
 
 For a conditional edge, open the edge's side panel to add one or more branches. Each branch carries one or more `BranchCondition` predicates (ANDed together). The first branch whose conditions all hold fires; if none match and a `default_to` target is set, that target fires instead. If none match and no default is set, the run terminates failed.
 
@@ -77,7 +80,7 @@ Fan-out nodes must have no outgoing edges in the edge list. Their downstream tar
 
 ### `max_iterations`
 
-Any graph whose edges can form a cycle must set `max_iterations`, a positive integer cap on how many supersteps the executor runs before it terminates the run with `ended_detail='max_iterations_exceeded'`. The canvas validator enforces this: a graph with a cycle and no `max_iterations` is a hard violation that blocks Save.
+Any graph whose edges can form a cycle must set `max_iterations`, a positive integer cap on how many supersteps the executor runs before it terminates the run with `ended_detail='max_iterations_exceeded'`. The canvas validator enforces this: a graph with a cycle and no `max_iterations` is a hard violation that blocks Save. Set the graph's `on_max_iterations` to a finalize node to land with output instead of hard-failing at the cap.
 
 ### Validate and save
 

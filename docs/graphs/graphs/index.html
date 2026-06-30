@@ -225,17 +225,18 @@
 <li>To delete a node, click <strong>Delete node</strong>. All edges touching it are removed.</li>
 </ol>
 <h3 id="wiring-edges">Wiring edges</h3>
-<ol>
-<li>Click <strong>Add edge</strong> in the toolbar. The cursor changes to a crosshair.</li>
-<li>Select <strong>Static</strong> or <strong>Conditional</strong> from the segment control next to the button.</li>
-<li>Click the source node, then the target node. The edge is drawn.</li>
-</ol>
+<p>There are two ways to wire an edge:</p>
+<ul>
+<li><strong>Add edge</strong>: click <strong>Add edge</strong> in the toolbar (the cursor changes to a crosshair), pick <strong>Static</strong> or <strong>Conditional</strong> from the segment control next to the button, then click the source node followed by the target node. The edge is drawn.</li>
+<li><strong>Drag</strong>: drag from one node directly onto another to draw the edge in a single gesture.</li>
+</ul>
+<p>The canvas also supports pan and zoom: drag the background to pan, and use the mouse wheel to zoom in and out.</p>
 <p>For a conditional edge, open the edge's side panel to add one or more branches. Each branch carries one or more <code>BranchCondition</code> predicates (ANDed together). The first branch whose conditions all hold fires; if none match and a <code>default_to</code> target is set, that target fires instead. If none match and no default is set, the run terminates failed.</p>
 <p>To delete an edge, click it on the canvas then click <strong>Delete edge</strong> in the panel.</p>
 <div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p>Fan-out nodes must have no outgoing edges in the edge list. Their downstream targets live on the node's specs (broadcast, map, tee) and appear as dashed implicit arrows. Adding a real edge from a Fan-out node is a hard topology violation and blocks Save.</p>
 </div></div>
 <h3 id="max_iterations"><code>max_iterations</code></h3>
-<p>Any graph whose edges can form a cycle must set <code>max_iterations</code>, a positive integer cap on how many supersteps the executor runs before it terminates the run with <code>ended_detail='max_iterations_exceeded'</code>. The canvas validator enforces this: a graph with a cycle and no <code>max_iterations</code> is a hard violation that blocks Save.</p>
+<p>Any graph whose edges can form a cycle must set <code>max_iterations</code>, a positive integer cap on how many supersteps the executor runs before it terminates the run with <code>ended_detail='max_iterations_exceeded'</code>. The canvas validator enforces this: a graph with a cycle and no <code>max_iterations</code> is a hard violation that blocks Save. Set the graph's <code>on_max_iterations</code> to a finalize node to land with output instead of hard-failing at the cap.</p>
 <h3 id="validate-and-save">Validate and save</h3>
 <p>The canvas runs local topology checks as you edit:</p>
 <ul>
