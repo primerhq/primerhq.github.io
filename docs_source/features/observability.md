@@ -23,7 +23,7 @@ The health and metrics surfaces overlap on purpose: `/v1/health` lets a dashboar
 ```json
 {
   "status": "ok",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "scheduler": {
     "alive": true,
     "metrics": {

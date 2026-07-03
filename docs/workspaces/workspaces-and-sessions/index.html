@@ -245,8 +245,8 @@
 <p>The tab shows:</p>
 <ul>
 <li><strong>Header</strong>: the session title, bound agent (or graph), current status, and the operator controls.</li>
-<li><strong>Transcript</strong>: turns stream in as they land. Each turn shows the role (user / assistant / tool), content, and timestamp.</li>
-<li><strong>Waiting or paused reason</strong>: for a session in <code>waiting</code> or <code>paused</code> state, the tab shows why it stopped, typically the event key the agent yielded on, so you can see where it is blocked.</li>
+<li><strong>Transcript</strong>: turns stream in as they land. Each turn shows the role (user / assistant / tool), content, and timestamp. An ended session shows its full recorded transcript at the session level (ended sessions previously appeared empty).</li>
+<li><strong>Waiting or paused reason</strong>: for a session in <code>waiting</code> or <code>paused</code> state, the tab shows why it stopped, typically the event key the agent yielded on. Parked yields show a live countdown to when they resume.</li>
 </ul>
 <p>Four operator controls sit in the session tab: <strong>Pause</strong>, <strong>Resume</strong>, <strong>Cancel</strong>, and <strong>Steer</strong>.</p>
 <div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p>Cancel is immediate and irreversible. If the agent was mid-write (writing a file, sending a message), the write may or may not have completed before the cancellation error arrived. Check the transcript to see where the last tool call landed before assuming the operation is rolled back.</p>

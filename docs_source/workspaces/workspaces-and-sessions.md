@@ -127,8 +127,8 @@ Opening a session adds a center tab that streams the run live.
 The tab shows:
 
 - **Header**: the session title, bound agent (or graph), current status, and the operator controls.
-- **Transcript**: turns stream in as they land. Each turn shows the role (user / assistant / tool), content, and timestamp.
-- **Waiting or paused reason**: for a session in `waiting` or `paused` state, the tab shows why it stopped, typically the event key the agent yielded on, so you can see where it is blocked.
+- **Transcript**: turns stream in as they land. Each turn shows the role (user / assistant / tool), content, and timestamp. An ended session shows its full recorded transcript at the session level (ended sessions previously appeared empty).
+- **Waiting or paused reason**: for a session in `waiting` or `paused` state, the tab shows why it stopped, typically the event key the agent yielded on. Parked yields show a live countdown to when they resume.
 
 Four operator controls sit in the session tab: **Pause**, **Resume**, **Cancel**, and **Steer**.
 

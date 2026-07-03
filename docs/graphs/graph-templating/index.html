@@ -344,6 +344,18 @@ Score: {{ nodes.judge.parsed.score }}
   ]
 }
 </code></pre>
+<h3 id="custom-filters">Custom filters</h3>
+<p>Two graph-specific Jinja2 filters extend the standard set for the common case of moving data between nodes:</p>
+<ul>
+<li>
+<p><code>fromjson</code> parses a JSON string into data so a downstream node can index into it. Use it when an upstream <code>tool_call</code> or agent node emitted JSON in its <code>text</code> output but <code>nodes.&lt;id&gt;.parsed</code> is <code>None</code> (parsed is only populated when the node declared a <code>response_format</code> or <code>output_schema</code>). It raises a <code>TemplateError</code> on invalid JSON, so a malformed upstream output surfaces at render time rather than silently passing a wrong value. For example, to read the first result's URL out of a search node's raw text:</p>
+<pre><code>{{ (nodes.search.text | fromjson)[0].url }}
+</code></pre>
+</li>
+<li>
+<p><code>strip_fences</code> unwraps a markdown code fence around generated code. When an agent returns code wrapped in a <code>```lang</code> fence, this filter strips the fence and the language tag and returns the inner code; it is idempotent on already-raw code, so applying it twice (or to unfenced text) is safe. Use it on the input to a write-then-exec <code>tool_call</code> node so the fence does not land in the written file.</p>
+</li>
+</ul>
 <h2 id="walkthrough-chaining-two-nodes">Walkthrough: chaining two nodes</h2>
 <p>This walkthrough shows the minimal template chain: a <code>researcher</code> agent feeds its output to a <code>writer</code> agent.</p>
 <ol>
