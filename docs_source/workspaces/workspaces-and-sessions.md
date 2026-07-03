@@ -95,38 +95,42 @@ All three controls are durable. If the API process restarts between the request 
 - **Resume**: reverses a pause or activates a CREATED session. The session re-enters the queue and a worker picks it up at the next turn.
 - **Cancel**: moves the session to ENDED immediately at the next turn boundary. Any in-flight tool call receives a cancellation error. The transcript is preserved and readable after cancellation. Cancel is terminal; sessions cannot be restarted after they end.
 
+## The Studio
+
+You start and watch sessions from the workspace **Studio**, the console's view of one workspace instance. Open it from the **Studio** item in the left nav, or open a workspace from the **Workspaces** list. The Studio has three columns:
+
+- **Left sidebar**: a **Sessions** list for this workspace and a **Files** tree over the instance filesystem. The `+` on the Sessions header starts a new run.
+- **Center**: a tabbed work area. Each open session is a tab, each open file is an editor tab, and the integrated terminal is its own tab.
+- **Right activity panel**: a live **Workspace activity** stream and an **Action required** list of sessions waiting on you (an approval, an answer to a question, or a park that needs a nudge).
+
+The **Files** tree browses the instance filesystem and runs the same file operations the workspace toolset exposes over the API: open and edit a file, create a **New file** or **New folder**, **Upload** files from your machine, **Download** a file, and **Delete** a file or folder. A gear button opens **Settings**: the workspace's channels, config, run log, and destroy controls.
+
 ## Walkthrough: start and monitor a session
 
-1. Navigate to **Sessions** in the left nav.
-2. Click **New session** (top-right of the filter bar).
-3. Select the agent (or graph) to run, the workspace to run it in, and provide the initial instructions.
-4. Click **Start**. The new session row appears at the top of the list with status `created`, then transitions to `running` as a worker picks it up.
+1. Open the workspace's **Studio** (the **Studio** nav item, or open the workspace from **Workspaces**).
+2. In the left sidebar, click the **`+`** on the **Sessions** header to open the new-session form.
+3. Select the agent (or graph) to run and provide the initial instructions. The run targets the workspace whose Studio you are in.
+4. Click **Start**. The session appears in the sidebar list with status `created`, opens as a center tab, and transitions to `running` as a worker picks it up.
 
 ```embed:sessions-list
 ```
 
-The filter bar supports:
+Each row in the sidebar shows the session's title and current status; click a row to open (or re-focus) its center tab. The activity panel on the right surfaces anything that needs you across the workspace's sessions.
 
-- **Status chips**: click one or more statuses to filter (created / running / waiting / paused / ended). Active-status chips are highlighted.
-- **Agent** dropdown: narrow to sessions bound to a specific agent.
-- **Workspace** dropdown: narrow to sessions in a specific workspace.
-- **Text search**: matches session id, agent id, graph id, or workspace id.
-- **Column headers**: click to sort by created time, last-turn time, agent, or worker.
+## The session tab
 
-## Viewing session detail
-
-Click any row to open the session detail view.
+Opening a session adds a center tab that streams the run live.
 
 ```embed:session-detail
 ```
 
-The detail view shows:
+The tab shows:
 
-- **Header strip**: session id, bound agent, current status, and elapsed time.
-- **Transcript pane**: turns stream in as they land. Each turn shows the role (user / assistant / tool), content, and timestamp.
-- **Footer**: for sessions in `waiting` or `paused` state, the footer shows the reason the session stopped, typically the event key the agent yielded on. Use this to diagnose where the session is blocked.
+- **Header**: the session title, bound agent (or graph), current status, and the operator controls.
+- **Transcript**: turns stream in as they land. Each turn shows the role (user / assistant / tool), content, and timestamp.
+- **Waiting or paused reason**: for a session in `waiting` or `paused` state, the tab shows why it stopped, typically the event key the agent yielded on, so you can see where it is blocked.
 
-Three operator controls appear in the session detail header: **Pause**, **Resume**, and **Cancel**.
+Four operator controls sit in the session tab: **Pause**, **Resume**, **Cancel**, and **Steer**.
 
 ```callout:warning
 Cancel is immediate and irreversible. If the agent was mid-write (writing a file, sending a message), the write may or may not have completed before the cancellation error arrived. Check the transcript to see where the last tool call landed before assuming the operation is rolled back.
@@ -134,7 +138,7 @@ Cancel is immediate and irreversible. If the agent was mid-write (writing a file
 
 ### Steering a running session
 
-On the session detail, use the steer control to append a new instruction to a session that is already running or waiting, without starting over. This is useful when you want to nudge the agent mid-run or supply extra context after it has begun working.
+Use **Steer** to append a new instruction to a session that is already running or waiting, without starting over. This is useful when you want to nudge the agent mid-run or supply extra context after it has begun working.
 
 
 ```ref:features/agents
