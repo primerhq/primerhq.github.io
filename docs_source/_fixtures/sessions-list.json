@@ -1,91 +1,187 @@
 {
-  "GET /sessions?limit=200": {
-    "kind": "offset",
-    "offset": 0,
-    "length": 1,
-    "total": 1,
-    "items": [
-      {
-        "id": "sess-cf9c3596e135",
-        "workspace_id": "ws-0ae22e9a7d65436a",
-        "binding": {
-          "kind": "agent",
-          "agent_id": "weekly-digest",
-          "agent_snapshot": null
-        },
-        "status": "created",
-        "parent_session_id": null,
-        "initial_instructions": null,
-        "metadata": {},
-        "created_at": "2026-06-07T19:00:59.403199Z",
-        "started_at": null,
-        "last_turn_at": null,
-        "ended_at": null,
-        "ended_reason": null,
-        "ended_detail": null,
-        "turn_no": 0,
-        "last_worker_id": null,
-        "pause_requested": false,
-        "cancel_requested": false,
-        "parked_status": null,
-        "parked_event_key": null,
-        "parked_until": null,
-        "parked_at": null,
-        "parked_state": null,
-        "last_seq": 0,
-        "turn_status": "idle",
-        "cancel_requested_at": null,
-        "pause_requested_at": null
-      }
-    ]
-  },
-  "GET /agents?limit=200": {
-    "kind": "offset",
-    "offset": 0,
-    "length": 1,
-    "total": 1,
-    "items": [
-      {
-        "id": "weekly-digest",
-        "description": "Summarises the week",
-        "model": {
-          "provider_id": "demo-openai",
-          "model_name": "gpt-4o"
-        },
-        "temperature": null,
-        "tools": [],
-        "system_prompt": [
-          "You write concise weekly digests."
-        ],
-        "compaction_prompt": [],
-        "harness_id": null
-      }
-    ]
-  },
-  "GET /workspaces?limit=200": {
-    "kind": "offset",
-    "offset": 0,
-    "length": 1,
-    "total": 1,
-    "items": [
-      {
-        "id": "ws-0ae22e9a7d65436a",
-        "name": null,
-        "template_id": "docs-tpl-local",
-        "provider_id": "docs-wp-local",
-        "overrides": null,
-        "created_at": "2026-06-07T19:00:59.293412Z",
-        "phase": "running",
-        "last_probe_at": null,
-        "last_probe_ok": false,
-        "failure_reason": null,
-        "runtime_meta": {
-          "url": "local://ws-0ae22e9a7d65436a",
-          "token": "",
-          "mapped_host_port": null,
-          "k8s_object_name": null
-        }
-      }
-    ]
+ "GET /workspaces?limit=200": {
+  "kind": "offset",
+  "offset": 0,
+  "length": 1,
+  "total": 1,
+  "items": [
+   {
+    "id": "ws-blogassistant",
+    "name": "blog-assistant",
+    "template_id": "docs-tpl-local",
+    "provider_id": "docs-wp-local",
+    "overrides": null,
+    "created_at": "2026-06-28T14:12:00Z",
+    "phase": "running",
+    "last_probe_at": "2026-06-28T14:20:03Z",
+    "last_probe_ok": true,
+    "failure_reason": null,
+    "runtime_meta": {
+     "url": "local://ws-blogassistant",
+     "token": "",
+     "mapped_host_port": null,
+     "k8s_object_name": null
+    }
+   }
+  ]
+ },
+ "GET /workspaces/ws-blogassistant": {
+  "id": "ws-blogassistant",
+  "name": "blog-assistant",
+  "template_id": "docs-tpl-local",
+  "provider_id": "docs-wp-local",
+  "overrides": null,
+  "created_at": "2026-06-28T14:12:00Z",
+  "phase": "running",
+  "last_probe_at": "2026-06-28T14:20:03Z",
+  "last_probe_ok": true,
+  "failure_reason": null,
+  "runtime_meta": {
+   "url": "local://ws-blogassistant",
+   "token": "",
+   "mapped_host_port": null,
+   "k8s_object_name": null
   }
+ },
+ "GET /workspaces/ws-blogassistant/sessions": {
+  "kind": "offset",
+  "offset": 0,
+  "length": 3,
+  "total": 3,
+  "items": [
+   {
+    "id": "sess-briefwriter",
+    "workspace_id": "ws-blogassistant",
+    "binding": {
+     "kind": "agent",
+     "agent_id": "brief-writer",
+     "agent_snapshot": null
+    },
+    "status": "ended",
+    "parent_session_id": null,
+    "initial_instructions": null,
+    "metadata": {},
+    "created_at": "2026-06-28T14:14:30Z",
+    "started_at": "2026-06-28T14:15:00Z",
+    "last_turn_at": "2026-06-28T14:16:40Z",
+    "ended_at": "2026-06-28T14:16:41Z",
+    "ended_reason": "completed",
+    "ended_detail": null,
+    "turn_no": 3,
+    "last_worker_id": "wrk-7fe143c54154",
+    "pause_requested": false,
+    "cancel_requested": false,
+    "parked_status": null,
+    "parked_event_key": null,
+    "parked_until": null,
+    "parked_at": null,
+    "parked_state": null,
+    "last_seq": 5,
+    "turn_status": "idle",
+    "cancel_requested_at": null,
+    "pause_requested_at": null
+   },
+   {
+    "id": "sess-draftwriter",
+    "workspace_id": "ws-blogassistant",
+    "binding": {
+     "kind": "agent",
+     "agent_id": "draft-writer",
+     "agent_snapshot": null
+    },
+    "status": "running",
+    "parent_session_id": null,
+    "initial_instructions": null,
+    "metadata": {},
+    "created_at": "2026-06-28T14:14:30Z",
+    "started_at": "2026-06-28T14:15:00Z",
+    "last_turn_at": "2026-06-28T14:16:40Z",
+    "ended_at": null,
+    "ended_reason": null,
+    "ended_detail": null,
+    "turn_no": 2,
+    "last_worker_id": "wrk-7fe143c54154",
+    "pause_requested": false,
+    "cancel_requested": false,
+    "parked_status": null,
+    "parked_event_key": null,
+    "parked_until": null,
+    "parked_at": null,
+    "parked_state": null,
+    "last_seq": 9,
+    "turn_status": "running",
+    "cancel_requested_at": null,
+    "pause_requested_at": null
+   },
+   {
+    "id": "sess-completenessjudge",
+    "workspace_id": "ws-blogassistant",
+    "binding": {
+     "kind": "agent",
+     "agent_id": "completeness-judge",
+     "agent_snapshot": null
+    },
+    "status": "ended",
+    "parent_session_id": null,
+    "initial_instructions": null,
+    "metadata": {},
+    "created_at": "2026-06-28T14:14:30Z",
+    "started_at": "2026-06-28T14:15:00Z",
+    "last_turn_at": "2026-06-28T14:16:40Z",
+    "ended_at": "2026-06-28T14:18:10Z",
+    "ended_reason": "completed",
+    "ended_detail": null,
+    "turn_no": 1,
+    "last_worker_id": "wrk-7fe143c54154",
+    "pause_requested": false,
+    "cancel_requested": false,
+    "parked_status": null,
+    "parked_event_key": null,
+    "parked_until": null,
+    "parked_at": null,
+    "parked_state": null,
+    "last_seq": 3,
+    "turn_status": "idle",
+    "cancel_requested_at": null,
+    "pause_requested_at": null
+   }
+  ]
+ },
+ "GET /workspaces/ws-blogassistant/files/tree": {
+  "path": ".",
+  "items": [
+   {
+    "name": "research",
+    "path": "research",
+    "is_dir": true,
+    "size_bytes": 0,
+    "mtime": 1782998400.0,
+    "mtime_iso": "2026-06-28T14:13:20Z"
+   },
+   {
+    "name": "draft.md",
+    "path": "draft.md",
+    "is_dir": false,
+    "size_bytes": 3184,
+    "mtime": 1782999380.0,
+    "mtime_iso": "2026-06-28T14:29:40Z"
+   },
+   {
+    "name": "notes.md",
+    "path": "notes.md",
+    "is_dir": false,
+    "size_bytes": 210,
+    "mtime": 1782998600.0,
+    "mtime_iso": "2026-06-28T14:16:40Z"
+   },
+   {
+    "name": "outline.md",
+    "path": "outline.md",
+    "is_dir": false,
+    "size_bytes": 642,
+    "mtime": 1782998801.0,
+    "mtime_iso": "2026-06-28T14:16:41Z"
+   }
+  ]
+ }
 }

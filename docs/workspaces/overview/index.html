@@ -146,6 +146,15 @@
 <li><strong>Sessions</strong>: the runs hosted on an instance. One instance hosts many sessions at once.</li>
 </ul>
 <p>The <strong>workspace toolset</strong> lets agents manage all of the above programmatically, and <strong>yielding tools</strong> let a session park on an external event and resume when it fires.</p>
+<h2 id="working-in-a-workspace-the-studio">Working in a workspace: the Studio</h2>
+<p>The console gives every workspace its own <strong>Studio</strong>, an IDE-like view you open from the <strong>Studio</strong> item in the left nav or by opening a workspace from the <strong>Workspaces</strong> list. It has three columns:</p>
+<ul>
+<li><strong>Left sidebar</strong>: a <strong>Sessions</strong> list, where the <code>+</code> starts a new run, and a <strong>Files</strong> tree over the instance filesystem.</li>
+<li><strong>Center</strong>: a tabbed work area. Sessions open as tabs, files open in an editor tab, and an integrated terminal opens in its own tab.</li>
+<li><strong>Right activity panel</strong>: a live stream of workspace events and an <strong>Action required</strong> list for sessions that are waiting on you.</li>
+</ul>
+<p>The <strong>Files</strong> tree exposes the same operations the workspace toolset offers over the API: open and edit a file, create a <strong>New file</strong> or <strong>New folder</strong>, <strong>Upload</strong> files from your machine, <strong>Download</strong> a file, and <strong>Delete</strong> a file or folder (folders delete recursively). A gear button opens <strong>Settings</strong> for the workspace: channels, config, the run log, and destroy.</p>
+<p><a href="/docs/workspaces/workspaces-and-sessions/">Start and monitor sessions inside the Studio, and the session lifecycle.</a></p>
 <p><a href="/docs/workspaces/workspace-providers/">Register local, container, and Kubernetes workspace providers.</a></p>
 <p><a href="/docs/workspaces/workspace-templates/">Author templates that materialise workspaces from a provider.</a></p>
 <p><a href="/docs/workspaces/workspaces-and-sessions/">How a workspace instance hosts sessions, and the session lifecycle.</a></p>
