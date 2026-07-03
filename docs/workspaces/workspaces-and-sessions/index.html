@@ -222,36 +222,37 @@
 <li><strong>Resume</strong>: reverses a pause or activates a CREATED session. The session re-enters the queue and a worker picks it up at the next turn.</li>
 <li><strong>Cancel</strong>: moves the session to ENDED immediately at the next turn boundary. Any in-flight tool call receives a cancellation error. The transcript is preserved and readable after cancellation. Cancel is terminal; sessions cannot be restarted after they end.</li>
 </ul>
+<h2 id="the-studio">The Studio</h2>
+<p>You start and watch sessions from the workspace <strong>Studio</strong>, the console's view of one workspace instance. Open it from the <strong>Studio</strong> item in the left nav, or open a workspace from the <strong>Workspaces</strong> list. The Studio has three columns:</p>
+<ul>
+<li><strong>Left sidebar</strong>: a <strong>Sessions</strong> list for this workspace and a <strong>Files</strong> tree over the instance filesystem. The <code>+</code> on the Sessions header starts a new run.</li>
+<li><strong>Center</strong>: a tabbed work area. Each open session is a tab, each open file is an editor tab, and the integrated terminal is its own tab.</li>
+<li><strong>Right activity panel</strong>: a live <strong>Workspace activity</strong> stream and an <strong>Action required</strong> list of sessions waiting on you (an approval, an answer to a question, or a park that needs a nudge).</li>
+</ul>
+<p>The <strong>Files</strong> tree browses the instance filesystem and runs the same file operations the workspace toolset exposes over the API: open and edit a file, create a <strong>New file</strong> or <strong>New folder</strong>, <strong>Upload</strong> files from your machine, <strong>Download</strong> a file, and <strong>Delete</strong> a file or folder. A gear button opens <strong>Settings</strong>: the workspace's channels, config, run log, and destroy controls.</p>
 <h2 id="walkthrough-start-and-monitor-a-session">Walkthrough: start and monitor a session</h2>
 <ol>
-<li>Navigate to <strong>Sessions</strong> in the left nav.</li>
-<li>Click <strong>New session</strong> (top-right of the filter bar).</li>
-<li>Select the agent (or graph) to run, the workspace to run it in, and provide the initial instructions.</li>
-<li>Click <strong>Start</strong>. The new session row appears at the top of the list with status <code>created</code>, then transitions to <code>running</code> as a worker picks it up.</li>
+<li>Open the workspace's <strong>Studio</strong> (the <strong>Studio</strong> nav item, or open the workspace from <strong>Workspaces</strong>).</li>
+<li>In the left sidebar, click the <strong><code>+</code></strong> on the <strong>Sessions</strong> header to open the new-session form.</li>
+<li>Select the agent (or graph) to run and provide the initial instructions. The run targets the workspace whose Studio you are in.</li>
+<li>Click <strong>Start</strong>. The session appears in the sidebar list with status <code>created</code>, opens as a center tab, and transitions to <code>running</code> as a worker picks it up.</li>
 </ol>
 <figure class="embed"><picture><source srcset="/_embeds/sessions-list-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/sessions-list-light.png" alt="sessions-list (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
-<p>The filter bar supports:</p>
-<ul>
-<li><strong>Status chips</strong>: click one or more statuses to filter (created / running / waiting / paused / ended). Active-status chips are highlighted. Two quick-filter chips sit alongside them: <strong>Needs attention</strong> (sessions parked waiting on input or approval) and <strong>Failed</strong>.</li>
-<li><strong>Agent</strong> dropdown: narrow to sessions bound to a specific agent.</li>
-<li><strong>Workspace</strong> dropdown: narrow to sessions in a specific workspace.</li>
-<li><strong>Text search</strong>: matches session id, agent id, graph id, or workspace id.</li>
-<li><strong>Column headers</strong>: click to sort by created time, last-turn time, agent, or worker.</li>
-</ul>
-<h2 id="viewing-session-detail">Viewing session detail</h2>
-<p>Click any row to open the session detail view.</p>
+<p>Each row in the sidebar shows the session's title and current status; click a row to open (or re-focus) its center tab. The activity panel on the right surfaces anything that needs you across the workspace's sessions.</p>
+<h2 id="the-session-tab">The session tab</h2>
+<p>Opening a session adds a center tab that streams the run live.</p>
 <figure class="embed"><picture><source srcset="/_embeds/session-detail-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/session-detail-light.png" alt="session-detail (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
-<p>The detail view shows:</p>
+<p>The tab shows:</p>
 <ul>
-<li><strong>Header strip</strong>: session id, bound agent, current status, and elapsed time.</li>
-<li><strong>Transcript pane</strong>: turns stream in as they land. Each turn shows the role (user / assistant / tool), content, and timestamp.</li>
-<li><strong>Footer</strong>: the terminal footer is now an outcome banner, a colored label with an optional reason, and it shows live countdowns for any parked yields. For sessions in <code>waiting</code> or <code>paused</code> state it still surfaces the reason the session stopped, typically the event key the agent yielded on, so you can diagnose where the session is blocked. Ended sessions now show their full recorded transcript at the session level (previously they appeared empty).</li>
+<li><strong>Header</strong>: the session title, bound agent (or graph), current status, and the operator controls.</li>
+<li><strong>Transcript</strong>: turns stream in as they land. Each turn shows the role (user / assistant / tool), content, and timestamp. An ended session shows its full recorded transcript at the session level (ended sessions previously appeared empty).</li>
+<li><strong>Waiting or paused reason</strong>: for a session in <code>waiting</code> or <code>paused</code> state, the tab shows why it stopped, typically the event key the agent yielded on. Parked yields show a live countdown to when they resume.</li>
 </ul>
-<p>Three operator controls appear in the session detail header: <strong>Pause</strong>, <strong>Resume</strong>, and <strong>Cancel</strong>.</p>
+<p>Four operator controls sit in the session tab: <strong>Pause</strong>, <strong>Resume</strong>, <strong>Cancel</strong>, and <strong>Steer</strong>.</p>
 <div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p>Cancel is immediate and irreversible. If the agent was mid-write (writing a file, sending a message), the write may or may not have completed before the cancellation error arrived. Check the transcript to see where the last tool call landed before assuming the operation is rolled back.</p>
 </div></div>
 <h3 id="steering-a-running-session">Steering a running session</h3>
-<p>On the session detail, use the steer control to append a new instruction to a session that is already running or waiting, without starting over. This is useful when you want to nudge the agent mid-run or supply extra context after it has begun working.</p>
+<p>Use <strong>Steer</strong> to append a new instruction to a session that is already running or waiting, without starting over. This is useful when you want to nudge the agent mid-run or supply extra context after it has begun working.</p>
 <p><a href="/docs/features/agents/">Agent creation, tool selection, and system prompt configuration.</a></p>
 <p><a href="/docs/features/workers/">Worker pools, claim lifecycle, and how sessions are scheduled.</a></p>
 <p><a href="/docs/workspaces/yielding-tools/">How a session parks on a tool call and resumes when the event fires.</a></p>

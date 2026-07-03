@@ -149,16 +149,22 @@ The internal collections and the search toolset.
 
 ## Step 5 - Create a workspace and write a file
 
-Go to Workspaces and create a new workspace using the default local provider. Give it a name like "blog-assistant".
-
-Next, create a small **brief-writer** agent (no special tools needed on the agent itself). When an agent runs inside a workspace session, the `workspaces__*` tools, including `workspaces__write_workspace_file`, are registered with it automatically, so you do not add them in the agent's tool list. Just give brief-writer a system prompt telling it to write the content it is given into the requested file.
-
-Start a workspace session bound to brief-writer and the workspace you just created. Because this is a fresh session with a different agent, it does not share the Step 3 chat history, so paste the outline text produced in Step 3 directly into the session's instructions. Then instruct the agent to write that outline into a file called `outline.md` in the workspace; it will use `workspaces__write_workspace_file` to do so.
+Go to **Workspaces** and create a new workspace using the default local provider. Give it a name like "blog-assistant", then open it to enter its **Studio**.
 
 ```embed:workspaces
 ```
 
+Next, create a small **brief-writer** agent (no special tools needed on the agent itself). When an agent runs inside a workspace session, the `workspaces__*` tools, including `workspaces__write_workspace_file`, are registered with it automatically, so you do not add them in the agent's tool list. Just give brief-writer a system prompt telling it to write the content it is given into the requested file.
+
+Back in the workspace's Studio, click the **`+`** on the left sidebar's **Sessions** header and bind the new session to **brief-writer**. Because this is a fresh session with a different agent, it does not share the Step 3 chat history, so paste the outline text produced in Step 3 directly into the session's instructions, and tell the agent to write it into a file called `outline.md`. Start the session; it opens as a center tab and streams its turns as the agent calls `workspaces__write_workspace_file`.
+
 ```embed:session-detail
+```
+
+When the agent writes `outline.md`, it appears in the **Files** tree in the left sidebar, where you can open, download, or delete it. Step 6's graph watches this same file.
+
+```ref:workspaces/workspaces-and-sessions
+Start and monitor sessions inside the workspace Studio.
 ```
 
 ```ref:workspaces/workspace-providers

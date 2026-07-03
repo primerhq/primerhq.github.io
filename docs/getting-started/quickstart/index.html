@@ -140,7 +140,7 @@
 <p>In this guide you will build a small &quot;blog content assistant&quot; from scratch using primer. Everything runs from the console against a free LLM key, and each step builds directly on the last. By the end you will have two agents, a shared chat, a semantic router, a workspace file, and a graph that watches for that file and then drafts and reviews a blog post.</p>
 <h2 id="step-0---install-and-start">Step 0 - Install and start</h2>
 <p>Install primer and start the API server, then open the console at http://localhost:8000/console/. This tutorial uses semantic search and internal collections, so install the batteries-included <code>[full]</code> build.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-529cdb-bash">bash</button></div><div class="tab-panel active" id="tab-529cdb-bash"><pre class="md-pre lang-bash"><code># pipx (needs Python 3.12+)
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-50ae82-bash">bash</button></div><div class="tab-panel active" id="tab-50ae82-bash"><pre class="md-pre lang-bash"><code># pipx (needs Python 3.12+)
 pipx install &#x27;primer-ai[full]&#x27;
 primer api
 
@@ -161,7 +161,7 @@ docker run --rm -p 8000:8000 ghcr.io/primerhq/primer:0.2.0</code></pre></div></d
 </ul>
 <p>For each agent, open Agents, click New agent, fill the Basic tab (name, description, and the model: select the OpenRouter provider you created in Step 1, then pick the <code>meta-llama/llama-3.1-8b-instruct:free</code> model), then open the Advanced tab to paste the system prompt below, and save.</p>
 <p><strong>topic-scout</strong> system prompt:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-446d3f-text">text</button></div><div class="tab-panel active" id="tab-446d3f-text"><pre class="md-pre lang-text"><code>You are topic-scout, a blog ideation assistant. Given a broad theme from
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b66258-text">text</button></div><div class="tab-panel active" id="tab-b66258-text"><pre class="md-pre lang-text"><code>You are topic-scout, a blog ideation assistant. Given a broad theme from
 the user, propose exactly five specific, distinct blog post topics aimed at
 a general technical audience.
 
@@ -174,7 +174,7 @@ Do not write the posts themselves, and do not ask clarifying questions: if
 the theme is broad, make reasonable assumptions and proceed. Keep the whole
 reply under 200 words.</code></pre></div></div>
 <p><strong>outline-editor</strong> system prompt:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c17c2d-text">text</button></div><div class="tab-panel active" id="tab-c17c2d-text"><pre class="md-pre lang-text"><code>You are outline-editor. The user gives you a single blog post topic, often
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-21c4fb-text">text</button></div><div class="tab-panel active" id="tab-21c4fb-text"><pre class="md-pre lang-text"><code>You are outline-editor. The user gives you a single blog post topic, often
 chosen from a numbered list earlier in the conversation. Produce one clear,
 structured outline for that topic.
 
@@ -200,7 +200,7 @@ Outline only; do not write full prose paragraphs. If the user refers to
 <p><strong>Part A: enable the collections.</strong> Go to Internal Collections and click Configure. Choose the bundled local embedder and the pre-configured <code>lance</code> semantic search provider; it is local and file-based, so it needs no API key. After saving, the subsystem is in the configured state; click Bootstrap now to index primer's own agents, graphs, tools, and knowledge collections. The subsystem becomes active once bootstrapping completes.</p>
 <figure class="embed"><picture><source srcset="/_embeds/internal-collections-enable-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/internal-collections-enable-light.png" alt="internal-collections-enable (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
 <p><strong>Part B: create a router agent.</strong> Create a new agent called <strong>content-router</strong> (again selecting the OpenRouter provider and the llama model). Give it the tools <code>search__search_agents</code> and <code>system__invoke_agent</code>, and the system prompt below:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-66e2fd-text">text</button></div><div class="tab-panel active" id="tab-66e2fd-text"><pre class="md-pre lang-text"><code>You are content-router. Route each user request to the most suitable
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d2e572-text">text</button></div><div class="tab-panel active" id="tab-d2e572-text"><pre class="md-pre lang-text"><code>You are content-router. Route each user request to the most suitable
 existing agent and run it, rather than answering directly.
 
 For every request:
@@ -220,11 +220,13 @@ Always delegate through the tools; never perform the task yourself.</code></pre>
 </div></div>
 <p><a href="/docs/embedding/internal-collections/">The internal collections and the search toolset.</a></p>
 <h2 id="step-5---create-a-workspace-and-write-a-file">Step 5 - Create a workspace and write a file</h2>
-<p>Go to Workspaces and create a new workspace using the default local provider. Give it a name like &quot;blog-assistant&quot;.</p>
-<p>Next, create a small <strong>brief-writer</strong> agent (no special tools needed on the agent itself). When an agent runs inside a workspace session, the <code>workspaces__*</code> tools, including <code>workspaces__write_workspace_file</code>, are registered with it automatically, so you do not add them in the agent's tool list. Just give brief-writer a system prompt telling it to write the content it is given into the requested file.</p>
-<p>Start a workspace session bound to brief-writer and the workspace you just created. Because this is a fresh session with a different agent, it does not share the Step 3 chat history, so paste the outline text produced in Step 3 directly into the session's instructions. Then instruct the agent to write that outline into a file called <code>outline.md</code> in the workspace; it will use <code>workspaces__write_workspace_file</code> to do so.</p>
+<p>Go to <strong>Workspaces</strong> and create a new workspace using the default local provider. Give it a name like &quot;blog-assistant&quot;, then open it to enter its <strong>Studio</strong>.</p>
 <figure class="embed"><picture><source srcset="/_embeds/workspaces-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/workspaces-light.png" alt="workspaces (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<p>Next, create a small <strong>brief-writer</strong> agent (no special tools needed on the agent itself). When an agent runs inside a workspace session, the <code>workspaces__*</code> tools, including <code>workspaces__write_workspace_file</code>, are registered with it automatically, so you do not add them in the agent's tool list. Just give brief-writer a system prompt telling it to write the content it is given into the requested file.</p>
+<p>Back in the workspace's Studio, click the <strong><code>+</code></strong> on the left sidebar's <strong>Sessions</strong> header and bind the new session to <strong>brief-writer</strong>. Because this is a fresh session with a different agent, it does not share the Step 3 chat history, so paste the outline text produced in Step 3 directly into the session's instructions, and tell the agent to write it into a file called <code>outline.md</code>. Start the session; it opens as a center tab and streams its turns as the agent calls <code>workspaces__write_workspace_file</code>.</p>
 <figure class="embed"><picture><source srcset="/_embeds/session-detail-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/session-detail-light.png" alt="session-detail (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<p>When the agent writes <code>outline.md</code>, it appears in the <strong>Files</strong> tree in the left sidebar, where you can open, download, or delete it. Step 6's graph watches this same file.</p>
+<p><a href="/docs/workspaces/workspaces-and-sessions/">Start and monitor sessions inside the workspace Studio.</a></p>
 <p><a href="/docs/workspaces/workspace-providers/">Workspace providers, templates, and the file tools.</a></p>
 <h2 id="step-6---build-and-run-a-graph-watch-draft-judge">Step 6 - Build and run a graph (watch, draft, judge)</h2>
 <p>Now tie everything together with a graph. First, create three small agents for the graph nodes: <strong>outline-watcher</strong>, <strong>draft-writer</strong>, and <strong>completeness-judge</strong> (or reuse existing ones if you already have them). A graph runs inside a workspace session, so the in-workspace runtime tools (<code>ls</code>, <code>read</code>, <code>write</code>, <code>edit</code>, <code>glob</code>, <code>grep</code>, <code>exec</code>) are auto-registered with its agent nodes. The watcher is the one exception: <code>watch_files</code> is a yielding tool in the separate <code>workspace_ext</code> toolset, which is <strong>not</strong> auto-registered, so the watcher agent must bind <code>workspace_ext</code> explicitly on its Tools tab. Because the graph runs in a workspace session, the bound <code>workspace_ext</code> tools are then registered with that agent (they would be suppressed if the same agent ran on a chat). Otherwise you only need to ask for the behavior in the system prompt.</p>
