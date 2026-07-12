@@ -18,7 +18,7 @@ pipx install 'primer-ai[full]'
 primer api
 
 # or Docker (no Python toolchain)
-docker run --rm -p 8000:8000 ghcr.io/primerhq/primer:0.2.0
+docker run --rm -p 8000:8000 ghcr.io/primerhq/primer:0.3.0
 ```
 
 ```callout:info
