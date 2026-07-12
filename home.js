@@ -112,6 +112,7 @@
    *  Showcase tabs (Batteries included)
    * ------------------------------------------------------------------ */
   var FEATURES = {
+    studio:      { t: "Studio",      d: "A real operator console — not just logs. Launch, watch, and debug every run: a live graph canvas, the full session transcript, and a streaming event rail, all in one view.", l: "/docs/features/observability/" },
     agents:      { t: "Agents",      d: "Configure each agent with its own model, tools, and a deliberately small context. Swap the model behind a chat without touching the loop.", l: "/docs/features/agents/" },
     graphs:      { t: "Graphs",      d: "Compose directed cyclic graphs in a visual canvas: a producer drafts, a judge critiques, and work loops until it passes.", l: "/docs/graphs/overview/" },
     collections: { t: "Collections", d: "Mount a whole knowledge collection into an agent's workspace as a live, editable directory — the agent reads and writes the files directly, then a 3-way diff syncs edits back upstream with Apply to collection.", l: "/docs/embedding/collections-and-documents/" },
@@ -121,6 +122,7 @@
   };
   /* Drop-in for real screenshots: home/<key>-dark.png if present, else CSS mock */
   var SHOT_IMG = {
+    studio: "home/studio-console-dark.png",
     agents: "home/agents-page-dark.png",
     graphs: "home/graph-canvas-dark.png",
     collections: "home/internal-collections-enable-dark.png", // TODO: replace with a real collection-mount screenshot (enable-only shot, not the mount/diff flow)
@@ -205,7 +207,7 @@
       selectTab(tab.getAttribute("data-tab"));
     });
   });
-  if (tabs.length) selectTab("agents");
+  if (tabs.length) selectTab("studio");
 
   /* ------------------------------------------------------------------ *
    *  Animated traveling dot along the loop diagrams
