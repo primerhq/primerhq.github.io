@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base href="/docs/" />
+<title>Python Toolsets &middot; Primer Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <a class="brand" href="/">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <polygon points="12,3 21,12 12,21 3,12" fill="currentColor" fill-opacity="0.18"/>
+        <polygon points="12,3 16.5,7.5 12,12 7.5,7.5" fill="currentColor"/>
+        <polygon points="16.5,7.5 21,12 16.5,16.5 12,12" fill="currentColor" fill-opacity="0.45"/>
+        <polygon points="12,12 16.5,16.5 12,21 7.5,16.5" fill="var(--accent)"/>
+        <polygon points="7.5,7.5 12,12 7.5,16.5 3,12" fill="currentColor" fill-opacity="0.45"/>
+      </svg>
+      primer
+      <span class="ver">docs</span>
+    </a>
+    <label class="topbar-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input id="search" placeholder="Search docs..." autocomplete="off" />
+      <kbd>/</kbd>
+    </label>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/primerhq/primer" aria-label="GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"><div class="nav-group">
+<div class="nav-title">Getting Started</div>
+<a class="nav-link" href="/docs/getting-started/introduction/">Introduction</a>
+<a class="nav-link" href="/docs/getting-started/quickstart/">Quickstart</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Features</div>
+<a class="nav-link" href="/docs/features/llm-providers/">LLM Providers</a>
+<a class="nav-link" href="/docs/features/agents/">Agents</a>
+<a class="nav-link" href="/docs/features/chats/">Chats</a>
+<a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-python/">Python Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
+<a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
+<a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
+<a class="nav-link" href="/docs/embedding/semantic-search-providers/">Semantic Search Providers</a>
+<a class="nav-link" href="/docs/embedding/collections-and-documents/">Collections &amp; Documents</a>
+<a class="nav-link" href="/docs/embedding/cross-encoder-providers/">Cross-encoder Providers</a>
+<a class="nav-link" href="/docs/embedding/internal-collections/">Internal Search Subsystem</a>
+<a class="nav-link" href="/docs/workspaces/overview/">Workspaces</a>
+<a class="nav-link" href="/docs/workspaces/workspace-providers/">Workspace Providers</a>
+<a class="nav-link" href="/docs/workspaces/workspace-templates/">Workspace Templates</a>
+<a class="nav-link" href="/docs/workspaces/workspaces-and-sessions/">Workspace &amp; Sessions</a>
+<a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
+<a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
+<a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Builder</a>
+<a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
+<a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
+<a class="nav-link" href="/docs/web/overview/">Web</a>
+<a class="nav-link" href="/docs/web/web-search-providers/">Web Search Providers</a>
+<a class="nav-link" href="/docs/web/web-fetch-http/">Web Fetch &amp; HTTP Requests</a>
+<a class="nav-link" href="/docs/channels/overview/">Channels</a>
+<a class="nav-link" href="/docs/channels/channel-providers/">Channel Providers</a>
+<a class="nav-link" href="/docs/channels/channels/">Chatting Through Channels</a>
+<a class="nav-link" href="/docs/channels/channel-rules/">Channel rules</a>
+<a class="nav-link" href="/docs/channels/channel-reply-binding/">Channel reply binding</a>
+<a class="nav-link" href="/docs/features/triggers/">Triggers</a>
+<a class="nav-link" href="/docs/features/harnesses/">Harnesses</a>
+<a class="nav-link" href="/docs/features/mcp-server/">MCP Server</a>
+<a class="nav-link" href="/docs/features/workers/">Workers</a>
+<a class="nav-link" href="/docs/features/observability/">Observability</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Cookbook</div>
+<a class="nav-link" href="/docs/cookbook/overview/">Cookbook</a>
+<a class="nav-link" href="/docs/cookbook/iterative-web-research/">Iterative web-research loop</a>
+<a class="nav-link" href="/docs/cookbook/self-improving-skill/">Self-improving skill loop</a>
+<a class="nav-link" href="/docs/cookbook/scheduled-stock-monitor/">Scheduled stock-news monitor</a>
+<a class="nav-link" href="/docs/cookbook/rag-knowledge-base/">RAG knowledge base + Q&amp;A</a>
+<a class="nav-link" href="/docs/cookbook/policy-desk/">High-precision policy desk</a>
+<a class="nav-link" href="/docs/cookbook/meta-agent-builder/">Meta-agent that builds agents</a>
+<a class="nav-link" href="/docs/cookbook/app-builder/">Describe-to-deploy app builder</a>
+<a class="nav-link" href="/docs/cookbook/fanout-code-review/">Fan-out code review</a>
+<a class="nav-link" href="/docs/cookbook/compliance-sweep/">Overnight compliance sweep</a>
+<a class="nav-link" href="/docs/cookbook/onboarding-assembly/">New-customer onboarding assembly</a>
+<a class="nav-link" href="/docs/cookbook/harness-packaging/">Package and ship entities as a harness</a>
+<a class="nav-link" href="/docs/cookbook/support-desk/">Omnichannel support desk</a>
+<a class="nav-link" href="/docs/cookbook/incident-responder/">Webhook incident responder</a>
+<a class="nav-link" href="/docs/cookbook/release-conductor/">Release conductor</a>
+<a class="nav-link" href="/docs/cookbook/tiered-help-desk/">Tiered help desk with supervisor sign-off</a>
+<a class="nav-link" href="/docs/cookbook/code-interpreter/">Sandboxed code interpreter</a>
+<a class="nav-link" href="/docs/cookbook/mcp-service/">Primer-as-a-Service over MCP</a>
+</div>
+<div class="nav-group">
+<div class="nav-title">Reference</div>
+<a class="nav-link" href="/docs/reference/rest-api-overview/">REST API overview</a>
+<a class="nav-link" href="/docs/reference/api-agents/">Agents API</a>
+<a class="nav-link" href="/docs/reference/api-providers/">Providers API</a>
+<a class="nav-link" href="/docs/reference/api-sessions/">API Reference - Sessions</a>
+<a class="nav-link" href="/docs/reference/api-chats/">API Reference - Chats</a>
+<a class="nav-link" href="/docs/reference/api-workspaces/">REST API - workspaces</a>
+<a class="nav-link" href="/docs/reference/api-knowledge/">REST API - knowledge</a>
+<a class="nav-link" href="/docs/reference/api-triggers/">Triggers and Subscriptions API</a>
+<a class="nav-link" href="/docs/reference/api-channels/">Channels API</a>
+<a class="nav-link" href="/docs/reference/api-tool-approval/">Tool Approval API</a>
+<a class="nav-link" href="/docs/reference/api-toolsets/">Toolsets API</a>
+<a class="nav-link" href="/docs/reference/api-graphs/">Graphs API</a>
+<a class="nav-link" href="/docs/reference/api-harnesses/">Harnesses API</a>
+<a class="nav-link" href="/docs/reference/api-workers-health/">Workers and Health API</a>
+<a class="nav-link" href="/docs/reference/api-auth-tokens/">Auth and API Tokens API</a>
+<a class="nav-link" href="/docs/reference/mcp-server-reference/">MCP server reference</a>
+<a class="nav-link" href="/docs/reference/cli/">Command-line interface</a>
+<a class="nav-link" href="/docs/reference/env-vars/">Environment variables</a>
+<a class="nav-link" href="/docs/reference/troubleshooting/">Troubleshooting</a>
+</div></nav>
+
+  <!-- Content -->
+  <div class="content-wrap">
+    <article class="article" id="article"><nav class="breadcrumb"><span>toolsets</span> / <span>Python Toolsets</span></nav><h1>Python Toolsets</h1>
+<h2 id="concept">Concept</h2>
+<p>A <strong>python toolset</strong> is one python module that you write and primer stores. Every function in it decorated with <code>@primer_tool</code> becomes a tool an agent can call, exactly like a built-in or an MCP tool. There is no server to run and nothing to deploy: the source lives in the toolset record, and primer executes it.</p>
+<p>This is the third toolset kind, alongside the built-in ones and MCP. Reach for it when the thing you want is a small piece of logic rather than an integration: a calculation, a lookup against a system you already have credentials for, a formatting step, a decision that needs a human in the middle.</p>
+<h3 id="the-docstring-is-the-contract">The docstring is the contract</h3>
+<p>The single idea to hold on to: <strong>primer derives the tool's entire public description from your function, and refuses to register anything ambiguous.</strong></p>
+<pre><code class="language-python">@primer_tool()
+def greet(name: str) -&gt; str:
+    &quot;&quot;&quot;Greet a person by name.
+
+    Use when you need a friendly greeting.
+
+    Args:
+        name: Who to greet.
+    &quot;&quot;&quot;
+    return &quot;hello &quot; + name
+</code></pre>
+<p>From that, primer builds:</p>
+<table>
+<thead>
+<tr>
+<th>Part of the function</th>
+<th>Becomes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>First docstring line</td>
+<td>What the tool does, shown to the model</td>
+</tr>
+<tr>
+<td><code>Use when ...</code> line</td>
+<td>When the model should reach for it</td>
+</tr>
+<tr>
+<td>Parameters and annotations</td>
+<td>The argument schema</td>
+</tr>
+<tr>
+<td><code>Args:</code> entries</td>
+<td>Each argument's description</td>
+</tr>
+<tr>
+<td><code>Examples:</code> entries (optional)</td>
+<td>Example calls, validated against the schema</td>
+</tr>
+</tbody>
+</table>
+<p>Registration <strong>fails</strong> rather than guessing. A parameter with no type annotation, a parameter with no <code>Args:</code> entry, a missing <code>Use when</code> line, or an example that contradicts the schema all stop the toolset from registering, and the error names the offending parameter and line.</p>
+<div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p>This strictness is the point. A tool whose description is vague is a tool the model calls at the wrong moment. Primer would rather refuse the toolset than ship a bad description to an agent.</p>
+</div></div>
+<h3 id="the-ctx-parameter">The <code>ctx</code> parameter</h3>
+<p>One parameter name is special. If your function takes a parameter called <code>ctx</code>, primer injects it and leaves it out of the argument schema, so the model never supplies it. Use it to report progress and to reach the yielding helpers.</p>
+<h3 id="yielding-tools">Yielding tools</h3>
+<p>A tool that needs to wait does not block a worker. It <strong>parks</strong> the run and resumes when the thing it waited for happens. Three helpers park a run:</p>
+<table>
+<thead>
+<tr>
+<th>Helper</th>
+<th>Waits for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ask_user(question)</code></td>
+<td>An operator to answer</td>
+</tr>
+<tr>
+<td><code>sleep_for(seconds)</code></td>
+<td>A duration to elapse</td>
+</tr>
+<tr>
+<td><code>watch_files(paths)</code></td>
+<td>One of those paths to change in the workspace</td>
+</tr>
+</tbody>
+</table>
+<p>A yielding tool needs two functions: the tool itself, and a companion marked <code>@resumes(&lt;tool&gt;)</code> that turns the eventual payload into the tool's result. The companion is not itself a tool, so the model never sees it.</p>
+<pre><code class="language-python">@primer_tool()
+async def ask_the_operator(question: str, ctx) -&gt; str:
+    &quot;&quot;&quot;Ask the operator a question and wait for the answer.
+
+    Use when a decision needs a human.
+
+    Args:
+        question: What to ask.
+    &quot;&quot;&quot;
+    return ask_user(question)
+
+
+@resumes(ask_the_operator)
+def _ask_the_operator_resume(payload: dict, meta: dict) -&gt; str:
+    &quot;&quot;&quot;Return the operator's answer.
+
+    Use when resuming the question.
+
+    Args:
+        payload: The event payload.
+        meta: The resume metadata.
+    &quot;&quot;&quot;
+    return payload[&quot;response&quot;]
+</code></pre>
+<p>Nothing is held open while a run is parked. No process waits, no worker is occupied, and the park survives a restart. See <code>ref:workspaces/yielding-tools</code> for what parking means for sessions and claims.</p>
+<h3 id="sandboxing">Sandboxing</h3>
+<p>Your source is not trusted, even though you wrote it: an agent with toolset-management tools can also write source. Every call runs in a <strong>separate subprocess</strong> with dropped privileges, resource limits, and, where the operating system supports it, a syscall filter.</p>
+<p>Primer reports the level it actually enforces, rather than a generic &quot;sandboxed&quot; badge:</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>What it enforces</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>container</code></td>
+<td>The strongest: the call runs in the workspace container backend</td>
+</tr>
+<tr>
+<td><code>seccomp</code></td>
+<td>Syscall filter: no exec, no ptrace, and no outbound network unless allowed</td>
+</tr>
+<tr>
+<td><code>sandbox-exec</code></td>
+<td>The macOS sandbox profile plus resource limits</td>
+</tr>
+<tr>
+<td><code>rlimit-only</code></td>
+<td>CPU and memory are bounded. Filesystem reads and outbound network are <strong>not</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p><code>rlimit-only</code> is the honest floor, not a failure. It bounds runaway CPU and memory but does not stop a tool reading files the primer process can read, or making outbound connections. The console shows the level beside the editor so you know which one you are on before you trust a tool.</p>
+</div></div>
+<p>Registration itself never executes your module. Primer reads the source structurally to discover the functions, so a module that raises at import time still registers cleanly, and a hostile module cannot run merely by being saved.</p>
+<h3 id="timeouts">Timeouts</h3>
+<p>Every tool has a wall-clock bound. Set it per tool with <code>@primer_tool(timeout_seconds=N)</code>, or leave it out to use the toolset's default. The ceiling is 300 seconds. A tool that exceeds its bound is killed and returns an error result rather than hanging the run.</p>
+<h2 id="configuration">Configuration</h2>
+<figure class="embed"><picture><source srcset="/_embeds/toolsets-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/toolsets-light.png" alt="toolsets (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
+<p>A python toolset has these settings:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>id</strong></td>
+<td>How agents and the console refer to the toolset</td>
+</tr>
+<tr>
+<td><strong>provider</strong></td>
+<td><code>python</code></td>
+</tr>
+<tr>
+<td><strong>source</strong></td>
+<td>The module. Authored in the console editor, or sent via the API or <code>primectl</code></td>
+</tr>
+<tr>
+<td><strong>default_timeout_seconds</strong></td>
+<td>The per-call bound for tools that do not set their own. Defaults to 30, ceiling 300</td>
+</tr>
+<tr>
+<td><strong>allow_network</strong></td>
+<td>Whether outbound connections are permitted. Off by default</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-console-builder">The console builder</h3>
+<p>The toolset detail page is a python editor, not a plain text box:</p>
+<ul>
+<li><strong>Add function</strong> inserts a scaffold with the rules written as <code>#</code> comments: one for a plain tool, one for a yielding tool together with its <code>@resumes</code> companion. Delete the comments once the shape is familiar.</li>
+<li><strong>Live validation</strong> runs the real registrar as you type. A missing <code>Args:</code> entry is marked on the line that caused it, before you save.</li>
+<li><strong>Functions</strong> lists what your draft would register, and clicking one jumps to it. Beside it, <strong>Saved and callable</strong> shows what agents can call right now. The two differ exactly while you have unsaved edits.</li>
+<li><strong>Completions</strong> cover the names primer injects (<code>primer_tool</code>, <code>resumes</code>, <code>ask_user</code>, <code>sleep_for</code>, <code>watch_files</code>, <code>ctx</code>) and the docstring sections, each with a short explanation.</li>
+</ul>
+<pre><code> SOURCE   + Add function   3 registered              [ Save ]
++---------------------------------------+  +---------------------+
+| 1  @primer_tool()                      |  | Isolation: seccomp  |
+| 2  def greet(name: str) -&gt; str:        |  +---------------------+
+| 3      &quot;&quot;&quot;Greet a person by name.      |  | Functions        3  |
+| 4                                      |  |  greet     (name)   |
+| 5      Use when you need a greeting.   |  |  ask       (question)
+| 6                                      |  |     yields          |
+| 7      Args:                           |  +---------------------+
+| 8          name: Who to greet.         |  | Saved &amp; callable 2  |
+| 9      &quot;&quot;&quot;                             |  |  greet              |
+|10      return &quot;hello &quot; + name          |  |  ask                |
++---------------------------------------+  +---------------------+
+</code></pre>
+<h2 id="walkthrough-your-first-python-tool">Walkthrough: your first python tool</h2>
+<ol>
+<li>Open <strong>Toolsets</strong> in the left nav and click <strong>New toolset</strong>.</li>
+<li>Give it an <strong>id</strong> (for example, <code>my-tools</code>) and choose <strong>provider = Python functions</strong>. Click <strong>Create</strong>. The toolset starts empty; nothing is callable yet.</li>
+<li>On the detail page, click <strong>Add function</strong> and choose <strong>Tool</strong>. A scaffold appears with the contract in comments.</li>
+<li>Replace the body with what you want. Keep the docstring shape: a first line, a <code>Use when</code> line, and one <code>Args:</code> entry per parameter.</li>
+<li>Watch the status beside <strong>Add function</strong>. It reads <code>1 registered</code> when the source is valid, or <code>does not register</code> with the failing line marked in the gutter.</li>
+<li>Click <strong>Save</strong>. The tool moves into <strong>Saved and callable</strong>.</li>
+<li>Bind the toolset to an agent the same way you would any other, and the tool appears in that agent's tool list.</li>
+</ol>
+<h2 id="walkthrough-a-tool-that-asks-a-human">Walkthrough: a tool that asks a human</h2>
+<ol>
+<li>Click <strong>Add function</strong> and choose <strong>Yielding tool</strong>. Both functions appear: the tool and its <code>@resumes</code> companion.</li>
+<li>Edit the question and the return value. Keep <code>ctx</code> in the tool's signature; it is how the tool reaches the yield.</li>
+<li>Save. The function shows a <strong>yields</strong> badge in the outline.</li>
+<li>When an agent calls it, the run parks and the question appears in <strong>Approvals</strong>, or wherever the session's channel routes it. Answering it resumes the run and the companion turns your answer into the tool's result.</li>
+</ol>
+<h2 id="what-happens-after">What happens after</h2>
+<p>Once saved, the tools are ordinary tools. They appear in the tool catalogue, bind to agents, count against approval policies, and show up in traces like any other call.</p>
+<p>Two behaviours are specific to python toolsets:</p>
+<p><strong>Editing source is versioned.</strong> Every save bumps a <code>source_version</code> the server owns, so two people editing at once cannot land on the same number.</p>
+<p><strong>A parked run refuses to resume against edited source.</strong> If you change the module while a run is parked in one of its yielding tools, the resume refuses rather than running the new code against an answer to the old question. That is deliberate: the operator answered the prompt the previous code asked, and silently applying it to different code is worse than stopping.</p>
+<div class="callout callout-tip"><div class="callout-title">tip</div><div class="callout-body"><p>Test a tool before binding it to a busy agent. Save it, then call it from a scratch session, and read the trace. A tool that returns a confusing value is harder to debug once several agents depend on it.</p>
+</div></div>
+<p><a href="/docs/toolsets/overview/">toolsets/overview</a></p>
+<p><a href="/docs/toolsets/toolsets-approvals/">toolsets/toolsets-approvals</a></p>
+<p><a href="/docs/workspaces/yielding-tools/">workspaces/yielding-tools</a></p>
+</article>
+    <aside class="toc" id="toc">
+      <div class="toc-title">On this page</div>
+      <div id="tocLinks"></div>
+    </aside>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

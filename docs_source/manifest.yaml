@@ -27,6 +27,7 @@ sections:
         children:
           - toolsets/toolsets-system
           - toolsets/toolsets-external
+          - toolsets/toolsets-python
           - toolsets/toolsets-approvals
       - title: Semantic Search
         overview: embedding/overview

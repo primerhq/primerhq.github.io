@@ -59,6 +59,7 @@
 <a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-python/">Python Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
 <a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
 <a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
@@ -73,7 +74,7 @@
 <a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
 <a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
 <a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
-<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Builder</a>
 <a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
 <a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
 <a class="nav-link" href="/docs/web/overview/">Web</a>
@@ -140,7 +141,7 @@
 <h2 id="top-level">Top-level</h2>
 <p><code>primer</code> is a Typer application. Run <code>--help</code> on any subcommand for
 the full flag list:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-8f0998-bash">bash</button></div><div class="tab-panel active" id="tab-8f0998-bash"><pre class="md-pre lang-bash"><code>primer --help
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ce2c6d-bash">bash</button></div><div class="tab-panel active" id="tab-ce2c6d-bash"><pre class="md-pre lang-bash"><code>primer --help
 # Primer microagents framework: API + worker entrypoints.
 #
 # commands:
@@ -151,7 +152,7 @@ the full flag list:</p>
 <p>Starts the FastAPI HTTP server via uvicorn. By default it also starts
 an in-process worker pool (<code>runtime_mode=api+worker</code>). Pass
 <code>--no-worker</code> to split API and worker into separate processes.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-8fcc86-bash">bash</button></div><div class="tab-panel active" id="tab-8fcc86-bash"><pre class="md-pre lang-bash"><code># Default: API + worker in one process, auto-loads ~/.primer/config.yaml
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-fcc38e-bash">bash</button></div><div class="tab-panel active" id="tab-fcc38e-bash"><pre class="md-pre lang-bash"><code># Default: API + worker in one process, auto-loads ~/.primer/config.yaml
 primer api
 
 # Explicit config file.
@@ -199,7 +200,7 @@ workers becomes independent of scaling HTTP capacity.</p>
 <p>Runs only the worker pool. A minimal HTTP surface (<code>/v1/health</code> and
 <code>/v1/workers</code>) is still served for liveness/readiness probes. Pairs
 with a <code>primer api --no-worker</code> process.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-dcb6fd-bash">bash</button></div><div class="tab-panel active" id="tab-dcb6fd-bash"><pre class="md-pre lang-bash"><code># Default: auto-loads ~/.primer/config.yaml
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-bb3d4c-bash">bash</button></div><div class="tab-panel active" id="tab-bb3d4c-bash"><pre class="md-pre lang-bash"><code># Default: auto-loads ~/.primer/config.yaml
 primer worker
 
 # Explicit config.
@@ -228,7 +229,7 @@ primer worker -c /etc/primer/config.yaml</code></pre></div></div>
 <p>Runs first-time bootstrap. Idempotent: rows that already exist are
 skipped. Pass <code>--force</code> to re-run the bootstrap even when the
 completion marker is already set (useful for partially-failed runs).</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-6dffcd-bash">bash</button></div><div class="tab-panel active" id="tab-6dffcd-bash"><pre class="md-pre lang-bash"><code># Idempotent bootstrap against default config.
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-fa4644-bash">bash</button></div><div class="tab-panel active" id="tab-fa4644-bash"><pre class="md-pre lang-bash"><code># Idempotent bootstrap against default config.
 primer init
 
 # Explicit config file.

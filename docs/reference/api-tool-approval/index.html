@@ -59,6 +59,7 @@
 <a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-python/">Python Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
 <a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
 <a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
@@ -73,7 +74,7 @@
 <a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
 <a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
 <a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
-<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Builder</a>
 <a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
 <a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
 <a class="nav-link" href="/docs/web/overview/">Web</a>
@@ -302,7 +303,7 @@
 </table>
 <h2 id="create-a-policy">Create a policy</h2>
 <p><code>POST /v1/tool_approval_policies</code> - returns <code>201 Created</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b454ee-curl">curl</button><button class="tab" data-tab="tab-b454ee-python">python</button><button class="tab" data-tab="tab-b454ee-javascript">javascript</button></div><div class="tab-panel active" id="tab-b454ee-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/tool_approval_policies \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-913610-curl">curl</button><button class="tab" data-tab="tab-913610-python">python</button><button class="tab" data-tab="tab-913610-javascript">javascript</button></div><div class="tab-panel active" id="tab-913610-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/tool_approval_policies \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -312,7 +313,7 @@
     &quot;approval&quot;: {&quot;type&quot;: &quot;required&quot;},
     &quot;enabled&quot;: true,
     &quot;timeout_seconds&quot;: 300
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-b454ee-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-913610-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/tool_approval_policies&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -325,7 +326,7 @@ r = httpx.post(
         &quot;timeout_seconds&quot;: 300,
     },
 )
-assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-b454ee-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/tool_approval_policies&quot;, {
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-913610-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/tool_approval_policies&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -344,28 +345,28 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-b45
 </ul>
 <h2 id="get-a-policy">Get a policy</h2>
 <p><code>GET /v1/tool_approval_policies/{entity_id}</code> - returns <code>200 OK</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b05ca5-curl">curl</button><button class="tab" data-tab="tab-b05ca5-python">python</button><button class="tab" data-tab="tab-b05ca5-javascript">javascript</button></div><div class="tab-panel active" id="tab-b05ca5-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/tool_approval_policies/gate-delete-files \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-b05ca5-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a27043-curl">curl</button><button class="tab" data-tab="tab-a27043-python">python</button><button class="tab" data-tab="tab-a27043-javascript">javascript</button></div><div class="tab-panel active" id="tab-a27043-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/tool_approval_policies/gate-delete-files \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-a27043-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/tool_approval_policies/gate-delete-files&quot;,
               headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
-pol = r.json()</code></pre></div><div class="tab-panel" id="tab-b05ca5-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/tool_approval_policies/gate-delete-files&quot;, {
+pol = r.json()</code></pre></div><div class="tab-panel" id="tab-a27043-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/tool_approval_policies/gate-delete-files&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <p><strong>Errors:</strong> <code>404</code> if the id does not exist.</p>
 <h2 id="list-policies">List policies</h2>
 <p><code>GET /v1/tool_approval_policies</code> - returns an offset or cursor page of policy objects.</p>
 <p>Query parameters: <code>limit</code> (1-200, default 20), <code>offset</code> (default 0), <code>cursor</code>, <code>order_by</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-fac475-curl">curl</button><button class="tab" data-tab="tab-fac475-python">python</button><button class="tab" data-tab="tab-fac475-javascript">javascript</button></div><div class="tab-panel active" id="tab-fac475-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/tool_approval_policies?limit=20&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-fac475-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-2d2731-curl">curl</button><button class="tab" data-tab="tab-2d2731-python">python</button><button class="tab" data-tab="tab-2d2731-javascript">javascript</button></div><div class="tab-panel active" id="tab-2d2731-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/tool_approval_policies?limit=20&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-2d2731-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/tool_approval_policies&quot;,
               headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
-policies = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-fac475-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/tool_approval_policies?limit=20&quot;, {
+policies = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-2d2731-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/tool_approval_policies?limit=20&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const {items} = await r.json()</code></pre></div></div>
 <h2 id="replace-a-policy">Replace a policy</h2>
 <p><code>PUT /v1/tool_approval_policies/{entity_id}</code> - full replacement; returns <code>200 OK</code>. The same validation rules apply as on POST (Rego compile-test, LLM provider lookup, uniqueness skips own id).</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-eed2e2-curl">curl</button><button class="tab" data-tab="tab-eed2e2-python">python</button><button class="tab" data-tab="tab-eed2e2-javascript">javascript</button></div><div class="tab-panel active" id="tab-eed2e2-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/tool_approval_policies/gate-delete-files \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-cf72f7-curl">curl</button><button class="tab" data-tab="tab-cf72f7-python">python</button><button class="tab" data-tab="tab-cf72f7-javascript">javascript</button></div><div class="tab-panel active" id="tab-cf72f7-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/tool_approval_policies/gate-delete-files \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -375,7 +376,7 @@ const {items} = await r.json()</code></pre></div></div>
     &quot;approval&quot;: {&quot;type&quot;: &quot;required&quot;},
     &quot;enabled&quot;: false,
     &quot;timeout_seconds&quot;: 120
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-eed2e2-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-cf72f7-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.put(
     &quot;https://your-host/v1/tool_approval_policies/gate-delete-files&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -387,7 +388,7 @@ r = httpx.put(
         &quot;enabled&quot;: False,
         &quot;timeout_seconds&quot;: 120,
     },
-)</code></pre></div><div class="tab-panel" id="tab-eed2e2-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/tool_approval_policies/gate-delete-files&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-cf72f7-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/tool_approval_policies/gate-delete-files&quot;, {
   method: &quot;PUT&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -401,39 +402,39 @@ r = httpx.put(
 })</code></pre></div></div>
 <h2 id="delete-a-policy">Delete a policy</h2>
 <p><code>DELETE /v1/tool_approval_policies/{entity_id}</code> - returns <code>204 No Content</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ccc5c6-curl">curl</button><button class="tab" data-tab="tab-ccc5c6-python">python</button><button class="tab" data-tab="tab-ccc5c6-javascript">javascript</button></div><div class="tab-panel active" id="tab-ccc5c6-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/tool_approval_policies/gate-delete-files \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-ccc5c6-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-77dd77-curl">curl</button><button class="tab" data-tab="tab-77dd77-python">python</button><button class="tab" data-tab="tab-77dd77-javascript">javascript</button></div><div class="tab-panel active" id="tab-77dd77-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/tool_approval_policies/gate-delete-files \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-77dd77-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.delete(
     &quot;https://your-host/v1/tool_approval_policies/gate-delete-files&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
-)</code></pre></div><div class="tab-panel" id="tab-ccc5c6-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/tool_approval_policies/gate-delete-files&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-77dd77-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/tool_approval_policies/gate-delete-files&quot;, {
   method: &quot;DELETE&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <h2 id="invalidate-the-policy-cache">Invalidate the policy cache</h2>
 <p><code>POST /v1/tool_approval_policies/invalidate</code> - flushes the in-process approval policy cache so the running engine picks up newly created or deleted policies without waiting for the next cache refresh. Returns <code>202 Accepted</code>.</p>
 <p>Call this after creating or deleting a policy if the change needs to take effect immediately for in-flight sessions.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d00333-curl">curl</button><button class="tab" data-tab="tab-d00333-python">python</button><button class="tab" data-tab="tab-d00333-javascript">javascript</button></div><div class="tab-panel active" id="tab-d00333-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/tool_approval_policies/invalidate \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-d00333-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-4f2fa3-curl">curl</button><button class="tab" data-tab="tab-4f2fa3-python">python</button><button class="tab" data-tab="tab-4f2fa3-javascript">javascript</button></div><div class="tab-panel active" id="tab-4f2fa3-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/tool_approval_policies/invalidate \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-4f2fa3-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/tool_approval_policies/invalidate&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-assert r.status_code == 202</code></pre></div><div class="tab-panel" id="tab-d00333-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/tool_approval_policies/invalidate&quot;, {
+assert r.status_code == 202</code></pre></div><div class="tab-panel" id="tab-4f2fa3-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/tool_approval_policies/invalidate&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <h2 id="get-pending-approval">Get pending approval</h2>
 <p>When an enabled policy gates a tool call, the session parks on <code>_approval</code>. The pending endpoint returns the queued call details.</p>
 <p><code>GET /v1/sessions/{session_id}/tool_approval/pending</code> - returns <code>200 OK</code> with the pending call, or <code>404 Not Found</code> if there is no pending approval. A read-only chat variant exists at <code>GET /v1/chats/{chat_id}/tool_approval/pending</code>; chats have no respond endpoint, so on a chat the agent asks for approval as a normal assistant message instead.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-0071bd-curl">curl</button><button class="tab" data-tab="tab-0071bd-python">python</button><button class="tab" data-tab="tab-0071bd-javascript">javascript</button></div><div class="tab-panel active" id="tab-0071bd-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/sessions/sess-abc123/tool_approval/pending \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-0071bd-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-37150d-curl">curl</button><button class="tab" data-tab="tab-37150d-python">python</button><button class="tab" data-tab="tab-37150d-javascript">javascript</button></div><div class="tab-panel active" id="tab-37150d-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/sessions/sess-abc123/tool_approval/pending \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-37150d-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://your-host/v1/sessions/sess-abc123/tool_approval/pending&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
 pending = r.json()
-tool_call_id = pending[&quot;tool_call_id&quot;]</code></pre></div><div class="tab-panel" id="tab-0071bd-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/sessions/sess-abc123/tool_approval/pending&quot;, {
+tool_call_id = pending[&quot;tool_call_id&quot;]</code></pre></div><div class="tab-panel" id="tab-37150d-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/sessions/sess-abc123/tool_approval/pending&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const pending = await r.json()</code></pre></div></div>
@@ -470,13 +471,13 @@ const pending = await r.json()</code></pre></div></div>
 </tr>
 </tbody>
 </table>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f5a1b6-curl">curl</button><button class="tab" data-tab="tab-f5a1b6-python">python</button><button class="tab" data-tab="tab-f5a1b6-javascript">javascript</button></div><div class="tab-panel active" id="tab-f5a1b6-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/sessions/sess-abc123/tool_approval/respond \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-abe2dd-curl">curl</button><button class="tab" data-tab="tab-abe2dd-python">python</button><button class="tab" data-tab="tab-abe2dd-javascript">javascript</button></div><div class="tab-panel active" id="tab-abe2dd-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/sessions/sess-abc123/tool_approval/respond \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
     &quot;tool_call_id&quot;: &quot;tc-xyz789&quot;,
     &quot;decision&quot;: &quot;approved&quot;
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-f5a1b6-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-abe2dd-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/sessions/sess-abc123/tool_approval/respond&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -484,7 +485,7 @@ r = httpx.post(
         &quot;tool_call_id&quot;: &quot;tc-xyz789&quot;,
         &quot;decision&quot;: &quot;approved&quot;,
     },
-)</code></pre></div><div class="tab-panel" id="tab-f5a1b6-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/sessions/sess-abc123/tool_approval/respond&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-abe2dd-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/sessions/sess-abc123/tool_approval/respond&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -493,14 +494,14 @@ r = httpx.post(
   })
 })</code></pre></div></div>
 <p>To reject with a reason:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a34232-curl">curl</button><button class="tab" data-tab="tab-a34232-python">python</button><button class="tab" data-tab="tab-a34232-javascript">javascript</button></div><div class="tab-panel active" id="tab-a34232-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/sessions/sess-abc123/tool_approval/respond \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-75c800-curl">curl</button><button class="tab" data-tab="tab-75c800-python">python</button><button class="tab" data-tab="tab-75c800-javascript">javascript</button></div><div class="tab-panel active" id="tab-75c800-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/sessions/sess-abc123/tool_approval/respond \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
     &quot;tool_call_id&quot;: &quot;tc-xyz789&quot;,
     &quot;decision&quot;: &quot;rejected&quot;,
     &quot;reason&quot;: &quot;File deletion not permitted during business hours.&quot;
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-a34232-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-75c800-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/sessions/sess-abc123/tool_approval/respond&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -509,7 +510,7 @@ r = httpx.post(
         &quot;decision&quot;: &quot;rejected&quot;,
         &quot;reason&quot;: &quot;File deletion not permitted during business hours.&quot;,
     },
-)</code></pre></div><div class="tab-panel" id="tab-a34232-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/sessions/sess-abc123/tool_approval/respond&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-75c800-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/sessions/sess-abc123/tool_approval/respond&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({

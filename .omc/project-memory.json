@@ -1,0 +1,341 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1782642089058,
+  "projectRoot": "/home/usmanshahid/Documents/claude/workspaces/primerhq.github.io",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": "cd /home/usmanshahid/Documents/claude/workspaces/primerhq.github.io\necho \"=== tests ===\" && .venv/bin/python -m pytest tests/ -q 2>&1 | tail -2\necho \"\"\ngit add docs_source/getting-started/quickstart.md docs_source/reference/cli.md docs/getting-started/quickstart/index.html docs/reference/cli/index.html docs/search-index.json\ngit commit -q -m \"docs(install): use pipx or Docker, drop the git-clone/uv install\n\nQuickstart Step 0 installs the published package - pipx install 'primer-ai[full]'\nor the Docker image (ghcr.io/primerhq/primer:0.1.0) - instead of git clone + uv\nsync; the tutorial's semantic-search steps need the [full] extra. The CLI\nreference now invokes the installed 'primer' command directly instead of\n'uv run primer'. Rebuilt the affected /docs/ pages.\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>\"\necho \"committed:\" && rtk git log --oneline -1",
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "assets",
+      "tests"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "_embeds": {
+      "path": "_embeds",
+      "purpose": null,
+      "fileCount": 56,
+      "lastAccessed": 1782642089054,
+      "keyFiles": [
+        "agents-page-dark.png",
+        "agents-page-light.png",
+        "api-token-create-dark.png",
+        "api-token-create-light.png",
+        "approvals-dark.png"
+      ]
+    },
+    "assets": {
+      "path": "assets",
+      "purpose": "Static assets",
+      "fileCount": 2,
+      "lastAccessed": 1782642089056,
+      "keyFiles": [
+        "docs.css",
+        "docs.js"
+      ]
+    },
+    "build": {
+      "path": "build",
+      "purpose": "Build output",
+      "fileCount": 6,
+      "lastAccessed": 1782642089056,
+      "keyFiles": [
+        "__init__.py",
+        "build_site.py",
+        "docs_lint.py",
+        "requirements.txt",
+        "user_docs_lint.py"
+      ]
+    },
+    "channels": {
+      "path": "channels",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1782642089056,
+      "keyFiles": []
+    },
+    "cookbook": {
+      "path": "cookbook",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1782642089057,
+      "keyFiles": []
+    },
+    "docs_source": {
+      "path": "docs_source",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1782642089057,
+      "keyFiles": [
+        "manifest.yaml"
+      ]
+    },
+    "embedding": {
+      "path": "embedding",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1782642089057,
+      "keyFiles": []
+    },
+    "features": {
+      "path": "features",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1782642089057,
+      "keyFiles": []
+    },
+    "getting-started": {
+      "path": "getting-started",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1782642089057,
+      "keyFiles": []
+    },
+    "graphs": {
+      "path": "graphs",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1782642089057,
+      "keyFiles": []
+    },
+    "reference": {
+      "path": "reference",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1782642089057,
+      "keyFiles": []
+    },
+    "tests": {
+      "path": "tests",
+      "purpose": "Test files",
+      "fileCount": 11,
+      "lastAccessed": 1782642089057,
+      "keyFiles": [
+        "__init__.py",
+        "conftest.py",
+        "test_build_directives.py",
+        "test_build_render.py",
+        "test_build_search.py"
+      ]
+    },
+    "toolsets": {
+      "path": "toolsets",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1782642089057,
+      "keyFiles": []
+    },
+    "web": {
+      "path": "web",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1782642089057,
+      "keyFiles": []
+    },
+    "workspaces": {
+      "path": "workspaces",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1782642089057,
+      "keyFiles": []
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "landing-page/index.html",
+      "accessCount": 8,
+      "lastAccessed": 1782646735777,
+      "type": "file"
+    },
+    {
+      "path": "home.js",
+      "accessCount": 8,
+      "lastAccessed": 1782648455027,
+      "type": "file"
+    },
+    {
+      "path": "home/README.md",
+      "accessCount": 4,
+      "lastAccessed": 1782648428391,
+      "type": "file"
+    },
+    {
+      "path": "landing-page/home.css",
+      "accessCount": 3,
+      "lastAccessed": 1782646754330,
+      "type": "file"
+    },
+    {
+      "path": "docs_source/getting-started/quickstart.md",
+      "accessCount": 3,
+      "lastAccessed": 1782650214063,
+      "type": "file"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-06-28-homepage-and-docs-subpath-design.md",
+      "accessCount": 2,
+      "lastAccessed": 1782644051468,
+      "type": "file"
+    },
+    {
+      "path": "landing-page/home.js",
+      "accessCount": 2,
+      "lastAccessed": 1782646767122,
+      "type": "file"
+    },
+    {
+      "path": "index.html",
+      "accessCount": 2,
+      "lastAccessed": 1782648400416,
+      "type": "file"
+    },
+    {
+      "path": "docs_source/reference/cli.md",
+      "accessCount": 2,
+      "lastAccessed": 1782650220545,
+      "type": "file"
+    },
+    {
+      "path": "README.md",
+      "accessCount": 1,
+      "lastAccessed": 1782642266281,
+      "type": "file"
+    },
+    {
+      "path": "docs_source/manifest.yaml",
+      "accessCount": 1,
+      "lastAccessed": 1782642266729,
+      "type": "file"
+    },
+    {
+      "path": "docs_source/_meta/authoring-guide.md",
+      "accessCount": 1,
+      "lastAccessed": 1782642276478,
+      "type": "file"
+    },
+    {
+      "path": "docs_source/_meta/page-template.md",
+      "accessCount": 1,
+      "lastAccessed": 1782642292311,
+      "type": "file"
+    },
+    {
+      "path": "docs_source/getting-started/introduction.md",
+      "accessCount": 1,
+      "lastAccessed": 1782642843937,
+      "type": "file"
+    },
+    {
+      "path": "tests/conftest.py",
+      "accessCount": 1,
+      "lastAccessed": 1782644359967,
+      "type": "file"
+    },
+    {
+      "path": "design/plans/2026-06-28-docs-subpath-migration.md",
+      "accessCount": 1,
+      "lastAccessed": 1782644557862,
+      "type": "file"
+    },
+    {
+      "path": "landing-page/home/README.md",
+      "accessCount": 1,
+      "lastAccessed": 1782646231047,
+      "type": "file"
+    },
+    {
+      "path": "home/collection-list-dark.png",
+      "accessCount": 1,
+      "lastAccessed": 1782647170023,
+      "type": "file"
+    },
+    {
+      "path": "home/channels-dark.png",
+      "accessCount": 1,
+      "lastAccessed": 1782647180341,
+      "type": "file"
+    },
+    {
+      "path": "_embeds/channel-provider-create-dark.png",
+      "accessCount": 1,
+      "lastAccessed": 1782647181293,
+      "type": "file"
+    },
+    {
+      "path": "_embeds/collection-create-dark.png",
+      "accessCount": 1,
+      "lastAccessed": 1782647181758,
+      "type": "file"
+    },
+    {
+      "path": "_embeds/ssp-dark.png",
+      "accessCount": 1,
+      "lastAccessed": 1782647182231,
+      "type": "file"
+    },
+    {
+      "path": "_embeds/embedding-provider-dark.png",
+      "accessCount": 1,
+      "lastAccessed": 1782647299489,
+      "type": "file"
+    },
+    {
+      "path": "_embeds/cross-encoder-provider-dark.png",
+      "accessCount": 1,
+      "lastAccessed": 1782647299655,
+      "type": "file"
+    },
+    {
+      "path": "_embeds/internal-collections-enable-dark.png",
+      "accessCount": 1,
+      "lastAccessed": 1782647299862,
+      "type": "file"
+    },
+    {
+      "path": "home/agents-page-dark.png",
+      "accessCount": 1,
+      "lastAccessed": 1782647364705,
+      "type": "file"
+    },
+    {
+      "path": "home/trigger-create-dark.png",
+      "accessCount": 1,
+      "lastAccessed": 1782647365183,
+      "type": "file"
+    },
+    {
+      "path": "home/harness-dark.png",
+      "accessCount": 1,
+      "lastAccessed": 1782647365660,
+      "type": "file"
+    },
+    {
+      "path": "home/mcp-exposure-dark.png",
+      "accessCount": 1,
+      "lastAccessed": 1782647366210,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

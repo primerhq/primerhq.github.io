@@ -59,6 +59,7 @@
 <a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-python/">Python Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
 <a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
 <a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
@@ -73,7 +74,7 @@
 <a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
 <a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
 <a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
-<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Builder</a>
 <a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
 <a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
 <a class="nav-link" href="/docs/web/overview/">Web</a>
@@ -147,13 +148,21 @@
 </ul>
 <p>The <strong>workspace toolset</strong> lets agents manage all of the above programmatically, and <strong>yielding tools</strong> let a session park on an external event and resume when it fires.</p>
 <h2 id="working-in-a-workspace-the-studio">Working in a workspace: the Studio</h2>
-<p>The console gives every workspace its own <strong>Studio</strong>, an IDE-like view you open from the <strong>Studio</strong> item in the left nav or by opening a workspace from the <strong>Workspaces</strong> list. It has three columns:</p>
+<p>The console gives every workspace its own <strong>Studio</strong>, an IDE-like view you open from the <strong>Studio</strong> item in the left nav or by opening a workspace from the <strong>Workspaces</strong> list.</p>
+<p>The Studio is arranged around one question: <strong>does anything need me right now?</strong></p>
+<p><strong>The attention bar</strong> sits under the header and is always present. It says whether a run is waiting on you and whether anything is working, in plain words: <code>Nothing needs you</code> when you are clear, or what is blocked with a way straight to it. It is the first thing to read, and usually the only thing you need.</p>
+<p><strong>One rail, two modes.</strong> The left is a single column with a <strong>Runs</strong> tab and a <strong>Files</strong> tab, rather than two stacked lists competing for the same height.</p>
 <ul>
-<li><strong>Left sidebar</strong>: a <strong>Sessions</strong> list, where the <code>+</code> starts a new run, and a <strong>Files</strong> tree over the instance filesystem.</li>
-<li><strong>Center</strong>: a tabbed work area. Sessions open as tabs, files open in an editor tab, and an integrated terminal opens in its own tab.</li>
-<li><strong>Right activity panel</strong>: a live stream of workspace events and an <strong>Action required</strong> list for sessions that are waiting on you.</li>
+<li><strong>Runs</strong> lists the workspace's sessions, filtered by <strong>All</strong>, <strong>Needs you</strong>, or <strong>Open</strong>. The <code>+</code> starts a new run. Each row carries its status, and hovering offers <strong>Open beside</strong>, <strong>Rename</strong>, and <strong>Delete</strong>.</li>
+<li><strong>Files</strong> is a tree over the instance filesystem, exposing the same operations the workspace toolset offers over the API: open and edit a file, create a <strong>New file</strong> or <strong>New folder</strong>, <strong>Upload</strong> from your machine, <strong>Download</strong>, and <strong>Delete</strong> (folders delete recursively).</li>
 </ul>
-<p>The <strong>Files</strong> tree exposes the same operations the workspace toolset offers over the API: open and edit a file, create a <strong>New file</strong> or <strong>New folder</strong>, <strong>Upload</strong> files from your machine, <strong>Download</strong> a file, and <strong>Delete</strong> a file or folder (folders delete recursively). A gear button opens <strong>Settings</strong> for the workspace: channels, config, the run log, and destroy.</p>
+<p><strong>The center</strong> is a tabbed work area. A session opens as a tab with its transcript, and a graph run also shows the run view and its superstep strip. A file opens in an editor tab. <strong>Open beside</strong> puts a tab in a <strong>companion pane</strong> next to the current one, which is how you read a diff against the transcript that produced it. The companion pane exists exactly when it holds something: close its last tab and it goes away.</p>
+<p><strong>The investigate dock</strong> rises from the bottom on <code>Ctrl</code> and a backtick, or from the terminal button in the header. It holds <strong>Events</strong> (the live workspace stream), <strong>Problems</strong>, and terminal sessions as tabs. It is where you look when something seems wrong, and it stays collapsed until then.</p>
+<p><strong>Changes</strong>, in the header, answers &quot;what did the agents actually write&quot;: the files a run touched, with diffs, and a <strong>Mark reviewed</strong> as you work through them.</p>
+<p>The header also carries the workspace selector, a command palette on <code>Cmd-K</code> (or <code>Ctrl-K</code>), and a gear for <strong>Settings</strong>: channels, config, the run log, and destroy.</p>
+<div class="callout callout-tip"><div class="callout-title">tip</div><div class="callout-body"><p>A run blocked on a particular tool call has a shareable link: the URL carries a <code>?focus=</code> value, so sending it to a colleague opens the Studio on exactly the thing that is stuck rather than on the session in general.</p>
+</div></div>
+<p>On a phone the Studio is a triage view rather than a shrunk desktop. You get what is waiting on you and enough to unblock it, without the file tree or the terminal.</p>
 <p><a href="/docs/workspaces/workspaces-and-sessions/">Start and monitor sessions inside the Studio, and the session lifecycle.</a></p>
 <p><a href="/docs/workspaces/workspace-providers/">Register local, container, and Kubernetes workspace providers.</a></p>
 <p><a href="/docs/workspaces/workspace-templates/">Author templates that materialise workspaces from a provider.</a></p>

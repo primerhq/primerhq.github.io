@@ -59,6 +59,7 @@
 <a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-python/">Python Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
 <a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
 <a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
@@ -73,7 +74,7 @@
 <a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
 <a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
 <a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
-<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Builder</a>
 <a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
 <a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
 <a class="nav-link" href="/docs/web/overview/">Web</a>
@@ -256,10 +257,10 @@
 </ol>
 <h3 id="connecting-claude-code">Connecting Claude Code</h3>
 <p>Register primer's endpoint as an MCP server. This is exactly how primer's own dogfood instance is driven:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-81f87d-bash">bash</button></div><div class="tab-panel active" id="tab-81f87d-bash"><pre class="md-pre lang-bash"><code>claude mcp add --transport http primer &lt;your-primer-origin&gt;/v1/mcp</code></pre></div></div>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d3b16a-bash">bash</button></div><div class="tab-panel active" id="tab-d3b16a-bash"><pre class="md-pre lang-bash"><code>claude mcp add --transport http primer &lt;your-primer-origin&gt;/v1/mcp</code></pre></div></div>
 <p>Supply the bearer token (with the <code>mcp</code> scope) when prompted, or add it manually to your Claude Code MCP config. Use the trailing-slash form of the URL if you call the endpoint directly over JSON-RPC; a bare <code>/v1/mcp</code> may redirect.</p>
 <p>After Claude Code reconnects, the published tools appear in its palette. From there an external agent uses primer as a backend to build and run an agentic system. For example, the agent can search for an existing agent, create a new one, then invoke it and read the result:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d51bbd-json">json</button></div><div class="tab-panel active" id="tab-d51bbd-json"><pre class="md-pre lang-json"><code>{ &quot;method&quot;: &quot;tools/call&quot;,
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-1f676e-json">json</button></div><div class="tab-panel active" id="tab-1f676e-json"><pre class="md-pre lang-json"><code>{ &quot;method&quot;: &quot;tools/call&quot;,
   &quot;params&quot;: { &quot;name&quot;: &quot;search__search_agents&quot;, &quot;arguments&quot;: { &quot;query&quot;: &quot;triage incoming support tickets&quot; } } }
 { &quot;method&quot;: &quot;tools/call&quot;,
   &quot;params&quot;: { &quot;name&quot;: &quot;system__create_agent&quot;,

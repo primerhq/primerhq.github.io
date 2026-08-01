@@ -1,11 +1,17 @@
 ---
 slug: graphs
-title: Graph Designer
+title: Graph Builder
 section: graphs
-summary: "Build a graph on the visual canvas: create nodes, wire static and conditional edges, validate the topology, save, and run it as a session."
+summary: "Build a graph by saying what should happen next: add steps, connect them, watch references and readiness, dry run, and save."
 ---
 
-The Graph Designer is the visual canvas for building and editing graphs. If you are new to graphs, start with the Graphs overview for the concepts (what a graph is, the superstep engine, graph sessions, and when to use one); this page is the hands-on canvas walkthrough.
+The Graph Builder is where you build and edit graphs. If you are new to graphs, start with the Graphs overview for the concepts (what a graph is, the superstep engine, graph sessions, and when to use one); this page is the hands-on walkthrough.
+
+The builder is organised around three questions, and each has a place on screen:
+
+- **What should this step do?** You add a step by choosing a purpose in plain language, not by picking a node type and configuring it afterwards.
+- **Do its references still resolve?** A banner at the top says so. Values you pull from earlier steps are chips, and chips stay correct when a step is renamed.
+- **Is this ready to run?** A readiness chip in the toolbar tells you, and tells you what is missing when it is not.
 
 ```ref:graphs/overview
 What a graph is, how the superstep engine runs it, and when to reach for one.
@@ -20,19 +26,20 @@ What a graph is, how the superstep engine runs it, and when to reach for one.
    - **ID** (optional): a short slug like `blog-pipeline`. Leave blank and the backend generates one.
    - **Description**: a one-line label shown in the list view.
    - **Seed agent**: the agent that seeds the first worker node. The console creates a minimal skeleton: `Begin -> agent -> End`.
-3. Click **Create**. The canvas opens immediately.
+3. Click **Create**. The builder opens immediately.
 
-### The canvas
+### The layout
 
 ```embed:graph-canvas
 ```
 
-The canvas shows nodes on a dot-grid. Edges appear as arrows between them:
+Three regions, left to right.
 
-- Solid arrows: static edges, always followed.
-- Dashed arrows: conditional edges (carry a JSON-path router) or implicit fan-out wiring shown for reference only.
+**Steps** lists every step in the graph, in order. A step that branches shows its branches underneath it, each reading as a sentence: `done -> synth`, `otherwise -> search`, `after 6 loops -> synth`. A step that fans out shows its copy count, for example `x3`. **+ Add a step** sits at the bottom, and `Cmd-K` opens the same thing.
 
-A legend at the bottom-left identifies edge styles. Drag any node to reposition it; the canvas snaps to an 8-pixel grid. Click **Auto-layout** to reset all positions to a left-to-right computed arrangement.
+**The canvas** draws the graph in **bands**, one per superstep, labelled `STEP 1`, `STEP 2` and so on. The bands are the point: everything in one band runs at the same time, so the picture matches how the engine actually executes rather than just how the arrows are drawn. A fan-out is bracketed and annotated with what it does, for example `3 copies run at the same time`. **Connect steps** wires two steps together, **Tidy up** re-lays out the graph, and the zoom controls include **Fit to view** and **1:1**.
+
+**The inspector** on the right describes whatever is selected, and is where you configure it. Nothing selected reads `Pick a step on the canvas or in the list to see what it does`.
 
 ### Node kinds
 
@@ -46,61 +53,86 @@ A legend at the bottom-left identifies edge styles. Drag any node to reposition 
 | Fan-in | `fan_in` | Waits for all parallel branches to finish and aggregates their outputs. |
 | Tool call | `tool_call` | Calls a platform tool directly without an agent turn. |
 
+The builder speaks in purposes rather than kinds, but the two line up directly: **Ask an agent** makes an `agent` step, **Run a tool directly** a `tool_call`, **Use another graph** a `graph`, **Split the work in parallel** a `fan_out` paired with its `fan_in`, and **Finish and return something** an `end`. You need the kinds when reading a graph's JSON or the API; you do not need them to build one.
+
 The graph node types page (linked at the end of this page) documents the full configuration of each kind.
 
-### Adding and configuring a node
+### Adding a step
 
-1. Click **Add node** in the toolbar and pick a kind from the dropdown.
-2. The new node appears on the canvas and is immediately selected.
-3. The right-hand side panel opens. Fill in the fields:
-   - **Agent node**: pick an agent from the dropdown, or click **+ New** to create one inline. Optionally override the `input_template`.
-   - **End node**: set the `output_template`. May be left blank.
-   - **Fan-out node**: add one or more specs (`broadcast`, `map`, or `tee`), each pointing to a target node id.
-   - **Fan-in node**: set the `aggregate_template`.
-   - **Tool call node**: pick a tool id and supply arguments as JSON.
-4. To rename a node, edit the **ID** field. All edges referencing that node update automatically.
-5. To delete a node, click **Delete node**. All edges touching it are removed.
+Click **+ Add a step** (or press `Cmd-K`). The picker asks what should happen next, relative to the step you are on, and offers purposes rather than node types:
 
-### Wiring edges
+**Do work**
 
-1. Click **Add edge** in the toolbar. The cursor changes to a crosshair.
-2. Select **Static** or **Conditional** from the segment control next to the button.
-3. Click the source node, then the target node. The edge is drawn.
+| Choice | What it means |
+|---|---|
+| **Ask an agent to do something** | Writes, reviews, decides. Anything that needs judgement |
+| **Run a tool directly** | Fetch, write a file, call an API. No model, no cost |
+| **Use another graph** | Reuse a pipeline you already built |
 
-For a conditional edge, open the edge's side panel to add one or more branches. Each branch carries one or more `BranchCondition` predicates (ANDed together). The first branch whose conditions all hold fires; if none match and a `default_to` target is set, that target fires instead. If none match and no default is set, the run terminates failed.
+**Change the shape**
 
-To delete an edge, click it on the canvas then click **Delete edge** in the panel.
+| Choice | What it means |
+|---|---|
+| **Split the work in parallel** | Per item in a list, or N copies. Adds the merge step too |
+| **Choose between paths** | Send the run one way or another based on a result |
+| **Finish and return something** | A graph can have several finishes |
+
+Picking a purpose completes the step: choose the agent and the step is named after it, and it inherits the previous step's output. As the picker puts it, every step is created finished, so a half-built graph is not a state you can be in by accident.
+
+```callout:tip
+**Split the work in parallel** adds the merge step at the same time. A fan-out without its fan-in is a graph that cannot finish, so the builder does not let you create one by forgetting the second half.
+```
+
+### Configuring a step
+
+Select a step, in the list or on the canvas, and the inspector asks three things:
+
+- **Which agent** (or which tool, or which graph): a searchable, paged list with each candidate's description, so you are choosing on purpose rather than on id.
+- **What it gets**, from earlier steps: the input, written as text with **chips** for values pulled from earlier steps. Type `/` or use **Insert** to add one. Chips are references, not text, so **they stay correct when a step is renamed**.
+- **What it gives back**: free text by default. Add **fields** (or supply JSON) when a later branch needs to read this step's answer, since a branch can only test something structured.
+
+Rename a step by editing its name at the top of the inspector. Every chip pointing at it follows.
+
+### Connecting steps and branching
+
+**Connect steps** on the canvas wires one step to another.
+
+A step that chooses between paths shows its branches in the Steps list, each as a readable line: the condition, then the target. The first branch whose conditions hold fires. If none match and a default target is set, that fires instead; if none match and there is no default, the run ends failed.
 
 ```callout:warning
-Fan-out nodes must have no outgoing edges in the edge list. Their downstream targets live on the node's specs (broadcast, map, tee) and appear as dashed implicit arrows. Adding a real edge from a Fan-out node is a hard topology violation and blocks Save.
+A fan-out step's downstream targets live on the step itself, not on ordinary connections out of it. Wiring a normal connection out of a fan-out is a topology violation and stops the graph being ready to run. Adding the split through **Split the work in parallel** sets this up correctly, and adds the merge step at the same time.
 ```
 
 ### `max_iterations`
 
-Any graph whose edges can form a cycle must set `max_iterations`, a positive integer cap on how many supersteps the executor runs before it terminates the run with `ended_detail='max_iterations_exceeded'`. The canvas validator enforces this: a graph with a cycle and no `max_iterations` is a hard violation that blocks Save.
+Any graph whose edges can form a cycle must set `max_iterations`, a positive integer cap on how many supersteps the executor runs before it terminates the run with `ended_detail='max_iterations_exceeded'`. The builder enforces this: a graph with a cycle and no `max_iterations` is not ready to run, and the readiness chip says so.
 
-### Validate and save
+### References, readiness, and saving
 
-The canvas runs local topology checks as you edit:
+Two indicators sit above the canvas and answer different questions.
 
-- **Hard violations** (red): block Save. Examples: missing Begin, End not reachable from Begin, duplicate node ids, broken edge endpoints, Fan-out with real outgoing edges, cyclic graph without `max_iterations`.
-- **Warnings** (amber): do not block Save. Examples: orphan nodes, Tool-call referencing a tool not in the catalogue.
+**The references banner** reports whether everything the graph points at still exists and still resolves: the agents, the tools, the values steps pull from each other. `All references resolve` means nothing is dangling. This is the check that catches a step reading a field a renamed or deleted step no longer provides.
 
-When the banner is clear (or shows only warnings), click **Save**. An "unsaved changes" label appears whenever the draft differs from the last saved version. Click **Discard** to revert.
+**The readiness chip** in the toolbar reports whether the graph can run at all. `Ready to run` means it can. When it cannot, the chip expands into what is missing, in the same plain language as the rest of the builder: **Add a start**, **Add a finish**, **Add fields**. Each comes with a **Show me** that takes you to the step in question, so the chip is a fix list rather than an error message.
+
+Then:
+
+- **Dry run** exercises the graph without starting a real session, so you find a broken reference before an agent does.
+- **JSON** shows the underlying graph document, for when you would rather read or edit the source of truth directly.
+- **Save draft** stores your changes. **Discard** reverts to the last saved version.
 
 ## Walkthrough: a producer-judge loop
 
 This walkthrough builds the producer-judge loop from the quickstart: a draft-writer feeds a completeness-judge that either loops back or accepts the draft.
 
 1. Open **Graphs** and click **New graph**. Name it `blog-pipeline`. Choose any agent as the seed.
-2. The canvas opens with three nodes: `begin`, `agent`, and `end`. Click the agent node and rename it `draft-writer` in the side panel. Pick your drafting agent.
-3. Click **Add node** and add a second **Agent** node. Rename it `judge`. Pick your judge agent. In the side panel, set `response_format` to a JSON schema with a `decision` field (`"accept"` or `"reject"`) and an optional `feedback` field.
-4. Draw a **Static** edge from `draft-writer` to `judge`.
-5. Draw a **Conditional** edge from `judge` to `draft-writer` (the reject loop). In the side panel, add a branch with condition `decision eq "reject"`.
-6. Draw a **Conditional** edge from `judge` to `end` (the accept path). Add a branch with condition `decision eq "accept"`.
-7. In the End node's side panel, set the `output_template` to render the accepted draft: `{{ nodes.draft-writer.text }}`.
-8. Set `max_iterations` to `10` on the graph (shown in the graph properties panel).
-9. Click **Save**.
+2. The builder opens with a start, one agent step, and a finish. Select the agent step and pick your drafting agent; the step takes its name from the agent.
+3. With that step selected, click **+ Add a step** and choose **Ask an agent to do something**. Pick your judge agent.
+4. In the judge's **What it gives back**, add fields for `decision` (`"accept"` or `"reject"`) and an optional `feedback`. A branch can only test something structured, which is why free text is not enough here.
+5. Select the judge and add a step with **Choose between paths**. Give it two branches: one where `decision` is `reject`, going back to the drafting step, and one where it is `accept`, going to the finish.
+6. Select the finish and set what it returns, using **Insert** to drop in a chip for the drafting step's output rather than typing its name.
+7. Set `max_iterations` to `10` in the graph's properties. The loop in step 5 makes this required.
+8. Check the readiness chip reads **Ready to run**, click **Dry run** to confirm the references hold, then **Save draft**.
 
 ```mermaid
 flowchart LR
@@ -110,9 +142,9 @@ flowchart LR
     j -->|decision eq accept| e([End])
 ```
 
-10. Go to **Sessions**, click **New session**, pick a workspace, select `blog-pipeline` as the graph, paste your initial topic as `graph_input`, and submit.
+9. Start it from the workspace **Studio**: open the workspace, click `+` in the **Runs** rail, select `blog-pipeline` as the graph, and give it your initial topic as `graph_input`.
 
-The session detail view shows per-node status updating as each superstep runs.
+The run opens as a tab with its superstep strip, so you can watch each band complete as the engine advances.
 
 
 ```ref:graphs/graph-node-types

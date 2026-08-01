@@ -2,7 +2,7 @@
 slug: toolsets-overview
 title: Toolsets & Tools
 section: toolsets
-summary: How tools are grouped into toolsets, the difference between built-in system toolsets and externally-registered ones, and how approvals gate tool calls.
+summary: How tools are grouped into toolsets, the three kinds (built-in, external MCP, and python modules you write), and how approvals gate tool calls.
 ---
 
 ## Tools and toolsets
@@ -11,12 +11,13 @@ A **tool** is one callable function an agent can invoke during a turn: it has an
 
 Tool ids are scoped by their toolset using a double-underscore separator, for example `system__invoke_agent`, `search__search_agents`, or `web__web_search`.
 
-## Two kinds of toolset
+## Three kinds of toolset
 
 - **System (built-in) toolsets** ship with primer and are always available: agents, search, workspaces, web, and the rest. They are reserved; you cannot create or delete them, only bind agents to them and pick which tools are exposed.
 - **External toolsets** are registered by you and pull tools in from outside primer over a transport. Today the one external kind is MCP (Model Context Protocol) servers.
+- **Python toolsets** are written by you, as a python module stored in the toolset itself. Every function decorated with `@primer_tool` becomes a tool, and primer runs it in a sandboxed subprocess. Nothing to host, nothing to deploy.
 
-Both kinds appear in the same toolset list and bind to agents the same way.
+What separates them is where the tool's code lives: shipped with primer, behind a transport you point at, or in the toolset record. All three appear in the same toolset list and bind to agents the same way.
 
 ## Approvals
 
@@ -28,6 +29,10 @@ The built-in system toolsets and how to explore tools with list_toolset_tools an
 
 ```ref:toolsets/toolsets-external
 Register external toolsets (MCP servers) over stdio and HTTP so agents can call their tools.
+```
+
+```ref:toolsets/toolsets-python
+Write a python function and get a callable tool, including tools that park a run until a human answers.
 ```
 
 ```ref:toolsets/toolsets-approvals

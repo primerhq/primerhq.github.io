@@ -59,6 +59,7 @@
 <a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-python/">Python Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
 <a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
 <a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
@@ -73,7 +74,7 @@
 <a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
 <a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
 <a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
-<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Builder</a>
 <a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
 <a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
 <a class="nav-link" href="/docs/web/overview/">Web</a>
@@ -334,7 +335,7 @@
 <h2 id="create-a-harness">Create a harness</h2>
 <p><code>POST /v1/harnesses</code> - returns <code>201 Created</code> with the harness object.</p>
 <p>Required fields: <code>name</code>, <code>slug</code>, <code>git_url</code>. The harness starts in <code>draft</code> status; call <code>/fetch</code> to retrieve the bundle.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-05fcf7-curl">curl</button><button class="tab" data-tab="tab-05fcf7-python">python</button><button class="tab" data-tab="tab-05fcf7-javascript">javascript</button></div><div class="tab-panel active" id="tab-05fcf7-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/harnesses \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-96ec63-curl">curl</button><button class="tab" data-tab="tab-96ec63-python">python</button><button class="tab" data-tab="tab-96ec63-javascript">javascript</button></div><div class="tab-panel active" id="tab-96ec63-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/harnesses \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -343,7 +344,7 @@
     &quot;git_url&quot;: &quot;https://github.com/example/harness-bundle&quot;,
     &quot;ref&quot;: &quot;main&quot;,
     &quot;direction&quot;: &quot;inbound&quot;
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-05fcf7-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-96ec63-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/harnesses&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -356,7 +357,7 @@ r = httpx.post(
     },
 )
 assert r.status_code == 201
-harness_id = r.json()[&quot;id&quot;]</code></pre></div><div class="tab-panel" id="tab-05fcf7-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/harnesses&quot;, {
+harness_id = r.json()[&quot;id&quot;]</code></pre></div><div class="tab-panel" id="tab-96ec63-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/harnesses&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -371,13 +372,13 @@ const harness = await r.json()</code></pre></div></div>
 <p><strong>Errors:</strong> <code>409</code> if a harness with the same <code>slug</code> already exists.</p>
 <h2 id="get-a-harness">Get a harness</h2>
 <p><code>GET /v1/harnesses/{harness_id}</code> - returns <code>200 OK</code> with the harness object.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-11e9b7-curl">curl</button><button class="tab" data-tab="tab-11e9b7-python">python</button><button class="tab" data-tab="tab-11e9b7-javascript">javascript</button></div><div class="tab-panel active" id="tab-11e9b7-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6 \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-11e9b7-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-2eac3f-curl">curl</button><button class="tab" data-tab="tab-2eac3f-python">python</button><button class="tab" data-tab="tab-2eac3f-javascript">javascript</button></div><div class="tab-panel active" id="tab-2eac3f-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6 \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-2eac3f-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-h = r.json()</code></pre></div><div class="tab-panel" id="tab-11e9b7-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6&quot;, {
+h = r.json()</code></pre></div><div class="tab-panel" id="tab-2eac3f-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const h = await r.json()</code></pre></div></div>
@@ -385,21 +386,21 @@ const h = await r.json()</code></pre></div></div>
 <h2 id="list-harnesses">List harnesses</h2>
 <p><code>GET /v1/harnesses</code> - returns an offset or cursor page of harness objects.</p>
 <p>Query parameters: <code>slug</code> (filter), <code>status</code> (filter), <code>direction</code> (filter), <code>limit</code> (1-200, default 20), <code>offset</code>, <code>cursor</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-1d94c9-curl">curl</button><button class="tab" data-tab="tab-1d94c9-python">python</button><button class="tab" data-tab="tab-1d94c9-javascript">javascript</button></div><div class="tab-panel active" id="tab-1d94c9-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/harnesses?status=installed&amp;limit=20&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-1d94c9-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-aa8352-curl">curl</button><button class="tab" data-tab="tab-aa8352-python">python</button><button class="tab" data-tab="tab-aa8352-javascript">javascript</button></div><div class="tab-panel active" id="tab-aa8352-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/harnesses?status=installed&amp;limit=20&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-aa8352-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://your-host/v1/harnesses&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     params={&quot;status&quot;: &quot;installed&quot;, &quot;limit&quot;: 20},
 )
-items = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-1d94c9-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/harnesses?status=installed&amp;limit=20&quot;, {
+items = r.json()[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-aa8352-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/harnesses?status=installed&amp;limit=20&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const {items} = await r.json()</code></pre></div></div>
 <h2 id="fetch-bundle-from-remote">Fetch bundle from remote</h2>
 <p><code>POST /v1/harnesses/{harness_id}/fetch</code> - pulls the bundle from the remote git URL and caches the overrides schema. Returns <code>202 Accepted</code> (async). Poll <code>GET /v1/harnesses/{harness_id}</code> until <code>pending_operation</code> is null.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-70ef06-curl">curl</button><button class="tab" data-tab="tab-70ef06-python">python</button><button class="tab" data-tab="tab-70ef06-javascript">javascript</button></div><div class="tab-panel active" id="tab-70ef06-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/fetch \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-70ef06-python"><pre class="md-pre lang-python"><code>import httpx, time
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a9547a-curl">curl</button><button class="tab" data-tab="tab-a9547a-python">python</button><button class="tab" data-tab="tab-a9547a-javascript">javascript</button></div><div class="tab-panel active" id="tab-a9547a-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/fetch \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-a9547a-python"><pre class="md-pre lang-python"><code>import httpx, time
 r = httpx.post(
     &quot;https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/fetch&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -413,23 +414,23 @@ while True:
     ).json()
     if not h.get(&quot;pending_operation&quot;):
         break
-    time.sleep(0.5)</code></pre></div><div class="tab-panel" id="tab-70ef06-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6/fetch&quot;, {
+    time.sleep(0.5)</code></pre></div><div class="tab-panel" id="tab-a9547a-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6/fetch&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <p>After fetch completes, <code>overrides_schema</code> is populated on the harness object.</p>
 <h2 id="set-override-values">Set override values</h2>
 <p><code>PUT /v1/harnesses/{harness_id}/overrides</code> - stores the override values used during install/sync. Returns <code>200 OK</code> with the updated harness object.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-df8bdd-curl">curl</button><button class="tab" data-tab="tab-df8bdd-python">python</button><button class="tab" data-tab="tab-df8bdd-javascript">javascript</button></div><div class="tab-panel active" id="tab-df8bdd-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/overrides \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-2044fe-curl">curl</button><button class="tab" data-tab="tab-2044fe-python">python</button><button class="tab" data-tab="tab-2044fe-javascript">javascript</button></div><div class="tab-panel active" id="tab-2044fe-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/overrides \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;provider_id&quot;: &quot;anthropic-prod&quot;, &quot;model_name&quot;: &quot;claude-sonnet-4-6&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-df8bdd-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;provider_id&quot;: &quot;anthropic-prod&quot;, &quot;model_name&quot;: &quot;claude-sonnet-4-6&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-2044fe-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.put(
     &quot;https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/overrides&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     json={&quot;provider_id&quot;: &quot;anthropic-prod&quot;, &quot;model_name&quot;: &quot;claude-sonnet-4-6&quot;},
 )
-assert r.status_code == 200</code></pre></div><div class="tab-panel" id="tab-df8bdd-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6/overrides&quot;, {
+assert r.status_code == 200</code></pre></div><div class="tab-panel" id="tab-2044fe-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6/overrides&quot;, {
   method: &quot;PUT&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({provider_id: &quot;anthropic-prod&quot;, model_name: &quot;claude-sonnet-4-6&quot;})
@@ -437,8 +438,8 @@ assert r.status_code == 200</code></pre></div><div class="tab-panel" id="tab-df8
 <h2 id="install">Install</h2>
 <p><code>POST /v1/harnesses/{harness_id}/install</code> - renders bundle templates into live entities. Returns <code>202 Accepted</code>. Poll until <code>pending_operation</code> is null.</p>
 <p>Entities created by install carry a <code>harness_id</code> field and are write-protected; direct <code>PUT</code>/<code>DELETE</code> on them returns <code>409</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ed2879-curl">curl</button><button class="tab" data-tab="tab-ed2879-python">python</button><button class="tab" data-tab="tab-ed2879-javascript">javascript</button></div><div class="tab-panel active" id="tab-ed2879-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/install \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-ed2879-python"><pre class="md-pre lang-python"><code>import httpx, time
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f176ed-curl">curl</button><button class="tab" data-tab="tab-f176ed-python">python</button><button class="tab" data-tab="tab-f176ed-javascript">javascript</button></div><div class="tab-panel active" id="tab-f176ed-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/install \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-f176ed-python"><pre class="md-pre lang-python"><code>import httpx, time
 r = httpx.post(
     &quot;https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/install&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -452,57 +453,57 @@ while True:
     if not h.get(&quot;pending_operation&quot;):
         break
     time.sleep(0.5)
-assert h[&quot;status&quot;] == &quot;installed&quot;</code></pre></div><div class="tab-panel" id="tab-ed2879-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6/install&quot;, {
+assert h[&quot;status&quot;] == &quot;installed&quot;</code></pre></div><div class="tab-panel" id="tab-f176ed-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6/install&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <p><strong>Errors:</strong> <code>409</code> if the harness is already being operated on.</p>
 <h2 id="sync-to-latest-ref">Sync to latest ref</h2>
 <p><code>POST /v1/harnesses/{harness_id}/sync</code> - re-fetches the bundle and re-renders entities in place. Returns <code>202 Accepted</code>. Safe to call when status is <code>outdated</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-adb079-curl">curl</button><button class="tab" data-tab="tab-adb079-python">python</button><button class="tab" data-tab="tab-adb079-javascript">javascript</button></div><div class="tab-panel active" id="tab-adb079-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/sync \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-adb079-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-80e6b7-curl">curl</button><button class="tab" data-tab="tab-80e6b7-python">python</button><button class="tab" data-tab="tab-80e6b7-javascript">javascript</button></div><div class="tab-panel active" id="tab-80e6b7-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/sync \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-80e6b7-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/sync&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-assert r.status_code == 202</code></pre></div><div class="tab-panel" id="tab-adb079-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6/sync&quot;, {
+assert r.status_code == 202</code></pre></div><div class="tab-panel" id="tab-80e6b7-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6/sync&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <h2 id="build-outbound-bundle">Build outbound bundle</h2>
 <p><code>POST /v1/harnesses/{harness_id}/build</code> - renders tracked live entities into bundle templates. Requires <code>direction: outbound</code> and a populated <code>tracked_entities</code> list. Returns <code>202 Accepted</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-3db441-curl">curl</button><button class="tab" data-tab="tab-3db441-python">python</button><button class="tab" data-tab="tab-3db441-javascript">javascript</button></div><div class="tab-panel active" id="tab-3db441-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/build \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-3db441-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-3f00c6-curl">curl</button><button class="tab" data-tab="tab-3f00c6-python">python</button><button class="tab" data-tab="tab-3f00c6-javascript">javascript</button></div><div class="tab-panel active" id="tab-3f00c6-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/build \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-3f00c6-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/build&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-assert r.status_code == 202</code></pre></div><div class="tab-panel" id="tab-3db441-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6/build&quot;, {
+assert r.status_code == 202</code></pre></div><div class="tab-panel" id="tab-3f00c6-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6/build&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <h2 id="push-outbound-bundle-to-git">Push outbound bundle to git</h2>
 <p><code>POST /v1/harnesses/{harness_id}/push</code> - commits and pushes the built bundle to the configured remote. Requires a <code>git_token</code> with push access. Returns <code>202 Accepted</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c2906f-curl">curl</button><button class="tab" data-tab="tab-c2906f-python">python</button><button class="tab" data-tab="tab-c2906f-javascript">javascript</button></div><div class="tab-panel active" id="tab-c2906f-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/push \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-c2906f-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5a80e4-curl">curl</button><button class="tab" data-tab="tab-5a80e4-python">python</button><button class="tab" data-tab="tab-5a80e4-javascript">javascript</button></div><div class="tab-panel active" id="tab-5a80e4-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/push \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-5a80e4-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/push&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-assert r.status_code == 202</code></pre></div><div class="tab-panel" id="tab-c2906f-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6/push&quot;, {
+assert r.status_code == 202</code></pre></div><div class="tab-panel" id="tab-5a80e4-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6/push&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <h2 id="update-tracked-entities">Update tracked entities</h2>
 <p><code>PUT /v1/harnesses/{harness_id}/tracked_entities</code> - replaces the full tracked entity set for an outbound harness. Each entry maps a live entity to a template name.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e9f9c2-curl">curl</button><button class="tab" data-tab="tab-e9f9c2-python">python</button><button class="tab" data-tab="tab-e9f9c2-javascript">javascript</button></div><div class="tab-panel active" id="tab-e9f9c2-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/tracked_entities \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-88966a-curl">curl</button><button class="tab" data-tab="tab-88966a-python">python</button><button class="tab" data-tab="tab-88966a-javascript">javascript</button></div><div class="tab-panel active" id="tab-88966a-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/tracked_entities \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
     &quot;tracked_entities&quot;: [
       {&quot;kind&quot;: &quot;agent&quot;, &quot;source_id&quot;: &quot;my-agent&quot;, &quot;template_name&quot;: &quot;agent-main&quot;, &quot;overrides&quot;: []}
     ]
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-e9f9c2-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-88966a-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.put(
     &quot;https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6/tracked_entities&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -512,7 +513,7 @@ r = httpx.put(
              &quot;template_name&quot;: &quot;agent-main&quot;, &quot;overrides&quot;: []},
         ]
     },
-)</code></pre></div><div class="tab-panel" id="tab-e9f9c2-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6/tracked_entities&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-88966a-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6/tracked_entities&quot;, {
   method: &quot;PUT&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -555,13 +556,13 @@ r = httpx.put(
 </table>
 <h2 id="uninstall-a-harness">Uninstall a harness</h2>
 <p><code>DELETE /v1/harnesses/{harness_id}</code> - enqueues an UNINSTALL operation that removes all harness-managed entities and lifts write-protection. Returns <code>202 Accepted</code>. Poll <code>GET /v1/harnesses/{harness_id}</code> until the harness is gone or <code>status</code> transitions away from <code>installed</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ee6d5d-curl">curl</button><button class="tab" data-tab="tab-ee6d5d-python">python</button><button class="tab" data-tab="tab-ee6d5d-javascript">javascript</button></div><div class="tab-panel active" id="tab-ee6d5d-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6 \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-ee6d5d-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-3eae1f-curl">curl</button><button class="tab" data-tab="tab-3eae1f-python">python</button><button class="tab" data-tab="tab-3eae1f-javascript">javascript</button></div><div class="tab-panel active" id="tab-3eae1f-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6 \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-3eae1f-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.delete(
     &quot;https://your-host/v1/harnesses/hrn-a1b2c3d4e5f6&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-assert r.status_code == 202</code></pre></div><div class="tab-panel" id="tab-ee6d5d-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6&quot;, {
+assert r.status_code == 202</code></pre></div><div class="tab-panel" id="tab-3eae1f-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/harnesses/hrn-a1b2c3d4e5f6&quot;, {
   method: &quot;DELETE&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
