@@ -92,11 +92,12 @@ In the console:
    **Import spec**, paste the JSON from the manifest's `spec` (the `nodes`,
    `edges`, and `entry_node_id`), and click **Load into editor**. Then click
    **Save**.
-3. Or build it node by node with **Add node**: a **Begin**, a **Fan-out** (set its
+3. Or build it step by step with **+ Add a step**: a start, then **Split the
+   work in parallel** for the **Fan-out** (set its
    mode to **tee** and list `review_bugs` and `review_style` as targets), the two
    **Agent** nodes (pick `reviewer-bugs` / `reviewer-style` and set each
    `input_template`), a **Fan-in** (set the `aggregate_template`), and an **End**
-   (set the `output_template`). Use **Add edge** in **Static** mode to wire
+   (set the `output_template`). Use **Connect steps** to wire
    `start -> split`, `review_bugs -> combine`, `review_style -> combine`, and
    `combine -> done`. Click **Save**.
 

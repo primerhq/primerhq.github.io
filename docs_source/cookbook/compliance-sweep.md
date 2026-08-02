@@ -88,16 +88,17 @@ In the console:
 2. The fastest way to build the exact graph below is **Import spec**: paste the
    JSON from the manifest's `spec` and click **Load into editor**, then
    **Save**.
-3. Or build it node by node with **Add node**: a **Begin**, an **Agent**
+3. Or build it step by step with **+ Add a step**: a start, then **Ask an
+   agent to do something** for the **Agent**
    (`scope-lister`, with its `response_format`), a **Fan-out** (set its mode to
    **map** with `source_node_id` `list_scope`, `source_path` `services`, target
    `audit`, and `on_failure` **collect**), a **Tool-call** node (`audit`, tool
    `misc__calculate`, with the `arguments_template` and `output_schema`), a
    **Fan-in** (`report`, with the `aggregate_template`), and an **End**. Wire
    `begin -> list_scope`, `list_scope -> fan`, `audit -> report`,
-   `report -> end` with **Add edge** in **Static** mode (the fan-out spec
-   spawns the `audit` branches, so there is no `fan -> audit` edge). Click
-   **Save**.
+   `report -> end` with **Connect steps** (the split spawns the `audit`
+   branches, so there is no `fan -> audit` connection). Check the chip reads
+   **Ready to run**, then **Save draft**.
 
 Via the CLI:
 
