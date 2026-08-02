@@ -141,7 +141,7 @@
 <h2 id="top-level">Top-level</h2>
 <p><code>primer</code> is a Typer application. Run <code>--help</code> on any subcommand for
 the full flag list:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ce2c6d-bash">bash</button></div><div class="tab-panel active" id="tab-ce2c6d-bash"><pre class="md-pre lang-bash"><code>primer --help
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-edf4a2-bash">bash</button></div><div class="tab-panel active" id="tab-edf4a2-bash"><pre class="md-pre lang-bash"><code>primer --help
 # Primer microagents framework: API + worker entrypoints.
 #
 # commands:
@@ -152,7 +152,7 @@ the full flag list:</p>
 <p>Starts the FastAPI HTTP server via uvicorn. By default it also starts
 an in-process worker pool (<code>runtime_mode=api+worker</code>). Pass
 <code>--no-worker</code> to split API and worker into separate processes.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-fcc38e-bash">bash</button></div><div class="tab-panel active" id="tab-fcc38e-bash"><pre class="md-pre lang-bash"><code># Default: API + worker in one process, auto-loads ~/.primer/config.yaml
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-bc39fb-bash">bash</button></div><div class="tab-panel active" id="tab-bc39fb-bash"><pre class="md-pre lang-bash"><code># Default: API + worker in one process, auto-loads ~/.primer/config.yaml
 primer api
 
 # Explicit config file.
@@ -200,7 +200,7 @@ workers becomes independent of scaling HTTP capacity.</p>
 <p>Runs only the worker pool. A minimal HTTP surface (<code>/v1/health</code> and
 <code>/v1/workers</code>) is still served for liveness/readiness probes. Pairs
 with a <code>primer api --no-worker</code> process.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-bb3d4c-bash">bash</button></div><div class="tab-panel active" id="tab-bb3d4c-bash"><pre class="md-pre lang-bash"><code># Default: auto-loads ~/.primer/config.yaml
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f8b2d0-bash">bash</button></div><div class="tab-panel active" id="tab-f8b2d0-bash"><pre class="md-pre lang-bash"><code># Default: auto-loads ~/.primer/config.yaml
 primer worker
 
 # Explicit config.
@@ -229,7 +229,7 @@ primer worker -c /etc/primer/config.yaml</code></pre></div></div>
 <p>Runs first-time bootstrap. Idempotent: rows that already exist are
 skipped. Pass <code>--force</code> to re-run the bootstrap even when the
 completion marker is already set (useful for partially-failed runs).</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-fa4644-bash">bash</button></div><div class="tab-panel active" id="tab-fa4644-bash"><pre class="md-pre lang-bash"><code># Idempotent bootstrap against default config.
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d48674-bash">bash</button></div><div class="tab-panel active" id="tab-d48674-bash"><pre class="md-pre lang-bash"><code># Idempotent bootstrap against default config.
 primer init
 
 # Explicit config file.
@@ -264,6 +264,143 @@ primer init --force</code></pre></div></div>
 </table>
 <p>Exit code <code>1</code> when any provider bootstraps with errors (printed to
 stderr). Exit code <code>0</code> when all rows are created or skipped.</p>
+<h2 id="primectl">primectl</h2>
+<p><code>primer</code> runs the server. <strong><code>primectl</code></strong> is the separate operator CLI that
+talks to a running instance over the REST API, so it works against a remote
+deployment rather than only the machine you are on.</p>
+<div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p>This page documents the python-toolset commands only. <code>primectl</code> has 27
+commands across 12 groups (<code>agent</code>, <code>chat</code>, <code>session</code>, <code>workspace</code>, <code>channel</code>,
+<code>tap</code>, <code>config</code>, and more); the rest are not written up yet. Run
+<code>primectl &lt;group&gt; --help</code> for those in the meantime.</p>
+</div></div>
+<h3 id="pointing-it-at-a-server-and-authenticating">Pointing it at a server, and authenticating</h3>
+<p>Every command needs a server and a credential:</p>
+<pre><code class="language-bash"># One-off
+primectl --server https://your-host toolset list-python-tools --id my-tools
+
+# Or save a context and stop repeating yourself
+primectl config set-context home --server https://your-host --token &quot;$TOKEN&quot;
+primectl config use-context home
+</code></pre>
+<p>The token is an API token (create one from <strong>Settings -&gt; API tokens</strong> in the
+console, or <code>POST /v1/auth/tokens</code>). <code>PRIMER_API_TOKEN</code> works too. Without
+one, commands fail with <code>not authenticated (401)</code> -- the console's browser
+session is a cookie and does not carry over.</p>
+<h3 id="toolset-create-python"><code>toolset create-python</code></h3>
+<p>Register a python module as a toolset.</p>
+<pre><code class="language-bash">primectl toolset create-python --id my-tools --source-file ./tools.py
+</code></pre>
+<pre><code class="language-yaml">id: my-tools
+provider: python
+config:
+  source: &quot;@primer_tool()\ndef greet(name: str) -&gt; str:\n    \&quot;\&quot;\&quot;Greet a person...&quot;
+  source_version: 1
+  default_timeout_seconds: 30.0
+  env: {}
+  image: null
+  allow_network: false
+harness_id: null
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--id</code></td>
+<td>yes</td>
+<td>Id for the new toolset</td>
+</tr>
+<tr>
+<td><code>--source-file</code></td>
+<td>yes</td>
+<td>Path to the python module to register</td>
+</tr>
+<tr>
+<td><code>--timeout-seconds</code></td>
+<td>no</td>
+<td>Default ceiling for tools that declare none. Default <code>30.0</code></td>
+</tr>
+<tr>
+<td><code>--allow-network</code></td>
+<td>no</td>
+<td>Permit outbound network from the tools</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td>no</td>
+<td>Read the file without calling the server (see the caveat below)</td>
+</tr>
+</tbody>
+</table>
+<p>The server validates the source before storing it. A module that cannot
+register is rejected with <code>422</code> and a message naming the offending parameter
+and line, so a bad docstring fails here rather than at agent-call time.</p>
+<div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p><code>--dry-run</code> does <strong>not</strong> validate your module. It reads the file, reports its
+size, and prints <code>ok: true</code> regardless of whether the source would register --
+<code>primectl</code> does not depend on primer, so it cannot run the registrar locally.
+For a real check before saving, use <code>POST /v1/toolsets/{id}/validate</code>, which
+runs the actual registrar server-side.</p>
+</div></div>
+<h3 id="toolset-update-python-source"><code>toolset update-python-source</code></h3>
+<p>Replace an existing toolset's module.</p>
+<pre><code class="language-bash">primectl toolset update-python-source --id my-tools --source-file ./tools.py
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--id</code></td>
+<td>yes</td>
+<td>Id of the toolset to edit</td>
+</tr>
+<tr>
+<td><code>--source-file</code></td>
+<td>yes</td>
+<td>Path to the replacement module</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td>no</td>
+<td>Read the file without calling the server</td>
+</tr>
+</tbody>
+</table>
+<p>The server owns <code>source_version</code> and bumps it only when the source actually
+changes, so a session parked in one of these tools resumes against the code
+that parked rather than whatever the source says now.</p>
+<h3 id="toolset-list-python-tools"><code>toolset list-python-tools</code></h3>
+<p>Show what a toolset derives, and the isolation level being enforced.</p>
+<pre><code class="language-bash">primectl toolset list-python-tools --id my-tools
+</code></pre>
+<pre><code class="language-yaml">toolset_id: my-tools
+isolation_level: seccomp
+tools:
+- id: greet
+  description: 'Greet a person by name.
+
+
+    Use when you need a friendly greeting.'
+  toolset_id: my-tools
+  schema:
+    type: object
+    properties:
+      name:
+        type: string
+</code></pre>
+<p><code>isolation_level</code> is what this deployment enforces, not what the strongest
+backend could. See the python toolsets page for what each level covers.</p>
+<p><a href="/docs/toolsets/toolsets-python/">Write a python function and get a callable tool.</a></p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>

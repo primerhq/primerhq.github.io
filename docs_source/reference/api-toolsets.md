@@ -28,6 +28,8 @@ Connecting an MCP server as a toolset source.
 | GET | `/v1/toolsets/builtin` | List built-in (internal) toolsets |
 | GET | `/v1/toolsets/{id}/tools` | Enumerate live tools exposed by a toolset |
 | POST | `/v1/toolsets/{id}/invalidate` | Invalidate the cached toolset provider |
+| GET | `/v1/toolsets/{id}/runtime` | Isolation level and derived tools (python toolsets) |
+| POST | `/v1/toolsets/{id}/validate` | Dry-run: what candidate source would register (python toolsets) |
 
 ## Toolset object
 
@@ -49,8 +51,8 @@ Connecting an MCP server as a toolset source.
 | Field | Required | Type | Description |
 |-------|----------|------|-------------|
 | `id` | no | string | Identifier (case-sensitive). If omitted, the server assigns a type-prefixed id (e.g. `toolset-3f9a1c8d`). Immutable after creation |
-| `provider` | yes | string | `"internal"` or `"mcp"` |
-| `config` | conditional | McpConfig or null | Required when `provider` is `"mcp"`. Must be omitted for `"internal"` |
+| `provider` | yes | string | `"internal"`, `"mcp"`, or `"python"` |
+| `config` | conditional | McpConfig, PythonConfig, or null | Required when `provider` is `"mcp"` (McpConfig) or `"python"` (PythonConfig). Must be omitted for `"internal"` |
 | `harness_id` | no | string or null | Set by harness management; mutation via CRUD returns 409 when set |
 
 **McpConfig fields:**
@@ -74,6 +76,35 @@ Connecting an MCP server as a toolset source.
 | `url` | yes | Base URL of the remote MCP server endpoint (min length 1) |
 | `headers` | no | HTTP headers included on every request (e.g. `Authorization`) |
 | `oauth` | no | OAuthConfig for OAuth 2.1 (PKCE) flows; overrides any `Authorization` header |
+
+**PythonConfig fields** (when `provider` is `"python"`):
+
+The whole toolset is one python module. Every function in it decorated with
+`@primer_tool` becomes a tool.
+
+| Field | Required | Type | Description |
+|-------|----------|------|-------------|
+| `source` | yes | string | The module source. Not a secret; returned in full on read |
+| `source_version` | yes | integer >= 1 | Bumped whenever the source changes. **Server-owned**: see below |
+| `default_timeout_seconds` | no | number | Wall-clock ceiling for a tool that does not declare its own. Default `30`, must be `> 0` and `<= 300` |
+| `env` | no | object | Environment variables for the runner process. **Masked on every read path**, like the MCP stdio env |
+| `image` | no | string or null | Container image for the runner on container and Kubernetes backends. Ignored by the local runner, which is stdlib-only by construction |
+| `allow_network` | no | boolean | Permit outbound sockets from the tool. Default `false`. Enforceable only above the `rlimit-only` isolation level |
+
+```callout:warning
+`allow_network: false` is only enforced where the deployment can enforce it. At the `rlimit-only` isolation level there is no syscall filter, so the flag records intent but does not block egress. Check `GET /v1/toolsets/{id}/runtime` for the level actually in force before relying on it.
+```
+
+### `source_version` is owned by the server
+
+You send a `source_version`, but it is advisory: the server decides the
+stored value. If the submitted `source` matches what is stored, the version
+is left alone; if it differs, the server increments.
+
+This exists because a parked run stamps the version it parked at, and refuses
+to resume against a different one. If clients owned the number, two operators
+editing concurrently would both send the version they read, and a resume
+could not tell which code it was about to run.
 
 ## Stdio allowlist
 
@@ -340,6 +371,118 @@ const tools = await r.json()
 - `503` - stdio command not in the server allowlist (`/errors/service-unavailable`)
 - `502` - the MCP server returned an error
 - `504` - network timeout reaching the MCP server
+
+## Runtime facts about a python toolset
+
+`GET /v1/toolsets/{id}/runtime` - what the toolset actually is on this
+deployment: the isolation level being enforced, the tools its source
+produced, and any registration failure.
+
+```json
+{
+  "toolset_id": "my-tools",
+  "isolation_level": "seccomp",
+  "tools": [
+    {
+      "id": "greet",
+      "toolset_id": "my-tools",
+      "description": "Greet a person by name.\n\nUse when you need a friendly greeting.",
+      "schema": {"type": "object", "properties": {"name": {"type": "string"}}}
+    }
+  ],
+  "registration_error": null
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `isolation_level` | `"container"`, `"seccomp"`, `"sandbox-exec"`, or `"rlimit-only"`. What this deployment ENFORCES, not what the strongest backend could |
+| `tools` | The tools the stored source registered, serialised as `Tool`: `id`, `toolset_id`, `description`, `schema`. Empty when registration failed |
+| `registration_error` | `null`, or `{message, field, lineno}` naming what stopped it |
+
+```callout:info
+The `tools` here are the serialised `Tool` objects, so they carry the argument schema but not the python-specific facts. If you want to know which tools yield, which line each is defined on, or their per-tool timeouts, use `POST /v1/toolsets/{id}/validate` with the stored source: it reports those.
+```
+
+`isolation_level` is deliberately specific rather than a generic "sandboxed"
+flag. `rlimit-only` bounds CPU and memory but stops neither filesystem reads
+nor egress, and an operator deciding whether to trust a tool needs to know
+which of the four they are on.
+
+## Validate candidate source
+
+`POST /v1/toolsets/{id}/validate` - run the registrar against source you have
+not saved, and get back what it would register or why it would not.
+
+```json
+{"source": "@primer_tool()\ndef greet(name: str) -> str:\n    ..."}
+```
+
+**Always returns `200`**, including for source that cannot register. A
+half-written function is the normal state of an editor, so an invalid module
+is an expected answer here rather than a protocol error. Use `ok` to tell
+them apart. (`POST` and `PUT` on the toolset itself still return `422` for
+invalid source, because there it is a rejected write.)
+
+```json
+{
+  "ok": false,
+  "tools": [],
+  "error": {
+    "message": "greet: parameter 'name' is not documented",
+    "field": "name",
+    "lineno": 4
+  }
+}
+```
+
+On success, each entry in `tools` carries `id`, `fn_name`, `yields`,
+`timeout_seconds`, `description`, `args`, and `lineno` (the line of the
+`def`, so an editor can jump to it).
+
+```code-tabs:curl,python
+--- curl
+curl -X POST https://your-host/v1/toolsets/my-tools/validate \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"source": "@primer_tool()\ndef f(a: str) -> str:\n    \"\"\"Do it.\n\n    Use when you must.\n\n    Args:\n        a: A.\n    \"\"\"\n    return a\n"}'
+--- python
+import httpx
+r = httpx.post(
+    "https://your-host/v1/toolsets/my-tools/validate",
+    headers={"Authorization": f"Bearer {token}"},
+    json={"source": source},
+)
+verdict = r.json()
+if not verdict["ok"]:
+    print(verdict["error"]["message"], "on line", verdict["error"]["lineno"])
+```
+
+Nothing is persisted, and the module is never executed: the registrar reads
+the source structurally, which is the same property that lets the save path
+validate untrusted source safely.
+
+## Invalid python source
+
+Both `POST /v1/toolsets` and `PUT /v1/toolsets/{id}` validate the source
+before storing it, and reject a module that cannot register:
+
+```json
+{
+  "type": "/errors/unprocessable-entity",
+  "status": 422,
+  "extensions": {
+    "error": "invalid_python_toolset",
+    "message": "greet: parameter 'name' is not documented",
+    "field": "name",
+    "lineno": 4
+  }
+}
+```
+
+`field` and `lineno` are in `extensions`, not in `detail`. A client rendering
+this next to an editor should read the raw envelope: `detail` carries a
+generic status title.
 
 ## Errors note
 

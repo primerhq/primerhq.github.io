@@ -185,7 +185,7 @@
 <p>That is the minimal configuration required to make a tool gated. The other two strategies (Rego and LLM judge) replace the manual hold with an automated decision, and are documented below.</p>
 <h3 id="rego-input-reference">Rego input reference</h3>
 <p>When the approval type is <strong>Policy (Rego)</strong>, the engine evaluates your policy against a single <code>input</code> document built from the call context. These are the only fields available; reference them as <code>input.&lt;field&gt;</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b66072-json">json</button></div><div class="tab-panel active" id="tab-b66072-json"><pre class="md-pre lang-json"><code>{
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-4cfdcc-json">json</button></div><div class="tab-panel active" id="tab-4cfdcc-json"><pre class="md-pre lang-json"><code>{
   &quot;tool_name&quot;: &quot;exec&quot;,
   &quot;toolset_id&quot;: &quot;workspaces&quot;,
   &quot;arguments&quot;: {
@@ -246,7 +246,7 @@
 <p>The same <code>input</code> document is also handed to the LLM judge as the user message, so a judge prompt can reason about any of these fields too.</p>
 <h3 id="rego-policy-example">Rego policy example</h3>
 <p>The policy must define a boolean <code>required</code>. An optional string <code>reason</code> is recorded on the pending row. The example below allows all calls through except <code>exec</code> calls that target the production workspace, which park for operator approval:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-de3d5c-rego">rego</button></div><div class="tab-panel active" id="tab-de3d5c-rego"><pre class="md-pre lang-rego"><code>package primer.approval
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-bee634-rego">rego</button></div><div class="tab-panel active" id="tab-bee634-rego"><pre class="md-pre lang-rego"><code>package primer.approval
 
 default required := false
 
@@ -265,7 +265,7 @@ reason := &quot;exec against prod-workspace requires operator sign-off&quot; if 
 <h3 id="llm-judge-example">LLM-judge example</h3>
 <p>When the approval type is <strong>LLM judge</strong>, you select a provider and model (from those already configured under LLM Providers) and write a judge prompt. The prompt is sent as the system message; the <code>input</code> document (the same shape shown above) is appended as the user message. The judge must return a verdict with a boolean <code>required</code> and an optional <code>reason</code>.</p>
 <p>Configuration shape:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-636aa3-json">json</button></div><div class="tab-panel active" id="tab-636aa3-json"><pre class="md-pre lang-json"><code>{
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-06714f-json">json</button></div><div class="tab-panel active" id="tab-06714f-json"><pre class="md-pre lang-json"><code>{
   &quot;id&quot;: &quot;judge-shell-commands&quot;,
   &quot;toolset_id&quot;: &quot;workspaces&quot;,
   &quot;tool_name&quot;: &quot;exec&quot;,

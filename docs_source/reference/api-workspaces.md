@@ -682,6 +682,51 @@ const r = await fetch("/v1/workspaces/ws-a1b2c3d4/log?limit=20", {
 const log = await r.json();
 ```
 
+| Query | Default | Description |
+|---|---|---|
+| `limit` | `50` | Commits to return, 1 to 500 |
+| `with_files` | `false` | Include per-file line deltas on each commit's `files` |
+
+### Per-file line deltas
+
+`?with_files=1` adds a `files` array to every commit, each entry carrying a
+path and its line counts:
+
+```json
+{
+  "commits": [
+    {
+      "sha": "9c1f0a2",
+      "message": "agent edit",
+      "files": [
+        {"path": "src/app.py", "additions": 12, "deletions": 3, "binary": false},
+        {"path": "logo.png", "additions": 0, "deletions": 0, "binary": true}
+      ]
+    }
+  ]
+}
+```
+
+Counts only, never content. That is what a history list needs -- a row per
+file with `+n/-m` -- and it means listing 500 commits does not mean fetching
+500 diffs. The patch itself comes from
+`GET /v1/workspaces/{id}/commit/{sha}`, per commit, when a reader opens one.
+
+Off by default because it widens the response. On the local backend it costs
+no extra git process: the numstat rides along with the same `git log`.
+
+```callout:warning
+`files: null` and `files: []` mean different things, deliberately. **null** is
+"not requested, or this backend cannot tell you"; **[]** is "this commit
+genuinely touched no files". A client that renders `null` as an empty file
+list will silently claim a commit changed nothing when the truth is that
+nobody asked.
+```
+
+`binary: true` marks a file where git reported `-` instead of counts. Its
+`additions` and `deletions` are always `0`, which is why the flag exists: it
+separates "no lines changed" from "lines are not the unit here".
+
 ---
 
 ## POST /v1/workspaces/{id}/pause and /resume
