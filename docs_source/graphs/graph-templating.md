@@ -209,6 +209,18 @@ When you need to produce a dynamic argument structure (a variable-length list, a
 }
 ```
 
+### Custom filters
+
+Two graph-specific Jinja2 filters extend the standard set for the common case of moving data between nodes:
+
+- `fromjson` parses a JSON string into data so a downstream node can index into it. Use it when an upstream `tool_call` or agent node emitted JSON in its `text` output but `nodes.<id>.parsed` is `None` (parsed is only populated when the node declared a `response_format` or `output_schema`). It raises a `TemplateError` on invalid JSON, so a malformed upstream output surfaces at render time rather than silently passing a wrong value. For example, to read the first result's URL out of a search node's raw text:
+
+  ```
+  {{ (nodes.search.text | fromjson)[0].url }}
+  ```
+
+- `strip_fences` unwraps a markdown code fence around generated code. When an agent returns code wrapped in a ```` ```lang ```` fence, this filter strips the fence and the language tag and returns the inner code; it is idempotent on already-raw code, so applying it twice (or to unfenced text) is safe. Use it on the input to a write-then-exec `tool_call` node so the fence does not land in the written file.
+
 ## Walkthrough: chaining two nodes
 
 This walkthrough shows the minimal template chain: a `researcher` agent feeds its output to a `writer` agent.

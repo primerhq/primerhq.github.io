@@ -37,7 +37,7 @@ Three regions, left to right.
 
 **Steps** lists every step in the graph, in order. A step that branches shows its branches underneath it, each reading as a sentence: `done -> synth`, `otherwise -> search`, `after 6 loops -> synth`. A step that fans out shows its copy count, for example `x3`. **+ Add a step** sits at the bottom, and `Cmd-K` opens the same thing.
 
-**The canvas** draws the graph in **bands**, one per superstep, labelled `STEP 1`, `STEP 2` and so on. The bands are the point: everything in one band runs at the same time, so the picture matches how the engine actually executes rather than just how the arrows are drawn. A fan-out is bracketed and annotated with what it does, for example `3 copies run at the same time`. **Connect steps** wires two steps together, **Tidy up** re-lays out the graph, and the zoom controls include **Fit to view** and **1:1**.
+**The canvas** draws the graph in **bands**, one per superstep, labelled `STEP 1`, `STEP 2` and so on. The bands are the point: everything in one band runs at the same time, so the picture matches how the engine actually executes rather than just how the arrows are drawn. A fan-out is bracketed and annotated with what it does, for example `3 copies run at the same time`. **Connect steps** wires two steps together, and you can also drag from one step onto another to connect them in a single gesture. **Tidy up** re-lays out the graph. Drag the background to pan, use the wheel to zoom, and the controls include **Fit to view** and **1:1**.
 
 **The inspector** on the right describes whatever is selected, and is where you configure it. Nothing selected reads `Pick a step on the canvas or in the list to see what it does`.
 
@@ -106,6 +106,8 @@ A fan-out step's downstream targets live on the step itself, not on ordinary con
 ### `max_iterations`
 
 Any graph whose edges can form a cycle must set `max_iterations`, a positive integer cap on how many supersteps the executor runs before it terminates the run with `ended_detail='max_iterations_exceeded'`. The builder enforces this: a graph with a cycle and no `max_iterations` is not ready to run, and the readiness chip says so.
+
+Set the graph's `on_max_iterations` to a finalize step to land with output at the cap instead of hard-failing there. Without it, hitting the cap ends the run failed and whatever the graph had produced goes nowhere.
 
 ### References, readiness, and saving
 

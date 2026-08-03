@@ -116,7 +116,7 @@ A build assembles a self-contained bundle in the configured repo and ref:
 | Artifact | Contents |
 |---|---|
 | `harness.yaml` | Bundle metadata: name, slug, description, and the tracked-entity manifest. |
-| `templates/<template_name>.yaml` | One file per tracked entity. The live entity is exported, system-managed fields are stripped, and each override mapping replaces a value with a `{{ overrides.<path> }}` token. |
+| `templates/<template_name>.yaml` | One file per tracked entity. The live entity is exported, system-managed fields are stripped, and each override mapping replaces a value with a `{{ overrides.<path> }}` token. A tracked `document` now exports its body as `content_inline`, so the install restores the actual content rather than an empty shell. |
 | `overrides.schema.json` | A composed JSON Schema derived from every override mapping. This becomes the consumer's overrides form at install time. |
 | `bundle_hash` (build metadata, not a file) | A stable hash computed over the whole rendered set, used to detect drift between the live entities and the last push. |
 

@@ -396,7 +396,7 @@ could not tell which code it was about to run.</p>
 <h2 id="create-a-toolset">Create a toolset</h2>
 <p><code>POST /v1/toolsets</code> - returns <code>201 Created</code>.</p>
 <p><strong>Stdio MCP toolset:</strong></p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-82fc5e-curl">curl</button><button class="tab" data-tab="tab-82fc5e-python">python</button><button class="tab" data-tab="tab-82fc5e-javascript">javascript</button></div><div class="tab-panel active" id="tab-82fc5e-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/toolsets \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9bed9d-curl">curl</button><button class="tab" data-tab="tab-9bed9d-python">python</button><button class="tab" data-tab="tab-9bed9d-javascript">javascript</button></div><div class="tab-panel active" id="tab-9bed9d-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/toolsets \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -408,7 +408,7 @@ could not tell which code it was about to run.</p>
         &quot;command&quot;: [&quot;npx&quot;, &quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/tmp&quot;]
       }
     }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-82fc5e-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-9bed9d-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/toolsets&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -423,7 +423,7 @@ r = httpx.post(
         },
     },
 )
-assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-82fc5e-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets&quot;, {
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-9bed9d-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -438,7 +438,7 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-82f
   })
 })</code></pre></div></div>
 <p><strong>HTTP MCP toolset:</strong></p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-7ede06-curl">curl</button><button class="tab" data-tab="tab-7ede06-python">python</button><button class="tab" data-tab="tab-7ede06-javascript">javascript</button></div><div class="tab-panel active" id="tab-7ede06-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/toolsets \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-bba5db-curl">curl</button><button class="tab" data-tab="tab-bba5db-python">python</button><button class="tab" data-tab="tab-bba5db-javascript">javascript</button></div><div class="tab-panel active" id="tab-bba5db-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/toolsets \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -451,7 +451,7 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-82f
         &quot;headers&quot;: {&quot;Authorization&quot;: &quot;Bearer mcp-token&quot;}
       }
     }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-7ede06-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-bba5db-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/toolsets&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -467,7 +467,7 @@ r = httpx.post(
         },
     },
 )
-assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-7ede06-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets&quot;, {
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-bba5db-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -490,30 +490,30 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-7ed
 </ul>
 <h2 id="get-a-toolset">Get a toolset</h2>
 <p><code>GET /v1/toolsets/{id}</code> - returns <code>200 OK</code> with the toolset object.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d73839-curl">curl</button><button class="tab" data-tab="tab-d73839-python">python</button><button class="tab" data-tab="tab-d73839-javascript">javascript</button></div><div class="tab-panel active" id="tab-d73839-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/toolsets/fs-tools \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-d73839-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b953f8-curl">curl</button><button class="tab" data-tab="tab-b953f8-python">python</button><button class="tab" data-tab="tab-b953f8-javascript">javascript</button></div><div class="tab-panel active" id="tab-b953f8-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/toolsets/fs-tools \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-b953f8-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/toolsets/fs-tools&quot;,
-              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})</code></pre></div><div class="tab-panel" id="tab-d73839-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets/fs-tools&quot;, {
+              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})</code></pre></div><div class="tab-panel" id="tab-b953f8-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets/fs-tools&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <p><strong>Errors:</strong> <code>404</code> if the id does not exist.</p>
 <h2 id="list-toolsets">List toolsets</h2>
 <p><code>GET /v1/toolsets</code> - returns an offset or cursor page of toolset objects.</p>
 <p>Query parameters: <code>limit</code> (1-200, default 20), <code>offset</code> (default 0), <code>cursor</code>, <code>order_by</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9d02af-curl">curl</button><button class="tab" data-tab="tab-9d02af-python">python</button><button class="tab" data-tab="tab-9d02af-javascript">javascript</button></div><div class="tab-panel active" id="tab-9d02af-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/toolsets?limit=50&amp;offset=0&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-9d02af-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b5045c-curl">curl</button><button class="tab" data-tab="tab-b5045c-python">python</button><button class="tab" data-tab="tab-b5045c-javascript">javascript</button></div><div class="tab-panel active" id="tab-b5045c-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/toolsets?limit=50&amp;offset=0&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-b5045c-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/toolsets&quot;,
               headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
               params={&quot;limit&quot;: 50, &quot;offset&quot;: 0})
 page = r.json()
-toolsets = page[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-9d02af-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets?limit=50&amp;offset=0&quot;, {
+toolsets = page[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-b5045c-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets?limit=50&amp;offset=0&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const {items, total, length, offset} = await r.json()</code></pre></div></div>
 <h2 id="replace-a-toolset">Replace a toolset</h2>
 <p><code>PUT /v1/toolsets/{id}</code> - full replacement; returns <code>200 OK</code> with the updated toolset.</p>
 <p>The body uses the same schema as <code>POST</code>. All fields are replaced; omitted optional fields reset to their defaults.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-44a3a5-curl">curl</button><button class="tab" data-tab="tab-44a3a5-python">python</button><button class="tab" data-tab="tab-44a3a5-javascript">javascript</button></div><div class="tab-panel active" id="tab-44a3a5-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/toolsets/fs-tools \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-7b349d-curl">curl</button><button class="tab" data-tab="tab-7b349d-python">python</button><button class="tab" data-tab="tab-7b349d-javascript">javascript</button></div><div class="tab-panel active" id="tab-7b349d-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/toolsets/fs-tools \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -525,7 +525,7 @@ const {items, total, length, offset} = await r.json()</code></pre></div></div>
         &quot;command&quot;: [&quot;npx&quot;, &quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/data&quot;]
       }
     }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-44a3a5-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-7b349d-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.put(
     &quot;https://your-host/v1/toolsets/fs-tools&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -537,7 +537,7 @@ r = httpx.put(
             &quot;config&quot;: {&quot;command&quot;: [&quot;npx&quot;, &quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/data&quot;]},
         },
     },
-)</code></pre></div><div class="tab-panel" id="tab-44a3a5-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/toolsets/fs-tools&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-7b349d-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/toolsets/fs-tools&quot;, {
   method: &quot;PUT&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -552,22 +552,22 @@ r = httpx.put(
 <p><strong>Errors:</strong> <code>404</code> if not found, <code>409</code> if the toolset is managed by a harness.</p>
 <h2 id="delete-a-toolset">Delete a toolset</h2>
 <p><code>DELETE /v1/toolsets/{id}</code> - returns <code>204 No Content</code>. Agents that reference this toolset by scoped tool id are not blocked from existing; their <code>/status</code> endpoint flips to <code>ok=false</code> until the toolset is recreated.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5c4019-curl">curl</button><button class="tab" data-tab="tab-5c4019-python">python</button><button class="tab" data-tab="tab-5c4019-javascript">javascript</button></div><div class="tab-panel active" id="tab-5c4019-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/toolsets/fs-tools \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-5c4019-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-17c127-curl">curl</button><button class="tab" data-tab="tab-17c127-python">python</button><button class="tab" data-tab="tab-17c127-javascript">javascript</button></div><div class="tab-panel active" id="tab-17c127-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/toolsets/fs-tools \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-17c127-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.delete(&quot;https://your-host/v1/toolsets/fs-tools&quot;,
                  headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
-assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-5c4019-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/toolsets/fs-tools&quot;, {
+assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-17c127-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/toolsets/fs-tools&quot;, {
   method: &quot;DELETE&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <h2 id="list-tools-exposed-by-a-toolset">List tools exposed by a toolset</h2>
 <p><code>GET /v1/toolsets/{id}/tools</code> - connects to the live MCP provider and returns the current tool list. Returns <code>200 OK</code> with the tool enumeration.</p>
 <p>For OAuth-protected HTTP toolsets, a <code>401</code> response includes an <code>extensions.auth_url</code> field for the user consent flow.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-3107c1-curl">curl</button><button class="tab" data-tab="tab-3107c1-python">python</button><button class="tab" data-tab="tab-3107c1-javascript">javascript</button></div><div class="tab-panel active" id="tab-3107c1-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/toolsets/fs-tools/tools \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-3107c1-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9ddf75-curl">curl</button><button class="tab" data-tab="tab-9ddf75-python">python</button><button class="tab" data-tab="tab-9ddf75-javascript">javascript</button></div><div class="tab-panel active" id="tab-9ddf75-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/toolsets/fs-tools/tools \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-9ddf75-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/toolsets/fs-tools/tools&quot;,
               headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
-tools = r.json()</code></pre></div><div class="tab-panel" id="tab-3107c1-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets/fs-tools/tools&quot;, {
+tools = r.json()</code></pre></div><div class="tab-panel" id="tab-9ddf75-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets/fs-tools/tools&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const tools = await r.json()</code></pre></div></div>
@@ -648,10 +648,10 @@ invalid source, because there it is a rejected write.)</p>
 <p>On success, each entry in <code>tools</code> carries <code>id</code>, <code>fn_name</code>, <code>yields</code>,
 <code>timeout_seconds</code>, <code>description</code>, <code>args</code>, and <code>lineno</code> (the line of the
 <code>def</code>, so an editor can jump to it).</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-3dd083-curl">curl</button><button class="tab" data-tab="tab-3dd083-python">python</button></div><div class="tab-panel active" id="tab-3dd083-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/toolsets/my-tools/validate \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-8acc44-curl">curl</button><button class="tab" data-tab="tab-8acc44-python">python</button></div><div class="tab-panel active" id="tab-8acc44-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/toolsets/my-tools/validate \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;source&quot;: &quot;@primer_tool()\ndef f(a: str) -&gt; str:\n    \&quot;\&quot;\&quot;Do it.\n\n    Use when you must.\n\n    Args:\n        a: A.\n    \&quot;\&quot;\&quot;\n    return a\n&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-3dd083-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;source&quot;: &quot;@primer_tool()\ndef f(a: str) -&gt; str:\n    \&quot;\&quot;\&quot;Do it.\n\n    Use when you must.\n\n    Args:\n        a: A.\n    \&quot;\&quot;\&quot;\n    return a\n&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-8acc44-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/toolsets/my-tools/validate&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},

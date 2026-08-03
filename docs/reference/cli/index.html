@@ -141,7 +141,7 @@
 <h2 id="top-level">Top-level</h2>
 <p><code>primer</code> is a Typer application. Run <code>--help</code> on any subcommand for
 the full flag list:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c9858e-bash">bash</button></div><div class="tab-panel active" id="tab-c9858e-bash"><pre class="md-pre lang-bash"><code>primer --help
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d8e793-bash">bash</button></div><div class="tab-panel active" id="tab-d8e793-bash"><pre class="md-pre lang-bash"><code>primer --help
 # Primer microagents framework: API + worker entrypoints.
 #
 # commands:
@@ -152,7 +152,7 @@ the full flag list:</p>
 <p>Starts the FastAPI HTTP server via uvicorn. By default it also starts
 an in-process worker pool (<code>runtime_mode=api+worker</code>). Pass
 <code>--no-worker</code> to split API and worker into separate processes.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-59f77c-bash">bash</button></div><div class="tab-panel active" id="tab-59f77c-bash"><pre class="md-pre lang-bash"><code># Default: API + worker in one process, auto-loads ~/.primer/config.yaml
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d16f0f-bash">bash</button></div><div class="tab-panel active" id="tab-d16f0f-bash"><pre class="md-pre lang-bash"><code># Default: API + worker in one process, auto-loads ~/.primer/config.yaml
 primer api
 
 # Explicit config file.
@@ -200,7 +200,7 @@ workers becomes independent of scaling HTTP capacity.</p>
 <p>Runs only the worker pool. A minimal HTTP surface (<code>/v1/health</code> and
 <code>/v1/workers</code>) is still served for liveness/readiness probes. Pairs
 with a <code>primer api --no-worker</code> process.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-fe9060-bash">bash</button></div><div class="tab-panel active" id="tab-fe9060-bash"><pre class="md-pre lang-bash"><code># Default: auto-loads ~/.primer/config.yaml
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e1eed6-bash">bash</button></div><div class="tab-panel active" id="tab-e1eed6-bash"><pre class="md-pre lang-bash"><code># Default: auto-loads ~/.primer/config.yaml
 primer worker
 
 # Explicit config.
@@ -229,7 +229,7 @@ primer worker -c /etc/primer/config.yaml</code></pre></div></div>
 <p>Runs first-time bootstrap. Idempotent: rows that already exist are
 skipped. Pass <code>--force</code> to re-run the bootstrap even when the
 completion marker is already set (useful for partially-failed runs).</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-789dd1-bash">bash</button></div><div class="tab-panel active" id="tab-789dd1-bash"><pre class="md-pre lang-bash"><code># Idempotent bootstrap against default config.
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d9ff84-bash">bash</button></div><div class="tab-panel active" id="tab-d9ff84-bash"><pre class="md-pre lang-bash"><code># Idempotent bootstrap against default config.
 primer init
 
 # Explicit config file.

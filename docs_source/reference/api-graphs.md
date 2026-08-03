@@ -59,6 +59,7 @@ Build and run graphs in the console.
 | `nodes` | yes | GraphNode[] | At least one node; must include exactly one `begin` and at least one `end` |
 | `edges` | no | GraphEdge[] | Static or conditional edges; default empty list |
 | `max_iterations` | no | integer or null | Hard cap on supersteps. Required for cyclic graphs to prevent unbounded loops |
+| `on_max_iterations` | no | string or null | Optional node id. On hitting the `max_iterations` cap, the executor routes once to this node to finalize gracefully instead of ending with `ended_detail=max_iterations_exceeded`. Null preserves the hard-fail |
 | `harness_id` | no | string or null | Set by harness management; mutation via CRUD returns 409 when set |
 
 ## Node kinds
@@ -109,7 +110,7 @@ Build and run graphs in the console.
 
 Every node that takes input builds it by rendering a **Jinja2 template** against the graph's accumulated state. This applies to an `agent`/`graph` node's `input_template`, an `end` node's `output_template`, a `fan_in` node's `aggregate_template`, and each string value inside a `tool_call` node's `arguments` (or its `arguments_template`).
 
-The renderer is sandboxed and uses `StrictUndefined`: a reference to a missing variable or attribute raises a render error (returned as `400`), it does not silently produce an empty string. Guard optional fields with the `default` filter, e.g. `{{ initial_input.note | default('') }}`.
+The renderer is sandboxed and uses `StrictUndefined`: a reference to a missing variable or attribute raises a render error (returned as `400`), it does not silently produce an empty string. Guard optional fields with the `default` filter, e.g. `{{ initial_input.note | default('') }}`. Two graph-specific filters are also available: `fromjson` parses a node's raw JSON `text` into indexable data, and `strip_fences` unwraps a markdown code fence around generated code (see Templating for details).
 
 Templates see exactly three top-level variables, available to **every** node:
 

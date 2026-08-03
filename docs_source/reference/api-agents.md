@@ -41,6 +41,7 @@ Create one in the console.
   "compaction_prompt": ["Preserve open tasks and the current file under edit."],
   "tools": ["system__list_files", "system__read_file"],
   "temperature": null,
+  "max_output_tokens": null,
   "harness_id": null
 }
 ```
@@ -54,6 +55,7 @@ Create one in the console.
 | `compaction_prompt` | no | string[] | Instructions for conversation compaction. Empty list falls back to the runtime default |
 | `tools` | no | string[] | Scoped tool ids in the form `<toolset_id>__<tool_name>`. Empty list means no tools |
 | `temperature` | no | number or null | Sampling temperature (>= 0.0). `null` defers to the adapter default |
+| `max_output_tokens` | no | integer or null | Integer >= 1 or null. Hard cap on tokens generated per turn. `null` defers to the model default |
 | `harness_id` | no | string or null | Set by harness management; mutation via CRUD returns 409 when set |
 
 **AgentModel fields:**
@@ -77,7 +79,8 @@ curl -X POST https://your-host/v1/agents \
     "description": "A coding assistant with file access.",
     "model": {"provider_id": "anthropic-prod", "model_name": "claude-sonnet-4-6"},
     "system_prompt": ["You are a senior software engineer.", "Be concise."],
-    "tools": ["system__list_files", "system__read_file"]
+    "tools": ["system__list_files", "system__read_file"],
+    "max_output_tokens": 2048
   }'
 --- python
 import httpx
@@ -90,6 +93,7 @@ r = httpx.post(
         "model": {"provider_id": "anthropic-prod", "model_name": "claude-sonnet-4-6"},
         "system_prompt": ["You are a senior software engineer.", "Be concise."],
         "tools": ["system__list_files", "system__read_file"],
+        "max_output_tokens": 2048,
     },
 )
 assert r.status_code == 201
@@ -102,7 +106,8 @@ const r = await fetch("/v1/agents", {
     description: "A coding assistant with file access.",
     model: {provider_id: "anthropic-prod", model_name: "claude-sonnet-4-6"},
     system_prompt: ["You are a senior software engineer.", "Be concise."],
-    tools: ["system__list_files", "system__read_file"]
+    tools: ["system__list_files", "system__read_file"],
+    max_output_tokens: 2048
   })
 })
 ```
