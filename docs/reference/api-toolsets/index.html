@@ -196,6 +196,16 @@
 <td><code>/v1/toolsets/{id}/invalidate</code></td>
 <td>Invalidate the cached toolset provider</td>
 </tr>
+<tr>
+<td>GET</td>
+<td><code>/v1/toolsets/{id}/runtime</code></td>
+<td>Isolation level and derived tools (python toolsets)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/v1/toolsets/{id}/validate</code></td>
+<td>Dry-run: what candidate source would register (python toolsets)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="toolset-object">Toolset object</h2>
@@ -232,13 +242,13 @@
 <td><code>provider</code></td>
 <td>yes</td>
 <td>string</td>
-<td><code>&quot;internal&quot;</code> or <code>&quot;mcp&quot;</code></td>
+<td><code>&quot;internal&quot;</code>, <code>&quot;mcp&quot;</code>, or <code>&quot;python&quot;</code></td>
 </tr>
 <tr>
 <td><code>config</code></td>
 <td>conditional</td>
-<td>McpConfig or null</td>
-<td>Required when <code>provider</code> is <code>&quot;mcp&quot;</code>. Must be omitted for <code>&quot;internal&quot;</code></td>
+<td>McpConfig, PythonConfig, or null</td>
+<td>Required when <code>provider</code> is <code>&quot;mcp&quot;</code> (McpConfig) or <code>&quot;python&quot;</code> (PythonConfig). Must be omitted for <code>&quot;internal&quot;</code></td>
 </tr>
 <tr>
 <td><code>harness_id</code></td>
@@ -319,13 +329,74 @@
 </tr>
 </tbody>
 </table>
+<p><strong>PythonConfig fields</strong> (when <code>provider</code> is <code>&quot;python&quot;</code>):</p>
+<p>The whole toolset is one python module. Every function in it decorated with
+<code>@primer_tool</code> becomes a tool.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>source</code></td>
+<td>yes</td>
+<td>string</td>
+<td>The module source. Not a secret; returned in full on read</td>
+</tr>
+<tr>
+<td><code>source_version</code></td>
+<td>yes</td>
+<td>integer &gt;= 1</td>
+<td>Bumped whenever the source changes. <strong>Server-owned</strong>: see below</td>
+</tr>
+<tr>
+<td><code>default_timeout_seconds</code></td>
+<td>no</td>
+<td>number</td>
+<td>Wall-clock ceiling for a tool that does not declare its own. Default <code>30</code>, must be <code>&gt; 0</code> and <code>&lt;= 300</code></td>
+</tr>
+<tr>
+<td><code>env</code></td>
+<td>no</td>
+<td>object</td>
+<td>Environment variables for the runner process. <strong>Masked on every read path</strong>, like the MCP stdio env</td>
+</tr>
+<tr>
+<td><code>image</code></td>
+<td>no</td>
+<td>string or null</td>
+<td>Container image for the runner on container and Kubernetes backends. Ignored by the local runner, which is stdlib-only by construction</td>
+</tr>
+<tr>
+<td><code>allow_network</code></td>
+<td>no</td>
+<td>boolean</td>
+<td>Permit outbound sockets from the tool. Default <code>false</code>. Enforceable only above the <code>rlimit-only</code> isolation level</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p><code>allow_network: false</code> is only enforced where the deployment can enforce it. At the <code>rlimit-only</code> isolation level there is no syscall filter, so the flag records intent but does not block egress. Check <code>GET /v1/toolsets/{id}/runtime</code> for the level actually in force before relying on it.</p>
+</div></div>
+<h3 id="source_version-is-owned-by-the-server"><code>source_version</code> is owned by the server</h3>
+<p>You send a <code>source_version</code>, but it is advisory: the server decides the
+stored value. If the submitted <code>source</code> matches what is stored, the version
+is left alone; if it differs, the server increments.</p>
+<p>This exists because a parked run stamps the version it parked at, and refuses
+to resume against a different one. If clients owned the number, two operators
+editing concurrently would both send the version they read, and a resume
+could not tell which code it was about to run.</p>
 <h2 id="stdio-allowlist">Stdio allowlist</h2>
 <p>For <code>transport: stdio</code>, the MCP provider checks <code>command[0]</code> against a server-configured allowlist at the point of first use (not at row create). A command not in the allowlist causes <code>GET /v1/toolsets/{id}/tools</code> to return <code>503 /errors/service-unavailable</code> with a detail message naming the rejected command. The allowlist is set by the operator via <code>PRIMER_MCP_STDIO_ALLOWED_COMMANDS</code>; when it is left unset (the default), the check is disabled and any command is permitted.</p>
 <p>The POST succeeds regardless; the rejection is enforced lazily when the MCP session is first opened.</p>
 <h2 id="create-a-toolset">Create a toolset</h2>
 <p><code>POST /v1/toolsets</code> - returns <code>201 Created</code>.</p>
 <p><strong>Stdio MCP toolset:</strong></p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e466fb-curl">curl</button><button class="tab" data-tab="tab-e466fb-python">python</button><button class="tab" data-tab="tab-e466fb-javascript">javascript</button></div><div class="tab-panel active" id="tab-e466fb-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/toolsets \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f0c401-curl">curl</button><button class="tab" data-tab="tab-f0c401-python">python</button><button class="tab" data-tab="tab-f0c401-javascript">javascript</button></div><div class="tab-panel active" id="tab-f0c401-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/toolsets \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -337,7 +408,7 @@
         &quot;command&quot;: [&quot;npx&quot;, &quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/tmp&quot;]
       }
     }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-e466fb-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-f0c401-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/toolsets&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -352,7 +423,7 @@ r = httpx.post(
         },
     },
 )
-assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-e466fb-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets&quot;, {
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-f0c401-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -367,7 +438,7 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-e46
   })
 })</code></pre></div></div>
 <p><strong>HTTP MCP toolset:</strong></p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-010c12-curl">curl</button><button class="tab" data-tab="tab-010c12-python">python</button><button class="tab" data-tab="tab-010c12-javascript">javascript</button></div><div class="tab-panel active" id="tab-010c12-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/toolsets \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-bdfbd8-curl">curl</button><button class="tab" data-tab="tab-bdfbd8-python">python</button><button class="tab" data-tab="tab-bdfbd8-javascript">javascript</button></div><div class="tab-panel active" id="tab-bdfbd8-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/toolsets \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -380,7 +451,7 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-e46
         &quot;headers&quot;: {&quot;Authorization&quot;: &quot;Bearer mcp-token&quot;}
       }
     }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-010c12-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-bdfbd8-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/toolsets&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -396,7 +467,7 @@ r = httpx.post(
         },
     },
 )
-assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-010c12-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets&quot;, {
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-bdfbd8-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -419,30 +490,30 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-010
 </ul>
 <h2 id="get-a-toolset">Get a toolset</h2>
 <p><code>GET /v1/toolsets/{id}</code> - returns <code>200 OK</code> with the toolset object.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-16e1d8-curl">curl</button><button class="tab" data-tab="tab-16e1d8-python">python</button><button class="tab" data-tab="tab-16e1d8-javascript">javascript</button></div><div class="tab-panel active" id="tab-16e1d8-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/toolsets/fs-tools \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-16e1d8-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9bff6b-curl">curl</button><button class="tab" data-tab="tab-9bff6b-python">python</button><button class="tab" data-tab="tab-9bff6b-javascript">javascript</button></div><div class="tab-panel active" id="tab-9bff6b-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/toolsets/fs-tools \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-9bff6b-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/toolsets/fs-tools&quot;,
-              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})</code></pre></div><div class="tab-panel" id="tab-16e1d8-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets/fs-tools&quot;, {
+              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})</code></pre></div><div class="tab-panel" id="tab-9bff6b-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets/fs-tools&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <p><strong>Errors:</strong> <code>404</code> if the id does not exist.</p>
 <h2 id="list-toolsets">List toolsets</h2>
 <p><code>GET /v1/toolsets</code> - returns an offset or cursor page of toolset objects.</p>
 <p>Query parameters: <code>limit</code> (1-200, default 20), <code>offset</code> (default 0), <code>cursor</code>, <code>order_by</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-123579-curl">curl</button><button class="tab" data-tab="tab-123579-python">python</button><button class="tab" data-tab="tab-123579-javascript">javascript</button></div><div class="tab-panel active" id="tab-123579-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/toolsets?limit=50&amp;offset=0&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-123579-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-10e12f-curl">curl</button><button class="tab" data-tab="tab-10e12f-python">python</button><button class="tab" data-tab="tab-10e12f-javascript">javascript</button></div><div class="tab-panel active" id="tab-10e12f-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/toolsets?limit=50&amp;offset=0&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-10e12f-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/toolsets&quot;,
               headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
               params={&quot;limit&quot;: 50, &quot;offset&quot;: 0})
 page = r.json()
-toolsets = page[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-123579-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets?limit=50&amp;offset=0&quot;, {
+toolsets = page[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-10e12f-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets?limit=50&amp;offset=0&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const {items, total, length, offset} = await r.json()</code></pre></div></div>
 <h2 id="replace-a-toolset">Replace a toolset</h2>
 <p><code>PUT /v1/toolsets/{id}</code> - full replacement; returns <code>200 OK</code> with the updated toolset.</p>
 <p>The body uses the same schema as <code>POST</code>. All fields are replaced; omitted optional fields reset to their defaults.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-657a6e-curl">curl</button><button class="tab" data-tab="tab-657a6e-python">python</button><button class="tab" data-tab="tab-657a6e-javascript">javascript</button></div><div class="tab-panel active" id="tab-657a6e-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/toolsets/fs-tools \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d3b144-curl">curl</button><button class="tab" data-tab="tab-d3b144-python">python</button><button class="tab" data-tab="tab-d3b144-javascript">javascript</button></div><div class="tab-panel active" id="tab-d3b144-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/toolsets/fs-tools \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -454,7 +525,7 @@ const {items, total, length, offset} = await r.json()</code></pre></div></div>
         &quot;command&quot;: [&quot;npx&quot;, &quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/data&quot;]
       }
     }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-657a6e-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-d3b144-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.put(
     &quot;https://your-host/v1/toolsets/fs-tools&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -466,7 +537,7 @@ r = httpx.put(
             &quot;config&quot;: {&quot;command&quot;: [&quot;npx&quot;, &quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/data&quot;]},
         },
     },
-)</code></pre></div><div class="tab-panel" id="tab-657a6e-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/toolsets/fs-tools&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-d3b144-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/toolsets/fs-tools&quot;, {
   method: &quot;PUT&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -481,22 +552,22 @@ r = httpx.put(
 <p><strong>Errors:</strong> <code>404</code> if not found, <code>409</code> if the toolset is managed by a harness.</p>
 <h2 id="delete-a-toolset">Delete a toolset</h2>
 <p><code>DELETE /v1/toolsets/{id}</code> - returns <code>204 No Content</code>. Agents that reference this toolset by scoped tool id are not blocked from existing; their <code>/status</code> endpoint flips to <code>ok=false</code> until the toolset is recreated.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b4e77c-curl">curl</button><button class="tab" data-tab="tab-b4e77c-python">python</button><button class="tab" data-tab="tab-b4e77c-javascript">javascript</button></div><div class="tab-panel active" id="tab-b4e77c-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/toolsets/fs-tools \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-b4e77c-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-062265-curl">curl</button><button class="tab" data-tab="tab-062265-python">python</button><button class="tab" data-tab="tab-062265-javascript">javascript</button></div><div class="tab-panel active" id="tab-062265-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/toolsets/fs-tools \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-062265-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.delete(&quot;https://your-host/v1/toolsets/fs-tools&quot;,
                  headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
-assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-b4e77c-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/toolsets/fs-tools&quot;, {
+assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-062265-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/toolsets/fs-tools&quot;, {
   method: &quot;DELETE&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <h2 id="list-tools-exposed-by-a-toolset">List tools exposed by a toolset</h2>
 <p><code>GET /v1/toolsets/{id}/tools</code> - connects to the live MCP provider and returns the current tool list. Returns <code>200 OK</code> with the tool enumeration.</p>
 <p>For OAuth-protected HTTP toolsets, a <code>401</code> response includes an <code>extensions.auth_url</code> field for the user consent flow.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-324fbe-curl">curl</button><button class="tab" data-tab="tab-324fbe-python">python</button><button class="tab" data-tab="tab-324fbe-javascript">javascript</button></div><div class="tab-panel active" id="tab-324fbe-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/toolsets/fs-tools/tools \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-324fbe-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-3b635b-curl">curl</button><button class="tab" data-tab="tab-3b635b-python">python</button><button class="tab" data-tab="tab-3b635b-javascript">javascript</button></div><div class="tab-panel active" id="tab-3b635b-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/toolsets/fs-tools/tools \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-3b635b-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/toolsets/fs-tools/tools&quot;,
               headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
-tools = r.json()</code></pre></div><div class="tab-panel" id="tab-324fbe-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets/fs-tools/tools&quot;, {
+tools = r.json()</code></pre></div><div class="tab-panel" id="tab-3b635b-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/toolsets/fs-tools/tools&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const tools = await r.json()</code></pre></div></div>
@@ -508,6 +579,107 @@ const tools = await r.json()</code></pre></div></div>
 <li><code>502</code> - the MCP server returned an error</li>
 <li><code>504</code> - network timeout reaching the MCP server</li>
 </ul>
+<h2 id="runtime-facts-about-a-python-toolset">Runtime facts about a python toolset</h2>
+<p><code>GET /v1/toolsets/{id}/runtime</code> - what the toolset actually is on this
+deployment: the isolation level being enforced, the tools its source
+produced, and any registration failure.</p>
+<pre><code class="language-json">{
+  &quot;toolset_id&quot;: &quot;my-tools&quot;,
+  &quot;isolation_level&quot;: &quot;seccomp&quot;,
+  &quot;tools&quot;: [
+    {
+      &quot;id&quot;: &quot;greet&quot;,
+      &quot;toolset_id&quot;: &quot;my-tools&quot;,
+      &quot;description&quot;: &quot;Greet a person by name.\n\nUse when you need a friendly greeting.&quot;,
+      &quot;schema&quot;: {&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {&quot;name&quot;: {&quot;type&quot;: &quot;string&quot;}}}
+    }
+  ],
+  &quot;registration_error&quot;: null
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>isolation_level</code></td>
+<td><code>&quot;container&quot;</code>, <code>&quot;seccomp&quot;</code>, <code>&quot;sandbox-exec&quot;</code>, or <code>&quot;rlimit-only&quot;</code>. What this deployment ENFORCES, not what the strongest backend could</td>
+</tr>
+<tr>
+<td><code>tools</code></td>
+<td>The tools the stored source registered, serialised as <code>Tool</code>: <code>id</code>, <code>toolset_id</code>, <code>description</code>, <code>schema</code>. Empty when registration failed</td>
+</tr>
+<tr>
+<td><code>registration_error</code></td>
+<td><code>null</code>, or <code>{message, field, lineno}</code> naming what stopped it</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-info"><div class="callout-title">info</div><div class="callout-body"><p>The <code>tools</code> here are the serialised <code>Tool</code> objects, so they carry the argument schema but not the python-specific facts. If you want to know which tools yield, which line each is defined on, or their per-tool timeouts, use <code>POST /v1/toolsets/{id}/validate</code> with the stored source: it reports those.</p>
+</div></div>
+<p><code>isolation_level</code> is deliberately specific rather than a generic &quot;sandboxed&quot;
+flag. <code>rlimit-only</code> bounds CPU and memory but stops neither filesystem reads
+nor egress, and an operator deciding whether to trust a tool needs to know
+which of the four they are on.</p>
+<h2 id="validate-candidate-source">Validate candidate source</h2>
+<p><code>POST /v1/toolsets/{id}/validate</code> - run the registrar against source you have
+not saved, and get back what it would register or why it would not.</p>
+<pre><code class="language-json">{&quot;source&quot;: &quot;@primer_tool()\ndef greet(name: str) -&gt; str:\n    ...&quot;}
+</code></pre>
+<p><strong>Always returns <code>200</code></strong>, including for source that cannot register. A
+half-written function is the normal state of an editor, so an invalid module
+is an expected answer here rather than a protocol error. Use <code>ok</code> to tell
+them apart. (<code>POST</code> and <code>PUT</code> on the toolset itself still return <code>422</code> for
+invalid source, because there it is a rejected write.)</p>
+<pre><code class="language-json">{
+  &quot;ok&quot;: false,
+  &quot;tools&quot;: [],
+  &quot;error&quot;: {
+    &quot;message&quot;: &quot;greet: parameter 'name' is not documented&quot;,
+    &quot;field&quot;: &quot;name&quot;,
+    &quot;lineno&quot;: 4
+  }
+}
+</code></pre>
+<p>On success, each entry in <code>tools</code> carries <code>id</code>, <code>fn_name</code>, <code>yields</code>,
+<code>timeout_seconds</code>, <code>description</code>, <code>args</code>, and <code>lineno</code> (the line of the
+<code>def</code>, so an editor can jump to it).</p>
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-8b8553-curl">curl</button><button class="tab" data-tab="tab-8b8553-python">python</button></div><div class="tab-panel active" id="tab-8b8553-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/toolsets/my-tools/validate \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;source&quot;: &quot;@primer_tool()\ndef f(a: str) -&gt; str:\n    \&quot;\&quot;\&quot;Do it.\n\n    Use when you must.\n\n    Args:\n        a: A.\n    \&quot;\&quot;\&quot;\n    return a\n&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-8b8553-python"><pre class="md-pre lang-python"><code>import httpx
+r = httpx.post(
+    &quot;https://your-host/v1/toolsets/my-tools/validate&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={&quot;source&quot;: source},
+)
+verdict = r.json()
+if not verdict[&quot;ok&quot;]:
+    print(verdict[&quot;error&quot;][&quot;message&quot;], &quot;on line&quot;, verdict[&quot;error&quot;][&quot;lineno&quot;])</code></pre></div></div>
+<p>Nothing is persisted, and the module is never executed: the registrar reads
+the source structurally, which is the same property that lets the save path
+validate untrusted source safely.</p>
+<h2 id="invalid-python-source">Invalid python source</h2>
+<p>Both <code>POST /v1/toolsets</code> and <code>PUT /v1/toolsets/{id}</code> validate the source
+before storing it, and reject a module that cannot register:</p>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;/errors/unprocessable-entity&quot;,
+  &quot;status&quot;: 422,
+  &quot;extensions&quot;: {
+    &quot;error&quot;: &quot;invalid_python_toolset&quot;,
+    &quot;message&quot;: &quot;greet: parameter 'name' is not documented&quot;,
+    &quot;field&quot;: &quot;name&quot;,
+    &quot;lineno&quot;: 4
+  }
+}
+</code></pre>
+<p><code>field</code> and <code>lineno</code> are in <code>extensions</code>, not in <code>detail</code>. A client rendering
+this next to an editor should read the raw envelope: <code>detail</code> carries a
+generic status title.</p>
 <h2 id="errors-note">Errors note</h2>
 <p>All error responses use the RFC 7807 <code>ProblemDetails</code> envelope with <code>type</code>, <code>title</code>, <code>status</code>, <code>detail</code>, <code>instance</code>, and <code>extensions</code> (which includes <code>request_id</code> and, for 422 errors, an <code>errors</code> array with field paths). See the REST API overview for details.</p>
 </article>
