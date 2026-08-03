@@ -209,17 +209,17 @@
 </tr>
 </tbody>
 </table>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-53c275-curl">curl</button><button class="tab" data-tab="tab-53c275-python">python</button><button class="tab" data-tab="tab-53c275-javascript">javascript</button></div><div class="tab-panel active" id="tab-53c275-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://primer.example/v1/chats \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-460f77-curl">curl</button><button class="tab" data-tab="tab-460f77-python">python</button><button class="tab" data-tab="tab-460f77-javascript">javascript</button></div><div class="tab-panel active" id="tab-460f77-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://primer.example/v1/chats \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;agent_id&quot;: &quot;agent-assistant&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-53c275-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;agent_id&quot;: &quot;agent-assistant&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-460f77-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/chats&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     json={&quot;agent_id&quot;: &quot;agent-assistant&quot;},
 )
 r.raise_for_status()
-chat = r.json()</code></pre></div><div class="tab-panel" id="tab-53c275-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/chats&quot;, {
+chat = r.json()</code></pre></div><div class="tab-panel" id="tab-460f77-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/chats&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -302,17 +302,17 @@ already bound to is an idempotent no-op that returns the unchanged chat.</p>
 </tr>
 </tbody>
 </table>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ea4337-curl">curl</button><button class="tab" data-tab="tab-ea4337-python">python</button><button class="tab" data-tab="tab-ea4337-javascript">javascript</button></div><div class="tab-panel active" id="tab-ea4337-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://primer.example/v1/chats/chat-abc123/agent \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ca064a-curl">curl</button><button class="tab" data-tab="tab-ca064a-python">python</button><button class="tab" data-tab="tab-ca064a-javascript">javascript</button></div><div class="tab-panel active" id="tab-ca064a-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://primer.example/v1/chats/chat-abc123/agent \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;agent_id&quot;: &quot;agent-researcher&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-ea4337-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;agent_id&quot;: &quot;agent-researcher&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-ca064a-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/chats/chat-abc123/agent&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     json={&quot;agent_id&quot;: &quot;agent-researcher&quot;},
 )
 r.raise_for_status()
-chat = r.json()</code></pre></div><div class="tab-panel" id="tab-ea4337-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/chats/chat-abc123/agent&quot;, {
+chat = r.json()</code></pre></div><div class="tab-panel" id="tab-ca064a-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/chats/chat-abc123/agent&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -360,15 +360,15 @@ ended, <code>422</code> missing or empty <code>agent_id</code>.</p>
 </tr>
 </tbody>
 </table>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-1ddaac-curl">curl</button><button class="tab" data-tab="tab-1ddaac-python">python</button><button class="tab" data-tab="tab-1ddaac-javascript">javascript</button></div><div class="tab-panel active" id="tab-1ddaac-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://primer.example/v1/chats?agent_id=agent-assistant&amp;limit=20&amp;offset=0&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-1ddaac-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5053ad-curl">curl</button><button class="tab" data-tab="tab-5053ad-python">python</button><button class="tab" data-tab="tab-5053ad-javascript">javascript</button></div><div class="tab-panel active" id="tab-5053ad-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://primer.example/v1/chats?agent_id=agent-assistant&amp;limit=20&amp;offset=0&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-5053ad-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://primer.example/v1/chats&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     params={&quot;agent_id&quot;: &quot;agent-assistant&quot;, &quot;limit&quot;: 20, &quot;offset&quot;: 0},
 )
 r.raise_for_status()
-page = r.json()</code></pre></div><div class="tab-panel" id="tab-1ddaac-javascript"><pre class="md-pre lang-javascript"><code>const params = new URLSearchParams({
+page = r.json()</code></pre></div><div class="tab-panel" id="tab-5053ad-javascript"><pre class="md-pre lang-javascript"><code>const params = new URLSearchParams({
   agent_id: &quot;agent-assistant&quot;, limit: 20, offset: 0,
 });
 const r = await fetch(`/v1/chats?${params}`, {
@@ -379,14 +379,14 @@ const page = await r.json();</code></pre></div></div>
 <hr />
 <h2 id="get-v1chatschat_id">GET /v1/chats/{chat_id}</h2>
 <p>Returns a single chat by id.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9b39ed-curl">curl</button><button class="tab" data-tab="tab-9b39ed-python">python</button><button class="tab" data-tab="tab-9b39ed-javascript">javascript</button></div><div class="tab-panel active" id="tab-9b39ed-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://primer.example/v1/chats/chat-abc123&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-9b39ed-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-efee52-curl">curl</button><button class="tab" data-tab="tab-efee52-python">python</button><button class="tab" data-tab="tab-efee52-javascript">javascript</button></div><div class="tab-panel active" id="tab-efee52-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://primer.example/v1/chats/chat-abc123&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-efee52-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://primer.example/v1/chats/chat-abc123&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
 r.raise_for_status()
-chat = r.json()</code></pre></div><div class="tab-panel" id="tab-9b39ed-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/chats/chat-abc123&quot;, {
+chat = r.json()</code></pre></div><div class="tab-panel" id="tab-efee52-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/chats/chat-abc123&quot;, {
   headers: { &quot;Authorization&quot;: `Bearer ${token}` },
 });
 const chat = await r.json();</code></pre></div></div>
@@ -435,15 +435,15 @@ const chat = await r.json();</code></pre></div></div>
 </tr>
 </tbody>
 </table>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-434cec-curl">curl</button><button class="tab" data-tab="tab-434cec-python">python</button><button class="tab" data-tab="tab-434cec-javascript">javascript</button></div><div class="tab-panel active" id="tab-434cec-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://primer.example/v1/chats/chat-abc123/messages?after_seq=0&amp;limit=50&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-434cec-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e48a87-curl">curl</button><button class="tab" data-tab="tab-e48a87-python">python</button><button class="tab" data-tab="tab-e48a87-javascript">javascript</button></div><div class="tab-panel active" id="tab-e48a87-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://primer.example/v1/chats/chat-abc123/messages?after_seq=0&amp;limit=50&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-e48a87-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://primer.example/v1/chats/chat-abc123/messages&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     params={&quot;after_seq&quot;: 0, &quot;limit&quot;: 50},
 )
 r.raise_for_status()
-page = r.json()</code></pre></div><div class="tab-panel" id="tab-434cec-javascript"><pre class="md-pre lang-javascript"><code>const params = new URLSearchParams({ after_seq: 0, limit: 50 });
+page = r.json()</code></pre></div><div class="tab-panel" id="tab-e48a87-javascript"><pre class="md-pre lang-javascript"><code>const params = new URLSearchParams({ after_seq: 0, limit: 50 });
 const r = await fetch(`/v1/chats/chat-abc123/messages?${params}`, {
   headers: { &quot;Authorization&quot;: `Bearer ${token}` },
 });
@@ -472,9 +472,9 @@ const page = await r.json();</code></pre></div></div>
 <p>Authentication uses the same bearer token or session cookie as the REST surface. Pass it via a query param or a first-frame protocol message depending on your WebSocket client.</p>
 <p>The server emits JSON frames per message. On reconnect, supply the highest <code>seq</code> you received as <code>?cursor=&lt;seq&gt;</code> to avoid replaying already-seen messages.</p>
 <p><strong>Example connection (pseudocode)</strong></p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-490d3d-curl">curl</button><button class="tab" data-tab="tab-490d3d-python">python</button><button class="tab" data-tab="tab-490d3d-javascript">javascript</button></div><div class="tab-panel active" id="tab-490d3d-curl"><pre class="md-pre lang-curl"><code># wscat (npm i -g wscat):
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-187b96-curl">curl</button><button class="tab" data-tab="tab-187b96-python">python</button><button class="tab" data-tab="tab-187b96-javascript">javascript</button></div><div class="tab-panel active" id="tab-187b96-curl"><pre class="md-pre lang-curl"><code># wscat (npm i -g wscat):
 wscat -c &quot;wss://primer.example/v1/chats/chat-abc123/ws?cursor=0&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-490d3d-python"><pre class="md-pre lang-python"><code>import asyncio
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-187b96-python"><pre class="md-pre lang-python"><code>import asyncio
 import httpx
 import websockets
 
@@ -486,7 +486,7 @@ async def stream():
         async for frame in ws:
             print(frame)
 
-asyncio.run(stream())</code></pre></div><div class="tab-panel" id="tab-490d3d-javascript"><pre class="md-pre lang-javascript"><code>const ws = new WebSocket(
+asyncio.run(stream())</code></pre></div><div class="tab-panel" id="tab-187b96-javascript"><pre class="md-pre lang-javascript"><code>const ws = new WebSocket(
   &quot;/v1/chats/chat-abc123/ws?cursor=0&quot;,
 );
 ws.addEventListener(&quot;message&quot;, (evt) =&gt; {
@@ -496,16 +496,16 @@ ws.addEventListener(&quot;message&quot;, (evt) =&gt; {
 <hr />
 <h2 id="error-envelopes">Error envelopes</h2>
 <p>All error responses use RFC 7807 problem details:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-defe6d-curl">curl</button><button class="tab" data-tab="tab-defe6d-python">python</button><button class="tab" data-tab="tab-defe6d-javascript">javascript</button></div><div class="tab-panel active" id="tab-defe6d-curl"><pre class="md-pre lang-curl"><code># Example 404 response body:
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-3cc74f-curl">curl</button><button class="tab" data-tab="tab-3cc74f-python">python</button><button class="tab" data-tab="tab-3cc74f-javascript">javascript</button></div><div class="tab-panel active" id="tab-3cc74f-curl"><pre class="md-pre lang-curl"><code># Example 404 response body:
 # {
 #   &quot;type&quot;: &quot;/errors/not-found&quot;,
 #   &quot;title&quot;: &quot;Not Found&quot;,
 #   &quot;status&quot;: 404,
 #   &quot;detail&quot;: &quot;chat not found&quot;
-# }</code></pre></div><div class="tab-panel" id="tab-defe6d-python"><pre class="md-pre lang-python"><code># Inspect r.json()[&quot;type&quot;] after a non-2xx response:
+# }</code></pre></div><div class="tab-panel" id="tab-3cc74f-python"><pre class="md-pre lang-python"><code># Inspect r.json()[&quot;type&quot;] after a non-2xx response:
 # &quot;/errors/not-found&quot;        : chat or agent does not exist
 # &quot;/errors/conflict&quot;         : illegal state transition (e.g. DELETE on ended chat)
-# &quot;/errors/validation-error&quot; : missing required field (e.g. no agent_id)</code></pre></div><div class="tab-panel" id="tab-defe6d-javascript"><pre class="md-pre lang-javascript"><code>// On error, r.ok === false and r.json() returns:
+# &quot;/errors/validation-error&quot; : missing required field (e.g. no agent_id)</code></pre></div><div class="tab-panel" id="tab-3cc74f-javascript"><pre class="md-pre lang-javascript"><code>// On error, r.ok === false and r.json() returns:
 // { type: &quot;/errors/not-found&quot;, title: &quot;...&quot;, status: 404, detail: &quot;...&quot; }
 // Common types: /errors/not-found, /errors/conflict, /errors/validation-error</code></pre></div></div>
 </article>
