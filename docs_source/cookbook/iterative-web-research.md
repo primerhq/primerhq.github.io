@@ -126,11 +126,11 @@ In the console:
    click **Import spec**, paste the JSON from the manifest's `spec` (the
    `nodes`, `edges`, and `max_iterations`), and click **Load into editor**. Then
    click **Save**.
-3. Or build it node by node with **Add node**: a **Begin** (set its
+3. Or build it step by step with **+ Add a step**: a start (set its
    `input_schema` with a `topic` field), three **Agent** nodes (pick
    `web-researcher` / `fact-extractor` / `research-judge` and set each
    `input_template`; on the judge set its `response_format`), and an **End** (set
-   the `output_template`). Use **Add edge** in **Static** mode to wire
+   the `output_template`). Use **Connect steps** to wire
    `start -> researcher`, `researcher -> extractor`, and `extractor -> judge`,
    then add one **Conditional** edge from `judge` with a `json_path` router whose
    branches send `accept -> done` and `revise -> researcher`. Click **Save**.

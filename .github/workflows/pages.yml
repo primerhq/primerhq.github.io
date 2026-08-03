@@ -28,7 +28,14 @@ jobs:
         with:
           python-version: "3.13"
       - name: Install build dependencies
-        run: pip install -r build/requirements.txt
+        run: pip install -r build/requirements.txt pytest
+      # The lint and the tests existed but nothing ran them, so the site could
+      # deploy with a broken ref, an unknown embed id, or retired vocabulary.
+      # They gate the build now rather than sitting in the repo unused.
+      - name: Lint the corpus
+        run: python build/docs_lint.py
+      - name: Run the build tests
+        run: python -m pytest tests/ -q
       - name: Build the docs site
         run: |
           python build/build_site.py docs_source _site
