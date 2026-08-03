@@ -143,12 +143,12 @@
 <p><a href="/docs/features/agents/">Agents, the turn loop, and core concepts before using the API.</a></p>
 <h2 id="authentication">Authentication</h2>
 <p><strong>Register a new user account</strong></p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-8440a3-curl">curl</button><button class="tab" data-tab="tab-8440a3-python">python</button><button class="tab" data-tab="tab-8440a3-javascript">javascript</button></div><div class="tab-panel active" id="tab-8440a3-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/auth/register \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d47b88-curl">curl</button><button class="tab" data-tab="tab-d47b88-python">python</button><button class="tab" data-tab="tab-d47b88-javascript">javascript</button></div><div class="tab-panel active" id="tab-d47b88-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/auth/register \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;username&quot;: &quot;alice&quot;, &quot;password&quot;: &quot;s3cret&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-8440a3-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;username&quot;: &quot;alice&quot;, &quot;password&quot;: &quot;s3cret&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-d47b88-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(&quot;https://your-host/v1/auth/register&quot;,
                json={&quot;username&quot;: &quot;alice&quot;, &quot;password&quot;: &quot;s3cret&quot;})
-# Sets a session cookie automatically on 200</code></pre></div><div class="tab-panel" id="tab-8440a3-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/auth/register&quot;, {
+# Sets a session cookie automatically on 200</code></pre></div><div class="tab-panel" id="tab-d47b88-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/auth/register&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({username: &quot;alice&quot;, password: &quot;s3cret&quot;})
@@ -157,11 +157,11 @@ r = httpx.post(&quot;https://your-host/v1/auth/register&quot;,
 <pre><code class="language-json">{&quot;username&quot;: &quot;alice&quot;}
 </code></pre>
 <p><strong>Log in</strong></p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-5b107e-curl">curl</button><button class="tab" data-tab="tab-5b107e-python">python</button><button class="tab" data-tab="tab-5b107e-javascript">javascript</button></div><div class="tab-panel active" id="tab-5b107e-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/auth/login \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c8e3a3-curl">curl</button><button class="tab" data-tab="tab-c8e3a3-python">python</button><button class="tab" data-tab="tab-c8e3a3-javascript">javascript</button></div><div class="tab-panel active" id="tab-c8e3a3-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/auth/login \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;username&quot;: &quot;alice&quot;, &quot;password&quot;: &quot;s3cret&quot;, &quot;remember&quot;: false}&#x27;</code></pre></div><div class="tab-panel" id="tab-5b107e-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;username&quot;: &quot;alice&quot;, &quot;password&quot;: &quot;s3cret&quot;, &quot;remember&quot;: false}&#x27;</code></pre></div><div class="tab-panel" id="tab-c8e3a3-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(&quot;https://your-host/v1/auth/login&quot;,
-               json={&quot;username&quot;: &quot;alice&quot;, &quot;password&quot;: &quot;s3cret&quot;})</code></pre></div><div class="tab-panel" id="tab-5b107e-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/auth/login&quot;, {
+               json={&quot;username&quot;: &quot;alice&quot;, &quot;password&quot;: &quot;s3cret&quot;})</code></pre></div><div class="tab-panel" id="tab-c8e3a3-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/auth/login&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({username: &quot;alice&quot;, password: &quot;s3cret&quot;})
@@ -170,15 +170,15 @@ r = httpx.post(&quot;https://your-host/v1/auth/login&quot;,
 <p><strong>Bearer tokens</strong></p>
 <p>Create a long-lived token once; pass it on every request instead of a session cookie.</p>
 <p>Token CRUD is operator-only: it requires an active <strong>session cookie</strong>. A request authenticated with a bearer token is rejected with <code>403</code> - bearer credentials cannot mint or manage other tokens.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-fb62fb-curl">curl</button><button class="tab" data-tab="tab-fb62fb-python">python</button><button class="tab" data-tab="tab-fb62fb-javascript">javascript</button></div><div class="tab-panel active" id="tab-fb62fb-curl"><pre class="md-pre lang-curl"><code># Create a token (requires an active session cookie; cookie sent via -b)
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d2fe81-curl">curl</button><button class="tab" data-tab="tab-d2fe81-python">python</button><button class="tab" data-tab="tab-d2fe81-javascript">javascript</button></div><div class="tab-panel active" id="tab-d2fe81-curl"><pre class="md-pre lang-curl"><code># Create a token (requires an active session cookie; cookie sent via -b)
 curl -X POST https://your-host/v1/auth/tokens \
   -b cookies.txt \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;name&quot;: &quot;ci-pipeline&quot;, &quot;scopes&quot;: []}&#x27;</code></pre></div><div class="tab-panel" id="tab-fb62fb-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;name&quot;: &quot;ci-pipeline&quot;, &quot;scopes&quot;: []}&#x27;</code></pre></div><div class="tab-panel" id="tab-d2fe81-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(&quot;https://your-host/v1/auth/tokens&quot;,
                cookies=session_cookies,
                json={&quot;name&quot;: &quot;ci-pipeline&quot;, &quot;scopes&quot;: []})
-print(r.json()[&quot;plaintext&quot;])   # shown ONCE; store it securely</code></pre></div><div class="tab-panel" id="tab-fb62fb-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/auth/tokens&quot;, {
+print(r.json()[&quot;plaintext&quot;])   # shown ONCE; store it securely</code></pre></div><div class="tab-panel" id="tab-d2fe81-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/auth/tokens&quot;, {
   method: &quot;POST&quot;,
   credentials: &quot;include&quot;,
   headers: {&quot;Content-Type&quot;: &quot;application/json&quot;},
@@ -370,7 +370,7 @@ const {plaintext} = await r.json()   // shown ONCE</code></pre></div></div>
 </ul>
 <h2 id="the-find-predicate-endpoint">The <code>find</code> predicate endpoint</h2>
 <p>Every CRUD resource exposes <code>POST /v1/&lt;resource&gt;/find</code> in addition to the plain <code>GET</code> list. Use it to filter, sort, and paginate server-side.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c1c9f9-curl">curl</button><button class="tab" data-tab="tab-c1c9f9-python">python</button><button class="tab" data-tab="tab-c1c9f9-javascript">javascript</button></div><div class="tab-panel active" id="tab-c1c9f9-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/toolsets/find \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f5be15-curl">curl</button><button class="tab" data-tab="tab-f5be15-python">python</button><button class="tab" data-tab="tab-f5be15-javascript">javascript</button></div><div class="tab-panel active" id="tab-f5be15-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/toolsets/find \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -381,7 +381,7 @@ const {plaintext} = await r.json()   // shown ONCE</code></pre></div></div>
       &quot;right&quot;: {&quot;kind&quot;: &quot;value&quot;, &quot;value&quot;: &quot;my-prefix%&quot;}
     },
     &quot;page&quot;: {&quot;kind&quot;: &quot;offset&quot;, &quot;offset&quot;: 0, &quot;length&quot;: 20}
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-c1c9f9-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-f5be15-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/toolsets/find&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -394,7 +394,7 @@ r = httpx.post(
         },
         &quot;page&quot;: {&quot;kind&quot;: &quot;offset&quot;, &quot;offset&quot;: 0, &quot;length&quot;: 20},
     },
-)</code></pre></div><div class="tab-panel" id="tab-c1c9f9-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/toolsets/find&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-f5be15-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/toolsets/find&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({

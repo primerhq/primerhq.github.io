@@ -203,16 +203,17 @@ visual editor.</li>
 <li>The fastest way to build the exact graph below is <strong>Import spec</strong>: paste the
 JSON from the manifest's <code>spec</code> and click <strong>Load into editor</strong>, then
 <strong>Save</strong>.</li>
-<li>Or build it node by node with <strong>Add node</strong>: a <strong>Begin</strong>, an <strong>Agent</strong>
+<li>Or build it step by step with <strong>+ Add a step</strong>: a start, then <strong>Ask an
+agent to do something</strong> for the <strong>Agent</strong>
 (<code>scope-lister</code>, with its <code>response_format</code>), a <strong>Fan-out</strong> (set its mode to
 <strong>map</strong> with <code>source_node_id</code> <code>list_scope</code>, <code>source_path</code> <code>services</code>, target
 <code>audit</code>, and <code>on_failure</code> <strong>collect</strong>), a <strong>Tool-call</strong> node (<code>audit</code>, tool
 <code>misc__calculate</code>, with the <code>arguments_template</code> and <code>output_schema</code>), a
 <strong>Fan-in</strong> (<code>report</code>, with the <code>aggregate_template</code>), and an <strong>End</strong>. Wire
 <code>begin -&gt; list_scope</code>, <code>list_scope -&gt; fan</code>, <code>audit -&gt; report</code>,
-<code>report -&gt; end</code> with <strong>Add edge</strong> in <strong>Static</strong> mode (the fan-out spec
-spawns the <code>audit</code> branches, so there is no <code>fan -&gt; audit</code> edge). Click
-<strong>Save</strong>.</li>
+<code>report -&gt; end</code> with <strong>Connect steps</strong> (the split spawns the <code>audit</code>
+branches, so there is no <code>fan -&gt; audit</code> connection). Check the chip reads
+<strong>Ready to run</strong>, then <strong>Save draft</strong>.</li>
 </ol>
 <p>Via the CLI:</p>
 <pre><code>primectl create -f compliance-graph.yaml

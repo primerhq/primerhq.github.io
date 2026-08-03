@@ -238,11 +238,11 @@ editor.</li>
 click <strong>Import spec</strong>, paste the JSON from the manifest's <code>spec</code> (the
 <code>nodes</code>, <code>edges</code>, and <code>max_iterations</code>), and click <strong>Load into editor</strong>. Then
 click <strong>Save</strong>.</li>
-<li>Or build it node by node with <strong>Add node</strong>: a <strong>Begin</strong> (set its
+<li>Or build it step by step with <strong>+ Add a step</strong>: a start (set its
 <code>input_schema</code> with a <code>topic</code> field), three <strong>Agent</strong> nodes (pick
 <code>web-researcher</code> / <code>fact-extractor</code> / <code>research-judge</code> and set each
 <code>input_template</code>; on the judge set its <code>response_format</code>), and an <strong>End</strong> (set
-the <code>output_template</code>). Use <strong>Add edge</strong> in <strong>Static</strong> mode to wire
+the <code>output_template</code>). Use <strong>Connect steps</strong> to wire
 <code>start -&gt; researcher</code>, <code>researcher -&gt; extractor</code>, and <code>extractor -&gt; judge</code>,
 then add one <strong>Conditional</strong> edge from <code>judge</code> with a <code>json_path</code> router whose
 branches send <code>accept -&gt; done</code> and <code>revise -&gt; researcher</code>. Click <strong>Save</strong>.</li>

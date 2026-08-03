@@ -206,11 +206,12 @@ starting skeleton you will replace). Click <strong>Create</strong> to open the v
 <strong>Import spec</strong>, paste the JSON from the manifest's <code>spec</code> (the <code>nodes</code>,
 <code>edges</code>, and <code>entry_node_id</code>), and click <strong>Load into editor</strong>. Then click
 <strong>Save</strong>.</li>
-<li>Or build it node by node with <strong>Add node</strong>: a <strong>Begin</strong>, a <strong>Fan-out</strong> (set its
+<li>Or build it step by step with <strong>+ Add a step</strong>: a start, then <strong>Split the
+work in parallel</strong> for the <strong>Fan-out</strong> (set its
 mode to <strong>tee</strong> and list <code>review_bugs</code> and <code>review_style</code> as targets), the two
 <strong>Agent</strong> nodes (pick <code>reviewer-bugs</code> / <code>reviewer-style</code> and set each
 <code>input_template</code>), a <strong>Fan-in</strong> (set the <code>aggregate_template</code>), and an <strong>End</strong>
-(set the <code>output_template</code>). Use <strong>Add edge</strong> in <strong>Static</strong> mode to wire
+(set the <code>output_template</code>). Use <strong>Connect steps</strong> to wire
 <code>start -&gt; split</code>, <code>review_bugs -&gt; combine</code>, <code>review_style -&gt; combine</code>, and
 <code>combine -&gt; done</code>. Click <strong>Save</strong>.</li>
 </ol>
