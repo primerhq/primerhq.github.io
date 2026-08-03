@@ -59,6 +59,7 @@
 <a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-python/">Python Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
 <a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
 <a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
@@ -73,7 +74,7 @@
 <a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
 <a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
 <a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
-<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Builder</a>
 <a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
 <a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
 <a class="nav-link" href="/docs/web/overview/">Web</a>
@@ -184,7 +185,7 @@
 <p>That is the minimal configuration required to make a tool gated. The other two strategies (Rego and LLM judge) replace the manual hold with an automated decision, and are documented below.</p>
 <h3 id="rego-input-reference">Rego input reference</h3>
 <p>When the approval type is <strong>Policy (Rego)</strong>, the engine evaluates your policy against a single <code>input</code> document built from the call context. These are the only fields available; reference them as <code>input.&lt;field&gt;</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-58407c-json">json</button></div><div class="tab-panel active" id="tab-58407c-json"><pre class="md-pre lang-json"><code>{
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-776d93-json">json</button></div><div class="tab-panel active" id="tab-776d93-json"><pre class="md-pre lang-json"><code>{
   &quot;tool_name&quot;: &quot;exec&quot;,
   &quot;toolset_id&quot;: &quot;workspaces&quot;,
   &quot;arguments&quot;: {
@@ -245,7 +246,7 @@
 <p>The same <code>input</code> document is also handed to the LLM judge as the user message, so a judge prompt can reason about any of these fields too.</p>
 <h3 id="rego-policy-example">Rego policy example</h3>
 <p>The policy must define a boolean <code>required</code>. An optional string <code>reason</code> is recorded on the pending row. The example below allows all calls through except <code>exec</code> calls that target the production workspace, which park for operator approval:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ad486c-rego">rego</button></div><div class="tab-panel active" id="tab-ad486c-rego"><pre class="md-pre lang-rego"><code>package primer.approval
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c80611-rego">rego</button></div><div class="tab-panel active" id="tab-c80611-rego"><pre class="md-pre lang-rego"><code>package primer.approval
 
 default required := false
 
@@ -264,7 +265,7 @@ reason := &quot;exec against prod-workspace requires operator sign-off&quot; if 
 <h3 id="llm-judge-example">LLM-judge example</h3>
 <p>When the approval type is <strong>LLM judge</strong>, you select a provider and model (from those already configured under LLM Providers) and write a judge prompt. The prompt is sent as the system message; the <code>input</code> document (the same shape shown above) is appended as the user message. The judge must return a verdict with a boolean <code>required</code> and an optional <code>reason</code>.</p>
 <p>Configuration shape:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-0c58b9-json">json</button></div><div class="tab-panel active" id="tab-0c58b9-json"><pre class="md-pre lang-json"><code>{
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-114b35-json">json</button></div><div class="tab-panel active" id="tab-114b35-json"><pre class="md-pre lang-json"><code>{
   &quot;id&quot;: &quot;judge-shell-commands&quot;,
   &quot;toolset_id&quot;: &quot;workspaces&quot;,
   &quot;tool_name&quot;: &quot;exec&quot;,

@@ -59,6 +59,7 @@
 <a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-python/">Python Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
 <a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
 <a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
@@ -73,7 +74,7 @@
 <a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
 <a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
 <a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
-<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Builder</a>
 <a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
 <a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
 <a class="nav-link" href="/docs/web/overview/">Web</a>
@@ -588,7 +589,7 @@ is iteration 0); the critic's structured <code>done</code> flag drives a
 </code></pre>
 <h2 id="create-a-graph">Create a graph</h2>
 <p><code>POST /v1/graphs</code> - returns <code>201 Created</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9f92ec-curl">curl</button><button class="tab" data-tab="tab-9f92ec-python">python</button><button class="tab" data-tab="tab-9f92ec-javascript">javascript</button></div><div class="tab-panel active" id="tab-9f92ec-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/graphs \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-fef102-curl">curl</button><button class="tab" data-tab="tab-fef102-python">python</button><button class="tab" data-tab="tab-fef102-javascript">javascript</button></div><div class="tab-panel active" id="tab-fef102-curl"><pre class="md-pre lang-curl"><code>curl -X POST https://your-host/v1/graphs \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -606,7 +607,7 @@ is iteration 0); the critic's structured <code>done</code> flag drives a
       {&quot;kind&quot;: &quot;static&quot;, &quot;from_node&quot;: &quot;researcher&quot;, &quot;to_node&quot;: &quot;summarizer&quot;},
       {&quot;kind&quot;: &quot;static&quot;, &quot;from_node&quot;: &quot;summarizer&quot;, &quot;to_node&quot;: &quot;done&quot;}
     ]
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-9f92ec-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-fef102-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://your-host/v1/graphs&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -627,7 +628,7 @@ r = httpx.post(
         ],
     },
 )
-assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-9f92ec-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/graphs&quot;, {
+assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-fef102-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/graphs&quot;, {
   method: &quot;POST&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -655,30 +656,30 @@ assert r.status_code == 201</code></pre></div><div class="tab-panel" id="tab-9f9
 </ul>
 <h2 id="get-a-graph">Get a graph</h2>
 <p><code>GET /v1/graphs/{id}</code> - returns <code>200 OK</code> with the graph object.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-7b9a29-curl">curl</button><button class="tab" data-tab="tab-7b9a29-python">python</button><button class="tab" data-tab="tab-7b9a29-javascript">javascript</button></div><div class="tab-panel active" id="tab-7b9a29-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/graphs/research-pipeline \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-7b9a29-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ee228e-curl">curl</button><button class="tab" data-tab="tab-ee228e-python">python</button><button class="tab" data-tab="tab-ee228e-javascript">javascript</button></div><div class="tab-panel active" id="tab-ee228e-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/graphs/research-pipeline \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-ee228e-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/graphs/research-pipeline&quot;,
-              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})</code></pre></div><div class="tab-panel" id="tab-7b9a29-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/graphs/research-pipeline&quot;, {
+              headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})</code></pre></div><div class="tab-panel" id="tab-ee228e-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/graphs/research-pipeline&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <p><strong>Errors:</strong> <code>404</code> if the id does not exist.</p>
 <h2 id="list-graphs">List graphs</h2>
 <p><code>GET /v1/graphs</code> - returns an offset or cursor page of graph objects.</p>
 <p>Query parameters: <code>limit</code> (1-200, default 20), <code>offset</code> (default 0), <code>cursor</code>, <code>order_by</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-223b74-curl">curl</button><button class="tab" data-tab="tab-223b74-python">python</button><button class="tab" data-tab="tab-223b74-javascript">javascript</button></div><div class="tab-panel active" id="tab-223b74-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/graphs?limit=50&amp;offset=0&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-223b74-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-1d787a-curl">curl</button><button class="tab" data-tab="tab-1d787a-python">python</button><button class="tab" data-tab="tab-1d787a-javascript">javascript</button></div><div class="tab-panel active" id="tab-1d787a-curl"><pre class="md-pre lang-curl"><code>curl &quot;https://your-host/v1/graphs?limit=50&amp;offset=0&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-1d787a-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/graphs&quot;,
               headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
               params={&quot;limit&quot;: 50, &quot;offset&quot;: 0})
 page = r.json()
-graphs = page[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-223b74-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/graphs?limit=50&amp;offset=0&quot;, {
+graphs = page[&quot;items&quot;]</code></pre></div><div class="tab-panel" id="tab-1d787a-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/graphs?limit=50&amp;offset=0&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const {items, total, length, offset} = await r.json()</code></pre></div></div>
 <h2 id="replace-a-graph">Replace a graph</h2>
 <p><code>PUT /v1/graphs/{id}</code> - full replacement; returns <code>200 OK</code> with the updated graph.</p>
 <p>The body uses the same schema as <code>POST</code>. All fields are replaced; omitted optional fields reset to their defaults.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d8d311-curl">curl</button><button class="tab" data-tab="tab-d8d311-python">python</button><button class="tab" data-tab="tab-d8d311-javascript">javascript</button></div><div class="tab-panel active" id="tab-d8d311-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/graphs/research-pipeline \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c82220-curl">curl</button><button class="tab" data-tab="tab-c82220-python">python</button><button class="tab" data-tab="tab-c82220-javascript">javascript</button></div><div class="tab-panel active" id="tab-c82220-curl"><pre class="md-pre lang-curl"><code>curl -X PUT https://your-host/v1/graphs/research-pipeline \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -693,7 +694,7 @@ const {items, total, length, offset} = await r.json()</code></pre></div></div>
       {&quot;kind&quot;: &quot;static&quot;, &quot;from_node&quot;: &quot;start&quot;, &quot;to_node&quot;: &quot;worker&quot;},
       {&quot;kind&quot;: &quot;static&quot;, &quot;from_node&quot;: &quot;worker&quot;, &quot;to_node&quot;: &quot;done&quot;}
     ]
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-d8d311-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-c82220-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.put(
     &quot;https://your-host/v1/graphs/research-pipeline&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -710,7 +711,7 @@ r = httpx.put(
             {&quot;kind&quot;: &quot;static&quot;, &quot;from_node&quot;: &quot;worker&quot;, &quot;to_node&quot;: &quot;done&quot;},
         ],
     },
-)</code></pre></div><div class="tab-panel" id="tab-d8d311-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/graphs/research-pipeline&quot;, {
+)</code></pre></div><div class="tab-panel" id="tab-c82220-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/graphs/research-pipeline&quot;, {
   method: &quot;PUT&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`, &quot;Content-Type&quot;: &quot;application/json&quot;},
   body: JSON.stringify({
@@ -730,22 +731,22 @@ r = httpx.put(
 <p><strong>Errors:</strong> <code>404</code> if not found, <code>409</code> if managed by a harness, <code>422</code> on topology violation.</p>
 <h2 id="delete-a-graph">Delete a graph</h2>
 <p><code>DELETE /v1/graphs/{id}</code> - returns <code>204 No Content</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-24aa9e-curl">curl</button><button class="tab" data-tab="tab-24aa9e-python">python</button><button class="tab" data-tab="tab-24aa9e-javascript">javascript</button></div><div class="tab-panel active" id="tab-24aa9e-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/graphs/research-pipeline \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-24aa9e-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-2bf1b6-curl">curl</button><button class="tab" data-tab="tab-2bf1b6-python">python</button><button class="tab" data-tab="tab-2bf1b6-javascript">javascript</button></div><div class="tab-panel active" id="tab-2bf1b6-curl"><pre class="md-pre lang-curl"><code>curl -X DELETE https://your-host/v1/graphs/research-pipeline \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-2bf1b6-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.delete(&quot;https://your-host/v1/graphs/research-pipeline&quot;,
                  headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
-assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-24aa9e-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/graphs/research-pipeline&quot;, {
+assert r.status_code == 204</code></pre></div><div class="tab-panel" id="tab-2bf1b6-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/graphs/research-pipeline&quot;, {
   method: &quot;DELETE&quot;,
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })</code></pre></div></div>
 <h2 id="validate-graph-status">Validate graph status</h2>
 <p><code>GET /v1/graphs/{id}/status</code> - returns <code>200 OK</code> with <code>{&quot;ok&quot;: bool, &quot;issues&quot;: [string, ...]}</code>. Checks that every <code>agent</code> node's <code>agent_id</code> resolves to an existing Agent row and every <code>graph</code> node's <code>graph_id</code> resolves to an existing Graph row. The walk is depth-1 only (does not recurse into sub-graph nodes). Status is re-evaluated on every call.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-47d1e4-curl">curl</button><button class="tab" data-tab="tab-47d1e4-python">python</button><button class="tab" data-tab="tab-47d1e4-javascript">javascript</button></div><div class="tab-panel active" id="tab-47d1e4-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/graphs/research-pipeline/status \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-47d1e4-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-6fb150-curl">curl</button><button class="tab" data-tab="tab-6fb150-python">python</button><button class="tab" data-tab="tab-6fb150-javascript">javascript</button></div><div class="tab-panel active" id="tab-6fb150-curl"><pre class="md-pre lang-curl"><code>curl https://your-host/v1/graphs/research-pipeline/status \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-6fb150-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(&quot;https://your-host/v1/graphs/research-pipeline/status&quot;,
               headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;})
 body = r.json()
-# body: {&quot;ok&quot;: true, &quot;issues&quot;: []}</code></pre></div><div class="tab-panel" id="tab-47d1e4-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/graphs/research-pipeline/status&quot;, {
+# body: {&quot;ok&quot;: true, &quot;issues&quot;: []}</code></pre></div><div class="tab-panel" id="tab-6fb150-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/graphs/research-pipeline/status&quot;, {
   headers: {&quot;Authorization&quot;: `Bearer ${token}`}
 })
 const {ok, issues} = await r.json()</code></pre></div></div>

@@ -7,11 +7,30 @@ summary: How to add or edit a doc; what the directives do; what the lint rules b
 
 ## Where docs live
 
-Operator-facing docs live under `primer/user_docs/<section>/<slug>.md`.
-The five visible sections are listed in `primer/user_docs/manifest.yaml`;
+Operator-facing docs live under `docs_source/<section>/<slug>.md` in the
+`primerhq.github.io` repo. The visible sections are listed in
+`docs_source/manifest.yaml`;
 the manifest also controls ordering and visible-doc membership.
 Docs on disk but absent from the manifest are reachable by direct
 slug but hidden from the left nav.
+
+## The built site is committed
+
+`docs_source/` is the source; the rendered site is committed at the repo root
+(`docs/`, `404.html`, `sitemap.xml`) so classic branch-Pages can serve it.
+
+**Regenerate it in the same commit as any source change**, or the published
+pages drift from the markdown:
+
+```bash
+python build/build_site.py docs_source _site
+rm -rf docs && cp -r _site/docs docs
+cp _site/404.html _site/sitemap.xml .
+```
+
+Adding a page to `manifest.yaml` changes the sidebar, which is rendered into
+every page, so expect the whole corpus to show a small diff. That is normal;
+each untouched page should differ only by the nav lines.
 
 ## The lint
 
@@ -24,7 +43,7 @@ from the manifest. Highlights:
   the regular hyphen, the double-hyphen, or rework the sentence.
 - Every `ref:<slug>` and `ai-doc:<slug>` resolves at lint time.
 - Every `embed:<id>` is checked against the embed registry
-  (`primer/user_docs/_fixtures/registry.json`).
+  (`docs_source/_fixtures/registry.json`).
 - Required frontmatter keys: slug, title, summary, section.
   Cookbook docs also require difficulty, time_minutes, tags.
 
@@ -69,7 +88,7 @@ flowchart LR
 ### embed
 
 Renders a real console component from the embed registry with fixtures.
-The id must match an entry in `primer/user_docs/_fixtures/registry.json`.
+The id must match an entry in `docs_source/_fixtures/registry.json`.
 The component is rendered inside an iframe using live fixture data --
 no hand-drawn JSX required.
 
@@ -85,7 +104,7 @@ a lint error (`unknown_embed_id`).
 sequenceDiagram
   participant Op as Operator
   participant Ed as Editor
-  participant Fs as primer/user_docs/
+  participant Fs as docs_source/
   participant Svc as UserDocsService
   Op->>Ed: save .md file
   Ed->>Fs: write
@@ -102,8 +121,8 @@ The handler receives the body and returns a React node.
 
 ## Adding a new embed
 
-1. Add the fixture JSON under `primer/user_docs/_fixtures/<id>.json`.
-2. Register the id in `primer/user_docs/_fixtures/registry.json`.
+1. Add the fixture JSON under `docs_source/_fixtures/<id>.json`.
+2. Register the id in `docs_source/_fixtures/registry.json`.
 3. Implement the component in `ui/components/docs/directives-embed.jsx`
    (or a dedicated file loaded before it).
 4. Use `embed:<id>` in the doc body. The lint will verify the id on

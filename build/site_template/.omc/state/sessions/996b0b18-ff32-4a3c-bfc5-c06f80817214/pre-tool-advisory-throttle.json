@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "entries": {
+    "79a93d4a2f8f50b95f852280616242fee1855dc99a3c75211917f55e72e95fae": {
+      "last_emitted_at_ms": 1782643446266,
+      "message": "Use parallel execution for independent tasks. Use run_in_background for long operations (npm install, builds, tests)."
+    },
+    "41598f79057620b5f0687c07ba25c256d85d7b8d017596dc1d24074dce200f3f": {
+      "last_emitted_at_ms": 1782643194980,
+      "message": "Spawning agent: deep-research (inherit) | Task: Research UI templates and animation libraries for static dev-tool landing page"
+    },
+    "396e5c6354e0773237ea867b59b6f67ebc1753a2f9fe9e044378de6f393d4666": {
+      "last_emitted_at_ms": 1782643184007,
+      "message": "Spawning agent: unknown (inherit) [BACKGROUND] | Task: Research templates, component kits, and animation libraries"
+    },
+    "e5a17191b16da17b0e3075343d4bb38b1e91f98a5348b924c4a2b806d0573565": {
+      "last_emitted_at_ms": 1782643176767,
+      "message": "Spawning agent: unknown (inherit) [BACKGROUND] | Task: Research exemplar developer tool homepages - batch 3"
+    },
+    "1157cf4cc3846ddb9f2d693248a693e4f3b19ba6986ec18a5a55c806fda834d8": {
+      "last_emitted_at_ms": 1782643175993,
+      "message": "Spawning agent: unknown (inherit) [BACKGROUND] | Task: Research exemplar developer tool homepages - batch 2"
+    },
+    "dd468cf5962ab6c5e780590c4c5da4c3c298d7570340ae433676da15cb7d49a7": {
+      "last_emitted_at_ms": 1782643175007,
+      "message": "Spawning agent: unknown (inherit) [BACKGROUND] | Task: Research exemplar developer tool homepages - batch 1"
+    },
+    "9769512bcbfaef7726cf38b08f2b92f29609c9823c1e46ee074a3e4e64798d7f": {
+      "last_emitted_at_ms": 1782643158398,
+      "message": "Spawning agent: general-purpose (sonnet) [BACKGROUND] | Task: Research landing pages and templates"
+    },
+    "4f7a67fba0a8473e9883d9e8dffbb2d72e00a4a1eeb4fa80cb14213b167dc90f": {
+      "last_emitted_at_ms": 1782642979943,
+      "message": "Mark todos in_progress BEFORE starting, completed IMMEDIATELY after finishing."
+    }
+  },
+  "updated_at": "2026-06-28T10:44:06.266Z"
+}

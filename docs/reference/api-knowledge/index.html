@@ -59,6 +59,7 @@
 <a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-python/">Python Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
 <a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
 <a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
@@ -73,7 +74,7 @@
 <a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
 <a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
 <a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
-<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Builder</a>
 <a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
 <a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
 <a class="nav-link" href="/docs/web/overview/">Web</a>
@@ -346,7 +347,7 @@
 <h2 id="post-v1ssp">POST /v1/ssp</h2>
 <p>Create a semantic-search provider. Supported backends: <code>pgvector</code>, <code>pgvectorscale</code>, <code>lance</code>. The <code>id</code> is optional: supply one to use it verbatim, or omit it and the server assigns a type-prefixed id (e.g. <code>semantic-search-provider-3f9a1c8d</code>). The id is immutable after creation.</p>
 <h3 id="pgvector">pgvector</h3>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-26472d-curl">curl</button><button class="tab" data-tab="tab-26472d-python">python</button><button class="tab" data-tab="tab-26472d-javascript">javascript</button></div><div class="tab-panel active" id="tab-26472d-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/ssp \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-ec4fc1-curl">curl</button><button class="tab" data-tab="tab-ec4fc1-python">python</button><button class="tab" data-tab="tab-ec4fc1-javascript">javascript</button></div><div class="tab-panel active" id="tab-ec4fc1-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/ssp \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -361,7 +362,7 @@
       &quot;db_schema&quot;: &quot;public&quot;,
       &quot;distance_metric&quot;: &quot;cosine&quot;
     }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-26472d-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-ec4fc1-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/ssp&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -379,7 +380,7 @@ r = httpx.post(
         },
     },
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-26472d-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/ssp&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-ec4fc1-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/ssp&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -410,7 +411,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-26472d-jav
 <hr />
 <h2 id="post-v1embedding_providers">POST /v1/embedding_providers</h2>
 <p>Register an embedding provider. Supported backends: <code>openai</code> (compatible with LM Studio, Azure, OpenRouter, etc.), <code>huggingface</code>, and <code>gemini</code>. The <code>id</code> is optional: supply one to use it verbatim, or omit it and the server assigns a type-prefixed id (e.g. <code>embedding-provider-3f9a1c8d</code>). The id is immutable after creation.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9bf9aa-curl">curl</button><button class="tab" data-tab="tab-9bf9aa-python">python</button><button class="tab" data-tab="tab-9bf9aa-javascript">javascript</button></div><div class="tab-panel active" id="tab-9bf9aa-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/embedding_providers \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-abf7a1-curl">curl</button><button class="tab" data-tab="tab-abf7a1-python">python</button><button class="tab" data-tab="tab-abf7a1-javascript">javascript</button></div><div class="tab-panel active" id="tab-abf7a1-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/embedding_providers \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -423,7 +424,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-26472d-jav
       &quot;flavor&quot;: &quot;lmstudio&quot;
     },
     &quot;limits&quot;: { &quot;max_concurrency&quot;: 2 }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-9bf9aa-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-abf7a1-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/embedding_providers&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -439,7 +440,7 @@ r = httpx.post(
         &quot;limits&quot;: {&quot;max_concurrency&quot;: 2},
     },
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-9bf9aa-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/embedding_providers&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-abf7a1-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/embedding_providers&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -456,7 +457,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-9bf9aa-jav
 <hr />
 <h2 id="post-v1collections">POST /v1/collections</h2>
 <p>Create a collection. Both <code>embedder.provider_id</code> and <code>search_provider_id</code> must reference existing rows. Passing an unknown <code>search_provider_id</code> returns <code>404</code>. The <code>id</code> is optional: supply one to use it verbatim, or omit it and the server assigns a type-prefixed id (e.g. <code>collection-3f9a1c8d</code>). The id is immutable after creation.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e392b1-curl">curl</button><button class="tab" data-tab="tab-e392b1-python">python</button><button class="tab" data-tab="tab-e392b1-javascript">javascript</button></div><div class="tab-panel active" id="tab-e392b1-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/collections \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-cd7e93-curl">curl</button><button class="tab" data-tab="tab-cd7e93-python">python</button><button class="tab" data-tab="tab-cd7e93-javascript">javascript</button></div><div class="tab-panel active" id="tab-cd7e93-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/collections \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -468,7 +469,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-9bf9aa-jav
     },
     &quot;search_provider_id&quot;: &quot;pg-main&quot;,
     &quot;system&quot;: false
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-e392b1-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-cd7e93-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/collections&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -483,7 +484,7 @@ r = httpx.post(
         &quot;system&quot;: False,
     },
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-e392b1-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/collections&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-cd7e93-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/collections&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -511,7 +512,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-e392b1-jav
 <hr />
 <h2 id="post-v1documents">POST /v1/documents</h2>
 <p>Create a document via the id-addressed entity CRUD path. A document now carries a required <code>path</code> (a POSIX-like address, unique per collection, e.g. <code>concepts/slo.md</code>); creating one without <code>path</code> returns <code>422</code>. The body to index is read from <code>meta.text</code> (or <code>meta.content</code>) on this CRUD path. Indexing is best-effort: when the embedder is reachable the document's chunks become searchable, and on embedder failure the row is persisted without chunks and indexing is retried later. The <code>id</code> is optional: supply one to use it verbatim, or omit it and the server assigns a type-prefixed id (e.g. <code>document-3f9a1c8d</code>). The id is immutable after creation. To address a document by its path instead, use the path-addressed routes under <code>/v1/collections/{id}/documents</code> (below).</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-00a971-curl">curl</button><button class="tab" data-tab="tab-00a971-python">python</button><button class="tab" data-tab="tab-00a971-javascript">javascript</button></div><div class="tab-panel active" id="tab-00a971-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/documents \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e27989-curl">curl</button><button class="tab" data-tab="tab-e27989-python">python</button><button class="tab" data-tab="tab-e27989-javascript">javascript</button></div><div class="tab-panel active" id="tab-e27989-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/documents \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -520,7 +521,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-e392b1-jav
     &quot;name&quot;: &quot;Q1 post-mortem&quot;,
     &quot;path&quot;: &quot;postmortems/q1.md&quot;,
     &quot;meta&quot;: { &quot;text&quot;: &quot;We experienced a 30-minute outage on March 3...&quot; }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-00a971-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-e27989-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/documents&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -532,7 +533,7 @@ r = httpx.post(
         &quot;meta&quot;: {&quot;text&quot;: &quot;We experienced a 30-minute outage on March 3...&quot;},
     },
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-00a971-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/documents&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-e27989-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/documents&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -549,7 +550,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-00a971-jav
 <hr />
 <h2 id="put-v1documentsid">PUT /v1/documents/{id}</h2>
 <p>Replace a document by id and re-index it. The <code>path</code> field is required here too. Old chunks are removed before new chunks are written; no stale vectors linger.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-284fb7-curl">curl</button><button class="tab" data-tab="tab-284fb7-python">python</button><button class="tab" data-tab="tab-284fb7-javascript">javascript</button></div><div class="tab-panel active" id="tab-284fb7-curl"><pre class="md-pre lang-curl"><code>curl -s -X PUT https://primer.example/v1/documents/doc-postmortem-001 \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-685d0e-curl">curl</button><button class="tab" data-tab="tab-685d0e-python">python</button><button class="tab" data-tab="tab-685d0e-javascript">javascript</button></div><div class="tab-panel active" id="tab-685d0e-curl"><pre class="md-pre lang-curl"><code>curl -s -X PUT https://primer.example/v1/documents/doc-postmortem-001 \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -558,7 +559,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-00a971-jav
     &quot;name&quot;: &quot;Q1 post-mortem (revised)&quot;,
     &quot;path&quot;: &quot;postmortems/q1.md&quot;,
     &quot;meta&quot;: { &quot;text&quot;: &quot;Updated analysis: root cause was a misconfigured timeout...&quot; }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-284fb7-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-685d0e-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.put(
     &quot;https://primer.example/v1/documents/doc-postmortem-001&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -570,7 +571,7 @@ r = httpx.put(
         &quot;meta&quot;: {&quot;text&quot;: &quot;Updated analysis: root cause was a misconfigured timeout...&quot;},
     },
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-284fb7-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/documents/doc-postmortem-001&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-685d0e-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/documents/doc-postmortem-001&quot;, {
   method: &quot;PUT&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -589,13 +590,13 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-284fb7-jav
 <p>Documents are also addressable by their <code>path</code> within a collection. These routes are the agent-facing surface: the body lives in a content store keyed by <code>(collection_id, path)</code>, and the <code>?path=</code> query form (rather than a slash-bearing path segment) avoids segment-routing issues with nested paths.</p>
 <h3 id="get-v1collectionsiddocuments">GET /v1/collections/{id}/documents</h3>
 <p>With no <code>path</code>, list documents in the collection. The listing is sourced from the content store unioned with entity rows that carry a <code>path</code>, is scoped to the collection, and is NOT offset-paginated. Bodies are not loaded; each entry carries <code>document_id</code>, <code>path</code>, and <code>size</code> (body length in characters). Pass <code>?prefix=&lt;p&gt;</code> to scope the listing to a path prefix.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-443f61-curl">curl</button><button class="tab" data-tab="tab-443f61-python">python</button><button class="tab" data-tab="tab-443f61-javascript">javascript</button></div><div class="tab-panel active" id="tab-443f61-curl"><pre class="md-pre lang-curl"><code>curl -s &quot;https://primer.example/v1/collections/company-docs/documents&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-443f61-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-4c7a88-curl">curl</button><button class="tab" data-tab="tab-4c7a88-python">python</button><button class="tab" data-tab="tab-4c7a88-javascript">javascript</button></div><div class="tab-panel active" id="tab-4c7a88-curl"><pre class="md-pre lang-curl"><code>curl -s &quot;https://primer.example/v1/collections/company-docs/documents&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-4c7a88-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://primer.example/v1/collections/company-docs/documents&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-docs = r.json()[&quot;documents&quot;]</code></pre></div><div class="tab-panel" id="tab-443f61-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/collections/company-docs/documents&quot;, {
+docs = r.json()[&quot;documents&quot;]</code></pre></div><div class="tab-panel" id="tab-4c7a88-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/collections/company-docs/documents&quot;, {
   headers: { &quot;Authorization&quot;: `Bearer ${token}` },
 });
 const { documents } = await r.json();</code></pre></div></div>
@@ -607,14 +608,14 @@ const { documents } = await r.json();</code></pre></div></div>
 }
 </code></pre>
 <p>With <code>?path=&lt;p&gt;</code>, return the single document at that path (body + metadata), or <code>404</code>:</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-bfc4ad-curl">curl</button><button class="tab" data-tab="tab-bfc4ad-python">python</button><button class="tab" data-tab="tab-bfc4ad-javascript">javascript</button></div><div class="tab-panel active" id="tab-bfc4ad-curl"><pre class="md-pre lang-curl"><code>curl -s &quot;https://primer.example/v1/collections/company-docs/documents?path=postmortems/q1.md&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-bfc4ad-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-2cc9b7-curl">curl</button><button class="tab" data-tab="tab-2cc9b7-python">python</button><button class="tab" data-tab="tab-2cc9b7-javascript">javascript</button></div><div class="tab-panel active" id="tab-2cc9b7-curl"><pre class="md-pre lang-curl"><code>curl -s &quot;https://primer.example/v1/collections/company-docs/documents?path=postmortems/q1.md&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-2cc9b7-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://primer.example/v1/collections/company-docs/documents&quot;,
     params={&quot;path&quot;: &quot;postmortems/q1.md&quot;},
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-result = r.json()</code></pre></div><div class="tab-panel" id="tab-bfc4ad-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(
+result = r.json()</code></pre></div><div class="tab-panel" id="tab-2cc9b7-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(
   &quot;/v1/collections/company-docs/documents?path=postmortems/q1.md&quot;,
   { headers: { &quot;Authorization&quot;: `Bearer ${token}` } },
 );
@@ -634,17 +635,17 @@ const result = await r.json();</code></pre></div></div>
 </code></pre>
 <h3 id="put-v1collectionsiddocuments-path-query">PUT /v1/collections/{id}/documents (path query)</h3>
 <p>Create or replace (upsert) the document at <code>(collection_id, path)</code> named by the <code>?path=</code> query parameter. The body carries <code>content</code> (required), and optional <code>title</code> and <code>meta</code>. Returns the stored document metadata under <code>document</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-6fdc29-curl">curl</button><button class="tab" data-tab="tab-6fdc29-python">python</button><button class="tab" data-tab="tab-6fdc29-javascript">javascript</button></div><div class="tab-panel active" id="tab-6fdc29-curl"><pre class="md-pre lang-curl"><code>curl -s -X PUT &quot;https://primer.example/v1/collections/company-docs/documents?path=postmortems/q1.md&quot; \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c58641-curl">curl</button><button class="tab" data-tab="tab-c58641-python">python</button><button class="tab" data-tab="tab-c58641-javascript">javascript</button></div><div class="tab-panel active" id="tab-c58641-curl"><pre class="md-pre lang-curl"><code>curl -s -X PUT &quot;https://primer.example/v1/collections/company-docs/documents?path=postmortems/q1.md&quot; \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;content&quot;: &quot;We experienced a 30-minute outage on March 3...&quot;, &quot;title&quot;: &quot;Q1 post-mortem&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-6fdc29-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;content&quot;: &quot;We experienced a 30-minute outage on March 3...&quot;, &quot;title&quot;: &quot;Q1 post-mortem&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-c58641-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.put(
     &quot;https://primer.example/v1/collections/company-docs/documents&quot;,
     params={&quot;path&quot;: &quot;postmortems/q1.md&quot;},
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     json={&quot;content&quot;: &quot;We experienced a 30-minute outage on March 3...&quot;, &quot;title&quot;: &quot;Q1 post-mortem&quot;},
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-6fdc29-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/collections/company-docs/documents?path=postmortems/q1.md&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-c58641-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/collections/company-docs/documents?path=postmortems/q1.md&quot;, {
   method: &quot;PUT&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -654,29 +655,29 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-6fdc29-jav
 });</code></pre></div></div>
 <h3 id="delete-v1collectionsiddocuments-path-query">DELETE /v1/collections/{id}/documents (path query)</h3>
 <p>Delete the document at <code>(collection_id, path)</code> named by the <code>?path=</code> query parameter. Returns <code>204</code>; a missing path returns <code>404</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-543e5e-curl">curl</button><button class="tab" data-tab="tab-543e5e-python">python</button><button class="tab" data-tab="tab-543e5e-javascript">javascript</button></div><div class="tab-panel active" id="tab-543e5e-curl"><pre class="md-pre lang-curl"><code>curl -s -X DELETE &quot;https://primer.example/v1/collections/company-docs/documents?path=postmortems/q1.md&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-543e5e-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-398d3b-curl">curl</button><button class="tab" data-tab="tab-398d3b-python">python</button><button class="tab" data-tab="tab-398d3b-javascript">javascript</button></div><div class="tab-panel active" id="tab-398d3b-curl"><pre class="md-pre lang-curl"><code>curl -s -X DELETE &quot;https://primer.example/v1/collections/company-docs/documents?path=postmortems/q1.md&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-398d3b-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.delete(
     &quot;https://primer.example/v1/collections/company-docs/documents&quot;,
     params={&quot;path&quot;: &quot;postmortems/q1.md&quot;},
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-r.raise_for_status()  # 204</code></pre></div><div class="tab-panel" id="tab-543e5e-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/collections/company-docs/documents?path=postmortems/q1.md&quot;, {
+r.raise_for_status()  # 204</code></pre></div><div class="tab-panel" id="tab-398d3b-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/collections/company-docs/documents?path=postmortems/q1.md&quot;, {
   method: &quot;DELETE&quot;,
   headers: { &quot;Authorization&quot;: `Bearer ${token}` },
 });</code></pre></div></div>
 <h3 id="post-v1collectionsiddocumentsmove">POST /v1/collections/{id}/documents/move</h3>
 <p>Move a document from one path to another within the collection. The body uses <code>from</code> and <code>to</code>. Returns <code>204</code>; a missing source returns <code>404</code>, and an already-occupied destination returns <code>409</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-518b99-curl">curl</button><button class="tab" data-tab="tab-518b99-python">python</button><button class="tab" data-tab="tab-518b99-javascript">javascript</button></div><div class="tab-panel active" id="tab-518b99-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST &quot;https://primer.example/v1/collections/company-docs/documents/move&quot; \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-6b2bbd-curl">curl</button><button class="tab" data-tab="tab-6b2bbd-python">python</button><button class="tab" data-tab="tab-6b2bbd-javascript">javascript</button></div><div class="tab-panel active" id="tab-6b2bbd-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST &quot;https://primer.example/v1/collections/company-docs/documents/move&quot; \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;from&quot;: &quot;postmortems/q1.md&quot;, &quot;to&quot;: &quot;archive/postmortems/q1.md&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-518b99-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;from&quot;: &quot;postmortems/q1.md&quot;, &quot;to&quot;: &quot;archive/postmortems/q1.md&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-6b2bbd-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/collections/company-docs/documents/move&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     json={&quot;from&quot;: &quot;postmortems/q1.md&quot;, &quot;to&quot;: &quot;archive/postmortems/q1.md&quot;},
 )
-r.raise_for_status()  # 204</code></pre></div><div class="tab-panel" id="tab-518b99-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/collections/company-docs/documents/move&quot;, {
+r.raise_for_status()  # 204</code></pre></div><div class="tab-panel" id="tab-6b2bbd-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/collections/company-docs/documents/move&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -687,16 +688,16 @@ r.raise_for_status()  # 204</code></pre></div><div class="tab-panel" id="tab-518
 <hr />
 <h2 id="post-v1collectionsidsearch">POST /v1/collections/{id}/search</h2>
 <p>Semantic search within a single collection. Returns a ranked list of matching chunks.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a4839b-curl">curl</button><button class="tab" data-tab="tab-a4839b-python">python</button><button class="tab" data-tab="tab-a4839b-javascript">javascript</button></div><div class="tab-panel active" id="tab-a4839b-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/collections/company-docs/search \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d3538e-curl">curl</button><button class="tab" data-tab="tab-d3538e-python">python</button><button class="tab" data-tab="tab-d3538e-javascript">javascript</button></div><div class="tab-panel active" id="tab-d3538e-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/collections/company-docs/search \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;query&quot;: &quot;what caused the outage&quot;, &quot;top_k&quot;: 5}&#x27;</code></pre></div><div class="tab-panel" id="tab-a4839b-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;query&quot;: &quot;what caused the outage&quot;, &quot;top_k&quot;: 5}&#x27;</code></pre></div><div class="tab-panel" id="tab-d3538e-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/collections/company-docs/search&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     json={&quot;query&quot;: &quot;what caused the outage&quot;, &quot;top_k&quot;: 5},
 )
-hits = r.json()[&quot;hits&quot;]</code></pre></div><div class="tab-panel" id="tab-a4839b-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/collections/company-docs/search&quot;, {
+hits = r.json()[&quot;hits&quot;]</code></pre></div><div class="tab-panel" id="tab-d3538e-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/collections/company-docs/search&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -722,14 +723,14 @@ const { hits } = await r.json();</code></pre></div></div>
 <hr />
 <h2 id="get-v1collectionsidindexed_documents">GET /v1/collections/{id}/indexed_documents</h2>
 <p>List chunks that have been embedded into the vector store. Filter by <code>?document_id=&lt;id&gt;</code> to inspect one document's chunks.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-6fd3c5-curl">curl</button><button class="tab" data-tab="tab-6fd3c5-python">python</button><button class="tab" data-tab="tab-6fd3c5-javascript">javascript</button></div><div class="tab-panel active" id="tab-6fd3c5-curl"><pre class="md-pre lang-curl"><code>curl -s &quot;https://primer.example/v1/collections/company-docs/indexed_documents?document_id=doc-postmortem-001&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-6fd3c5-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-bb2cf8-curl">curl</button><button class="tab" data-tab="tab-bb2cf8-python">python</button><button class="tab" data-tab="tab-bb2cf8-javascript">javascript</button></div><div class="tab-panel active" id="tab-bb2cf8-curl"><pre class="md-pre lang-curl"><code>curl -s &quot;https://primer.example/v1/collections/company-docs/indexed_documents?document_id=doc-postmortem-001&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-bb2cf8-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://primer.example/v1/collections/company-docs/indexed_documents&quot;,
     params={&quot;document_id&quot;: &quot;doc-postmortem-001&quot;},
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-result = r.json()</code></pre></div><div class="tab-panel" id="tab-6fd3c5-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(
+result = r.json()</code></pre></div><div class="tab-panel" id="tab-bb2cf8-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(
   &quot;/v1/collections/company-docs/indexed_documents?document_id=doc-postmortem-001&quot;,
   { headers: { &quot;Authorization&quot;: `Bearer ${token}` } },
 );
@@ -749,16 +750,16 @@ const result = await r.json();</code></pre></div></div>
 <hr />
 <h2 id="post-v1documents_convert_file">POST /v1/documents/_convert_file</h2>
 <p>Convert an uploaded file (markdown, PDF, etc.) to plain text suitable for ingestion. Uses multipart form data.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-69a7ef-curl">curl</button><button class="tab" data-tab="tab-69a7ef-python">python</button><button class="tab" data-tab="tab-69a7ef-javascript">javascript</button></div><div class="tab-panel active" id="tab-69a7ef-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/documents/_convert_file \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-84ea80-curl">curl</button><button class="tab" data-tab="tab-84ea80-python">python</button><button class="tab" data-tab="tab-84ea80-javascript">javascript</button></div><div class="tab-panel active" id="tab-84ea80-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/documents/_convert_file \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
-  -F &quot;file=@note.md;type=text/markdown&quot;</code></pre></div><div class="tab-panel" id="tab-69a7ef-python"><pre class="md-pre lang-python"><code>import httpx
+  -F &quot;file=@note.md;type=text/markdown&quot;</code></pre></div><div class="tab-panel" id="tab-84ea80-python"><pre class="md-pre lang-python"><code>import httpx
 with open(&quot;note.md&quot;, &quot;rb&quot;) as f:
     r = httpx.post(
         &quot;https://primer.example/v1/documents/_convert_file&quot;,
         headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
         files={&quot;file&quot;: (&quot;note.md&quot;, f, &quot;text/markdown&quot;)},
     )
-text = r.json()[&quot;text&quot;]</code></pre></div><div class="tab-panel" id="tab-69a7ef-javascript"><pre class="md-pre lang-javascript"><code>const fd = new FormData();
+text = r.json()[&quot;text&quot;]</code></pre></div><div class="tab-panel" id="tab-84ea80-javascript"><pre class="md-pre lang-javascript"><code>const fd = new FormData();
 fd.append(&quot;file&quot;, fileBlob, &quot;note.md&quot;);
 const r = await fetch(&quot;/v1/documents/_convert_file&quot;, {
   method: &quot;POST&quot;,
@@ -780,14 +781,14 @@ const { text } = await r.json();</code></pre></div></div>
 <p>The internal-collections subsystem indexes agents, graphs, collections, and tools into a shared vector store so they can be found by semantic search. Activation requires a configured embedding provider and SSP. The config stores <code>embedding_provider_id</code>, <code>embedding_model</code>, and <code>search_provider_id</code>. Once activated, vector-space-defining fields are frozen; changing <code>embedding_provider_id</code> after the first bootstrap returns <code>409</code> with <code>frozen_fields</code>.</p>
 <h3 id="put-v1internal_collectionsconfig">PUT /v1/internal_collections/config</h3>
 <p>Activate or update the subsystem config. Acts as an upsert before the first bootstrap. After bootstrap, changes to frozen fields return <code>409</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-814215-curl">curl</button><button class="tab" data-tab="tab-814215-python">python</button><button class="tab" data-tab="tab-814215-javascript">javascript</button></div><div class="tab-panel active" id="tab-814215-curl"><pre class="md-pre lang-curl"><code>curl -s -X PUT https://primer.example/v1/internal_collections/config \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-dd3e01-curl">curl</button><button class="tab" data-tab="tab-dd3e01-python">python</button><button class="tab" data-tab="tab-dd3e01-javascript">javascript</button></div><div class="tab-panel active" id="tab-dd3e01-curl"><pre class="md-pre lang-curl"><code>curl -s -X PUT https://primer.example/v1/internal_collections/config \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
     &quot;embedding_provider_id&quot;: &quot;lmstudio-embed&quot;,
     &quot;embedding_model&quot;: &quot;nomic-embed-text-v1.5&quot;,
     &quot;search_provider_id&quot;: &quot;pg-main&quot;
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-814215-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-dd3e01-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.put(
     &quot;https://primer.example/v1/internal_collections/config&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -797,7 +798,7 @@ r = httpx.put(
         &quot;search_provider_id&quot;: &quot;pg-main&quot;,
     },
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-814215-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/internal_collections/config&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-dd3e01-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/internal_collections/config&quot;, {
   method: &quot;PUT&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -811,8 +812,8 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-814215-jav
 });</code></pre></div></div>
 <h3 id="post-v1internal_collectionsbootstrap">POST /v1/internal_collections/bootstrap</h3>
 <p>Trigger an async bootstrap that creates vector tables and indexes existing entities. Returns <code>202</code> immediately with the freshly created status row (its <code>status</code> is <code>&quot;running&quot;</code>); poll <code>GET /v1/internal_collections/bootstrap/status</code> until <code>status == &quot;succeeded&quot;</code>. A second call while the first is running returns <code>409</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-27edef-curl">curl</button><button class="tab" data-tab="tab-27edef-python">python</button><button class="tab" data-tab="tab-27edef-javascript">javascript</button></div><div class="tab-panel active" id="tab-27edef-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/internal_collections/bootstrap \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-27edef-python"><pre class="md-pre lang-python"><code>import httpx, time
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-cbd7a8-curl">curl</button><button class="tab" data-tab="tab-cbd7a8-python">python</button><button class="tab" data-tab="tab-cbd7a8-javascript">javascript</button></div><div class="tab-panel active" id="tab-cbd7a8-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/internal_collections/bootstrap \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-cbd7a8-python"><pre class="md-pre lang-python"><code>import httpx, time
 r = httpx.post(
     &quot;https://primer.example/v1/internal_collections/bootstrap&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -827,7 +828,7 @@ while True:
     )
     if s.json()[&quot;status&quot;] == &quot;succeeded&quot;:
         break
-    time.sleep(1)</code></pre></div><div class="tab-panel" id="tab-27edef-javascript"><pre class="md-pre lang-javascript"><code>const boot = await fetch(&quot;/v1/internal_collections/bootstrap&quot;, {
+    time.sleep(1)</code></pre></div><div class="tab-panel" id="tab-cbd7a8-javascript"><pre class="md-pre lang-javascript"><code>const boot = await fetch(&quot;/v1/internal_collections/bootstrap&quot;, {
   method: &quot;POST&quot;,
   headers: { &quot;Authorization&quot;: `Bearer ${token}` },
 });
@@ -858,29 +859,29 @@ while True:
 </code></pre>
 <h3 id="delete-v1internal_collectionsconfig">DELETE /v1/internal_collections/config</h3>
 <p>Deactivate the subsystem. After deletion, search routes (<code>/v1/agents/search</code>, etc.) return <code>503</code> with <code>/errors/subsystem-inactive</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a4d80b-curl">curl</button><button class="tab" data-tab="tab-a4d80b-python">python</button><button class="tab" data-tab="tab-a4d80b-javascript">javascript</button></div><div class="tab-panel active" id="tab-a4d80b-curl"><pre class="md-pre lang-curl"><code>curl -s -X DELETE https://primer.example/v1/internal_collections/config \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-a4d80b-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-185a14-curl">curl</button><button class="tab" data-tab="tab-185a14-python">python</button><button class="tab" data-tab="tab-185a14-javascript">javascript</button></div><div class="tab-panel active" id="tab-185a14-curl"><pre class="md-pre lang-curl"><code>curl -s -X DELETE https://primer.example/v1/internal_collections/config \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-185a14-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.delete(
     &quot;https://primer.example/v1/internal_collections/config&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-r.raise_for_status()  # 204</code></pre></div><div class="tab-panel" id="tab-a4d80b-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/internal_collections/config&quot;, {
+r.raise_for_status()  # 204</code></pre></div><div class="tab-panel" id="tab-185a14-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/internal_collections/config&quot;, {
   method: &quot;DELETE&quot;,
   headers: { &quot;Authorization&quot;: `Bearer ${token}` },
 });</code></pre></div></div>
 <hr />
 <h2 id="post-v1agentssearch-and-collectionssearch-graphssearch-toolssearch">POST /v1/agents/search (and /collections/search, /graphs/search, /tools/search)</h2>
 <p>Semantic search over the internal collections. Requires a successful bootstrap. Returns the same <code>SearchResponse</code> shape for all four routes.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d71e5a-curl">curl</button><button class="tab" data-tab="tab-d71e5a-python">python</button><button class="tab" data-tab="tab-d71e5a-javascript">javascript</button></div><div class="tab-panel active" id="tab-d71e5a-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/agents/search \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-1b0d5d-curl">curl</button><button class="tab" data-tab="tab-1b0d5d-python">python</button><button class="tab" data-tab="tab-1b0d5d-javascript">javascript</button></div><div class="tab-panel active" id="tab-1b0d5d-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/agents/search \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;query&quot;: &quot;data science automation&quot;, &quot;top_k&quot;: 5}&#x27;</code></pre></div><div class="tab-panel" id="tab-d71e5a-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;query&quot;: &quot;data science automation&quot;, &quot;top_k&quot;: 5}&#x27;</code></pre></div><div class="tab-panel" id="tab-1b0d5d-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/agents/search&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     json={&quot;query&quot;: &quot;data science automation&quot;, &quot;top_k&quot;: 5},
 )
-hits = r.json()[&quot;hits&quot;]</code></pre></div><div class="tab-panel" id="tab-d71e5a-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/agents/search&quot;, {
+hits = r.json()[&quot;hits&quot;]</code></pre></div><div class="tab-panel" id="tab-1b0d5d-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/agents/search&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,

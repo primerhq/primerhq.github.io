@@ -59,6 +59,7 @@
 <a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-python/">Python Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
 <a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
 <a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
@@ -73,7 +74,7 @@
 <a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
 <a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
 <a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
-<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Builder</a>
 <a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
 <a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
 <a class="nav-link" href="/docs/web/overview/">Web</a>
@@ -291,7 +292,7 @@
 <h2 id="post-v1workspace_providers">POST /v1/workspace_providers</h2>
 <p>Register a workspace backend. <code>PUT</code> is not defined on this resource; providers are immutable once created.</p>
 <h3 id="local-provider">Local provider</h3>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-efd1bb-curl">curl</button><button class="tab" data-tab="tab-efd1bb-python">python</button><button class="tab" data-tab="tab-efd1bb-javascript">javascript</button></div><div class="tab-panel active" id="tab-efd1bb-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspace_providers \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-758889-curl">curl</button><button class="tab" data-tab="tab-758889-python">python</button><button class="tab" data-tab="tab-758889-javascript">javascript</button></div><div class="tab-panel active" id="tab-758889-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspace_providers \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -301,7 +302,7 @@
       &quot;kind&quot;: &quot;local&quot;,
       &quot;root_path&quot;: &quot;~/.primer/workspaces&quot;
     }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-efd1bb-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-758889-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/workspace_providers&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -311,7 +312,7 @@ r = httpx.post(
         &quot;config&quot;: {&quot;kind&quot;: &quot;local&quot;, &quot;root_path&quot;: &quot;~/.primer/workspaces&quot;},
     },
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-efd1bb-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspace_providers&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-758889-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspace_providers&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -332,7 +333,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-efd1bb-jav
 </code></pre>
 <h3 id="container-provider">Container provider</h3>
 <p>Requires Docker accessible via a Unix socket or TCP endpoint. The provider carries connection + reachability only; image and resource limits go in the template.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-8e89e4-curl">curl</button><button class="tab" data-tab="tab-8e89e4-python">python</button><button class="tab" data-tab="tab-8e89e4-javascript">javascript</button></div><div class="tab-panel active" id="tab-8e89e4-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspace_providers \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d57a1b-curl">curl</button><button class="tab" data-tab="tab-d57a1b-python">python</button><button class="tab" data-tab="tab-d57a1b-javascript">javascript</button></div><div class="tab-panel active" id="tab-d57a1b-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspace_providers \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -344,7 +345,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-efd1bb-jav
       &quot;connection&quot;: { &quot;kind&quot;: &quot;socket&quot;, &quot;socket_path&quot;: &quot;/var/run/docker.sock&quot; },
       &quot;reachability&quot;: { &quot;kind&quot;: &quot;host_port&quot;, &quot;bind_host&quot;: &quot;127.0.0.1&quot; }
     }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-8e89e4-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-d57a1b-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/workspace_providers&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -359,7 +360,7 @@ r = httpx.post(
         },
     },
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-8e89e4-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspace_providers&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-d57a1b-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspace_providers&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -378,7 +379,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-8e89e4-jav
 });</code></pre></div></div>
 <h3 id="kubernetes-provider-in-cluster">Kubernetes provider (in-cluster)</h3>
 <p>Use <code>connection.kind = &quot;in_cluster&quot;</code> when the primer platform itself runs inside the cluster. Use <code>connection.kind = &quot;kubeconfig&quot;</code> with a <code>path</code> for host-side deployments.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-454ec7-curl">curl</button><button class="tab" data-tab="tab-454ec7-python">python</button><button class="tab" data-tab="tab-454ec7-javascript">javascript</button></div><div class="tab-panel active" id="tab-454ec7-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspace_providers \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9e2abe-curl">curl</button><button class="tab" data-tab="tab-9e2abe-python">python</button><button class="tab" data-tab="tab-9e2abe-javascript">javascript</button></div><div class="tab-panel active" id="tab-9e2abe-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspace_providers \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -390,7 +391,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-8e89e4-jav
       &quot;namespace&quot;: &quot;primer-workspaces&quot;,
       &quot;reachability&quot;: { &quot;kind&quot;: &quot;in_cluster&quot; }
     }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-454ec7-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-9e2abe-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/workspace_providers&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -405,7 +406,7 @@ r = httpx.post(
         },
     },
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-454ec7-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspace_providers&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-9e2abe-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspace_providers&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -426,7 +427,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-454ec7-jav
 <h2 id="post-v1workspace_templates">POST /v1/workspace_templates</h2>
 <p>Create a template that describes how to materialise a workspace against a provider.</p>
 <h3 id="local-template">Local template</h3>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9c10ed-curl">curl</button><button class="tab" data-tab="tab-9c10ed-python">python</button><button class="tab" data-tab="tab-9c10ed-javascript">javascript</button></div><div class="tab-panel active" id="tab-9c10ed-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspace_templates \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-a008d5-curl">curl</button><button class="tab" data-tab="tab-a008d5-python">python</button><button class="tab" data-tab="tab-a008d5-javascript">javascript</button></div><div class="tab-panel active" id="tab-a008d5-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspace_templates \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -434,7 +435,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-454ec7-jav
     &quot;description&quot;: &quot;Local dev workspace&quot;,
     &quot;provider_id&quot;: &quot;local-dev&quot;,
     &quot;backend&quot;: { &quot;kind&quot;: &quot;local&quot; }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-9c10ed-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-a008d5-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/workspace_templates&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -445,7 +446,7 @@ r = httpx.post(
         &quot;backend&quot;: {&quot;kind&quot;: &quot;local&quot;},
     },
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-9c10ed-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspace_templates&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-a008d5-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspace_templates&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -459,7 +460,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-9c10ed-jav
   }),
 });</code></pre></div></div>
 <h3 id="container-template">Container template</h3>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-d0e2c3-curl">curl</button><button class="tab" data-tab="tab-d0e2c3-python">python</button><button class="tab" data-tab="tab-d0e2c3-javascript">javascript</button></div><div class="tab-panel active" id="tab-d0e2c3-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspace_templates \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9b7b24-curl">curl</button><button class="tab" data-tab="tab-9b7b24-python">python</button><button class="tab" data-tab="tab-9b7b24-javascript">javascript</button></div><div class="tab-panel active" id="tab-9b7b24-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspace_templates \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -470,7 +471,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-9c10ed-jav
       &quot;kind&quot;: &quot;container&quot;,
       &quot;image&quot;: &quot;primer/workspace-runtime:1.0&quot;
     }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-d0e2c3-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-9b7b24-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/workspace_templates&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -481,7 +482,7 @@ r = httpx.post(
         &quot;backend&quot;: {&quot;kind&quot;: &quot;container&quot;, &quot;image&quot;: &quot;primer/workspace-runtime:1.0&quot;},
     },
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-d0e2c3-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspace_templates&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-9b7b24-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspace_templates&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -495,7 +496,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-d0e2c3-jav
   }),
 });</code></pre></div></div>
 <h3 id="kubernetes-template">Kubernetes template</h3>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-25308a-curl">curl</button><button class="tab" data-tab="tab-25308a-python">python</button><button class="tab" data-tab="tab-25308a-javascript">javascript</button></div><div class="tab-panel active" id="tab-25308a-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspace_templates \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-c01b8e-curl">curl</button><button class="tab" data-tab="tab-c01b8e-python">python</button><button class="tab" data-tab="tab-c01b8e-javascript">javascript</button></div><div class="tab-panel active" id="tab-c01b8e-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspace_templates \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -d &#x27;{
@@ -508,7 +509,7 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-d0e2c3-jav
       &quot;entrypoint&quot;: [&quot;python&quot;, &quot;-m&quot;, &quot;primer_runtime.server&quot;],
       &quot;pvc_size&quot;: &quot;1Gi&quot;
     }
-  }&#x27;</code></pre></div><div class="tab-panel" id="tab-25308a-python"><pre class="md-pre lang-python"><code>import httpx
+  }&#x27;</code></pre></div><div class="tab-panel" id="tab-c01b8e-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/workspace_templates&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
@@ -524,7 +525,7 @@ r = httpx.post(
         },
     },
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-25308a-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspace_templates&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-c01b8e-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspace_templates&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -545,17 +546,17 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-25308a-jav
 <hr />
 <h2 id="post-v1workspaces">POST /v1/workspaces</h2>
 <p>Materialise a workspace from a template. The server assigns an id of the form <code>ws-&lt;hex&gt;</code> if <code>id</code> is omitted. For container and kubernetes backends, poll <code>GET /v1/workspaces/{id}</code> until <code>phase == &quot;running&quot;</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-687f9a-curl">curl</button><button class="tab" data-tab="tab-687f9a-python">python</button><button class="tab" data-tab="tab-687f9a-javascript">javascript</button></div><div class="tab-panel active" id="tab-687f9a-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspaces \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f9a2b9-curl">curl</button><button class="tab" data-tab="tab-f9a2b9-python">python</button><button class="tab" data-tab="tab-f9a2b9-javascript">javascript</button></div><div class="tab-panel active" id="tab-f9a2b9-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspaces \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;template_id&quot;: &quot;local-tpl&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-687f9a-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;template_id&quot;: &quot;local-tpl&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-f9a2b9-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/workspaces&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     json={&quot;template_id&quot;: &quot;local-tpl&quot;},
 )
 r.raise_for_status()
-ws = r.json()</code></pre></div><div class="tab-panel" id="tab-687f9a-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workspaces&quot;, {
+ws = r.json()</code></pre></div><div class="tab-panel" id="tab-f9a2b9-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workspaces&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -587,16 +588,16 @@ const ws = await r.json();</code></pre></div></div>
 <hr />
 <h2 id="patch-v1workspacesid">PATCH /v1/workspaces/{id}</h2>
 <p>Rename a workspace. The <code>id</code> handle is immutable; <code>name</code> is the display label.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-210de4-curl">curl</button><button class="tab" data-tab="tab-210de4-python">python</button><button class="tab" data-tab="tab-210de4-javascript">javascript</button></div><div class="tab-panel active" id="tab-210de4-curl"><pre class="md-pre lang-curl"><code>curl -s -X PATCH https://primer.example/v1/workspaces/ws-a1b2c3d4 \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-df1db6-curl">curl</button><button class="tab" data-tab="tab-df1db6-python">python</button><button class="tab" data-tab="tab-df1db6-javascript">javascript</button></div><div class="tab-panel active" id="tab-df1db6-curl"><pre class="md-pre lang-curl"><code>curl -s -X PATCH https://primer.example/v1/workspaces/ws-a1b2c3d4 \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;name&quot;: &quot;My workspace&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-210de4-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;name&quot;: &quot;My workspace&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-df1db6-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.patch(
     &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     json={&quot;name&quot;: &quot;My workspace&quot;},
 )
-r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-210de4-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspaces/ws-a1b2c3d4&quot;, {
+r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-df1db6-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspaces/ws-a1b2c3d4&quot;, {
   method: &quot;PATCH&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -607,17 +608,17 @@ r.raise_for_status()</code></pre></div><div class="tab-panel" id="tab-210de4-jav
 <hr />
 <h2 id="put-v1workspacesidfiles">PUT /v1/workspaces/{id}/files</h2>
 <p>Write a file. Pass <code>path</code> as a query parameter. Parents are created automatically. Writing to <code>.state/</code> or <code>.tmp/</code> is rejected with <code>400</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-97a6d6-curl">curl</button><button class="tab" data-tab="tab-97a6d6-python">python</button><button class="tab" data-tab="tab-97a6d6-javascript">javascript</button></div><div class="tab-panel active" id="tab-97a6d6-curl"><pre class="md-pre lang-curl"><code>curl -s -X PUT &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/files?path=notes.txt&quot; \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-9ec186-curl">curl</button><button class="tab" data-tab="tab-9ec186-python">python</button><button class="tab" data-tab="tab-9ec186-javascript">javascript</button></div><div class="tab-panel active" id="tab-9ec186-curl"><pre class="md-pre lang-curl"><code>curl -s -X PUT &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/files?path=notes.txt&quot; \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;content&quot;: &quot;hello world&quot;, &quot;encoding&quot;: &quot;text&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-97a6d6-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;content&quot;: &quot;hello world&quot;, &quot;encoding&quot;: &quot;text&quot;}&#x27;</code></pre></div><div class="tab-panel" id="tab-9ec186-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.put(
     &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/files&quot;,
     params={&quot;path&quot;: &quot;notes.txt&quot;},
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     json={&quot;content&quot;: &quot;hello world&quot;, &quot;encoding&quot;: &quot;text&quot;},
 )
-r.raise_for_status()  # 204 No Content</code></pre></div><div class="tab-panel" id="tab-97a6d6-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspaces/ws-a1b2c3d4/files?path=notes.txt&quot;, {
+r.raise_for_status()  # 204 No Content</code></pre></div><div class="tab-panel" id="tab-9ec186-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspaces/ws-a1b2c3d4/files?path=notes.txt&quot;, {
   method: &quot;PUT&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -629,14 +630,14 @@ r.raise_for_status()  # 204 No Content</code></pre></div><div class="tab-panel" 
 <hr />
 <h2 id="get-v1workspacesidfilesread">GET /v1/workspaces/{id}/files/read</h2>
 <p>Read a file. Returns <code>FileReadResponse</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-b232a6-curl">curl</button><button class="tab" data-tab="tab-b232a6-python">python</button><button class="tab" data-tab="tab-b232a6-javascript">javascript</button></div><div class="tab-panel active" id="tab-b232a6-curl"><pre class="md-pre lang-curl"><code>curl -s &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/files/read?path=notes.txt&amp;encoding=text&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-b232a6-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-96c3d8-curl">curl</button><button class="tab" data-tab="tab-96c3d8-python">python</button><button class="tab" data-tab="tab-96c3d8-javascript">javascript</button></div><div class="tab-panel active" id="tab-96c3d8-curl"><pre class="md-pre lang-curl"><code>curl -s &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/files/read?path=notes.txt&amp;encoding=text&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-96c3d8-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/files/read&quot;,
     params={&quot;path&quot;: &quot;notes.txt&quot;, &quot;encoding&quot;: &quot;text&quot;},
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-data = r.json()</code></pre></div><div class="tab-panel" id="tab-b232a6-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(
+data = r.json()</code></pre></div><div class="tab-panel" id="tab-96c3d8-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(
   &quot;/v1/workspaces/ws-a1b2c3d4/files/read?path=notes.txt&amp;encoding=text&quot;,
   { headers: { &quot;Authorization&quot;: `Bearer ${token}` } },
 );
@@ -652,14 +653,14 @@ const data = await r.json();</code></pre></div></div>
 <hr />
 <h2 id="get-v1workspacesidfiles">GET /v1/workspaces/{id}/files</h2>
 <p>List a directory. Returns an object with an <code>items</code> array of <code>FileEntry</code> objects.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-f988be-curl">curl</button><button class="tab" data-tab="tab-f988be-python">python</button><button class="tab" data-tab="tab-f988be-javascript">javascript</button></div><div class="tab-panel active" id="tab-f988be-curl"><pre class="md-pre lang-curl"><code>curl -s &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/files?path=.&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-f988be-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-0ac249-curl">curl</button><button class="tab" data-tab="tab-0ac249-python">python</button><button class="tab" data-tab="tab-0ac249-javascript">javascript</button></div><div class="tab-panel active" id="tab-0ac249-curl"><pre class="md-pre lang-curl"><code>curl -s &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/files?path=.&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-0ac249-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/files&quot;,
     params={&quot;path&quot;: &quot;.&quot;},
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-listing = r.json()</code></pre></div><div class="tab-panel" id="tab-f988be-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workspaces/ws-a1b2c3d4/files?path=.&quot;, {
+listing = r.json()</code></pre></div><div class="tab-panel" id="tab-0ac249-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workspaces/ws-a1b2c3d4/files?path=.&quot;, {
   headers: { &quot;Authorization&quot;: `Bearer ${token}` },
 });
 const listing = await r.json();</code></pre></div></div>
@@ -675,44 +676,44 @@ const listing = await r.json();</code></pre></div></div>
 <hr />
 <h2 id="delete-v1workspacesidfiles">DELETE /v1/workspaces/{id}/files</h2>
 <p>Delete a file or directory. Add <code>?recursive=true</code> to delete a non-empty directory; without it a non-empty directory returns <code>400</code>.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-505419-curl">curl</button><button class="tab" data-tab="tab-505419-python">python</button><button class="tab" data-tab="tab-505419-javascript">javascript</button></div><div class="tab-panel active" id="tab-505419-curl"><pre class="md-pre lang-curl"><code>curl -s -X DELETE &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/files?path=old-dir&amp;recursive=true&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-505419-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-669dae-curl">curl</button><button class="tab" data-tab="tab-669dae-python">python</button><button class="tab" data-tab="tab-669dae-javascript">javascript</button></div><div class="tab-panel active" id="tab-669dae-curl"><pre class="md-pre lang-curl"><code>curl -s -X DELETE &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/files?path=old-dir&amp;recursive=true&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-669dae-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.delete(
     &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/files&quot;,
     params={&quot;path&quot;: &quot;old-dir&quot;, &quot;recursive&quot;: &quot;true&quot;},
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-r.raise_for_status()  # 204</code></pre></div><div class="tab-panel" id="tab-505419-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspaces/ws-a1b2c3d4/files?path=old-dir&amp;recursive=true&quot;, {
+r.raise_for_status()  # 204</code></pre></div><div class="tab-panel" id="tab-669dae-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspaces/ws-a1b2c3d4/files?path=old-dir&amp;recursive=true&quot;, {
   method: &quot;DELETE&quot;,
   headers: { &quot;Authorization&quot;: `Bearer ${token}` },
 });</code></pre></div></div>
 <hr />
 <h2 id="post-v1workspacesidfilesdir">POST /v1/workspaces/{id}/files/dir</h2>
 <p>Create a directory. Parent directories are created automatically. Returns <code>400</code> if the path already exists.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-8db2b4-curl">curl</button><button class="tab" data-tab="tab-8db2b4-python">python</button><button class="tab" data-tab="tab-8db2b4-javascript">javascript</button></div><div class="tab-panel active" id="tab-8db2b4-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/files/dir?path=src/utils&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-8db2b4-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e14f21-curl">curl</button><button class="tab" data-tab="tab-e14f21-python">python</button><button class="tab" data-tab="tab-e14f21-javascript">javascript</button></div><div class="tab-panel active" id="tab-e14f21-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/files/dir?path=src/utils&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-e14f21-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/files/dir&quot;,
     params={&quot;path&quot;: &quot;src/utils&quot;},
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-r.raise_for_status()  # 204</code></pre></div><div class="tab-panel" id="tab-8db2b4-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspaces/ws-a1b2c3d4/files/dir?path=src/utils&quot;, {
+r.raise_for_status()  # 204</code></pre></div><div class="tab-panel" id="tab-e14f21-javascript"><pre class="md-pre lang-javascript"><code>await fetch(&quot;/v1/workspaces/ws-a1b2c3d4/files/dir?path=src/utils&quot;, {
   method: &quot;POST&quot;,
   headers: { &quot;Authorization&quot;: `Bearer ${token}` },
 });</code></pre></div></div>
 <hr />
 <h2 id="post-v1workspacesiddiagnostic">POST /v1/workspaces/{id}/diagnostic</h2>
 <p>Run a diagnostic shell command inside the workspace. The command must start with one of the allowed names: <code>echo</code>, <code>pwd</code>, <code>whoami</code>, <code>uname</code>, <code>ls</code>. Anything else returns <code>400</code>. <code>timeout_seconds</code> is capped at 30.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-1c5a18-curl">curl</button><button class="tab" data-tab="tab-1c5a18-python">python</button><button class="tab" data-tab="tab-1c5a18-javascript">javascript</button></div><div class="tab-panel active" id="tab-1c5a18-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspaces/ws-a1b2c3d4/diagnostic \
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-635240-curl">curl</button><button class="tab" data-tab="tab-635240-python">python</button><button class="tab" data-tab="tab-635240-javascript">javascript</button></div><div class="tab-panel active" id="tab-635240-curl"><pre class="md-pre lang-curl"><code>curl -s -X POST https://primer.example/v1/workspaces/ws-a1b2c3d4/diagnostic \
   -H &quot;Authorization: Bearer $TOKEN&quot; \
   -H &quot;Content-Type: application/json&quot; \
-  -d &#x27;{&quot;command&quot;: &quot;echo hi&quot;, &quot;timeout_seconds&quot;: 10}&#x27;</code></pre></div><div class="tab-panel" id="tab-1c5a18-python"><pre class="md-pre lang-python"><code>import httpx
+  -d &#x27;{&quot;command&quot;: &quot;echo hi&quot;, &quot;timeout_seconds&quot;: 10}&#x27;</code></pre></div><div class="tab-panel" id="tab-635240-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.post(
     &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/diagnostic&quot;,
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
     json={&quot;command&quot;: &quot;echo hi&quot;, &quot;timeout_seconds&quot;: 10},
 )
-result = r.json()</code></pre></div><div class="tab-panel" id="tab-1c5a18-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workspaces/ws-a1b2c3d4/diagnostic&quot;, {
+result = r.json()</code></pre></div><div class="tab-panel" id="tab-635240-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workspaces/ws-a1b2c3d4/diagnostic&quot;, {
   method: &quot;POST&quot;,
   headers: {
     &quot;Authorization&quot;: `Bearer ${token}`,
@@ -731,17 +732,69 @@ const result = await r.json();</code></pre></div></div>
 <hr />
 <h2 id="get-v1workspacesidlog">GET /v1/workspaces/{id}/log</h2>
 <p>Return the git commit log for the workspace's <code>.state</code> repo. Pass <code>?limit=N</code> to cap results.</p>
-<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-e71b88-curl">curl</button><button class="tab" data-tab="tab-e71b88-python">python</button><button class="tab" data-tab="tab-e71b88-javascript">javascript</button></div><div class="tab-panel active" id="tab-e71b88-curl"><pre class="md-pre lang-curl"><code>curl -s &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/log?limit=20&quot; \
-  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-e71b88-python"><pre class="md-pre lang-python"><code>import httpx
+<div class="tabs"><div class="tab-row"><button class="tab active" data-tab="tab-1c70ad-curl">curl</button><button class="tab" data-tab="tab-1c70ad-python">python</button><button class="tab" data-tab="tab-1c70ad-javascript">javascript</button></div><div class="tab-panel active" id="tab-1c70ad-curl"><pre class="md-pre lang-curl"><code>curl -s &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/log?limit=20&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;</code></pre></div><div class="tab-panel" id="tab-1c70ad-python"><pre class="md-pre lang-python"><code>import httpx
 r = httpx.get(
     &quot;https://primer.example/v1/workspaces/ws-a1b2c3d4/log&quot;,
     params={&quot;limit&quot;: 20},
     headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
 )
-log = r.json()</code></pre></div><div class="tab-panel" id="tab-e71b88-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workspaces/ws-a1b2c3d4/log?limit=20&quot;, {
+log = r.json()</code></pre></div><div class="tab-panel" id="tab-1c70ad-javascript"><pre class="md-pre lang-javascript"><code>const r = await fetch(&quot;/v1/workspaces/ws-a1b2c3d4/log?limit=20&quot;, {
   headers: { &quot;Authorization&quot;: `Bearer ${token}` },
 });
 const log = await r.json();</code></pre></div></div>
+<table>
+<thead>
+<tr>
+<th>Query</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>limit</code></td>
+<td><code>50</code></td>
+<td>Commits to return, 1 to 500</td>
+</tr>
+<tr>
+<td><code>with_files</code></td>
+<td><code>false</code></td>
+<td>Include per-file line deltas on each commit's <code>files</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="per-file-line-deltas">Per-file line deltas</h3>
+<p><code>?with_files=1</code> adds a <code>files</code> array to every commit, each entry carrying a
+path and its line counts:</p>
+<pre><code class="language-json">{
+  &quot;commits&quot;: [
+    {
+      &quot;sha&quot;: &quot;9c1f0a2&quot;,
+      &quot;message&quot;: &quot;agent edit&quot;,
+      &quot;files&quot;: [
+        {&quot;path&quot;: &quot;src/app.py&quot;, &quot;additions&quot;: 12, &quot;deletions&quot;: 3, &quot;binary&quot;: false},
+        {&quot;path&quot;: &quot;logo.png&quot;, &quot;additions&quot;: 0, &quot;deletions&quot;: 0, &quot;binary&quot;: true}
+      ]
+    }
+  ]
+}
+</code></pre>
+<p>Counts only, never content. That is what a history list needs -- a row per
+file with <code>+n/-m</code> -- and it means listing 500 commits does not mean fetching
+500 diffs. The patch itself comes from
+<code>GET /v1/workspaces/{id}/commit/{sha}</code>, per commit, when a reader opens one.</p>
+<p>Off by default because it widens the response. On the local backend it costs
+no extra git process: the numstat rides along with the same <code>git log</code>.</p>
+<div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p><code>files: null</code> and <code>files: []</code> mean different things, deliberately. <strong>null</strong> is
+&quot;not requested, or this backend cannot tell you&quot;; <strong>[]</strong> is &quot;this commit
+genuinely touched no files&quot;. A client that renders <code>null</code> as an empty file
+list will silently claim a commit changed nothing when the truth is that
+nobody asked.</p>
+</div></div>
+<p><code>binary: true</code> marks a file where git reported <code>-</code> instead of counts. Its
+<code>additions</code> and <code>deletions</code> are always <code>0</code>, which is why the flag exists: it
+separates &quot;no lines changed&quot; from &quot;lines are not the unit here&quot;.</p>
 <hr />
 <h2 id="post-v1workspacesidpause-and-resume">POST /v1/workspaces/{id}/pause and /resume</h2>
 <p>Workspace-level pause/resume is reserved in v1. Both routes return <code>501</code> with <code>{&quot;detail&quot;: {&quot;error&quot;: &quot;not_implemented&quot;}}</code>. Session-level pause/resume is available under <code>/v1/workspaces/{id}/sessions/{session_id}/pause</code>.</p>

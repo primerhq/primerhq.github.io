@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd _embeds && echo \\\"=== available console screenshots (light/dark pairs) ===\\\" && ls *.png | sed -E 's/-(light|dark)\\\\.png$//' | sort -u && echo \\\"\\\" && echo \\\"total PNG files: $(ls *.png...",
+  "error": "Exit code 1\n/bin/bash: line 1: cd: _embeds: No such file or directory",
+  "timestamp": "2026-06-28T10:44:11.748Z",
+  "retry_count": 1
+}

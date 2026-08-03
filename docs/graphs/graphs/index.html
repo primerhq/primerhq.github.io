@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base href="/docs/" />
-<title>Graph Designer &middot; Primer Docs</title>
+<title>Graph Builder &middot; Primer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -59,6 +59,7 @@
 <a class="nav-link" href="/docs/toolsets/overview/">Toolsets &amp; Tools</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-system/">System Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-external/">External Toolsets</a>
+<a class="nav-link" href="/docs/toolsets/toolsets-python/">Python Toolsets</a>
 <a class="nav-link" href="/docs/toolsets/toolsets-approvals/">Approvals</a>
 <a class="nav-link" href="/docs/embedding/overview/">Semantic Search</a>
 <a class="nav-link" href="/docs/embedding/embedding-providers/">Embedding Providers</a>
@@ -73,7 +74,7 @@
 <a class="nav-link" href="/docs/workspaces/workspace-toolset/">Workspace Toolset</a>
 <a class="nav-link" href="/docs/workspaces/yielding-tools/">Yielding Tools</a>
 <a class="nav-link" href="/docs/graphs/overview/">Graphs</a>
-<a class="nav-link" href="/docs/graphs/graphs/">Graph Designer</a>
+<a class="nav-link" href="/docs/graphs/graphs/">Graph Builder</a>
 <a class="nav-link" href="/docs/graphs/graph-node-types/">Node Types</a>
 <a class="nav-link" href="/docs/graphs/graph-templating/">Templating</a>
 <a class="nav-link" href="/docs/web/overview/">Web</a>
@@ -136,8 +137,14 @@
 
   <!-- Content -->
   <div class="content-wrap">
-    <article class="article" id="article"><nav class="breadcrumb"><span>graphs</span> / <span>Graph Designer</span></nav><h1>Graph Designer</h1>
-<p>The Graph Designer is the visual canvas for building and editing graphs. If you are new to graphs, start with the Graphs overview for the concepts (what a graph is, the superstep engine, graph sessions, and when to use one); this page is the hands-on canvas walkthrough.</p>
+    <article class="article" id="article"><nav class="breadcrumb"><span>graphs</span> / <span>Graph Builder</span></nav><h1>Graph Builder</h1>
+<p>The Graph Builder is where you build and edit graphs. If you are new to graphs, start with the Graphs overview for the concepts (what a graph is, the superstep engine, graph sessions, and when to use one); this page is the hands-on walkthrough.</p>
+<p>The builder is organised around three questions, and each has a place on screen:</p>
+<ul>
+<li><strong>What should this step do?</strong> You add a step by choosing a purpose in plain language, not by picking a node type and configuring it afterwards.</li>
+<li><strong>Do its references still resolve?</strong> A banner at the top says so. Values you pull from earlier steps are chips, and chips stay correct when a step is renamed.</li>
+<li><strong>Is this ready to run?</strong> A readiness chip in the toolbar tells you, and tells you what is missing when it is not.</li>
+</ul>
 <p><a href="/docs/graphs/overview/">What a graph is, how the superstep engine runs it, and when to reach for one.</a></p>
 <h2 id="configuration">Configuration</h2>
 <h3 id="creating-a-graph">Creating a graph</h3>
@@ -150,16 +157,14 @@
 <li><strong>Seed agent</strong>: the agent that seeds the first worker node. The console creates a minimal skeleton: <code>Begin -&gt; agent -&gt; End</code>.</li>
 </ul>
 </li>
-<li>Click <strong>Create</strong>. The canvas opens immediately.</li>
+<li>Click <strong>Create</strong>. The builder opens immediately.</li>
 </ol>
-<h3 id="the-canvas">The canvas</h3>
+<h3 id="the-layout">The layout</h3>
 <figure class="embed"><picture><source srcset="/_embeds/graph-canvas-dark.png" media="(prefers-color-scheme: dark)"><img src="/_embeds/graph-canvas-light.png" alt="graph-canvas (live component)" loading="lazy"></picture><figcaption>Live component - open it in your console.</figcaption></figure>
-<p>The canvas shows nodes on a dot-grid. Edges appear as arrows between them:</p>
-<ul>
-<li>Solid arrows: static edges, always followed.</li>
-<li>Dashed arrows: conditional edges (carry a JSON-path router) or implicit fan-out wiring shown for reference only.</li>
-</ul>
-<p>A legend at the bottom-left identifies edge styles. Drag any node to reposition it; the canvas snaps to an 8-pixel grid. Click <strong>Auto-layout</strong> to reset all positions to a left-to-right computed arrangement.</p>
+<p>Three regions, left to right.</p>
+<p><strong>Steps</strong> lists every step in the graph, in order. A step that branches shows its branches underneath it, each reading as a sentence: <code>done -&gt; synth</code>, <code>otherwise -&gt; search</code>, <code>after 6 loops -&gt; synth</code>. A step that fans out shows its copy count, for example <code>x3</code>. <strong>+ Add a step</strong> sits at the bottom, and <code>Cmd-K</code> opens the same thing.</p>
+<p><strong>The canvas</strong> draws the graph in <strong>bands</strong>, one per superstep, labelled <code>STEP 1</code>, <code>STEP 2</code> and so on. The bands are the point: everything in one band runs at the same time, so the picture matches how the engine actually executes rather than just how the arrows are drawn. A fan-out is bracketed and annotated with what it does, for example <code>3 copies run at the same time</code>. <strong>Connect steps</strong> wires two steps together, and you can also drag from one step onto another to connect them in a single gesture. <strong>Tidy up</strong> re-lays out the graph. Drag the background to pan, use the wheel to zoom, and the controls include <strong>Fit to view</strong> and <strong>1:1</strong>.</p>
+<p><strong>The inspector</strong> on the right describes whatever is selected, and is where you configure it. Nothing selected reads <code>Pick a step on the canvas or in the list to see what it does</code>.</p>
 <h3 id="node-kinds">Node kinds</h3>
 <table>
 <thead>
@@ -207,65 +212,106 @@
 </tr>
 </tbody>
 </table>
+<p>The builder speaks in purposes rather than kinds, but the two line up directly: <strong>Ask an agent</strong> makes an <code>agent</code> step, <strong>Run a tool directly</strong> a <code>tool_call</code>, <strong>Use another graph</strong> a <code>graph</code>, <strong>Split the work in parallel</strong> a <code>fan_out</code> paired with its <code>fan_in</code>, and <strong>Finish and return something</strong> an <code>end</code>. You need the kinds when reading a graph's JSON or the API; you do not need them to build one.</p>
 <p>The graph node types page (linked at the end of this page) documents the full configuration of each kind.</p>
-<h3 id="adding-and-configuring-a-node">Adding and configuring a node</h3>
-<ol>
-<li>Click <strong>Add node</strong> in the toolbar and pick a kind from the dropdown.</li>
-<li>The new node appears on the canvas and is immediately selected.</li>
-<li>The right-hand side panel opens. Fill in the fields:
+<h3 id="adding-a-step">Adding a step</h3>
+<p>Click <strong>+ Add a step</strong> (or press <code>Cmd-K</code>). The picker asks what should happen next, relative to the step you are on, and offers purposes rather than node types:</p>
+<p><strong>Do work</strong></p>
+<table>
+<thead>
+<tr>
+<th>Choice</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ask an agent to do something</strong></td>
+<td>Writes, reviews, decides. Anything that needs judgement</td>
+</tr>
+<tr>
+<td><strong>Run a tool directly</strong></td>
+<td>Fetch, write a file, call an API. No model, no cost</td>
+</tr>
+<tr>
+<td><strong>Use another graph</strong></td>
+<td>Reuse a pipeline you already built</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Change the shape</strong></p>
+<table>
+<thead>
+<tr>
+<th>Choice</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Split the work in parallel</strong></td>
+<td>Per item in a list, or N copies. Adds the merge step too</td>
+</tr>
+<tr>
+<td><strong>Choose between paths</strong></td>
+<td>Send the run one way or another based on a result</td>
+</tr>
+<tr>
+<td><strong>Finish and return something</strong></td>
+<td>A graph can have several finishes</td>
+</tr>
+</tbody>
+</table>
+<p>Picking a purpose completes the step: choose the agent and the step is named after it, and it inherits the previous step's output. As the picker puts it, every step is created finished, so a half-built graph is not a state you can be in by accident.</p>
+<div class="callout callout-tip"><div class="callout-title">tip</div><div class="callout-body"><p><strong>Split the work in parallel</strong> adds the merge step at the same time. A fan-out without its fan-in is a graph that cannot finish, so the builder does not let you create one by forgetting the second half.</p>
+</div></div>
+<h3 id="configuring-a-step">Configuring a step</h3>
+<p>Select a step, in the list or on the canvas, and the inspector asks three things:</p>
 <ul>
-<li><strong>Agent node</strong>: pick an agent from the dropdown, or click <strong>+ New</strong> to create one inline. Optionally override the <code>input_template</code>.</li>
-<li><strong>End node</strong>: set the <code>output_template</code>. May be left blank.</li>
-<li><strong>Fan-out node</strong>: add one or more specs (<code>broadcast</code>, <code>map</code>, or <code>tee</code>), each pointing to a target node id.</li>
-<li><strong>Fan-in node</strong>: set the <code>aggregate_template</code>.</li>
-<li><strong>Tool call node</strong>: pick a tool id and supply arguments as JSON.</li>
+<li><strong>Which agent</strong> (or which tool, or which graph): a searchable, paged list with each candidate's description, so you are choosing on purpose rather than on id.</li>
+<li><strong>What it gets</strong>, from earlier steps: the input, written as text with <strong>chips</strong> for values pulled from earlier steps. Type <code>/</code> or use <strong>Insert</strong> to add one. Chips are references, not text, so <strong>they stay correct when a step is renamed</strong>.</li>
+<li><strong>What it gives back</strong>: free text by default. Add <strong>fields</strong> (or supply JSON) when a later branch needs to read this step's answer, since a branch can only test something structured.</li>
 </ul>
-</li>
-<li>To rename a node, edit the <strong>ID</strong> field. All edges referencing that node update automatically.</li>
-<li>To delete a node, click <strong>Delete node</strong>. All edges touching it are removed.</li>
-</ol>
-<h3 id="wiring-edges">Wiring edges</h3>
-<p>There are two ways to wire an edge:</p>
-<ul>
-<li><strong>Add edge</strong>: click <strong>Add edge</strong> in the toolbar (the cursor changes to a crosshair), pick <strong>Static</strong> or <strong>Conditional</strong> from the segment control next to the button, then click the source node followed by the target node. The edge is drawn.</li>
-<li><strong>Drag</strong>: drag from one node directly onto another to draw the edge in a single gesture.</li>
-</ul>
-<p>The canvas also supports pan and zoom: drag the background to pan, and use the mouse wheel to zoom in and out.</p>
-<p>For a conditional edge, open the edge's side panel to add one or more branches. Each branch carries one or more <code>BranchCondition</code> predicates (ANDed together). The first branch whose conditions all hold fires; if none match and a <code>default_to</code> target is set, that target fires instead. If none match and no default is set, the run terminates failed.</p>
-<p>To delete an edge, click it on the canvas then click <strong>Delete edge</strong> in the panel.</p>
-<div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p>Fan-out nodes must have no outgoing edges in the edge list. Their downstream targets live on the node's specs (broadcast, map, tee) and appear as dashed implicit arrows. Adding a real edge from a Fan-out node is a hard topology violation and blocks Save.</p>
+<p>Rename a step by editing its name at the top of the inspector. Every chip pointing at it follows.</p>
+<h3 id="connecting-steps-and-branching">Connecting steps and branching</h3>
+<p><strong>Connect steps</strong> on the canvas wires one step to another.</p>
+<p>A step that chooses between paths shows its branches in the Steps list, each as a readable line: the condition, then the target. The first branch whose conditions hold fires. If none match and a default target is set, that fires instead; if none match and there is no default, the run ends failed.</p>
+<div class="callout callout-warning"><div class="callout-title">warning</div><div class="callout-body"><p>A fan-out step's downstream targets live on the step itself, not on ordinary connections out of it. Wiring a normal connection out of a fan-out is a topology violation and stops the graph being ready to run. Adding the split through <strong>Split the work in parallel</strong> sets this up correctly, and adds the merge step at the same time.</p>
 </div></div>
 <h3 id="max_iterations"><code>max_iterations</code></h3>
-<p>Any graph whose edges can form a cycle must set <code>max_iterations</code>, a positive integer cap on how many supersteps the executor runs before it terminates the run with <code>ended_detail='max_iterations_exceeded'</code>. The canvas validator enforces this: a graph with a cycle and no <code>max_iterations</code> is a hard violation that blocks Save. Set the graph's <code>on_max_iterations</code> to a finalize node to land with output instead of hard-failing at the cap.</p>
-<h3 id="validate-and-save">Validate and save</h3>
-<p>The canvas runs local topology checks as you edit:</p>
+<p>Any graph whose edges can form a cycle must set <code>max_iterations</code>, a positive integer cap on how many supersteps the executor runs before it terminates the run with <code>ended_detail='max_iterations_exceeded'</code>. The builder enforces this: a graph with a cycle and no <code>max_iterations</code> is not ready to run, and the readiness chip says so.</p>
+<p>Set the graph's <code>on_max_iterations</code> to a finalize step to land with output at the cap instead of hard-failing there. Without it, hitting the cap ends the run failed and whatever the graph had produced goes nowhere.</p>
+<h3 id="references-readiness-and-saving">References, readiness, and saving</h3>
+<p>Two indicators sit above the canvas and answer different questions.</p>
+<p><strong>The references banner</strong> reports whether everything the graph points at still exists and still resolves: the agents, the tools, the values steps pull from each other. <code>All references resolve</code> means nothing is dangling. This is the check that catches a step reading a field a renamed or deleted step no longer provides.</p>
+<p><strong>The readiness chip</strong> in the toolbar reports whether the graph can run at all. <code>Ready to run</code> means it can. When it cannot, the chip expands into what is missing, in the same plain language as the rest of the builder: <strong>Add a start</strong>, <strong>Add a finish</strong>, <strong>Add fields</strong>. Each comes with a <strong>Show me</strong> that takes you to the step in question, so the chip is a fix list rather than an error message.</p>
+<p>Then:</p>
 <ul>
-<li><strong>Hard violations</strong> (red): block Save. Examples: missing Begin, End not reachable from Begin, duplicate node ids, broken edge endpoints, Fan-out with real outgoing edges, cyclic graph without <code>max_iterations</code>.</li>
-<li><strong>Warnings</strong> (amber): do not block Save. Examples: orphan nodes, Tool-call referencing a tool not in the catalogue.</li>
+<li><strong>Dry run</strong> exercises the graph without starting a real session, so you find a broken reference before an agent does.</li>
+<li><strong>JSON</strong> shows the underlying graph document, for when you would rather read or edit the source of truth directly.</li>
+<li><strong>Save draft</strong> stores your changes. <strong>Discard</strong> reverts to the last saved version.</li>
 </ul>
-<p>When the banner is clear (or shows only warnings), click <strong>Save</strong>. An &quot;unsaved changes&quot; label appears whenever the draft differs from the last saved version. Click <strong>Discard</strong> to revert.</p>
 <h2 id="walkthrough-a-producer-judge-loop">Walkthrough: a producer-judge loop</h2>
 <p>This walkthrough builds the producer-judge loop from the quickstart: a draft-writer feeds a completeness-judge that either loops back or accepts the draft.</p>
 <ol>
 <li>Open <strong>Graphs</strong> and click <strong>New graph</strong>. Name it <code>blog-pipeline</code>. Choose any agent as the seed.</li>
-<li>The canvas opens with three nodes: <code>begin</code>, <code>agent</code>, and <code>end</code>. Click the agent node and rename it <code>draft-writer</code> in the side panel. Pick your drafting agent.</li>
-<li>Click <strong>Add node</strong> and add a second <strong>Agent</strong> node. Rename it <code>judge</code>. Pick your judge agent. In the side panel, set <code>response_format</code> to a JSON schema with a <code>decision</code> field (<code>&quot;accept&quot;</code> or <code>&quot;reject&quot;</code>) and an optional <code>feedback</code> field.</li>
-<li>Draw a <strong>Static</strong> edge from <code>draft-writer</code> to <code>judge</code>.</li>
-<li>Draw a <strong>Conditional</strong> edge from <code>judge</code> to <code>draft-writer</code> (the reject loop). In the side panel, add a branch with condition <code>decision eq &quot;reject&quot;</code>.</li>
-<li>Draw a <strong>Conditional</strong> edge from <code>judge</code> to <code>end</code> (the accept path). Add a branch with condition <code>decision eq &quot;accept&quot;</code>.</li>
-<li>In the End node's side panel, set the <code>output_template</code> to render the accepted draft: <code>{{ nodes.draft-writer.text }}</code>.</li>
-<li>Set <code>max_iterations</code> to <code>10</code> on the graph (shown in the graph properties panel).</li>
-<li>Click <strong>Save</strong>.</li>
+<li>The builder opens with a start, one agent step, and a finish. Select the agent step and pick your drafting agent; the step takes its name from the agent.</li>
+<li>With that step selected, click <strong>+ Add a step</strong> and choose <strong>Ask an agent to do something</strong>. Pick your judge agent.</li>
+<li>In the judge's <strong>What it gives back</strong>, add fields for <code>decision</code> (<code>&quot;accept&quot;</code> or <code>&quot;reject&quot;</code>) and an optional <code>feedback</code>. A branch can only test something structured, which is why free text is not enough here.</li>
+<li>Select the judge and add a step with <strong>Choose between paths</strong>. Give it two branches: one where <code>decision</code> is <code>reject</code>, going back to the drafting step, and one where it is <code>accept</code>, going to the finish.</li>
+<li>Select the finish and set what it returns, using <strong>Insert</strong> to drop in a chip for the drafting step's output rather than typing its name.</li>
+<li>Set <code>max_iterations</code> to <code>10</code> in the graph's properties. The loop in step 5 makes this required.</li>
+<li>Check the readiness chip reads <strong>Ready to run</strong>, click <strong>Dry run</strong> to confirm the references hold, then <strong>Save draft</strong>.</li>
 </ol>
 <pre class="mermaid">flowchart LR
     b([Begin]) --&gt; d[draft-writer]
     d --&gt; j{judge}
     j --&gt;|decision eq reject| d
     j --&gt;|decision eq accept| e([End])</pre>
-<ol start="10">
-<li>Go to <strong>Sessions</strong>, click <strong>New session</strong>, pick a workspace, select <code>blog-pipeline</code> as the graph, paste your initial topic as <code>graph_input</code>, and submit.</li>
+<ol start="9">
+<li>Start it from the workspace <strong>Studio</strong>: open the workspace, click <code>+</code> in the <strong>Runs</strong> rail, select <code>blog-pipeline</code> as the graph, and give it your initial topic as <code>graph_input</code>.</li>
 </ol>
-<p>The session detail view shows per-node status updating as each superstep runs.</p>
+<p>The run opens as a tab with its superstep strip, so you can watch each band complete as the engine advances.</p>
 <p><a href="/docs/graphs/graph-node-types/">Every node kind: configuration fields, behavior, and examples.</a></p>
 <p><a href="/docs/graphs/graph-templating/">How Jinja2 templates in nodes access upstream outputs and graph input.</a></p>
 <p><a href="/docs/workspaces/workspaces-and-sessions/">How sessions are created, how graph_input is validated, and how runs are inspected.</a></p>
