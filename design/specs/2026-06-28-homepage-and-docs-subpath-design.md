@@ -1,7 +1,15 @@
 # Design: product homepage at `/` + docs moved to `/docs/`
 
 Date: 2026-06-28
-Status: Draft for review
+Status: Implemented; positioning superseded
+
+> **Superseded in part (2026-08-09).** This spec's copy is written around
+> *loop engineering*. The positioning has since moved to **graph
+> engineering**: a loop is one shape a graph can take (a cycle), and Primer's
+> execution model is the general graph, so the narrower framing undersold it.
+> The homepage section formerly `#loop` is now `#graph`. Kept unedited below
+> as the record of what was designed on the date above; for current copy see
+> the primer repo's `docs/marketing/positioning.md` and the live `index.html`.
 
 ## Goal
 

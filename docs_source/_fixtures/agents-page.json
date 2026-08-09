@@ -1,47 +1,76 @@
 {
-  "GET /agents?limit=200&offset=0": {
-    "kind": "offset",
-    "offset": 0,
-    "length": 1,
-    "total": 1,
-    "items": [
-      {
-        "id": "weekly-digest",
-        "description": "Summarises the week",
-        "model": {
-          "provider_id": "demo-openai",
-          "model_name": "gpt-4o"
-        },
-        "temperature": null,
-        "tools": [],
-        "system_prompt": [
-          "You write concise weekly digests."
-        ],
-        "compaction_prompt": [],
-        "harness_id": null
-      }
-    ]
-  },
-  "GET /agents/weekly-digest": {
+ "GET /agents?limit=200&offset=0": {
+  "kind": "offset",
+  "offset": 0,
+  "length": 1,
+  "total": 1,
+  "items": [
+   {
     "id": "weekly-digest",
     "description": "Summarises the week",
     "model": {
-      "provider_id": "demo-openai",
-      "model_name": "gpt-4o"
+     "profile_id": "demo-openai--gpt-4o"
     },
     "temperature": null,
     "tools": [],
     "system_prompt": [
-      "You write concise weekly digests."
+     "You write concise weekly digests."
     ],
     "compaction_prompt": [],
     "harness_id": null
+   }
+  ]
+ },
+ "GET /agents/weekly-digest": {
+  "id": "weekly-digest",
+  "description": "Summarises the week",
+  "model": {
+   "profile_id": "demo-openai--gpt-4o"
   },
-  "GET /llm_providers?limit=200": {
-    "kind": "offset",
-    "offset": 0,
-    "length": 0,
-    "total": 0,
-    "items": []
-  }
+  "temperature": null,
+  "tools": [],
+  "system_prompt": [
+   "You write concise weekly digests."
+  ],
+  "compaction_prompt": [],
+  "harness_id": null
+ },
+ "GET /llm_providers?limit=200": {
+  "kind": "offset",
+  "offset": 0,
+  "length": 1,
+  "total": 1,
+  "items": [
+   {
+    "id": "demo-openai",
+    "description": "Demo OpenAI provider",
+    "provider": "openresponses",
+    "config": {
+     "url": "https://api.openai.com/v1",
+     "api_key": "**********",
+     "flavor": "openai"
+    },
+    "limits": {
+     "max_concurrency": 4
+    }
+   }
+  ]
+ },
+ "GET /model_profiles?limit=200": {
+  "kind": "offset",
+  "offset": 0,
+  "length": 1,
+  "total": 1,
+  "items": [
+   {
+    "id": "demo-openai--gpt-4o",
+    "description": "gpt-4o on demo-openai",
+    "provider_id": "demo-openai",
+    "model_name": "gpt-4o",
+    "context_length": 128000,
+    "config": {},
+    "harness_id": null
+   }
+  ]
+ }
 }

@@ -36,7 +36,7 @@
 
     <nav class="topnav" aria-label="Primary">
       <a href="#problem">Problem</a>
-      <a href="#loop">Loop</a>
+      <a href="#graph">Graph</a>
       <a href="#install">Install</a>
       <a href="#features">Features</a>
       <a href="/docs/">Docs</a>
@@ -169,17 +169,17 @@
     </figure>
   </section>
 
-  <!-- ============================ LOOP ============================ -->
-  <section class="section section--alt" id="loop">
+  <!-- ============================ GRAPH ============================ -->
+  <section class="section section--alt" id="graph">
     <div class="section__head reveal">
-      <p class="kicker">Loop engineering</p>
-      <h2>A producer drafts. A judge critiques. It loops until it passes.</h2>
-      <p class="lede">Primer gives you the building blocks for designing agent loops — directed cyclic graphs where work is made, checked, and either retried, escalated to a human, or delivered.</p>
+      <p class="kicker">Graph engineering</p>
+      <h2>Most agent work isn't a loop. It's a graph.</h2>
+      <p class="lede">A loop is the simplest shape a graph can take: two nodes and a condition, like the producer and judge below. Real work also branches on the result, fans out across a dozen items and rejoins, and stops for a human at exactly one step. Primer runs the whole topology, with every ready node executing concurrently and each one keeping its own clean context.</p>
     </div>
 
     <div class="loopgrid">
       <!-- INFOGRAPHIC (b): producer–judge directed cyclic graph -->
-      <figure class="dcg reveal" id="dcg" aria-label="Producer–judge loop: a trigger starts the producer, the judge evaluates, then the work either retries, escalates to a human, or is delivered.">
+      <figure class="dcg reveal" id="dcg" aria-label="The smallest interesting graph: a trigger starts the producer, the judge evaluates, then the work either retries around the cycle, escalates to a human, or is delivered.">
         <div class="dcg__legend">
           <span><i class="sw sw--amber"></i> retry</span>
           <span><i class="sw sw--violet"></i> escalate</span>
@@ -217,7 +217,7 @@
         <li><span class="blocks__ic" data-ic="heartbeat"></span><div><b>Heartbeat</b><span>Triggers on cron, delay, or webhook.</span></div></li>
         <li><span class="blocks__ic" data-ic="isolation"></span><div><b>Isolation</b><span>Git-backed workspaces: local, container, or Kubernetes.</span></div></li>
         <li><span class="blocks__ic" data-ic="memory"></span><div><b>Durable memory</b><span>Workspaces plus knowledge collections.</span></div></li>
-        <li><span class="blocks__ic" data-ic="makercheck"></span><div><b>Maker + checker</b><span>Producer drafts, judge critiques, loop until it passes.</span></div></li>
+        <li><span class="blocks__ic" data-ic="makercheck"></span><div><b>Maker + checker</b><span>Producer drafts, judge critiques, the cycle repeats until it passes.</span></div></li>
         <li><span class="blocks__ic" data-ic="connectors"></span><div><b>Connectors</b><span>MCP server &amp; client; Slack, Telegram, Discord.</span></div></li>
         <li><span class="blocks__ic" data-ic="gate"></span><div><b>Human gate</b><span>Approvals; park-and-resume when judgment is needed.</span></div></li>
       </ul>

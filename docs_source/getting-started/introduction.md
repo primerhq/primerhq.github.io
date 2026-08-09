@@ -66,20 +66,24 @@ flowchart TD
     edge --> primer[Primer: a microagents orchestration platform]
 ```
 
-## Loop engineering
+## Graph engineering
 
-A growing practice called loop engineering reframes how people work with coding agents. Instead of prompting an agent one turn at a time, you design a *system* that prompts it: a loop that wakes on a schedule, works toward a stated goal, checks its own output, and escalates to a human only when it should. The leverage moves from writing a good prompt to designing a good loop. As the practice puts it, you stop being the person who prompts the agent and start being the person who designs the system that prompts it.
+Graph engineering reframes how people work with coding agents. Instead of prompting an agent one turn at a time, you design the *structure* it runs inside: which agent handles which step, what runs at the same time, where the run branches on a result, who signs off, and where it circles back. The leverage moves from writing a good prompt to drawing a good graph.
 
-That practice names a specific set of building blocks every loop needs. Primer exists to provide them, integrated and runnable on your own hardware.
+A loop is one shape a graph can take, and the smallest interesting one: two nodes and a condition, a producer and a judge. Most real work is not that shape. It branches on what came back, fans out across a dozen items and rejoins, calls a self-contained sub-graph in the middle, and stops for a human at exactly one step while the rest runs unattended.
 
+Primer's execution model is that graph. You declare a topology of typed nodes, wired by static or conditional edges that route on what a node actually returned, and a Pregel-style executor walks it in supersteps, running every ready node concurrently. Cycles are allowed and bound themselves with an iteration cap.
+
+- **A topology** - the structure is declared, not buried in control flow. Seven node kinds cover the shapes: **agent** nodes, **sub-graph** nodes for composition, **fan-out** and **fan-in** for map-reduce, direct **tool call** nodes, and **begin**/**end** nodes carrying the run's input and output contracts.
+- **A clean context per node** - each node is its own agent with its own model profile, tools, and output schema, so what crosses an edge is a value you chose rather than a transcript that accumulated. Splitting a long job into a researcher, an extractor, and a judge is three small contexts instead of one enormous one.
 - **A heartbeat** - something that surfaces work on a cadence instead of waiting for you to type. Primer's **triggers** start a fresh agent or graph session, or resume a parked one, on a cron schedule, after a delay, or on a webhook.
-- **Isolation** - parallel agents that do not step on each other. Primer's **workspaces** give each agent its own sandbox (local, container, or Kubernetes) with a persistent, git-backed filesystem.
-- **Durable memory** - the model forgets between runs; the repository does not. Primer keeps state in **git-backed workspaces** and in **knowledge collections** that agents retrieve from, so knowledge compounds across iterations instead of resetting each time.
-- **A maker and a checker** - the agent that wrote the work is a poor judge of it. Primer's **directed cyclic graphs** make the producer-judge loop a first-class structure: one agent drafts, another critiques it against a schema or a rubric, and the loop repeats until the check passes.
-- **Connectors** - a loop has to touch real tools and real people. Primer is an **MCP server** (and an MCP client), and it bridges agents to **Slack, Telegram, and Discord**.
-- **A human gate** - approve the risky, let the safe run. Primer gates sensitive tool calls behind **human approvals** and lets work **park and resume**, so an agent can wait on a person for hours without holding compute.
+- **Isolation** - parallel branches that do not step on each other, and a graph that fans out is parallel by construction. Primer's **workspaces** give each agent its own sandbox (local, container, or Kubernetes) with a persistent, git-backed filesystem.
+- **Durable memory** - the model forgets between runs; the repository does not. Primer keeps state in **git-backed workspaces** and in **knowledge collections** that agents retrieve from, so knowledge compounds across runs instead of resetting each time.
+- **A maker and a checker** - the agent that wrote the work is a poor judge of it. The producer-judge pattern is just a two-node cycle: one agent drafts, another critiques it against a schema or a rubric, and a conditional edge either delivers, retries, or escalates.
+- **Connectors** - a graph has to touch real tools and real people. Primer is an **MCP server** (and an MCP client), and it bridges agents to **Slack, Telegram, and Discord**.
+- **A human gate** - approve the risky, let the safe run. Primer gates sensitive tool calls behind **human approvals** and lets a run **park and resume** mid-graph, so it can wait at one node for hours without holding compute.
 
-Primer does not press "go" on the loop for you, and it is built so that you do not have to surrender your judgment to run one. Each iteration gets a clean, purpose-built context rather than an ever-growing transcript, which is the same context discipline that keeps a single agent accurate, now applied over and over. That is what lets a loop run for a long time without drifting. To borrow the practice's own advice: build the loop like someone who intends to stay the engineer, not just the person who presses go.
+Primer does not decide the shape for you, and it is built so that you do not have to surrender your judgment to run one. Every node gets a clean, purpose-built context rather than an ever-growing transcript, which is the same context discipline that keeps a single agent accurate, now applied at every step. That is what lets a run go a long time without drifting.
 
 ## Next
 
