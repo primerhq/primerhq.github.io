@@ -263,10 +263,14 @@ spec:
 failing branch ends the whole graph (the default is <code>fail_fast</code>). With
 <code>collect</code>, a failed branch leaves an error-stamped entry in <code>nodes.audit</code>
 (its <code>.error</code> and <code>.ended_detail</code> are set, its <code>.text</code> is empty) and the graph
-keeps going. The <code>output_schema</code> on the <code>audit</code> node is what <em>marks</em> the
-unreachable branch failed: a healthy check returns <code>{&quot;expression&quot;, &quot;result&quot;}</code>
-(conforms), while the <code>1 / 0</code> check returns an error string that does not, so
-that branch ends <code>tool_output_invalid</code> and is collected.</li>
+keeps going. What <em>marks</em> the unreachable branch failed is the tool call
+failing: a healthy check returns <code>{&quot;expression&quot;, &quot;result&quot;}</code>, while the <code>1 / 0</code>
+check returns an error result, and a tool that fails fails its node (whether
+it raises or returns an error result), so that branch ends
+<code>tool_execution_failed</code> with the tool's own message as its <code>.error</code>, and is
+collected. The <code>output_schema</code> is a separate guard: it fails a branch whose
+tool <em>succeeded</em> but returned output that does not conform
+(<code>tool_output_invalid</code>).</li>
 <li><strong><code>fan_in</code> aggregates the list.</strong> <code>nodes.audit</code> is a <code>list</code> aligned by branch
 index, so the report template loops it and branches on <code>r.error</code> to print
 either the score or a <code>FAILED</code> marker. The fan_in waits for <strong>all</strong> branches,
@@ -336,14 +340,14 @@ isolated node directory under <code>.state/graphs/&lt;sid&gt;/nodes/</code>.</p>
 </li>
 <li>
 <p>Exactly the unreachable service is collected: <code>audit[2]</code> ends <code>failed</code> with
-<code>tool_output_invalid</code>; the other three end <code>ended</code>. The graph still completes.</p>
+<code>tool_execution_failed</code>; the other three end <code>ended</code>. The graph still completes.</p>
 </li>
 <li>
 <p>The fan_in report ships every service:</p>
 <pre><code>COMPLIANCE POSTURE REPORT
 service #0: OK score=95
 service #1: OK score=88
-service #2: FAILED (tool_output_invalid)
+service #2: FAILED (tool_execution_failed)
 service #3: OK score=79
 </code></pre>
 </li>
@@ -351,10 +355,12 @@ service #3: OK score=79
 <p>You can read the report back through the workspace file API with
 <code>primectl workspace files get &lt;workspace-id&gt; .state/sessions/&lt;sid&gt;/messages.jsonl --content</code>,
 and the per-branch graph state from <code>.state/graphs/&lt;sid&gt;/state.json</code>.</p>
-<p>To make a branch fail in your own sweep, give the audit step an <code>output_schema</code>
-and have the audit return something that does not conform when the service is
-unreachable (an error string, a partial object); the node ends
-<code>tool_output_invalid</code> and <code>collect</code> records it without sinking the run.</p>
+<p>To make a branch fail in your own sweep, have the audit tool fail when the
+service is unreachable (raise, or return an error result); the node ends
+<code>tool_execution_failed</code> and <code>collect</code> records it without sinking the run. An
+<code>output_schema</code> on the audit step additionally fails a branch whose tool
+succeeded but returned something that does not conform (a partial object): that
+node ends <code>tool_output_invalid</code>, and <code>collect</code> records it the same way.</p>
 </article>
     <aside class="toc" id="toc">
       <div class="toc-title">On this page</div>
