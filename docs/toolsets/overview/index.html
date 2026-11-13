@@ -148,6 +148,26 @@
 <li><strong>Python toolsets</strong> are written by you, as a python module stored in the toolset itself. Every function decorated with <code>@primer_tool</code> becomes a tool, and primer runs it in a sandboxed subprocess. Nothing to host, nothing to deploy.</li>
 </ul>
 <p>What separates them is where the tool's code lives: shipped with primer, behind a transport you point at, or in the toolset record. All three appear in the same toolset list and bind to agents the same way.</p>
+<h2 id="explore-the-tools-catalogue">Explore the Tools catalogue</h2>
+<p>Open <strong>Platform &gt; Tools</strong>, or use <strong>Open Tools</strong> in the command palette.
+Each card shows its scoped id and toolset, plus the facts available for
+that tool: its origin (<code>generated</code>, shipped <code>curated</code>, or <code>user</code>), its
+REST method and path when mapped, and its <code>reference/tools/...</code> wiki
+reference path. The reference is shown as text. Filter by toolset, name,
+origin, or REST method/path. <strong>Open</strong> takes you to the owning toolset.
+On a phone, open Tools from Platform and tap a tool for the same facts.</p>
+<p>The page loads once and reloads when you choose <strong>Refresh</strong>. Below the
+tools, <strong>Reviewed skips</strong> lists REST operations deliberately kept outside
+tools, such as browser sign-in. Administrators also see coverage totals
+and MCP exposure configuration. Non-admins retain the existing tool
+picker list, but do not receive admin-operation mappings, admin skips,
+exposure configuration, or coverage totals.</p>
+<p>An approval fact labelled <strong>default policy</strong> describes the policy shipped
+with the tool. An operator may change it; the live approval decision can
+differ. MCP exposure facts likewise describe configuration, not a promise
+that a particular caller can run the tool. Use <strong>System &gt; MCP</strong> to change
+exposure settings. Role, toolset access, the endpoint switch, and live
+approval checks still apply when a tool is called.</p>
 <h2 id="approvals">Approvals</h2>
 <p>Any tool call can be gated behind an approval policy, so a human (or another agent) must sign off before the call runs. Approvals are configured per agent and per tool, independent of which toolset the tool came from.</p>
 <p><a href="/docs/toolsets/toolsets-system/">The built-in system toolsets and how to explore tools with list_toolset_tools and call_tool.</a></p>
