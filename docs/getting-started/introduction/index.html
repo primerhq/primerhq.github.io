@@ -189,6 +189,45 @@
 <li><strong>A human gate</strong> - approve the risky, let the safe run. Primer gates sensitive tool calls behind <strong>human approvals</strong> and lets a run <strong>park and resume</strong> mid-graph, so it can wait at one node for hours without holding compute.</li>
 </ul>
 <p>Primer does not decide the shape for you, and it is built so that you do not have to surrender your judgment to run one. Every node gets a clean, purpose-built context rather than an ever-growing transcript, which is the same context discipline that keeps a single agent accurate, now applied at every step. That is what lets a run go a long time without drifting.</p>
+<h2 id="your-welcome-chat">Your welcome chat</h2>
+<p>Your first sign-in opens your main operator chat in your default workspace.
+The welcome appears inside that chat, on desktop and phone. It gives you a
+few starting prompts for your current role.</p>
+<h3 id="choose-a-prompt">Choose a prompt</h3>
+<p>Everyone can choose <strong>Explore my workspace</strong> to ask the operator for live
+workspace status using the platform wiki.</p>
+<p>For a user account, the other choices are:</p>
+<ul>
+<li><strong>Start a new project</strong>: the operator clarifies your request, plans with
+the planner, and helps create a separate workspace with the agents and
+sessions the plan needs. Review proposed changes and approvals as usual.</li>
+<li><strong>What can you do for me?</strong>: ask for an explanation grounded in the
+platform wiki and the tools available to your role.</li>
+</ul>
+<p>For an admin account, the other choices are <strong>Enable internal collections</strong>
+and <strong>Configure an embedding provider</strong>. These start a conversation about
+the live configuration; selecting a prompt does not itself change settings.</p>
+<p>Each choice sends a normal message in the current chat. If you already have
+an unfinished draft or attached files, they stay in the composer. A failed
+send leaves the welcome available to retry.</p>
+<h3 id="dismiss-or-reopen-it">Dismiss or reopen it</h3>
+<p>Once the welcome appears, the server remembers that you have seen it for
+your current role. It stays open in this chat until you dismiss it or send
+a suggested prompt; a later visit hides it. If saving fails, the card says
+why and offers <strong>Retry saving</strong>.</p>
+<p>Use <strong>Show me what you can do</strong> in the operator chat to reopen it. On
+desktop you can also choose <strong>Show Me What You Can Do</strong> in the command
+palette. Reopening keeps your current workspace, chat, tabs and address.
+Keyboard focus moves to the welcome heading; dismissing returns it to the
+composer.</p>
+<p>You can also ask the operator, &quot;show me what you can do&quot;. It can use the
+welcome reopen tool, subject to the normal tool approval policy. The chat
+refreshes your welcome state when the operator's turn finishes.</p>
+<p>This preference belongs to your account and role, across browsers and server
+restarts. Another user's welcome is independent. Changing between user and
+admin roles shows that role's welcome if you have not seen it before.
+Restricted accounts and installs running with authentication disabled do not
+show a personal welcome.</p>
 <h2 id="next">Next</h2>
 <p>Ready to see it in action? The quickstart walks you through building a real agent end to end.</p>
 <p><a href="/docs/getting-started/quickstart/">A hands-on walkthrough: build a blog content assistant end to end.</a></p>
