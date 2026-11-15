@@ -492,7 +492,7 @@
 </tr>
 </tbody>
 </table>
-<p>When the operator rejects a tool-call approval, the graph ends with <code>ended_detail='tool_execution_failed'</code>.</p>
+<p>A tool that fails fails the node: whether it raises or returns an error result (bad arguments, an unavailable tool, a backend error), the node ends <code>failed</code> with <code>ended_detail='tool_execution_failed'</code> and the tool's own output as the node's error, and that output is not passed downstream as data (inside a <code>fan_out</code> with <code>on_failure: collect</code>, only that instance is marked failed). <code>tool_output_invalid</code> is for a tool that succeeded but whose output does not conform to <code>output_schema</code>. When the operator rejects a tool-call approval, or the gate times out or is cancelled, the graph ends with <code>ended_detail='tool_approval_rejected'</code>, <code>'tool_approval_timeout'</code> or <code>'tool_approval_cancelled'</code>.</p>
 <h2 id="walkthrough-fan-out-map-to-fan-in">Walkthrough: fan-out map to fan-in</h2>
 <p>This pattern takes a list of URLs produced by a research agent, fetches each in parallel, and aggregates.</p>
 <ol>

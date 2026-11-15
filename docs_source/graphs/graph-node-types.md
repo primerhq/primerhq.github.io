@@ -158,7 +158,7 @@ The Tool-call node invokes a platform tool directly, without spinning up an agen
 | `output_schema` | no | JSON Schema 2020-12. When set, the tool's result output must parse as JSON conforming to this schema. Failure ends the graph with `ended_detail='tool_output_invalid'`. |
 | `description` | no | Canvas label. |
 
-When the operator rejects a tool-call approval, the graph ends with `ended_detail='tool_execution_failed'`.
+A tool that fails fails the node: whether it raises or returns an error result (bad arguments, an unavailable tool, a backend error), the node ends `failed` with `ended_detail='tool_execution_failed'` and the tool's own output as the node's error, and that output is not passed downstream as data (inside a `fan_out` with `on_failure: collect`, only that instance is marked failed). `tool_output_invalid` is for a tool that succeeded but whose output does not conform to `output_schema`. When the operator rejects a tool-call approval, or the gate times out or is cancelled, the graph ends with `ended_detail='tool_approval_rejected'`, `'tool_approval_timeout'` or `'tool_approval_cancelled'`.
 
 ## Walkthrough: fan-out map to fan-in
 
