@@ -97,6 +97,39 @@ SQLite database at `~/.primer/db/data.sqlite`.
 |---|---|---|
 | `PRIMER_AUTO_BOOTSTRAP` | `true` | When `true`, primer runs first-boot auto-bootstrap on lifespan start if `bootstrap_completed_at` is null. Set `false` to skip and provision providers manually via the API or `primer init`. |
 
+## Platform wiki source
+
+| Variable | Default | Description |
+|---|---|---|
+| `PRIMER_WIKI_DIR` | Packaged wiki, then checkout `docs/wiki` | Override the complete authored platform-wiki source directory. Read directly by the wiki builder, independently of `AppConfig` precedence. |
+
+Primer ships one platform wiki into the reserved `system` collection. Its
+authored pages come from `docs/wiki`; reference pages are generated from the
+live tool catalogue, and `this-install/` is rebuilt from live entities. The
+wheel contains the authored source at `primer/_docs/wiki`, so an installed
+server needs no checkout to build it.
+
+The legacy `PRIMER_AI_DOCS_DIR` override, packaged agent-doc directory and
+code-baked how-to layer are retired. An old override value or files left by an
+earlier installation are no longer read. On a healthy boot, the normal wiki
+version claim converges current pages and prunes the obsolete `docs/` and
+`how-to/` trees, including their content and search-index entries. Existing
+search settings and the live install map are preserved. A degraded build does
+not acquire the stamp or prune stored pages.
+
+If you customized the old source, migrate that content into a complete copy of
+the current wiki before upgrading, then select that directory with
+`PRIMER_WIKI_DIR`. Keep the current feature pages and folder indexes. Each page
+uses `title` and `summary` frontmatter; remove old `slug` and `mcp_tools` keys,
+use canonical wiki paths in links and related entries, and omit a leading body
+H1 because the builder adds the title. Generated `reference/` and live
+`this-install/` paths remain reserved. An override containing only loose legacy
+files is not a replacement for the full source.
+
+Agents read the table of contents at `index`, feature pages such as
+`agents/create-and-edit`, and recipes under `cookbook/` or `runbooks/`. They do
+not prepend `docs/` to these paths.
+
 ## Observability
 
 | Variable | Default | Description |
