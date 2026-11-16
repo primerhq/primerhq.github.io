@@ -19,6 +19,30 @@ Tool ids are scoped by their toolset using a double-underscore separator, for ex
 
 What separates them is where the tool's code lives: shipped with primer, behind a transport you point at, or in the toolset record. All three appear in the same toolset list and bind to agents the same way.
 
+## Explore the Tools catalogue
+
+Open **Platform > Tools**, or use **Open Tools** in the command palette.
+Each card shows its scoped id and toolset, plus the facts available for
+that tool: its origin (`generated`, shipped `curated`, or `user`), its
+REST method and path when mapped, and its `reference/tools/...` wiki
+reference path. The reference is shown as text. Filter by toolset, name,
+origin, or REST method/path. **Open** takes you to the owning toolset.
+On a phone, open Tools from Platform and tap a tool for the same facts.
+
+The page loads once and reloads when you choose **Refresh**. Below the
+tools, **Reviewed skips** lists REST operations deliberately kept outside
+tools, such as browser sign-in. Administrators also see coverage totals
+and MCP exposure configuration. Non-admins retain the existing tool
+picker list, but do not receive admin-operation mappings, admin skips,
+exposure configuration, or coverage totals.
+
+An approval fact labelled **default policy** describes the policy shipped
+with the tool. An operator may change it; the live approval decision can
+differ. MCP exposure facts likewise describe configuration, not a promise
+that a particular caller can run the tool. Use **System > MCP** to change
+exposure settings. Role, toolset access, the endpoint switch, and live
+approval checks still apply when a tool is called.
+
 ## Approvals
 
 Any tool call can be gated behind an approval policy, so a human (or another agent) must sign off before the call runs. Approvals are configured per agent and per tool, independent of which toolset the tool came from.
