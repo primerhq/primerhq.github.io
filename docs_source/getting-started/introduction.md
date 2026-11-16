@@ -85,6 +85,56 @@ Primer's execution model is that graph. You declare a topology of typed nodes, w
 
 Primer does not decide the shape for you, and it is built so that you do not have to surrender your judgment to run one. Every node gets a clean, purpose-built context rather than an ever-growing transcript, which is the same context discipline that keeps a single agent accurate, now applied at every step. That is what lets a run go a long time without drifting.
 
+## Your welcome chat
+
+Your first sign-in opens your main operator chat in your default workspace.
+The welcome appears inside that chat, on desktop and phone. It gives you a
+few starting prompts for your current role.
+
+### Choose a prompt
+
+Everyone can choose **Explore my workspace** to ask the operator for live
+workspace status using the platform wiki.
+
+For a user account, the other choices are:
+
+- **Start a new project**: the operator clarifies your request, plans with
+  the planner, and helps create a separate workspace with the agents and
+  sessions the plan needs. Review proposed changes and approvals as usual.
+- **What can you do for me?**: ask for an explanation grounded in the
+  platform wiki and the tools available to your role.
+
+For an admin account, the other choices are **Enable internal collections**
+and **Configure an embedding provider**. These start a conversation about
+the live configuration; selecting a prompt does not itself change settings.
+
+Each choice sends a normal message in the current chat. If you already have
+an unfinished draft or attached files, they stay in the composer. A failed
+send leaves the welcome available to retry.
+
+### Dismiss or reopen it
+
+Once the welcome appears, the server remembers that you have seen it for
+your current role. It stays open in this chat until you dismiss it or send
+a suggested prompt; a later visit hides it. If saving fails, the card says
+why and offers **Retry saving**.
+
+Use **Show me what you can do** in the operator chat to reopen it. On
+desktop you can also choose **Show Me What You Can Do** in the command
+palette. Reopening keeps your current workspace, chat, tabs and address.
+Keyboard focus moves to the welcome heading; dismissing returns it to the
+composer.
+
+You can also ask the operator, "show me what you can do". It can use the
+welcome reopen tool, subject to the normal tool approval policy. The chat
+refreshes your welcome state when the operator's turn finishes.
+
+This preference belongs to your account and role, across browsers and server
+restarts. Another user's welcome is independent. Changing between user and
+admin roles shows that role's welcome if you have not seen it before.
+Restricted accounts and installs running with authentication disabled do not
+show a personal welcome.
+
 ## Next
 
 Ready to see it in action? The quickstart walks you through building a real agent end to end.
